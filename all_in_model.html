@@ -34,7 +34,7 @@ another's professoriate — is now its own top-level tab.)</p>
 <div class="tabs"><button class="tab active" data-v="matched">Whole pay bill by structure</button>
  <button class="tab" data-v="mix">Mix &amp; match <span style="font-weight:400">(exploratory)</span></button>
  <button class="tab" data-v="summary">Summary</button>
- <button class="tab" data-v="sources">Sources</button></div>
+ <button class="tab" data-v="sources">Data &amp; sources</button></div>
  <div class="small" style="margin:8px 0 0;color:#6b7280">Coverage: <b>12</b> non-professorial structures · <b>9</b> professorial · <b>9</b> all-in comparisons. Indicative scenario estimates.</div>
 <div class="controls">
  <div class="ctl"><label>Non-prof pace</label><select id="pace"><option value="fast">Fast</option><option value="middle" selected>Middle</option><option value="slow">Slow</option></select></div>
@@ -106,8 +106,17 @@ another's professoriate — is now its own top-level tab.)</p>
  </div>
 </div>
 <div class="view" id="sources">
- <div class="card"><h2>Data sources</h2>
- <p class="lead">Published pay scales used in the model. Each entry links the <b>archived copy</b> actually used (in
+ <div class="card"><h2>Data &amp; sources</h2>
+ <h2 style="font-size:14px;margin:6px 0 2px">Data files — machine-readable, reuse freely</h2>
+ <div class="small">
+  <div style="padding:2px 0"><a href="grades.json" target="_blank">grades.json</a> &mdash; each institution's grade structure (normal + contribution points)</div>
+  <div style="padding:2px 0"><a href="grades.csv" target="_blank">grades.csv</a> &mdash; the same, as CSV</div>
+  <div style="padding:2px 0"><a href="national_spine.csv" target="_blank">national_spine.csv</a> &mdash; the UCU/UCEA national spine (2025-26, +2% provisional)</div>
+  <div style="padding:2px 0"><a href="cost_model_results.csv" target="_blank">cost_model_results.csv</a> &mdash; non-professorial cost results across scenarios</div>
+  <div style="padding:5px 0"><a href="https://github.com/leifuss/exeter-staff-cuts" target="_blank"><b>Full project &amp; data on GitHub &#8599;</b></a></div>
+ </div>
+ <h2 style="margin-top:12px">Published pay scales</h2>
+ <p class="lead">Each entry links the <b>archived copy</b> actually used (in
  <code>sources/</code>, a dated snapshot for reproducibility) and, where available, the university's <b>live page</b> &mdash;
  universities replace these documents each year, so the snapshot is what the figures are built on.</p>
  <h2 style="margin-top:10px">Non-professorial &amp; spine documents</h2><div id="src_np" class="small"></div>

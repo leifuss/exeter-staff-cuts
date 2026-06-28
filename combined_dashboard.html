@@ -43,7 +43,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
   <button class="tab" data-f="all_in_model.html">All-in pay bill</button>
   <button class="tab" data-f="all_in_model.html#mix">Mix &amp; match</button>
   <button class="tab" data-f="transition_model.html">Transition</button>
-  <button class="tab" data-f="all_in_model.html#sources">Sources</button>
+  <button class="tab" data-f="all_in_model.html#sources">Data &amp; sources</button>
  </div>
 </header>
 <div class="body">
@@ -134,9 +134,10 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
   plausible changes in the assumptions.</div>
 
   <div class="note" style="background:#f0f7ff;border-color:#cfe0f5"><b>Please check it yourself — don't just take this
-  analysis.</b> The underlying data is provided in machine-readable form (<code>grades.json</code>, <code>grades.csv</code>,
-  <code>national_spine.csv</code>, <code>cost_model_results.csv</code>) precisely so others can re-run, challenge or extend
-  it. This analysis has limitations and is better for more eyes — corrections and alternative approaches are welcome.</div>
+  analysis.</b> The underlying data is provided in machine-readable form in this project's
+  <a href="https://github.com/leifuss/exeter-staff-cuts" target="_blank">GitHub repository</a>
+  (<code>grades.json</code>, <code>grades.csv</code>, <code>national_spine.csv</code>, <code>cost_model_results.csv</code>)
+  precisely so others can re-run, challenge or extend it. This analysis has limitations and is better for more eyes — corrections and alternative approaches are welcome.</div>
 
   <div class="note" style="background:#f1faf6;border-color:#cfe9df"><b>Help fill the gaps.</b> The comparison is only as good
   as its coverage. Most useful would be the Russell Group members not yet included — especially <b>Newcastle</b> and
@@ -170,7 +171,7 @@ const cards=[
  ['all_in_model.html','4 · All-in pay bill','The two layers combined: the whole academic pay bill for each structure on one fixed workforce, with a Summary. This is the headline comparison.'],
  ['all_in_model.html#mix','5 · Mix &amp; match','Exploratory: combine one university’s lower grades with another’s professoriate.'],
  ['transition_model.html','6 · Transition','How any change would phase in with no pay cuts — current staff grandfathered; structural savings build slowly.'],
- ['all_in_model.html#sources','Sources','Every pay scale used, each linked to the university’s live page; plus the machine-readable data files.'],
+ ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
