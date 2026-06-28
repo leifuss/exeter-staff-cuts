@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All-in academic pay — Exeter vs peers</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--ex:#d97706;--exeter:#b45309;--np:#2563eb;--pr:#7c3aed;--bar:#9aa6b2;--ref:#2563eb;--save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 14px;max-width:860px;font-size:14px}
+.tabs{display:flex;gap:6px;margin:6px 0 14px;border-bottom:2px solid var(--line)}
+.tab{padding:9px 16px;font-size:14px;font-weight:600;color:var(--mut);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab.active{color:var(--exeter);border-bottom-color:var(--exeter)}.view{display:none}.view.active{display:block}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 14px;font-size:15.5px}.answer b{color:var(--exeter)}
+.controls{display:flex;flex-wrap:wrap;gap:12px 18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:11.5px;color:var(--mut);font-weight:600}
+.ctl select{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.card h2{font-size:15px;margin:0 0 4px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
+svg{display:block}table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}tr.ex td{background:#fff7ed;font-weight:600}
+.save{color:var(--save)}.cost{color:var(--cost)}
+.big{display:flex;gap:20px;flex-wrap:wrap;margin:6px 0}
+.kpi{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:12px 16px;min-width:150px}
+.kpi .v{font-size:22px;font-weight:700;color:var(--exeter)}.kpi .k{font-size:12px;color:var(--mut)}
+.mm{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end;margin-bottom:6px}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>All-in academic pay — Exeter vs peers</h1>
+<p class="sub">The whole academic paybill: the three non-professorial grades (promotion-pace model) plus the
+professoriate (2-yearly discretionary-increment model), applied to Exeter's own workforce so only the pay
+<i>system</i> differs. Tab 1 gives each university its own two layers; Tab 2 lets you mix one university's
+non-professorial system with another's professorial system. Figures are <b>equivalent average-salary posts</b> (saving ÷ average salary — an equivalence for scale, not predicted job retention), set against the ~125 posts Exeter is cutting. Indicative scenario estimates.</p>
+<div class="tabs"><button class="tab active" data-v="matched">1 · Each university's whole system</button>
+ <button class="tab" data-v="mix">2 · Mix &amp; match <span style="font-weight:400">(exploratory)</span></button>
+ <button class="tab" data-v="summary">Summary</button>
+ <button class="tab" data-v="sources">Sources</button></div>
+ <div class="small" style="margin:8px 0 0;color:#6b7280">Coverage: <b>13</b> non-professorial structures · <b>10</b> professorial · <b>10</b> all-in comparisons. Indicative scenario estimates.</div>
+<div class="controls">
+ <div class="ctl"><label>Workforce</label><select id="wf"><option value="er">E&amp;R (750+470)</option><option value="ere" selected>E&amp;R+Edu (1155+500)</option></select></div>
+ <div class="ctl"><label>Non-prof pace</label><select id="pace"><option value="fast">Fast</option><option value="middle" selected>Middle</option><option value="slow">Slow</option></select></div>
+ <div class="ctl"><label>Contribution share</label><select id="cp"><option value="0">0%</option><option value="0.2">20%</option><option value="0.3" selected>30%</option><option value="0.4">40%</option></select></div>
+ <div class="ctl"><label>Prof award rate</label><select id="aw"><option value="0.5">50%</option><option value="0.4" selected>40%</option><option value="0.3">30%</option></select></div>
+ <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary</option><option value="1">+on-costs</option></select></div>
+ <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
+ <div class="ctl"><label>Posts valued at</label><select id="basis"><option value="cur" selected>Exeter current avg</option><option value="new">New model avg</option></select></div>
+</div>
+<div class="view active" id="matched">
+ <div class="answer" id="ans1"></div>
+ <div class="card"><p class="lead">Total academic paybill on each university's whole pay system (Exeter = 0 in the centre; green = cheaper structure, red = dearer). <b>†</b> = non-professorial structure only (professoriate held at Exeter's; faded bar).</p><svg id="bars" viewBox="0 0 960 320" width="960" height="320"></svg></div>
+ <div class="card"><h2>Breakdown &amp; equivalent posts</h2><div id="tbl1"></div></div>
+</div>
+<div class="view" id="mix">
+ <div class="mm">
+  <div class="ctl"><label>Non-professorial system from</label><select id="npsel"></select></div>
+  <div class="ctl"><label>Professorial system from</label><select id="prsel"></select></div>
+  <button class="tab" id="cheapest" style="border:1px solid var(--line);border-radius:7px">Set cheapest of each</button>
+ </div>
+ <div class="answer" id="ans2"></div>
+ <div class="big" id="kpis"></div>
+ <div class="card"><h2>How this compares</h2><div id="tbl2"></div></div>
+</div>
+<div class="view" id="summary">
+ <div class="card"><h2>What this is — and what it isn't</h2>
+ <p style="font-size:14px">This dashboard estimates how much of Exeter's academic pay bill is attributable to its
+ <b>pay structure</b> rather than to paying people more on the same national spine. It does so by applying Exeter's
+ own workforce to other Russell Group universities' published pay structures, so the only thing that varies is the
+ system, not the people.</p>
+ <p style="font-size:14px"><b>The figures are indicative, not precise.</b> They rest on reasoned assumptions — promotion
+ pace, contribution-point uptake, the Senior-Lecturer/Associate-Professor split, professorial award rates — for which
+ there is little hard sector data. The value here is as a <b>yardstick for the order of magnitude</b>, and for testing
+ whether the conclusion survives plausible changes in those assumptions (it does). Treat any single number as
+ "roughly this many", not "exactly this many".</p>
+ <div class="card" style="background:#fff7ed"><h2>Headline findings</h2><div id="sumfind" style="font-size:14px"></div></div>
+ <div class="card"><h2>What drives the difference — and the biggest levers</h2>
+ <p style="font-size:14px">Exeter doesn't have to copy any one institution. The gap comes from a few specific structural choices, in
+ roughly descending order of impact:</p>
+ <ol style="font-size:14px;margin:0 0 4px;padding-left:20px">
+  <li><b>Where each grade starts (entry point)</b> — the single biggest lever. Exeter's Lecturer grade begins at spine
+  point 34 (matched only by Bristol); most peers start at 30–32, and Nottingham, Sheffield and Warwick at 27–28. A higher
+  floor applies to everyone, every year, and compounds over a career.</li>
+  <li><b>Grade length</b> — Exeter's grades are short (3 / 5 / 3 normal increments), so staff reach the ceiling quickly and
+  park there until promotion. Longer grades (e.g. Nottingham 11 / 9 / 8) keep people climbing rather than sitting at the
+  maximum — cheaper for the same promotion timing.</li>
+  <li><b>The contribution-point tail</b> — Warwick has none and is among the cheapest; Exeter's Associate-Professor grade
+  carries six discretionary points above the ceiling. The softest input, but a real lever.</li>
+  <li><b>Ceiling height and overlap</b> — high ceilings, heavy overlap with the grade above, and expensive local points
+  beyond spine 51 pull the average up (this is why Leeds is dear despite a reasonable entry point).</li>
+ </ol>
+ <p style="font-size:14px"><b>Gaps in the spine (skipped points) are a red herring</b> — they slightly <i>raise</i> cost by
+ accelerating progression to the ceiling, not lower it. And one honest caveat: a "structural saving" largely means paying
+ <i>new</i> staff less at given career stages — the recruitment cost Exeter's high floor was presumably meant to avoid; it
+ is not free of consequences, only free of compulsory redundancy. The cleanest lever the data supports is to <b>lower entry
+ points and lengthen the lower grades</b>: it captures most of the gap, is less fraught than cutting the discretionary tail,
+ and (unlike redundancy) touches no one currently employed.</p></div>
+ <div class="card"><h2>Research-only staff — likely further saving, not yet modelled</h2>
+ <p style="font-size:14px">This model covers the three <i>academic</i> grades and the professoriate. It does <b>not</b> include
+ research-only staff (research associates and fellows), who mostly sit on the grade below Lecturer. The same structural logic
+ applies, but the budget effect depends on who pays: for <b>internally funded</b> posts (bridging funding, core fellowships)
+ the cost falls on Exeter directly, so the saving is real and of the same kind; for <b>externally funded</b> posts (the
+ majority) the grant pays the salary, so a dearer structure is not a direct core-budget saving — but it still raises Exeter's
+ co-funding share of unrecovered full economic cost and makes its grants more expensive per post. Quantifying it would need
+ the internal/external split, the funder mix and Exeter's research-grade scales, none of which are in the current data.
+ Flagged as a likely <b>additional</b> saving, deliberately left out of the headline figures.</p></div>
+ <p class="small" style="margin-top:10px">Built on corrected, source-verified pay data for ~10–14 institutions (see Sources).
+ Companion dashboards cover the grade structures, the career model, and a Monte-Carlo robustness check.</p>
+ </div>
+</div>
+<div class="view" id="sources">
+ <div class="card"><h2>Data sources</h2>
+ <p class="lead">Published pay scales used in the model. Each entry links the <b>archived copy</b> actually used (in
+ <code>sources/</code>, a dated snapshot for reproducibility) and, where available, the university's <b>live page</b> &mdash;
+ universities replace these documents each year, so the snapshot is what the figures are built on.</p>
+ <h2 style="margin-top:10px">Non-professorial &amp; spine documents</h2><div id="src_np" class="small"></div>
+ <h2 style="margin-top:12px">Professorial documents</h2><div id="src_pr" class="small"></div>
+ <p class="small" style="margin-top:10px"><b>Excluded by design:</b> Oxford, Cambridge, London institutions (incl. UCL), and Northern Ireland — distinct labour markets / cost bases; <b>Scottish universities (Edinburgh, Glasgow, Aberdeen)</b> — different student-funding model (their data is retained in the files but kept out of the comparison). Some other Russell Group universities are omitted because pay data was not available. Sheffield uses its 2004 grade architecture (salaries above point 51 uprated/approximate). Durham professorial rungs are interpolated from published bands; Liverpool professorial is not modelled (published scale incomplete). National spine 2025-26 verified across 8+ institutions.</p></div>
+</div>
+<details><summary>Assumptions &amp; caveats</summary><div class="small" style="margin-top:8px" id="caveats"></div></details>
+</div>
+<script>
+const D={"nat": {"27": 35608, "28": 36636, "29": 37694, "30": 38784, "31": 39906, "32": 41064, "33": 42254, "34": 43482, "35": 44746, "36": 46049, "37": 47389, "38": 48822, "39": 50253, "40": 51753, "41": 53301, "42": 54893, "43": 56535, "44": 58225, "45": 59966, "46": 61759, "47": 63606, "48": 65509, "49": 67468, "50": 69488, "51": 71566, "52": 73710, "53": 75917, "54": 78179, "55": 80529, "56": 82935, "57": 85424, "58": 87986}, "struct": {"Exeter": {"1": {"n": [34, 35, 36], "c": [37, 38, 39, 40, 41]}, "2": {"n": [40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [48, 49, 50], "c": [51, 52, 53, 54, 55, 56]}}, "Bristol": {"1": {"n": [34, 35, 36, 37, 38], "c": [39]}, "2": {"n": [39, 40, 41, 42, 43], "c": [44]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": []}}, "Leeds": {"1": {"n": [32, 33, 34, 35, 36, 37, 38], "c": [39, 40]}, "2": {"n": [40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Cardiff": {"1": {"n": [32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [40, 41, 42, 43], "c": [44, 45]}, "3": {"n": [46, 47, 48, 49], "c": [50, 51]}}, "Birmingham": {"1": {"n": [28, 29, 30, 33, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 41, 43], "c": [44, 45, 46, 47]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}, "York": {"1": {"n": [29, 30, 31, 33, 34, 36], "c": [37, 38]}, "2": {"n": [36, 38, 40, 41, 43], "c": [44, 45]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51]}}, "Bath": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Warwick": {"1": {"n": [27, 29, 31, 33, 34, 35, 36], "c": []}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": []}, "3": {"n": [44, 45, 46, 47, 49, 50, 51], "c": []}}, "Nottingham": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Southampton": {"1": {"n": [28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38, 39, 40]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52, 53], "c": []}}, "Liverpool": {"1": {"n": [31, 32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52, 53], "c": [54, 55, 56]}}, "Durham": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Sheffield": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46, 47]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}}, "lad": {"Exeter": [78189, 80529, 82935, 85424, 87986, 90628, 93346, 96146, 99031, 102000, 105062, 108214, 111459], "Bristol": [74828, 77537, 80246, 82955, 85664, 88373, 91082, 93791, 96500, 99209, 101918, 104627, 107336, 110045], "Bath": [75182, 76686, 78220, 79783, 81380, 83007, 84668, 86360, 88088, 89850, 91646, 93480, 95350, 97256, 99202, 101186, 103210, 105272, 107379, 109525], "Leeds": [75912, 78185, 80523, 82930, 85413, 87969, 90603, 93317, 96117, 99000, 101973, 105028, 108179], "Southampton": [78052, 78832, 79620, 80417, 81221, 82033, 82853, 83682, 84519, 85364, 86218, 87080, 87951, 88830, 89718, 90616, 91522, 92437, 93361, 94295, 95238, 96190, 97152, 98124, 99105, 100096, 101097, 102108, 103129, 104160, 105202, 106254, 107316, 108390, 109473, 110568], "Warwick": [73794, 75146, 76496, 77848, 79198, 80550, 81901, 83252, 84603, 85955, 87305, 88657, 90008, 91359, 92710, 94062, 95412, 96764, 98115, 99466, 100817, 102169, 103519, 104871, 106222, 107573, 108924], "Cardiff": [76188, 77711, 79264, 80850, 82468, 84117, 85800, 87515, 89265, 91051, 92871, 94729, 96622, 98556, 100527, 102538, 104589, 106680, 108812, 110989, 113208, 115474], "Nottingham": [73713, 75924, 78203, 80548, 82965, 85454, 88018, 90660, 93377, 96179, 99065, 102036], "Birmingham": [76509, 78804, 81169, 83646, 86156, 88741, 90080, 92782, 96514, 99410, 102393, 105464, 109383], "Durham": [73711, 76400, 79100, 81800, 84500, 87200, 89900, 92600, 95300, 98000, 100700, 103400, 106663]}, "wf": {"er": {"1": 195, "2": 277.5, "3": 277.5}, "ere": {"1": 420, "2": 367.5, "3": 367.5}}, "profnw": {"er": 470, "ere": 500}, "sources": {"np": [{"f": "Aberdeen_Grade_structure_hourly_rates-from-Jun-2026.pdf", "rel": "sources/Aberdeen_Grade_structure_hourly_rates-from-Jun-2026.pdf"}, {"f": "Bath pay and grading structure.pdf", "rel": "sources/Bath pay and grading structure.pdf"}, {"f": "Birmingham-Non_Clinical_Administrative_and_Other_Related_Pay_Spine.pdf", "rel": "sources/Birmingham-Non_Clinical_Administrative_and_Other_Related_Pay_Spine.pdf"}, {"f": "Bristol-A-L-salary-scales.pdf", "rel": "sources/Bristol-A-L-salary-scales.pdf"}, {"f": "Cardiff_Single-spine-pay-scale-August-2025.pdf", "rel": "sources/Cardiff_Single-spine-pay-scale-August-2025.pdf"}, {"f": "Durham_Main-Pay-Scale-01-04-26.pdf", "rel": "sources/Durham_Main-Pay-Scale-01-04-26.pdf"}, {"f": "Exeter-Grading-structure-APR26.pdf", "rel": "sources/Exeter-Grading-structure-APR26.pdf"}, {"f": "Glasgow-Media_1227780_smxx.xlsx", "rel": "sources/Glasgow-Media_1227780_smxx.xlsx"}, {"f": "Leeds_Grades_2_9_Aug25.pdf", "rel": "sources/Leeds_Grades_2_9_Aug25.pdf"}, {"f": "Liverpool_2025-26-national-pay-award-august-2025.pdf", "rel": "sources/Liverpool_2025-26-national-pay-award-august-2025.pdf"}, {"f": "Nottingham_salary-scales-on-costs-pay-award-2026.2-may.xlsx", "rel": "sources/Nottingham_salary-scales-on-costs-pay-award-2026.2-may.xlsx"}, {"f": "QM-Pay-and-Grading-Structure-August-2025.xlsx", "rel": "sources/QM-Pay-and-Grading-Structure-August-2025.xlsx"}, {"f": "QueensBelfast-Grade_1-9_2026_27 Scales_August_2026.pdf", "rel": "sources/QueensBelfast-Grade_1-9_2026_27 Scales_August_2026.pdf"}, {"f": "UCL_2025-_26_ucl_non-clinical_grade_structure_with_spinal_points_v4.pdf", "rel": "sources/UCL_2025-_26_ucl_non-clinical_grade_structure_with_spinal_points_v4.pdf"}, {"f": "Warwick_current salary scales.pdf", "rel": "sources/Warwick_current salary scales.pdf"}, {"f": "York_Grades 1 to 8R - HR, University of York.pdf", "rel": "sources/York_Grades 1 to 8R - HR, University of York.pdf"}, {"f": "edinburgh_Full Time UE02 to UE10 - April 26.pdf", "rel": "sources/edinburgh_Full Time UE02 to UE10 - April 26.pdf"}, {"f": "sheffield_AGREEDPACKAGE_240605.pdf", "rel": "sources/sheffield_AGREEDPACKAGE_240605.pdf"}, {"f": "southampton-pay-scales-levels-1-to-6-with-on-costs.pdf", "rel": "sources/southampton-pay-scales-levels-1-to-6-with-on-costs.pdf"}], "pr": [{"f": "Bath_Senior_Staff_Pay_Scale_2025-26.pdf", "rel": "sources/professorial/Bath_Senior_Staff_Pay_Scale_2025-26.pdf"}, {"f": "Birmingham_Professorial-Pay-scales.pdf", "rel": "sources/professorial/Birmingham_Professorial-Pay-scales.pdf"}, {"f": "Durham_Grade-10-Pay-Scales.pdf", "rel": "sources/professorial/Durham_Grade-10-Pay-Scales.pdf"}, {"f": "Glasgow_Media_814357_smxx.pdf", "rel": "sources/professorial/Glasgow_Media_814357_smxx.pdf"}, {"f": "Leeds_Professorial_Zone_Aug25_updated_5_Aug_2025.pdf", "rel": "sources/professorial/Leeds_Professorial_Zone_Aug25_updated_5_Aug_2025.pdf"}, {"f": "bristol_grade-m-professors-salary-scale.pdf", "rel": "sources/professorial/bristol_grade-m-professors-salary-scale.pdf"}, {"f": "cardiff_Senior-Staff-Pay-Scale-August2025.pdf", "rel": "sources/professorial/cardiff_Senior-Staff-Pay-Scale-August2025.pdf"}, {"f": "southampton_Pay Scales - Levels 1 to 7 and Clinical.pdf", "rel": "sources/professorial/southampton_Pay Scales - Levels 1 to 7 and Clinical.pdf"}]}, "ext": {"Leeds": {"52": 73708, "53": 75912, "54": 78185, "55": 80523, "56": 82930}, "Nottingham": {"52": 73686, "53": 75891, "54": 78165, "55": 80503, "56": 82913}, "Edinburgh": {"52": 73692, "53": 76087, "54": 78469, "55": 81016, "56": 83558, "57": 86268}, "Birmingham": {"52": 73708, "53": 75914, "54": 78184}, "Bath": {"52": 73709}, "Glasgow": {"52": 73709, "53": 75921}, "Southampton": {"52": 73183, "53": 74851}, "Aberdeen": {"52": 73709}, "Liverpool": {"52": 73710, "53": 75917, "54": 78187, "55": 80526, "56": 82936}, "Durham": {"52": 73708}, "Sheffield": {"52": 73716, "53": 75927, "54": 78206}}},nat=D.nat,struct=D.struct,LAD=D.lad,WF=D.wf,PROFNW=D.profnw,EXT=D.ext||{};
+function salx(inst,pt,yr){const e=EXT[inst];return ((e&&e[pt]!=null)?e[pt]:nat[pt])*(yr==2027?1.02:1);}
+const TEN={fast:{1:4,2:6,3:7},middle:{1:5,2:7,3:8},slow:{1:6,2:8,3:9}};
+const NPALL=Object.keys(struct), PRALL=Object.keys(LAD), BOTH=PRALL.filter(i=>struct[i]);
+const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString(),m=n=>'£'+(n/1e6).toFixed(1)+'m';
+function comb(n,k){let c=1;for(let i=0;i<k;i++)c=c*(n-i)/(i+1);return c;}
+function binp(n,k,p){return comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);}
+function EgNP(info,T,cp,yr,inst){const R=info.n,L=R.length,c=info.c,cp1=c.length?salx(inst,c[0],yr):null;let tot=0;
+ for(let k=1;k<=T;k++){if(k<=L)tot+=salx(inst,R[k-1],yr);else{const ce=salx(inst,R[L-1],yr);tot+=cp1!=null?(1-cp)*ce+cp*cp1:ce;}}return tot/T;}
+function phNP(inst,pace,cp,wf,yr,oc){const w=WF[wf],T=TEN[pace],N=+w['1']+ +w['2']+ +w['3'];
+ let v=(w['1']*EgNP(struct[inst]['1'],T[1],cp,yr,inst)+w['2']*EgNP(struct[inst]['2'],T[2],cp,yr,inst)+w['3']*EgNP(struct[inst]['3'],T[3],cp,yr,inst))/N;
+ return oc?v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v:v;}
+function phP(inst,aw,yr,oc){const lad=LAD[inst],L=lad.length,f=yr==2027?1.02:1;let tot=0;
+ for(let t=0;t<20;t++){const rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binp(rev,k,aw)*lad[Math.min(k,L-1)];tot+=e;}
+ let v=tot/20*f;return oc?v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v:v;}
+function S(){return{pace:$('pace').value,cp:+$('cp').value,aw:+$('aw').value,wf:$('wf').value,yr:+$('yr').value,oc:$('oc').value==='1',basis:$('basis').value};}
+function Nnp(s){const w=WF[s.wf];return +w['1']+ +w['2']+ +w['3'];}
+function total(npi,pri,s){return phNP(npi,s.pace,s.cp,s.wf,s.yr,s.oc)*Nnp(s)+phP(pri,s.aw,s.yr,s.oc)*PROFNW[s.wf];}
+function exData(s){const tot=total('Exeter','Exeter',s),head=Nnp(s)+PROFNW[s.wf];return{tot,head,avg:tot/head};}
+function jobs(saving,s,newAvg){const ex=exData(s);return saving/(s.basis==='cur'?ex.avg:newAvg);}
+// tabs
+document.querySelectorAll('.tab[data-v]').forEach(t=>t.addEventListener('click',()=>{
+ document.querySelectorAll('.tab[data-v]').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ t.classList.add('active');$(t.dataset.v).classList.add('active');redraw();}));
+function drawMatched(){const s=S(),ex=exData(s),head=ex.head;
+ const mk=i=>{const hasP=!!LAD[i],np=phNP(i,s.pace,s.cp,s.wf,s.yr,s.oc)*Nnp(s),pr=phP(hasP?i:'Exeter',s.aw,s.yr,s.oc)*PROFNW[s.wf];return{i,np,pr,tot:np+pr,partial:!hasP};};
+ const rows=NPALL.map(mk).sort((a,b)=>b.tot-a.tot);   // all non-prof structures (incl. prof-less, held at Exeter's professoriate)
+ const full=BOTH.map(mk);                              // whole systems only — used for mean/lowest
+ const cheap=full.reduce((a,b)=>b.tot<a.tot?b:a);const sv=ex.tot-cheap.tot;
+ const mean=full.reduce((a,r)=>a+r.tot,0)/full.length, msav=ex.tot-mean;
+ const Jc=v=>Math.round(v/ex.avg);
+ $('ans1').innerHTML=`Under the central assumptions, Exeter's modelled all-in pay bill is <b>${m(ex.tot)}</b> — `+
+   `<b>${m(msav)} above the mean</b> of the ${full.length} whole systems and <b>${m(sv)} above the lowest full system</b> (${cheap.i}). `+
+   `Those equal about <b>${Jc(msav)}</b> and <b>${Jc(sv)}</b> average-salary posts (saving ÷ Exeter's average salary — an equivalence for scale, <i>not</i> a prediction that jobs would be retained; cf. the ~125 cuts). Scenario estimate, not a cash forecast.`;
+ // zero-centred difference-from-Exeter chart
+ const W=960,H=320,Lm=104,R=150,Tm=10,rh=(H-Tm-20)/rows.length;
+ const diffs=rows.map(r=>r.tot-ex.tot), maxAbs=Math.max(...diffs.map(Math.abs))*1.06||1;
+ const cx=Lm+(W-Lm-R)/2, hw=(W-Lm-R)/2, xv=d=>cx+d/maxAbs*hw;
+ let g2=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ g2+=`<line x1="${cx}" y1="${Tm}" x2="${cx}" y2="${H-16}" stroke="#b45309" stroke-width="1.5"/>`;
+ g2+=`<text x="${cx}" y="${H-3}" text-anchor="middle" font-size="11" fill="#b45309">Exeter = 0</text>`;
+ g2+=`<text x="${Lm}" y="${H-3}" text-anchor="start" font-size="10" fill="#15803d">← cheaper structure</text><text x="${W-R}" y="${H-3}" text-anchor="end" font-size="10" fill="#b91c1c">dearer →</text>`;
+ rows.forEach((d,k)=>{const y=Tm+k*rh,bh=rh-7,exb=d.i==='Exeter',df=d.tot-ex.tot;
+  g2+=`<text x="${Lm-8}" y="${y+bh/2+4}" text-anchor="end" font-size="12.5" font-weight="600" fill="${exb?'#b45309':'#1d1d1b'}">${d.i}${d.partial?'†':''}</text>`;
+  if(!exb){const x0=Math.min(cx,xv(df)),w=Math.abs(xv(df)-cx);
+   g2+=`<rect x="${x0}" y="${y}" width="${Math.max(1,w)}" height="${bh}" rx="2" fill="${df<0?'#15803d':'#b91c1c'}" opacity="${d.partial?0.4:0.85}"/>`;
+   const lx=df<0?x0-4:x0+w+4;
+   g2+=`<text x="${lx}" y="${y+bh/2+4}" text-anchor="${df<0?'end':'start'}" font-size="11" fill="${df<0?'#15803d':'#b91c1c'}">${df<0?'−'+m(-df):'+'+m(df)}</text>`;}
+ });
+ g2+=`</svg>`;$('bars').outerHTML=g2.replace('<svg','<svg id="bars"');
+ let h='<table><tr><th class="l">University system</th><th>Non-prof</th><th>Professorial</th><th>All-in total</th><th>Δ vs Exeter</th><th>Equiv. posts*</th></tr>';
+ rows.forEach(d=>{const df=d.tot-ex.tot,cls=df<0?'save':(df>0?'cost':'');
+  h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}${d.partial?'†':''}</td><td>${m(d.np)}</td><td>${d.partial?'<span style="color:#9ca3af">'+m(d.pr)+'</span>':m(d.pr)}</td><td>${m(d.tot)}</td>`+
+   `<td class="${cls}">${d.i==='Exeter'?'—':(df<0?'−'+m(-df):'+'+m(df))}</td><td class="${cls}">${d.i==='Exeter'?'—':Jc(-df)}</td></tr>`;});
+ h+='</table><p class="small">*Equivalent average-salary posts = annual saving ÷ Exeter\'s average salary — an equivalence for scale, not predicted job retention. Compared with the ~125 cuts on a like-for-like population, FTE and on-cost basis.<br>'+
+   '† non-professorial structure only (no published professorial scale): the professoriate is held at Exeter\'s, so the difference shown reflects the lower grades alone. Shown for comparison but <b>excluded</b> from the mean and lowest-full-system figures above.</p>';$('tbl1').innerHTML=h;
+}
+function drawMix(){const s=S(),ex=exData(s),head=ex.head;const npi=$('npsel').value,pri=$('prsel').value;
+ const tot=total(npi,pri,s),sav=ex.tot-tot,j=Math.round(jobs(sav,s,tot/head));
+ const npSav=(phNP('Exeter',s.pace,s.cp,s.wf,s.yr,s.oc)-phNP(npi,s.pace,s.cp,s.wf,s.yr,s.oc))*Nnp(s);
+ const prSav=(phP('Exeter',s.aw,s.yr,s.oc)-phP(pri,s.aw,s.yr,s.oc))*PROFNW[s.wf];
+ // cheapest possible
+ const npmin=NPALL.reduce((a,b)=>phNP(b,s.pace,s.cp,s.wf,s.yr,s.oc)<phNP(a,s.pace,s.cp,s.wf,s.yr,s.oc)?b:a);
+ const prmin=PRALL.reduce((a,b)=>phP(b,s.aw,s.yr,s.oc)<phP(a,s.aw,s.yr,s.oc)?b:a);
+ const ctot=total(npmin,prmin,s),csav=ex.tot-ctot,cj=Math.round(jobs(csav,s,ctot/head));
+ $('ans2').innerHTML=`<b>${npi}</b> non-professorial + <b>${pri}</b> professorial would cost <b>${m(tot)}</b> on Exeter's workforce `+
+   `(non-prof saving ${m(npSav)}, professorial saving ${m(prSav)}). The cheapest possible mix is <b>${npmin} + ${prmin}</b> → ${m(ctot)}, saving <b>${m(csav)} ≈ ${cj} equivalent posts</b> (vs ~125 cut). <i>Exploratory — combining two universities' systems wholesale is not a realistic policy option; it shows structural headroom, not a proposal.</i>`;
+ $('kpis').innerHTML=`<div class="kpi"><div class="v">${m(tot)}</div><div class="k">all-in paybill (this mix)</div></div>`+
+   `<div class="kpi"><div class="v">${sav>=0?m(sav):'−'+m(-sav)}</div><div class="k">saving vs Exeter (${m(ex.tot)})</div></div>`+
+   `<div class="kpi"><div class="v">${j}</div><div class="k">equiv. posts (${s.basis==='cur'?'Exeter avg':'new avg'})</div></div>`;
+ let h='<table><tr><th class="l"></th><th>Exeter (current)</th><th>This mix</th><th>Cheapest mix</th></tr>'+
+  `<tr><td class="l">Non-prof from</td><td>Exeter</td><td>${npi}</td><td>${npmin}</td></tr>`+
+  `<tr><td class="l">Professorial from</td><td>Exeter</td><td>${pri}</td><td>${prmin}</td></tr>`+
+  `<tr><td class="l">All-in paybill</td><td>${m(ex.tot)}</td><td>${m(tot)}</td><td>${m(ctot)}</td></tr>`+
+  `<tr><td class="l">Saving /yr</td><td>—</td><td class="save">${m(sav)}</td><td class="save">${m(csav)}</td></tr>`+
+  `<tr><td class="l">Equiv. posts</td><td>—</td><td class="save">${j}</td><td class="save">${cj}</td></tr></table>`;
+ $('tbl2').innerHTML=h;
+}
+function drawSummary(){const s=S(),ex=exData(s),head=ex.head;
+ const rows=BOTH.map(i=>({i,tot:total(i,i,s)})); const mean=rows.reduce((a,r)=>a+r.tot,0)/rows.length;
+ const cheapI=rows.reduce((a,b)=>b.tot<a.tot?b:a);
+ const npmin=NPALL.reduce((a,b)=>phNP(b,s.pace,s.cp,s.wf,s.yr,s.oc)<phNP(a,s.pace,s.cp,s.wf,s.yr,s.oc)?b:a);
+ const prmin=PRALL.reduce((a,b)=>phP(b,s.aw,s.yr,s.oc)<phP(a,s.aw,s.yr,s.oc)?b:a);
+ const ctot=total(npmin,prmin,s);
+ const ord=[...rows].sort((a,b)=>b.tot-a.tot), N=ord.length;
+ const rank=ord.findIndex(r=>r.i==='Exeter')+1, dearer=ord.filter(r=>r.tot>ex.tot).map(r=>r.i);
+ const rankTxt=rank===1?`the most expensive of the ${N} modelled systems`:`the ${rank}${rank==2?'nd':rank==3?'rd':'th'} most expensive of the ${N} modelled systems (dearer: ${dearer.join(', ')})`;
+ // jobs at BOTH bases: Exeter's current avg (today's cost) and the alternative model's avg (going-forward cost)
+ const Jc=sav=>Math.round(sav/ex.avg), Jn=(sav,t)=>Math.round(sav/(t/head));
+ const pair=(sav,t)=>`<b>${Jc(sav)}</b> posts at Exeter's pay, <b>${Jn(sav,t)}</b> at the cheaper structure's pay`;
+ $('sumfind').innerHTML=`On the current settings, Exeter's all-in academic pay bill is <b>${m(ex.tot)}</b> for ${head} staff `+
+  `— ${rankTxt}. Holding the workforce fixed and changing only the pay system:<br><br>`+
+  `&bull; move to the <b>mean of the ${N} modelled systems</b>: save ${m(ex.tot-mean)} ≈ ${pair(ex.tot-mean,mean)}<br>`+
+  `&bull; adopt the lowest of the ${N} modelled systems (<b>${cheapI.i}</b>): save ${m(ex.tot-cheapI.tot)} ≈ ${pair(ex.tot-cheapI.tot,cheapI.tot)}<br>`+
+  `&bull; cheapest mix (<b>${npmin}</b> lower grades + <b>${prmin}</b> professoriate): save ${m(ex.tot-ctot)} ≈ ${pair(ex.tot-ctot,ctot)}<br><br>`+
+  `Two post-equivalent counts because each saving can be valued at <b>today's</b> average salary (posts the money would fund now — an equivalence, not predicted retention) or at the <b>cheaper structure's</b> average (the going-forward cost of those posts) — the latter is higher because each post is cheaper. For scale, Exeter is reportedly cutting <b>125 posts</b>, so the structural difference is of the same order as the cuts. <i>Order-of-magnitude estimates.</i>`;
+}
+let srcDone=false;
+const SRCURL={
+ exeter:'https://www.exeter.ac.uk/staff/employment/payroll/progressionpoints/',
+ bristol:'https://www.bristol.ac.uk/hr/salaries/',
+ bath:'https://www.bath.ac.uk/corporate-information/university-of-bath-pay-and-grading-structure/',
+ birmingham:'https://www.birmingham.ac.uk/jobs/staff-benefits/salary-scales',
+ cardiff:'https://www.cardiff.ac.uk/jobs/what-we-can-offer/financial-benefits/pay-scales',
+ durham:'https://www.durham.ac.uk/about-us/professional-services/human-resources/services/rewards-and-benefits/',
+ leeds:'https://hr.leeds.ac.uk/downloads/download/177/salary-scales',
+ liverpool:'https://www.liverpool.ac.uk/working/whyworkhere/pay-and-conditions/',
+ nottingham:'https://www.nottingham.ac.uk/hr/guidesandsupport/pay/salaryscales/index.aspx',
+ southampton:'https://www.southampton.ac.uk/hr/services/pay-scale/index.page',
+ sheffield:'https://sheffield.ac.uk/jobs/benefits/pay-reward-and-recognition',
+ warwick:'https://warwick.ac.uk/services/peopleteam/internal/payroll/salscalescurrent/current/',
+ york:'https://www.york.ac.uk/staff/hr/employment/pay-grading/pay-scales/grades-1-8/',
+ edinburgh:'https://human-resources.ed.ac.uk/pay-reward/pay/pay-scales',
+ glasgow:'https://www.gla.ac.uk/myglasgow/pod/all/pay/paygrading/salaryscales/',
+ aberdeen:'https://www.abdn.ac.uk/staffnet/working-here/payroll-information/'};
+const UCEA_URL='https://www.ucea.ac.uk/our-work/collective-pay-negotiations-landing/2025-26-new-jnches-pay-round/';
+function srcUrlFor(fn){const f=fn.toLowerCase();for(const k in SRCURL){if(f.startsWith(k))return SRCURL[k];}return null;}
+function renderSources(){if(srcDone)return;srcDone=true;const S2=D.sources;
+ const li=a=>a.map(x=>{const u=srcUrlFor(x.f);
+   return `<div style="padding:2px 0"><a href="${x.rel}" target="_blank">${x.f}</a>${u?` &middot; <a href="${u}" target="_blank">original ↗</a>`:''}</div>`;}).join('');
+ $('src_np').innerHTML=`<div style="padding:2px 0">National single pay spine &mdash; <a href="${UCEA_URL}" target="_blank">UCEA, 2025-26 New JNCHES pay round ↗</a></div>`+li(S2.np);
+ $('src_pr').innerHTML=li(S2.pr);}
+function redraw(){drawMatched();drawMix();drawSummary();renderSources();}
+$('npsel').innerHTML=NPALL.map(i=>`<option ${i=='Nottingham'?'selected':''}>${i}</option>`).join('');
+$('prsel').innerHTML=PRALL.map(i=>`<option ${i=='Warwick'?'selected':''}>${i}</option>`).join('');
+$('cheapest').addEventListener('click',()=>{const s=S();
+ const npmin=NPALL.reduce((a,b)=>phNP(b,s.pace,s.cp,s.wf,s.yr,s.oc)<phNP(a,s.pace,s.cp,s.wf,s.yr,s.oc)?b:a);
+ const prmin=PRALL.reduce((a,b)=>phP(b,s.aw,s.yr,s.oc)<phP(a,s.aw,s.yr,s.oc)?b:a);
+ $('npsel').value=npmin;$('prsel').value=prmin;drawMix();});
+['wf','pace','cp','aw','oc','yr','basis'].forEach(id=>$(id).addEventListener('change',redraw));
+['npsel','prsel'].forEach(id=>$(id).addEventListener('change',drawMix));
+$('caveats').innerHTML='• Non-professorial: tenure model (promotion pace × grade length, contribution share) on Exeter\'s HESA workforce. Professorial: 2-yearly discretionary increments (award rate), Exeter\'s professoriate (470 E&R / 500 incl. teaching, 2024/25 HESA).<br>'+
+ '• "Equivalent average-salary posts" = annual saving ÷ average academic salary (at Exeter\'s current average, default, or the cheaper structure\'s) — an equivalence for scale, <b>not</b> predicted job retention. The ~125-cuts comparison assumes a like-for-like population, FTE and on-cost basis.<br>'+
+ '• Both layers weighted by Exeter\'s workforce so only the pay system varies. SL/AP split 50/50; Birmingham professorial uprated from 2021; Band 3 excluded. Excludes transition costs, redundancy, and second-order effects.<br>'+
+ '• Mix &amp; match is illustrative of structural headroom, not a literal proposal.';
+redraw();
+</script></body></html>

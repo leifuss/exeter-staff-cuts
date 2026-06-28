@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Russell Group academic pay — structure &amp; cost</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;
+ --t1:#2563eb;--t2:#d97706;--t3:#059669;--exeter:#b45309;--bar:#9aa6b2;--barex:#d97706;--ref:#2563eb;
+ --save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}
+.sub{color:var(--mut);margin:0 0 14px;max-width:860px;font-size:14px}
+.tabs{display:flex;gap:6px;margin:6px 0 16px;border-bottom:2px solid var(--line)}
+.tab{padding:9px 16px;font-size:14px;font-weight:600;color:var(--mut);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab.active{color:var(--exeter);border-bottom-color:var(--exeter)}
+.view{display:none} .view.active{display:block}
+.note{background:#fffaf0;border:1px solid #f0e2c0;border-radius:8px;padding:11px 14px;margin:0 0 14px;font-size:13px;color:#5b4b22}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 16px;font-size:15.5px}
+.answer b{color:var(--exeter)}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}
+.ctl label{font-size:12px;color:var(--mut);font-weight:600}
+.ctl select{font:inherit;font-size:13px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.ctl .hint{font-size:11px;color:#9ca3af;max-width:210px}
+.chk{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;margin-top:18px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:4px 0 12px;font-size:12.5px;color:var(--mut)}
+.lg{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:3px;display:inline-block}
+.hatchkey{width:14px;height:14px;border-radius:3px;display:inline-block;background:repeating-linear-gradient(45deg,#888 0 2px,#fff 2px 5px);border:1px solid #bbb}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 8px 6px;overflow-x:auto}
+.card.pad{padding:14px 18px}
+.card h2{font-size:16px;margin:0 0 4px} .card p.lead{color:var(--mut);font-size:13px;margin:0 0 10px}
+svg{display:block;font:12px -apple-system,Segoe UI,Arial,sans-serif}
+.rowlbl{font-size:12.5px;fill:var(--ink)} .rowlbl.ex{fill:var(--exeter);font-weight:700}
+.tick{fill:var(--mut);font-size:11px} .gl{stroke:#eee} .glsal{stroke:#f1e6cf}
+.seg{stroke:#fff;stroke-width:.75;cursor:pointer} .seg:hover{opacity:.85}
+.seglab{fill:#fff;font-size:10.5px;font-weight:600;pointer-events:none}
+.exrow{fill:#fff7ed} .dim{opacity:.16}
+.barlbl{fill:var(--ink);font-weight:600} .barlbl.ex{fill:var(--exeter)} .barval{fill:#fff;font-weight:700} .reflbl{fill:var(--ref);font-size:12px}
+.tip{position:fixed;pointer-events:none;background:#111;color:#fff;font-size:12px;padding:8px 10px;border-radius:7px;max-width:300px;opacity:0;transition:opacity .08s;z-index:30;line-height:1.45}
+.tip b{color:#fbbf24}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right} th{background:#faf9f6;font-weight:600}
+td.l,th.l{text-align:left} tr.ex td{background:#fff7ed;font-weight:600}
+.save{color:var(--save)} .cost{color:var(--cost)}
+.sec{margin-top:18px} details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600} .small{font-size:12.5px;color:var(--mut)}
+code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
+</style></head><body><div class="wrap">
+<h1>Russell Group academic pay — structure &amp; cost</h1>
+<p class="sub">Everyone here pays on the same national salary spine, so a given spine point pays the same everywhere up to the national ceiling (point 51); above that, points are institution-specific local extensions. What differs is each university's <b>grade structure</b>: where it draws grade boundaries and
+how many real increments sit inside each grade. Tab 1 shows the structures; Tab 2 turns them into a cost
+comparison. Professorial pay and UCL are set aside. Exeter is highlighted throughout.</p>
+<div class="tabs">
+ <button class="tab active" data-v="arch">1 · Grade structure</button>
+ <button class="tab" data-v="cost">2 · Cost comparison</button>
+</div>
+
+<!-- ARCHITECTURE VIEW -->
+<div class="view active" id="arch">
+ <div class="note">Three permanent academic grades per university, coloured by position and labelled by rough
+ title equivalent (Lecturer / Sen. Lecturer / Assoc. Prof.) — exact titles vary by institution, so treat
+ these as approximate. Solid = normal annual increment points;
+ hatched = discretionary contribution points; gaps = skipped points the increments jump over.</div>
+ <div class="controls">
+  <div class="ctl"><label>Highlight grade</label><select id="hl"><option value="all">All</option>
+   <option value="1">Grade 1 (Lecturer equiv.)</option><option value="2">Grade 2 (Sen. Lecturer equiv.)</option><option value="3">Grade 3 (Assoc. Prof. equiv.)</option></select></div>
+  <div class="ctl"><label>Sort by</label><select id="sort">
+   <option value="entry">Grade-1 entry point</option><option value="ceiling">Top point reached</option><option value="alpha">Name (A–Z)</option>
+   <option value="cost_bottom">Cost — fast promotion</option><option value="cost_even">Cost — equal distribution</option><option value="cost_top">Cost — slow promotion</option></select>
+   <span class="hint">"Cost" options rank by per-head cost (Tab 2), dearest first.</span></div>
+  <label class="chk"><input type="checkbox" id="contrib" checked> Show contribution points</label>
+ </div>
+ <div class="legend">
+  <span class="lg"><span class="sw" style="background:var(--t1)"></span>Grade 1 (Lecturer equiv.)</span>
+  <span class="lg"><span class="sw" style="background:var(--t2)"></span>Grade 2 (Sen. Lecturer equiv.)</span>
+  <span class="lg"><span class="sw" style="background:var(--t3)"></span>Grade 3 (Assoc. Prof. equiv.)</span>
+  <span class="lg"><span class="hatchkey"></span>contribution point</span>
+  <span class="lg"><span class="sw" style="background:repeating-linear-gradient(45deg,#b9cdf8 0 4px,var(--t2) 4px 8px)"></span>shared point (pale stripe = contribution, strong = real increment)</span>
+  <span class="lg">gaps = skipped increments</span></div>
+ <div class="card"><svg id="archchart"></svg></div>
+</div>
+
+<!-- COST VIEW -->
+<div class="view" id="cost">
+ <div class="note">Every figure applies <b>Exeter's actual academic workforce</b> to each university's pay
+ structure, so the only thing that changes between universities is the structure — "what would Exeter's
+ staff cost on each university's scale, and what would Exeter save by switching to it." Choose which staff
+ to count below. Transition costs are ignored.</div>
+ <div class="answer" id="answer"></div>
+ <div class="controls">
+  <div class="ctl"><label>Workforce counted</label>
+   <select id="pop"><option value="er" selected>E&amp;R only (750 staff)</option>
+    <option value="ere">E&amp;R + Education-only (1155 staff)</option></select>
+   <span class="hint">Education-only adds ~275 (mostly lecturers); R-only postdocs excluded.</span></div>
+  <div class="ctl"><label>Where staff sit in their grade</label>
+   <select id="scn"><option value="even" selected>Spread evenly</option>
+    <option value="bottom">Mostly near the bottom (fast promotion)</option>
+    <option value="top">Mostly near the top (slow promotion)</option></select>
+   <span class="hint">The key assumption — all three are shown.</span></div>
+  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option>
+    <option value="1">Salary + employer on-costs</option></select>
+   <span class="hint">On-costs = NI, pension, levy.</span></div>
+  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26 (actual)</option>
+    <option value="2027">2026-27 (+2%, provisional)</option></select></div>
+ </div>
+ <div class="card"><p class="lead" style="padding:6px 10px 0">Average cost per academic on each university's
+  structure (Exeter highlighted; dashed line = Exeter's level). Bars above the line would cost Exeter more
+  to adopt; bars below would save money.</p><svg id="costchart"></svg></div>
+ <div class="sec card pad"><h2>What Exeter would save by adopting each structure</h2>
+  <p class="lead">Annual figures for the selected Exeter workforce. Green = saving; red = would cost Exeter more.</p>
+  <div id="savetable"></div></div>
+</div>
+
+<details><summary>Assumptions &amp; limits (please read before quoting figures)</summary>
+<div class="small" style="margin-top:8px">
+• Cost view applies Exeter's <b>2024/25 HESA workforce</b> (E&amp;R, or E&amp;R + Education-only via the selector;
+R-only fixed-term postdocs excluded) to every structure; Senior Lecturer and
+Associate Professor are split <b>50/50</b> into Grades 2 &amp; 3 (HESA combines them; Exeter's true split would
+move the figures, and Grade 3 is the main driver).<br>
+• <b>Contribution points are excluded</b> from cost; since Exeter's grades are short, this may understate Exeter.<br>
+• Salaries are the verified 2025-26 national spine; +2% for 2026-27 is UCEA's provisional offer.<br>
+• On-costs: employer NI 15% above £5,000, USS pension 14.5%, apprenticeship levy 0.5%.<br>
+• Structural comparison only — not a budget forecast; excludes professorial pay, allowances, transition.<br>
+• Source data: <code>grades.csv</code>, <code>national_spine.csv</code>, <code>cost_model_results.csv</code>.</div></details>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const D={"national_spine": [{"spine_point": 27, "salary_2025_26": 35608, "salary_2026_27_provisional_+2pct": 36320, "basis": "national"}, {"spine_point": 28, "salary_2025_26": 36636, "salary_2026_27_provisional_+2pct": 37369, "basis": "national"}, {"spine_point": 29, "salary_2025_26": 37694, "salary_2026_27_provisional_+2pct": 38448, "basis": "national"}, {"spine_point": 30, "salary_2025_26": 38784, "salary_2026_27_provisional_+2pct": 39560, "basis": "national"}, {"spine_point": 31, "salary_2025_26": 39906, "salary_2026_27_provisional_+2pct": 40704, "basis": "national"}, {"spine_point": 32, "salary_2025_26": 41064, "salary_2026_27_provisional_+2pct": 41885, "basis": "national"}, {"spine_point": 33, "salary_2025_26": 42254, "salary_2026_27_provisional_+2pct": 43099, "basis": "national"}, {"spine_point": 34, "salary_2025_26": 43482, "salary_2026_27_provisional_+2pct": 44352, "basis": "national"}, {"spine_point": 35, "salary_2025_26": 44746, "salary_2026_27_provisional_+2pct": 45641, "basis": "national"}, {"spine_point": 36, "salary_2025_26": 46049, "salary_2026_27_provisional_+2pct": 46970, "basis": "national"}, {"spine_point": 37, "salary_2025_26": 47389, "salary_2026_27_provisional_+2pct": 48337, "basis": "national"}, {"spine_point": 38, "salary_2025_26": 48822, "salary_2026_27_provisional_+2pct": 49798, "basis": "national"}, {"spine_point": 39, "salary_2025_26": 50253, "salary_2026_27_provisional_+2pct": 51258, "basis": "national"}, {"spine_point": 40, "salary_2025_26": 51753, "salary_2026_27_provisional_+2pct": 52788, "basis": "national"}, {"spine_point": 41, "salary_2025_26": 53301, "salary_2026_27_provisional_+2pct": 54367, "basis": "national"}, {"spine_point": 42, "salary_2025_26": 54893, "salary_2026_27_provisional_+2pct": 55991, "basis": "national"}, {"spine_point": 43, "salary_2025_26": 56535, "salary_2026_27_provisional_+2pct": 57666, "basis": "national"}, {"spine_point": 44, "salary_2025_26": 58225, "salary_2026_27_provisional_+2pct": 59390, "basis": "national"}, {"spine_point": 45, "salary_2025_26": 59966, "salary_2026_27_provisional_+2pct": 61165, "basis": "national"}, {"spine_point": 46, "salary_2025_26": 61759, "salary_2026_27_provisional_+2pct": 62994, "basis": "national"}, {"spine_point": 47, "salary_2025_26": 63606, "salary_2026_27_provisional_+2pct": 64878, "basis": "national"}, {"spine_point": 48, "salary_2025_26": 65509, "salary_2026_27_provisional_+2pct": 66819, "basis": "national"}, {"spine_point": 49, "salary_2025_26": 67468, "salary_2026_27_provisional_+2pct": 68817, "basis": "national"}, {"spine_point": 50, "salary_2025_26": 69488, "salary_2026_27_provisional_+2pct": 70878, "basis": "national"}, {"spine_point": 51, "salary_2025_26": 71566, "salary_2026_27_provisional_+2pct": 72997, "basis": "national"}, {"spine_point": 52, "salary_2025_26": 73710, "salary_2026_27_provisional_+2pct": 75184, "basis": "local-extension (varies)"}, {"spine_point": 53, "salary_2025_26": 75917, "salary_2026_27_provisional_+2pct": 77435, "basis": "local-extension (varies)"}, {"spine_point": 54, "salary_2025_26": 78179, "salary_2026_27_provisional_+2pct": 79743, "basis": "local-extension (varies)"}, {"spine_point": 55, "salary_2025_26": 80529, "salary_2026_27_provisional_+2pct": 82140, "basis": "local-extension (varies)"}, {"spine_point": 56, "salary_2025_26": 82935, "salary_2026_27_provisional_+2pct": 84594, "basis": "local-extension (varies)"}, {"spine_point": 57, "salary_2025_26": 85424, "salary_2026_27_provisional_+2pct": 87132, "basis": "local-extension (varies)"}, {"spine_point": 58, "salary_2025_26": 87986, "salary_2026_27_provisional_+2pct": 89746, "basis": "local-extension (varies)"}], "grades": [{"institution": "Exeter", "grade": "F", "tier": 1, "normal_points": [34, 35, 36], "contribution_points": [37, 38, 39, 40, 41], "effective": "Apr 2026", "confidence": "High (Leif)", "note": ""}, {"institution": "Exeter", "grade": "G", "tier": 2, "normal_points": [40, 41, 42, 43, 44], "contribution_points": [45, 46, 47, 48, 49], "effective": "Apr 2026", "confidence": "High (Leif)", "note": ""}, {"institution": "Exeter", "grade": "H", "tier": 3, "normal_points": [48, 49, 50], "contribution_points": [51, 52, 53, 54, 55, 56], "effective": "Apr 2026", "confidence": "High (Leif)", "note": ""}, {"institution": "Bristol", "grade": "I (Profile a)", "tier": 1, "normal_points": [34, 35, 36, 37, 38], "contribution_points": [39], "effective": "Aug 2025", "confidence": "High (verified)", "note": ""}, {"institution": "Bristol", "grade": "J (Profile b)", "tier": 2, "normal_points": [39, 40, 41, 42, 43], "contribution_points": [44], "effective": "Aug 2025", "confidence": "High (verified)", "note": ""}, {"institution": "Bristol", "grade": "K (Profile c)", "tier": 3, "normal_points": [44, 45, 46, 47, 48, 49], "contribution_points": [], "effective": "Aug 2025", "confidence": "High (verified)", "note": "former disc pt absorbed"}, {"institution": "Leeds", "grade": "7", "tier": 1, "normal_points": [32, 33, 34, 35, 36, 37, 38], "contribution_points": [39, 40], "effective": "Aug 2025", "confidence": "High (Leif)", "note": ""}, {"institution": "Leeds", "grade": "8", "tier": 2, "normal_points": [40, 41, 42, 43, 44, 45], "contribution_points": [46, 47, 48], "effective": "Aug 2025", "confidence": "High (Leif)", "note": ""}, {"institution": "Leeds", "grade": "9", "tier": 3, "normal_points": [46, 47, 48, 49, 50, 51, 52], "contribution_points": [53, 54, 55, 56], "effective": "Aug 2025", "confidence": "Med", "note": ""}, {"institution": "Cardiff", "grade": "6", "tier": 1, "normal_points": [32, 33, 34, 35, 36], "contribution_points": [37, 38], "effective": "Aug 2025", "confidence": "High (Core/Disc)", "note": ""}, {"institution": "Cardiff", "grade": "7", "tier": 2, "normal_points": [40, 41, 42, 43], "contribution_points": [44, 45], "effective": "Aug 2025", "confidence": "High (Core/Disc)", "note": ""}, {"institution": "Cardiff", "grade": "8", "tier": 3, "normal_points": [46, 47, 48, 49], "contribution_points": [50, 51], "effective": "Aug 2025", "confidence": "High (Core/Disc)", "note": ""}, {"institution": "Birmingham", "grade": "7", "tier": 1, "normal_points": [28, 29, 30, 33, 36], "contribution_points": [37, 38], "effective": "Aug 2025", "confidence": "High (verified)", "note": "skips 31,32,34,35; Grade 6 excluded"}, {"institution": "Birmingham", "grade": "8", "tier": 2, "normal_points": [37, 38, 39, 41, 43], "contribution_points": [44, 45, 46, 47], "effective": "Aug 2025", "confidence": "High (verified)", "note": "skips 40,42"}, {"institution": "Birmingham", "grade": "9", "tier": 3, "normal_points": [44, 46, 47, 48, 49], "contribution_points": [50, 51, 52, 53, 54], "effective": "Aug 2025", "confidence": "High (verified)", "note": "skips 45; 52-54 local"}, {"institution": "York", "grade": "6", "tier": 1, "normal_points": [29, 30, 31, 33, 34, 36], "contribution_points": [37, 38], "effective": "Apr 2026", "confidence": "High (verified)", "note": "skips 32,35"}, {"institution": "York", "grade": "7", "tier": 2, "normal_points": [36, 38, 40, 41, 43], "contribution_points": [44, 45], "effective": "Apr 2026", "confidence": "High (verified)", "note": "skips 37,39,42"}, {"institution": "York", "grade": "8", "tier": 3, "normal_points": [44, 46, 47, 48, 49], "contribution_points": [50, 51], "effective": "Apr 2026", "confidence": "High (verified)", "note": "skips 45"}, {"institution": "Bath", "grade": "7", "tier": 1, "normal_points": [30, 31, 32, 33, 34, 35, 36], "contribution_points": [37, 38, 39], "effective": "Aug 2025", "confidence": "High (NPP/ECP)", "note": ""}, {"institution": "Bath", "grade": "8", "tier": 2, "normal_points": [37, 38, 39, 40, 41, 42, 43], "contribution_points": [44, 45, 46], "effective": "Aug 2025", "confidence": "High (NPP/ECP)", "note": ""}, {"institution": "Bath", "grade": "9", "tier": 3, "normal_points": [44, 45, 46, 47, 48, 49], "contribution_points": [50, 51, 52], "effective": "Aug 2025", "confidence": "High (NPP/ECP)", "note": ""}, {"institution": "Warwick", "grade": "FA6", "tier": 1, "normal_points": [27, 29, 31, 33, 34, 35, 36], "contribution_points": [], "effective": "Apr 2026", "confidence": "High (Leif)", "note": "skips 28,30,32; no contrib pts"}, {"institution": "Warwick", "grade": "FA7", "tier": 2, "normal_points": [37, 38, 39, 40, 41, 42, 43], "contribution_points": [], "effective": "Apr 2026", "confidence": "High (Leif)", "note": "no contrib pts"}, {"institution": "Warwick", "grade": "FA8", "tier": 3, "normal_points": [44, 45, 46, 47, 49, 50, 51], "contribution_points": [], "effective": "Apr 2026", "confidence": "High (Leif)", "note": "skips 48; incl Reader; no contrib pts"}, {"institution": "Nottingham", "grade": "L4", "tier": 1, "normal_points": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "contribution_points": [38, 39], "effective": "Aug 2025", "confidence": "High (Grades tab)", "note": ""}, {"institution": "Nottingham", "grade": "L5", "tier": 2, "normal_points": [36, 37, 38, 39, 40, 41, 42, 43, 44], "contribution_points": [45, 46, 47, 48], "effective": "Aug 2025", "confidence": "High (Grades tab)", "note": ""}, {"institution": "Nottingham", "grade": "L6", "tier": 3, "normal_points": [45, 46, 47, 48, 49, 50, 51, 52], "contribution_points": [53, 54, 55, 56], "effective": "Aug 2025", "confidence": "High (Grades tab)", "note": ""}, {"institution": "Southampton", "grade": "L4", "tier": 1, "normal_points": [28, 29, 30, 31, 32, 33, 34, 35], "contribution_points": [36, 37, 38, 39, 40], "effective": "Aug 2025", "confidence": "High (Leif)", "note": "HRZ overlaps next grade"}, {"institution": "Southampton", "grade": "L5", "tier": 2, "normal_points": [36, 37, 38, 39, 40, 41, 42, 43, 44], "contribution_points": [45, 46, 47, 48, 49], "effective": "Aug 2025", "confidence": "High (Leif)", "note": "HRZ overlaps next grade"}, {"institution": "Southampton", "grade": "L6", "tier": 3, "normal_points": [45, 46, 47, 48, 49, 50, 51, 52, 53], "contribution_points": [], "effective": "Aug 2025", "confidence": "High (Leif)", "note": "no HRZ"}, {"institution": "Liverpool", "grade": "7", "tier": 1, "normal_points": [31, 32, 33, 34, 35, 36], "contribution_points": [37, 38], "effective": "Aug 2025", "confidence": "High (verified)", "note": "national spine; overlapping grades"}, {"institution": "Liverpool", "grade": "8", "tier": 2, "normal_points": [37, 38, 39, 40, 41, 42, 43, 44, 45], "contribution_points": [46, 47, 48], "effective": "Aug 2025", "confidence": "High (verified)", "note": ""}, {"institution": "Liverpool", "grade": "9", "tier": 3, "normal_points": [46, 47, 48, 49, 50, 51, 52, 53], "contribution_points": [54, 55, 56], "effective": "Aug 2025", "confidence": "High (verified)", "note": "Grade 10 = professorial (incomplete in source)"}, {"institution": "Durham", "grade": "7", "tier": 1, "normal_points": [30, 31, 32, 33, 34, 35, 36], "contribution_points": [37, 38, 39], "effective": "Apr 2026", "confidence": "High (verified)", "note": ""}, {"institution": "Durham", "grade": "8", "tier": 2, "normal_points": [37, 38, 39, 40, 41, 42, 43], "contribution_points": [44, 45, 46], "effective": "Apr 2026", "confidence": "High (verified)", "note": ""}, {"institution": "Durham", "grade": "9", "tier": 3, "normal_points": [45, 46, 47, 48, 49], "contribution_points": [50, 51, 52], "effective": "Apr 2026", "confidence": "High (verified)", "note": ""}, {"institution": "Sheffield", "grade": "7", "tier": 1, "normal_points": [27, 28, 29, 30, 31, 32, 33, 34, 35], "contribution_points": [36, 37, 38], "effective": "2004 (framework)", "confidence": "Low (2004 doc)", "note": "2004 architecture (Leif-corrected); may have changed since"}, {"institution": "Sheffield", "grade": "8", "tier": 2, "normal_points": [36, 37, 38, 39, 40, 41, 42, 43], "contribution_points": [44, 45, 46, 47], "effective": "2004 (framework)", "confidence": "Low (2004 doc)", "note": "2004 architecture (Leif-corrected)"}, {"institution": "Sheffield", "grade": "9", "tier": 3, "normal_points": [45, 46, 47, 48, 49], "contribution_points": [50, 51, 52, 53, 54], "effective": "2004 (framework)", "confidence": "Low (2004 doc)", "note": "pts 52-54 local; salaries uprated/approx"}], "ext_salary": {"Leeds": {"52": 73708, "53": 75912, "54": 78185, "55": 80523, "56": 82930}, "Nottingham": {"52": 73686, "53": 75891, "54": 78165, "55": 80503, "56": 82913}, "Edinburgh": {"52": 73692, "53": 76087, "54": 78469, "55": 81016, "56": 83558, "57": 86268}, "Birmingham": {"52": 73708, "53": 75914, "54": 78184}, "Bath": {"52": 73709}, "Glasgow": {"52": 73709, "53": 75921}, "Southampton": {"52": 73183, "53": 74851}, "Aberdeen": {"52": 73709}, "Liverpool": {"52": 73710, "53": 75917, "54": 78187, "55": 80526, "56": 82936}, "Durham": {"52": 73708}, "Sheffield": {"52": 73716, "53": 75927, "54": 78206}}, "exeter_workforce": {"1": 195, "2": 277.5, "3": 277.5}};
+const grades=D.grades, spine=D.national_spine;
+const WF={er:{1:195,2:277.5,3:277.5},ere:{1:420,2:367.5,3:367.5}};
+const curWF=()=>WF[$('pop').value], curN=()=>{const w=curWF();return w[1]+w[2]+w[3];};
+const salByPt={}; spine.forEach(s=>salByPt[s.spine_point]=s);
+const EXT=D.ext_salary||{};
+function salx(inst,p,yr){const e=EXT[inst];const base=(e&&e[p]!=null)?e[p]:salByPt[p].salary_2025_26;return base*(yr==2027?1.02:1);}
+const insts={}; grades.forEach(g=>{(insts[g.institution]=insts[g.institution]||[]).push(g);});
+const TCOL={1:'--t1',2:'--t2',3:'--t3'};
+function cssv(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function gbp(n){return '£'+Math.round(n).toLocaleString();}
+const $=id=>document.getElementById(id);
+// ---- tabs ----
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ t.classList.add('active'); $(t.dataset.v).classList.add('active');
+ if(t.dataset.v==='arch')drawArch(); else drawCost();
+}));
+// ================= ARCHITECTURE =================
+const P0=26,P1=58;
+function ptSal(p){const s=salByPt[p];return s?gbp(s.salary_2025_26)+(s.basis[0]==='l'?' (local)':''):'';}
+function salTip(inst,p){return gbp(salx(inst,p,2026))+(p>51?' (local)':'');}
+function entryPt(l){let m=999;l.forEach(g=>{if(g.tier===1)m=Math.min(m,Math.min(...g.normal_points));});return m;}
+function ceil(l){let m=0;l.forEach(g=>{const a=g.normal_points.concat(g.contribution_points);if(a.length)m=Math.max(m,Math.max(...a));});return m;}
+function archOrder(){let n=Object.keys(insts);const m=$('sort').value;
+ if(m==='alpha')n.sort();
+ else if(m==='ceiling')n.sort((a,b)=>ceil(insts[a])-ceil(insts[b]));
+ else if(m.indexOf('cost_')===0){const scn=m.slice(5); n.sort((a,b)=>perHead(b,scn,2026,false)-perHead(a,scn,2026,false));}
+ else n.sort((a,b)=>entryPt(insts[a])-entryPt(insts[b]));
+ return n;}
+function contig(pts){if(!pts.length)return[];const a=[...pts].sort((x,y)=>x-y);const o=[];let r=[a[0]];
+ for(let i=1;i<a.length;i++){if(a[i]===a[i-1]+1)r.push(a[i]);else{o.push(r);r=[a[i]];}}o.push(r);return o;}
+const enc=[];
+function drawArch(){
+ enc.length=0; const hl=$('hl').value, showC=$('contrib').checked, names=archOrder();
+ const Lm=120,Rm=24,Tm=54,rowH=26,gap=8, W=1140, plotW=W-Lm-Rm, H=Tm+names.length*(rowH+gap)+28;
+ const cw=plotW/(P1-P0+1); const x=p=>Lm+(p-P0)*cw;          // x(p)=LEFT edge of point p's column
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<!--DEFS-->`;
+ let patDefs='', patMap={};
+ const paleOf=h=>{h=h.replace('#','');const f=(s2)=>{const v=parseInt(s2,16);return Math.round(v*0.32+255*0.68).toString(16).padStart(2,'0');};
+   return '#'+f(h.slice(0,2))+f(h.slice(2,4))+f(h.slice(4,6));};
+ const patFor=(a,b)=>{const k=a+'|'+b; if(patMap[k])return patMap[k]; const id='pp'+Object.keys(patMap).length; patMap[k]=id;
+   patDefs+=`<pattern id="${id}" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${a}"/><rect width="4" height="8" fill="${b}"/></pattern>`; return id;};
+ s+=`<text class="tick" x="6" y="14" text-anchor="start" style="fill:#b08900">salary (2025-26):</text>`;
+ for(let p=P0;p<=P1+1;p++){ if(p%2===1){s+=`<line class="gl" x1="${x(p)}" y1="${Tm-6}" x2="${x(p)}" y2="${H-26}"/>`;
+   if(p<=P1)s+=`<text class="tick" x="${x(p)}" y="${H-11}" text-anchor="middle">${p}</text>`;}}
+ [27,31,35,39,43,47,51].forEach(p=>{s+=`<line class="glsal" x1="${x(p)}" y1="${Tm-6}" x2="${x(p)}" y2="${H-26}"/>`;
+   s+=`<text class="tick" x="${x(p)}" y="${Tm-20}" text-anchor="middle">${ptSal(p)}</text>`;});
+ s+=`<line x1="${x(52)}" y1="${Tm-6}" x2="${x(52)}" y2="${H-26}" stroke="#e0c060" stroke-dasharray="4 3"/>`;
+ s+=`<text class="tick" x="${x(52)}" y="14" text-anchor="middle" style="fill:#b08900">national ceiling →</text>`;
+ names.forEach((n,i)=>{const y=Tm+i*(rowH+gap), isEx=n==='Exeter';
+   if(isEx)s+=`<rect class="exrow" x="0" y="${y-2}" width="${W}" height="${rowH+4}"/>`;
+   s+=`<text class="rowlbl ${isEx?'ex':''}" x="${Lm-10}" y="${y+rowH/2+4}" text-anchor="end">${esc(n)}</text>`;
+   insts[n].forEach(g=>{const dim=(hl!=='all'&&+hl!==g.tier), col=cssv(TCOL[g.tier]);
+     contig(g.normal_points).forEach(run=>{const x0=x(run[0])+1, w=(run[run.length-1]-run[0]+1)*cw-2;
+       s+=`<rect class="seg ${dim?'dim':''}" x="${x0}" y="${y}" width="${Math.max(2,w)}" height="${rowH}" rx="3" fill="${col}" data-i="${enc.push({g,n})-1}"/>`;});
+     const runs=contig(g.normal_points); if(runs.length){const wr=runs.reduce((a,b)=>b.length>a.length?b:a,runs[0]);
+       const lx=x(wr[0])+(wr[wr.length-1]-wr[0]+1)*cw/2;
+       if(wr.length>=2)s+=`<text class="seglab ${dim?'dim':''}" x="${lx}" y="${y+rowH/2+4}" text-anchor="middle">${esc(g.grade)}</text>`;}
+     if(showC)contig(g.contribution_points).forEach(run=>{const x0=x(run[0])+1, w=(run[run.length-1]-run[0]+1)*cw-2;
+       s+=`<rect class="seg ${dim?'dim':''}" x="${x0}" y="${y}" width="${Math.max(2,w)}" height="${rowH}" rx="3" fill="${col}" fill-opacity="0.30" stroke="${col}" stroke-dasharray="2 2" data-i="${enc.push({g,n})-1}"/>`;});
+   });
+   // shared spine points (a contribution point of one grade = an increment of the grade above): diagonal stripes of both colours
+   const claim={};
+   insts[n].forEach(g=>{g.normal_points.forEach(p=>{(claim[p]=claim[p]||[]).push({g,k:'n'});});g.contribution_points.forEach(p=>{(claim[p]=claim[p]||[]).push({g,k:'c'});});});
+   Object.keys(claim).forEach(p=>{let cl=claim[p]; if(cl.length<2)return;
+     cl.sort((a,b)=>a.g.tier-b.g.tier);
+     if([...new Set(cl.map(c=>c.g.tier))].length<2)return;
+     // with contribution points hidden, drop the contribution stripe(s); only keep genuine increment-on-increment overlaps
+     if(!showC){cl=cl.filter(c=>c.k==='n'); if([...new Set(cl.map(c=>c.g.tier))].length<2)return;}
+     const dim=(hl!=='all'&&cl.every(c=>c.g.tier!==+hl));
+     const colOf=c=>c.k==='n'?cssv(TCOL[c.g.tier]):paleOf(cssv(TCOL[c.g.tier]));
+     const pid=patFor(colOf(cl[0]),colOf(cl[cl.length-1]));
+     const x0=x(+p)+1, w=cw-2;
+     s+=`<rect class="seg ${dim?'dim':''}" x="${x0}" y="${y}" width="${Math.max(2,w)}" height="${rowH}" rx="2" fill="url(#${pid})" stroke="#fff" stroke-width=".75" data-i="${enc.push({overlap:cl.map(c=>c.g),point:+p,n})-1}"/>`;});
+ });
+ s+=`</svg>`; s=s.replace('<!--DEFS-->','<defs>'+patDefs+'</defs>');
+ $('archchart').outerHTML=s.replace('<svg ','<svg id="archchart" '); attachArch();
+}
+function attachArch(){const tip=$('tip');
+ document.querySelectorAll('#archchart .seg').forEach(el=>{
+  el.addEventListener('mousemove',e=>{const o=enc[+el.getAttribute('data-i')];
+   if(o.overlap){tip.innerHTML=`<b>${esc(o.n)} — spine point ${o.point}</b> <span style="color:#9ca3af">(${salTip(o.n,o.point)})</span><br><span style="color:#9ca3af">Shared by two grades:</span><br>`+
+     [...new Set(o.overlap)].map(g=>`• Grade ${esc(g.grade)} — ${g.normal_points.indexOf(o.point)>=0?'normal increment':'contribution point'}`).join('<br>');}
+   else{const g=o.g,np=g.normal_points,cp=g.contribution_points;
+   tip.innerHTML=`<b>${esc(o.n)} — Grade ${esc(g.grade)}</b> <span style="color:#9ca3af">(position ${g.tier}/3)</span><br>`+
+    `Normal increments: ${np.join(', ')}<br>`+(cp.length?`Contribution: ${cp.join(', ')}<br>`:'No contribution points<br>')+
+    `Range: ${salTip(o.n,Math.min(...np))} – ${salTip(o.n,Math.max(...np.concat(cp)))}<br>`+
+    `<span style="color:#9ca3af">${esc(g.effective)} · ${esc(g.confidence)}</span>`;}
+   tip.style.left=Math.min(e.clientX+14,window.innerWidth-310)+'px';tip.style.top=(e.clientY+14)+'px';tip.style.opacity=1;});
+  el.addEventListener('mouseleave',()=>tip.style.opacity=0);});}
+// ================= COST =================
+function weights(n,s){return s==='even'?Array(n).fill(1):(s==='bottom'?Array.from({length:n},(_,i)=>n-i):Array.from({length:n},(_,i)=>i+1));}
+function Eg(pts,s,yr,inst){const a=[...pts].sort((x,y)=>x-y),w=weights(a.length,s);
+ let num=0,den=0;a.forEach((p,i)=>{num+=w[i]*salx(inst,p,yr);den+=w[i];});return num/den;}
+function oncost(s){return s+0.15*Math.max(0,s-5000)+0.145*s+0.005*s;}
+function tierPts(inst,t){return insts[inst].find(g=>g.tier===t).normal_points;}
+function perHead(inst,scn,yr,oc){const e={1:Eg(tierPts(inst,1),scn,yr,inst),2:Eg(tierPts(inst,2),scn,yr,inst),3:Eg(tierPts(inst,3),scn,yr,inst)};
+ const w=curWF(),N=w[1]+w[2]+w[3]; let v=(w[1]*e[1]+w[2]*e[2]+w[3]*e[3])/N; return oc?oncost(v):v;}
+function drawCost(){
+ const scn=$('scn').value, oc=$('oc').value==='1', yr=+$('yr').value, N=curN();
+ const names=Object.keys(insts);
+ const rows=names.map(i=>({i,ph:perHead(i,scn,yr,oc)})).sort((a,b)=>b.ph-a.ph);
+ const exph=rows.find(r=>r.i==='Exeter').ph, exbill=exph*N;
+ const dearer=rows.filter(r=>r.ph>exph).map(r=>r.i);
+ const cheapest=rows[rows.length-1];
+ const scnTxt={even:'spread evenly',bottom:'mostly near the bottom of their grades',top:'mostly near the top of their grades'}[scn];
+ $('answer').innerHTML=`With staff ${scnTxt}${oc?' (incl. on-costs)':''}, Exeter's ${N} staff cost <b>${gbp(exbill)}/yr</b> on Exeter's own structure `+
+  `(${gbp(exph)}/head). `+(dearer.length? `Only ${dearer.join(' and ')} would cost more.`:`No university here would cost more — Exeter is the most expensive structure.`)+
+  ` Switching to the lowest-cost of the 10 modelled systems (${cheapest.i}) would save about <b>${gbp(exbill-cheapest.ph*N)}/yr ≈ ${Math.round((exbill-cheapest.ph*N)/exph)} equivalent average-salary posts</b> (saving ÷ average salary — an equivalence for scale, not predicted job retention).`;
+ // chart
+ const W=1140,Hc=70+rows.length*30,L=110,R=120,Tm=14;
+ const vals=rows.map(r=>r.ph); const maxv=Math.max(...vals)*1.02, minv=Math.min(...vals)*0.9;
+ const x=v=>L+(v-minv)/(maxv-minv)*(W-L-R);
+ let s=`<svg viewBox="0 0 ${W} ${Hc}" width="${W}" height="${Hc}" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<line x1="${x(exph)}" y1="${Tm-2}" x2="${x(exph)}" y2="${Hc-26}" stroke="var(--ref)" stroke-dasharray="5 4"/>`;
+ s+=`<text class="reflbl" x="${x(exph)}" y="${Hc-10}" text-anchor="middle">Exeter ${gbp(exph)}/head</text>`;
+ rows.forEach((d,k)=>{const y=Tm+k*30, bh=22, isEx=d.i==='Exeter', bw=x(d.ph)-L;
+  s+=`<text class="barlbl ${isEx?'ex':''}" x="${L-8}" y="${y+bh/2+4}" text-anchor="end">${esc(d.i)}</text>`;
+  s+=`<rect x="${L}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${isEx?'var(--barex)':'var(--bar)'}"/>`;
+  const save=exbill-d.ph*N; const lbl=gbp(d.ph)+(d.i!=='Exeter'?'  ('+(save>=0?'save ':'+')+gbp(Math.abs(save))+')':'');
+  s+=`<text class="barlbl" x="${x(d.ph)+6}" y="${y+bh/2+4}" style="font-size:11px;fill:${save>0?'var(--save)':(save<0?'var(--cost)':'var(--ink)')}">${lbl}</text>`;});
+ s+=`</svg>`; $('costchart').outerHTML=s.replace('<svg ','<svg id="costchart" ');
+ // savings table
+ let h='<table><tr><th class="l">University (structure)</th><th>Cost / head</th><th>Total for '+N+' staff</th><th>Exeter saves /yr</th><th>Equiv. posts*</th></tr>';
+ rows.forEach(d=>{const bill=d.ph*N, save=exbill-bill, cls=save>0?'save':(save<0?'cost':''), posts=save/exph;
+  h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${esc(d.i)}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
+     `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td>`+
+     `<td class="${cls}">${d.i==='Exeter'?'—':(posts>=0?'+'+posts.toFixed(1):posts.toFixed(1))}</td></tr>`;});
+ h+='</table><p class="small" style="margin-top:6px">*Equivalent average-salary posts = annual saving ÷ Exeter’s average cost per head ('+gbp(exph)+') — an equivalence for scale, not predicted job retention.</p>';
+ $('savetable').innerHTML=h;
+}
+['hl','sort','contrib'].forEach(id=>$(id).addEventListener('change',drawArch));
+['scn','oc','yr','pop'].forEach(id=>$(id).addEventListener('change',drawCost));
+drawArch();
+</script></body></html>

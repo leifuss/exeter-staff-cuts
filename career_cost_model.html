@@ -1,0 +1,203 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Career & cost model — promotion pace</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;
+ --ex:#d97706;--bristol:#2563eb;--bath:#059669;--cardiff:#7c3aed;--bar:#9aa6b2;--ref:#2563eb;
+ --save:#15803d;--cost:#b91c1c;--exeter:#b45309;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}
+.sub{color:var(--mut);margin:0 0 14px;max-width:840px;font-size:14px}
+.tabs{display:flex;gap:6px;margin:6px 0 16px;border-bottom:2px solid var(--line)}
+.tab{padding:9px 16px;font-size:14px;font-weight:600;color:var(--mut);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tab.active{color:var(--exeter);border-bottom-color:var(--exeter)}
+.view{display:none}.view.active{display:block}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 16px;font-size:15.5px}
+.answer b{color:var(--exeter)}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:12px;color:var(--mut);font-weight:600}
+.ctl select{font:inherit;font-size:13px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.ctl .hint{font-size:11px;color:#9ca3af;max-width:230px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px;overflow-x:auto}
+.card h2{font-size:16px;margin:0 0 2px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
+svg{display:block;font:12px -apple-system,Segoe UI,Arial,sans-serif}
+.lgnd{display:flex;flex-wrap:wrap;gap:6px 16px;margin:4px 0 0;font-size:12.5px;color:var(--mut)}
+.lg{display:inline-flex;align-items:center;gap:6px}.sw{width:16px;height:4px;border-radius:2px;display:inline-block}
+.barlbl{fill:var(--ink);font-weight:600}.barlbl.ex{fill:var(--exeter)}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6;font-weight:600}
+td.l,th.l{text-align:left}tr.ex td{background:#fff7ed;font-weight:600}
+.save{color:var(--save)}.cost{color:var(--cost)}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+.tip{position:fixed;pointer-events:none;background:#111;color:#fff;font-size:12px;padding:7px 9px;border-radius:7px;opacity:0;transition:opacity .08s;z-index:30}
+.tip b{color:#fbbf24}
+</style></head><body><div class="wrap">
+<h1>Career &amp; cost model — driven by promotion pace</h1>
+<p class="sub">Unlike the first model (which assumes where staff sit), this one <b>derives</b> it: staff are
+appointed at the bottom of each grade, gain one increment a year, and are promoted after a set number of
+years. Crucially, that interacts with each university's grade length — short grades make staff hit their
+ceiling sooner. A representative permanent career starts at age 28 (Lecturer) and, on the middle pace,
+reaches Professor at 48, matching the sector average. Professorial pay itself is excluded.</p>
+<div class="tabs"><button class="tab active" data-v="path">1 · A career over time</button>
+ <button class="tab" data-v="cost">2 · Workforce cost</button></div>
+
+<div class="controls">
+ <div class="ctl"><label>Promotion pace</label><select id="pace">
+   <option value="fast">Fast (L→SL 4, SL→AP 6, AP→Prof 7 yrs · Prof at 45)</option>
+   <option value="middle" selected>Middle (5, 7, 8 yrs · Prof at 48)</option>
+   <option value="slow">Slow (6, 8, 9 yrs · Prof at 51)</option></select>
+   <span class="hint">Years in each grade before promotion.</span></div>
+ <div class="ctl"><label>Contribution points</label><select id="cp">
+   <option value="0">None</option><option value="0.2">20% of topped-out staff</option>
+   <option value="0.3" selected>30% of topped-out staff</option><option value="0.4">40% of topped-out staff</option></select>
+   <span class="hint">Share of staff stuck at a grade ceiling who hold a (permanent) contribution point.</span></div>
+ <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option>
+   <option value="1">Salary + employer on-costs</option></select></div>
+ <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option>
+   <option value="2027">2026-27 (+2%)</option></select></div>
+ <div class="ctl"><label>Workforce (cost tab)</label><select id="pop">
+   <option value="er" selected>E&amp;R only (750)</option><option value="ere">E&amp;R + Education-only (1155)</option></select>
+   <span class="hint">Affects the cost tab; trajectory is one representative person.</span></div>
+</div>
+
+<div class="view active" id="path">
+ <div class="card"><h2>One representative academic's salary, age 28 → Professor</h2>
+  <p class="lead">All modelled comparators (expected salary). Exeter starts high but its short grades mean it tops out
+  and waits; peers on longer grades keep climbing. Flat stretches lift with the contribution-point share.
+  Dashed verticals mark promotions; Exeter is drawn bold.</p>
+  <svg id="trajchart"></svg>
+  <div class="lgnd" id="trajlegend"></div></div>
+ <div class="card"><h2>Total earnings from Lecturer to Professor</h2>
+  <p class="lead">Cumulative salary over the whole pre-professorial career (including the contribution-point
+  share selected above). The gap is what Exeter's structure costs per academic over a career, vs each comparator.</p>
+  <svg id="cumchart"></svg></div>
+</div>
+
+<div class="view" id="cost">
+ <div class="answer" id="answer"></div>
+ <div class="card"><p class="lead" style="padding-top:4px">Average cost per academic, applying Exeter's
+  workforce (selectable above) to every structure (Exeter highlighted; dashed line = Exeter's level).</p>
+  <svg id="costchart"></svg></div>
+ <div class="card"><h2>What Exeter would save by adopting each structure</h2>
+  <p class="lead">Annual figures for the selected workforce; equivalent average-salary posts = saving ÷ Exeter's average salary (an equivalence for scale, not predicted job retention).</p>
+  <div id="savetable"></div></div>
+</div>
+
+<details><summary>Assumptions &amp; limits</summary><div class="small" style="margin-top:8px">
+• Promotion pace sets years-in-grade; the within-grade spread is derived from that vs each university's
+grade length (staff climb one point/yr, then sit at the ceiling until promoted).<br>
+• Salaries above spine point 51 (local non-professorial spine extensions, which differ by institution) use each institution's own published values.<br>• <b>Career start age 28; one representative path; everyone promotes on schedule</b> — real workforces have
+non-promotion and attrition, so the trajectory is illustrative; the cost tab instead weights by Exeter's
+actual HESA grade mix (E&amp;R; SL/AP split 50/50).<br>
+• Contribution points modelled as a share of ceiling-stuck staff holding one permanent point; they are the
+single softest input (no sector data) — refine when Exeter's own data is available.<br>
+• Salaries = verified 2025-26 national spine (+2% optional). On-costs: NI 15% above £5,000, USS 14.5%,
+levy 0.5%. Excludes professorial pay, London weighting (none in the included universities), transition costs.<br>
+• Sector evidence puts L→SL at ~5–7 yrs and Prof at ~48; upper transitions are weakly evidenced.</div></details>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const D={"nat": {"27": 35608, "28": 36636, "29": 37694, "30": 38784, "31": 39906, "32": 41064, "33": 42254, "34": 43482, "35": 44746, "36": 46049, "37": 47389, "38": 48822, "39": 50253, "40": 51753, "41": 53301, "42": 54893, "43": 56535, "44": 58225, "45": 59966, "46": 61759, "47": 63606, "48": 65509, "49": 67468, "50": 69488, "51": 71566, "52": 73710, "53": 75917, "54": 78179, "55": 80529, "56": 82935, "57": 85424, "58": 87986}, "struct": {"Exeter": {"1": {"n": [34, 35, 36], "c": [37, 38, 39, 40, 41]}, "2": {"n": [40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [48, 49, 50], "c": [51, 52, 53, 54, 55, 56]}}, "Bristol": {"1": {"n": [34, 35, 36, 37, 38], "c": [39]}, "2": {"n": [39, 40, 41, 42, 43], "c": [44]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": []}}, "Leeds": {"1": {"n": [32, 33, 34, 35, 36, 37, 38], "c": [39, 40]}, "2": {"n": [40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Cardiff": {"1": {"n": [32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [40, 41, 42, 43], "c": [44, 45]}, "3": {"n": [46, 47, 48, 49], "c": [50, 51]}}, "Birmingham": {"1": {"n": [28, 29, 30, 33, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 41, 43], "c": [44, 45, 46, 47]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}, "York": {"1": {"n": [29, 30, 31, 33, 34, 36], "c": [37, 38]}, "2": {"n": [36, 38, 40, 41, 43], "c": [44, 45]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51]}}, "Bath": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Warwick": {"1": {"n": [27, 29, 31, 33, 34, 35, 36], "c": []}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": []}, "3": {"n": [44, 45, 46, 47, 49, 50, 51], "c": []}}, "Nottingham": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Southampton": {"1": {"n": [28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38, 39, 40]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52, 53], "c": []}}, "Liverpool": {"1": {"n": [31, 32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52, 53], "c": [54, 55, 56]}}, "Durham": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Sheffield": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46, 47]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}}, "ext": {"Leeds": {"52": 73708, "53": 75912, "54": 78185, "55": 80523, "56": 82930}, "Nottingham": {"52": 73686, "53": 75891, "54": 78165, "55": 80503, "56": 82913}, "Edinburgh": {"52": 73692, "53": 76087, "54": 78469, "55": 81016, "56": 83558, "57": 86268}, "Birmingham": {"52": 73708, "53": 75914, "54": 78184}, "Bath": {"52": 73709}, "Glasgow": {"52": 73709, "53": 75921}, "Southampton": {"52": 73183, "53": 74851}, "Aberdeen": {"52": 73709}, "Liverpool": {"52": 73710, "53": 75917, "54": 78187, "55": 80526, "56": 82936}, "Durham": {"52": 73708}, "Sheffield": {"52": 73716, "53": 75927, "54": 78206}}}; const nat=D.nat, struct=D.struct, EXT=D.ext||{};
+function salx(inst,pt,yr){const e=EXT[inst];return ((e&&e[pt]!=null)?e[pt]:nat[pt])*(yr==2027?1.02:1);}
+const COLORS={Exeter:'#d97706',Bristol:'#1f77b4',Bath:'#2ca02c',Cardiff:'#d62728',Leeds:'#9467bd',Southampton:'#8c564b',Warwick:'#e377c2',Nottingham:'#7f7f7f',Birmingham:'#bcbd22',York:'#17becf',Liverpool:'#393b79',Durham:'#637939',Sheffield:'#843c39'};
+const col=i=>COLORS[i]||'#9aa6b2';
+const ALL=Object.keys(struct);
+const ORD=['Exeter',...ALL.filter(i=>i!=='Exeter').sort()];  // Exeter first, then alphabetical
+const TEN={fast:{1:4,2:6,3:7},middle:{1:5,2:7,3:8},slow:{1:6,2:8,3:9}};
+const WF={er:{1:195,2:277.5,3:277.5},ere:{1:420,2:367.5,3:367.5}};
+const curWF=()=>WF[$('pop').value], curN=()=>{const w=curWF();return w[1]+w[2]+w[3];};
+const $=id=>document.getElementById(id);
+const cssv=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const gbp=n=>'£'+Math.round(n).toLocaleString();
+function sal(pt,yr){return nat[pt]*(yr==2027?1.02:1);}
+function oncost(s){return s+0.15*Math.max(0,s-5000)+0.145*s+0.005*s;}
+// expected salary in a grade given tenure T, cp share
+function Egrade(info,T,cp,yr,inst){const R=info.n,L=R.length,c=info.c,cp1=c.length?salx(inst,c[0],yr):null;
+ let tot=0;for(let k=1;k<=T;k++){if(k<=L)tot+=salx(inst,R[k-1],yr);
+   else{const ceil=salx(inst,R[L-1],yr);tot+=cp1!=null?(1-cp)*ceil+cp*cp1:ceil;}}return tot/T;}
+function perHead(inst,pace,cp,yr,oc){const T=TEN[pace],w=curWF(),N=w[1]+w[2]+w[3];
+ let v=(w[1]*Egrade(struct[inst][1],T[1],cp,yr,inst)+w[2]*Egrade(struct[inst][2],T[2],cp,yr,inst)+w[3]*Egrade(struct[inst][3],T[3],cp,yr,inst))/N;
+ return oc?oncost(v):v;}
+// representative (expected) trajectory: array of {age,year,sal,grade}; ceiling years blend in the CP share
+function traj(inst,pace,cp,yr){const T=TEN[pace];const pts=[];let yr0=0;
+ [1,2,3].forEach(t=>{const info=struct[inst][t],R=info.n,L=R.length,cp1=info.c.length?salx(inst,info.c[0],yr):null;
+   for(let k=1;k<=T[t];k++){let v;
+     if(k<=L)v=salx(inst,R[k-1],yr);
+     else{const ceil=salx(inst,R[L-1],yr);v=cp1!=null?(1-cp)*ceil+cp*cp1:ceil;}
+     pts.push({year:yr0,age:28+yr0,sal:v,grade:t});yr0++;}});
+ return pts;}
+function cumEarn(inst,pace,cp,yr){return traj(inst,pace,cp,yr).reduce((a,p)=>a+p.sal,0);}
+// tabs
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+ t.classList.add('active');$(t.dataset.v).classList.add('active');redraw();}));
+
+function drawTraj(){const pace=$('pace').value,cp=+$('cp').value,yr=+$('yr').value;
+ const series=ALL.filter(i=>i!=='Exeter').map(i=>({i,pts:traj(i,pace,cp,yr)}));
+ series.push({i:'Exeter',pts:traj('Exeter',pace,cp,yr)});  // Exeter last → drawn on top
+ const T=TEN[pace],proms=[T[1],T[1]+T[2]],tot=T[1]+T[2]+T[3];
+ const W=1040,H=340,L=70,R=20,Tm=18,B=44, x=y=>L+y/(tot-1)*(W-L-R);
+ const all=[].concat(...series.map(s=>s.pts.map(p=>p.sal)));
+ const ymin=Math.min(...all)*0.97,ymax=Math.max(...all)*1.03, Y=v=>Tm+(ymax-v)/(ymax-ymin)*(H-Tm-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ // y gridlines
+ for(let g=0;g<=4;g++){const v=ymin+(ymax-ymin)*g/4;s+=`<line x1="${L}" y1="${Y(v)}" x2="${W-R}" y2="${Y(v)}" stroke="#eee"/>`+
+   `<text x="${L-8}" y="${Y(v)+4}" text-anchor="end" fill="#9ca3af" font-size="11">${gbp(v)}</text>`;}
+ // promotion verticals
+ proms.forEach(pp=>{s+=`<line x1="${x(pp)}" y1="${Tm}" x2="${x(pp)}" y2="${H-B}" stroke="#e0c060" stroke-dasharray="4 3"/>`+
+   `<text x="${x(pp)}" y="${H-B+26}" text-anchor="middle" fill="#b08900" font-size="11">promotion</text>`;});
+ // x ticks (age)
+ for(let yy=0;yy<tot;yy+=2){s+=`<text x="${x(yy)}" y="${H-B+13}" text-anchor="middle" fill="#9ca3af" font-size="11">${28+yy}</text>`;}
+ s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" fill="#6b7280" font-size="11">age</text>`;
+ series.forEach(se=>{const c=col(se.i),ex=se.i==='Exeter';
+   let dpath=se.pts.map((p,k)=>(k?'L':'M')+x(p.year)+' '+Y(p.sal)).join(' ');
+   s+=`<path d="${dpath}" fill="none" stroke="${c}" stroke-width="${ex?3.4:1.5}" opacity="${ex?1:.7}"/>`;
+   if(ex)se.pts.forEach(p=>{s+=`<circle cx="${x(p.year)}" cy="${Y(p.sal)}" r="2.6" fill="${c}"/>`;});});
+ s+=`</svg>`;$('trajchart').outerHTML=s.replace('<svg','<svg id="trajchart"');
+ $('trajlegend').innerHTML=ORD.map(i=>`<span class="lg"><span class="sw" style="background:${col(i)};height:${i==='Exeter'?6:4}px"></span>${i}</span>`).join('');
+}
+function drawCum(){const pace=$('pace').value,cp=+$('cp').value,yr=+$('yr').value;
+ const vals=ALL.map(i=>({i,v:cumEarn(i,pace,cp,yr)})).sort((a,b)=>b.v-a.v);
+ const ex=vals.find(v=>v.i==='Exeter').v;
+ const W=1040,L=70,R=200,Tm=8,rh=28,H=Tm*2+vals.length*rh, maxv=Math.max(...vals.map(v=>v.v))*1.01,minv=Math.min(...vals.map(v=>v.v))*0.96;
+ const x=v=>L+(v-minv)/(maxv-minv)*(W-L-R);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ vals.forEach((d,k)=>{const y=Tm+k*rh,bh=21,exb=d.i==='Exeter',c=col(d.i),bw=x(d.v)-L;
+  s+=`<text x="${L-8}" y="${y+bh/2+4}" text-anchor="end" class="barlbl ${exb?'ex':''}">${d.i}</text>`;
+  s+=`<rect x="${L}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${c}" opacity="${exb?1:.8}"/>`;
+  const diff=d.v-ex,lbl=gbp(d.v)+(d.i!=='Exeter'?'  ('+(diff<0?'−'+gbp(-diff):'+'+gbp(diff))+' vs Exeter)':'');
+  s+=`<text x="${x(d.v)+6}" y="${y+bh/2+4}" font-size="11" fill="${diff<0?'#15803d':'#1d1d1b'}">${lbl}</text>`;});
+ s+=`</svg>`;$('cumchart').outerHTML=s.replace('<svg','<svg id="cumchart"');
+}
+function drawCost(){const pace=$('pace').value,cp=+$('cp').value,oc=$('oc').value==='1',yr=+$('yr').value,N=curN();
+ const rows=ALL.map(i=>({i,ph:perHead(i,pace,cp,yr,oc)})).sort((a,b)=>b.ph-a.ph);
+ const exph=rows.find(r=>r.i==='Exeter').ph,exbill=exph*N,dearer=rows.filter(r=>r.ph>exph).map(r=>r.i),cheap=rows[rows.length-1];
+ $('answer').innerHTML=`On the <b>${pace}</b> pace${cp?` with ${Math.round(cp*100)}% on contribution points`:''}${oc?', incl. on-costs':''}, Exeter's ${N} staff cost <b>${gbp(exbill)}/yr</b> (${gbp(exph)}/head). `+
+   (dearer.length?`Only ${dearer.join(' and ')} cost more.`:`Exeter is the most expensive structure here.`)+
+   ` Matching the lowest-cost structure (${cheap.i}) would save <b>${gbp(exbill-cheap.ph*N)}/yr ≈ ${Math.round((exbill-cheap.ph*N)/exph)} equivalent average-salary posts</b> (an equivalence, not predicted job retention).`;
+ const W=1040,Hc=60+rows.length*28,Lm=104,Rm=150,Tm=12, vmax=Math.max(...rows.map(r=>r.ph))*1.02,vmin=Math.min(...rows.map(r=>r.ph))*0.9;
+ const x=v=>Lm+(v-vmin)/(vmax-vmin)*(W-Lm-Rm);
+ let s=`<svg viewBox="0 0 ${W} ${Hc}" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<line x1="${x(exph)}" y1="${Tm-2}" x2="${x(exph)}" y2="${Hc-24}" stroke="var(--ref)" stroke-dasharray="5 4"/>`+
+    `<text x="${x(exph)}" y="${Hc-9}" text-anchor="middle" fill="#2563eb" font-size="12">Exeter ${gbp(exph)}</text>`;
+ rows.forEach((d,k)=>{const y=Tm+k*28,bh=20,exb=d.i==='Exeter',bw=x(d.ph)-Lm,save=exbill-d.ph*N;
+  s+=`<text x="${Lm-8}" y="${y+bh/2+4}" text-anchor="end" class="barlbl ${exb?'ex':''}">${d.i}</text>`;
+  s+=`<rect x="${Lm}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${exb?'var(--ex)':'var(--bar)'}"/>`;
+  const lbl=gbp(d.ph)+(exb?'':'  ('+(save>=0?'save '+gbp(save):'+'+gbp(-save))+')');
+  s+=`<text x="${x(d.ph)+6}" y="${y+bh/2+4}" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${lbl}</text>`;});
+ s+=`</svg>`;$('costchart').outerHTML=s.replace('<svg','<svg id="costchart"');
+ let h='<table><tr><th class="l">University (structure)</th><th>Cost / head</th><th>Total ('+N+')</th><th>Exeter saves /yr</th><th>Extra posts</th></tr>';
+ rows.forEach(d=>{const bill=d.ph*N,save=exbill-bill,cls=save>0?'save':(save<0?'cost':''),posts=save/exph;
+  h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
+   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td>`+
+   `<td class="${cls}">${d.i==='Exeter'?'—':(posts>=0?'+'+posts.toFixed(1):posts.toFixed(1))}</td></tr>`;});
+ h+='</table>';$('savetable').innerHTML=h;
+}
+function redraw(){drawTraj();drawCum();drawCost();}
+['pace','cp','oc','yr','pop'].forEach(id=>$(id).addEventListener('change',redraw));
+redraw();
+</script></body></html>

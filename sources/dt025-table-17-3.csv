@@ -1,0 +1,19 @@
+﻿﻿Title:,"Table 17 - HE full-time academic staff by HE provider and contract salary"
+Subtitle:,"Academic years 2014/15 to 2024/25"
+Reference ID:,DT025 Table 17
+Data source:,HESA
+Data source link:,https://www.hesa.ac.uk/data-and-analysis/staff/table-17
+Data file canonical link:,https://www.hesa.ac.uk/data-and-analysis/staff/table-17.zip
+Licence:,Creative Commons Attribution 4.0 International Licence
+Date:,2026
+Filters:,Country of HE provider,All 
+,Region of HE provider,All 
+,Sex,All 
+,Academic employment function,Research only 
+,Contract levels,All 
+,Academic year,2024/25 
+Search:,exeter
+
+
+"UKPRN","HE provider","Contract salary < £23,581 ","Contract salary ≥ £23,581 and < £29,659 ","Contract salary ≥ £29,659 and < £39,105 ","Contract salary ≥ £39,105 and < £52,183 ","Contract salary ≥ £52,183 and < £69,757 ","Contract salary ≥ £69,757 ","Total"
+"10007792","The University of Exeter","0","0","230","465","80","10","780"

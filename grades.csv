@@ -1,0 +1,49 @@
+institution,grade,tier,normal_points,contribution_points,effective,confidence,note
+Exeter,F,1,34 35 36,37 38 39 40 41,Apr 2026,High (Leif),
+Exeter,G,2,40 41 42 43 44,45 46 47 48 49,Apr 2026,High (Leif),
+Exeter,H,3,48 49 50,51 52 53 54 55 56,Apr 2026,High (Leif),
+Bristol,I (Profile a),1,34 35 36 37 38,39,Aug 2025,High (verified),
+Bristol,J (Profile b),2,39 40 41 42 43,44,Aug 2025,High (verified),
+Bristol,K (Profile c),3,44 45 46 47 48 49,,Aug 2025,High (verified),former disc pt absorbed
+Leeds,7,1,32 33 34 35 36 37 38,39 40,Aug 2025,High (Leif),
+Leeds,8,2,40 41 42 43 44 45,46 47 48,Aug 2025,High (Leif),
+Leeds,9,3,46 47 48 49 50 51 52,53 54 55 56,Aug 2025,Med,
+Cardiff,6,1,32 33 34 35 36,37 38,Aug 2025,High (Core/Disc),
+Cardiff,7,2,40 41 42 43,44 45,Aug 2025,High (Core/Disc),
+Cardiff,8,3,46 47 48 49,50 51,Aug 2025,High (Core/Disc),
+Edinburgh,UE07,1,32 33 34 35 36 37 38,39 40 41,Apr 2026,High (Leif),
+Edinburgh,UE08,2,39 40 41 42 43 44 45 46,47 48 49,Apr 2026,High (Leif),
+Edinburgh,UE09,3,47 48 49 50 51 52 53 54,55 56 57,Apr 2026,High (Leif),
+Glasgow,7,1,32 33 34 35 36,37 38 39 40,Dec 2025,High (Leif),
+Glasgow,8,2,39 40 41 42 43 44,45 46 47 48,Dec 2025,High (Leif),
+Glasgow,9,3,45 46 47 48 49,50 51 52 53,Dec 2025,High (Leif),
+Aberdeen,6,1,30 31 32 33 34 35 36,37 38 39,Aug 2025,High,contrib 37-39
+Aberdeen,7,2,37 38 39 40 41 42 43,44 45 46,Aug 2025,High,contrib 44-46 (corrected)
+Aberdeen,8,3,45 46 47 48 49,50 51 52,Aug 2025,High,
+Birmingham,7,1,28 29 30 33 36,37 38,Aug 2025,High (verified),"skips 31,32,34,35; Grade 6 excluded"
+Birmingham,8,2,37 38 39 41 43,44 45 46 47,Aug 2025,High (verified),"skips 40,42"
+Birmingham,9,3,44 46 47 48 49,50 51 52 53 54,Aug 2025,High (verified),skips 45; 52-54 local
+York,6,1,29 30 31 33 34 36,37 38,Apr 2026,High (verified),"skips 32,35"
+York,7,2,36 38 40 41 43,44 45,Apr 2026,High (verified),"skips 37,39,42"
+York,8,3,44 46 47 48 49,50 51,Apr 2026,High (verified),skips 45
+Bath,7,1,30 31 32 33 34 35 36,37 38 39,Aug 2025,High (NPP/ECP),
+Bath,8,2,37 38 39 40 41 42 43,44 45 46,Aug 2025,High (NPP/ECP),
+Bath,9,3,44 45 46 47 48 49,50 51 52,Aug 2025,High (NPP/ECP),
+Warwick,FA6,1,27 29 31 33 34 35 36,,Apr 2026,High (Leif),"skips 28,30,32; no contrib pts"
+Warwick,FA7,2,37 38 39 40 41 42 43,,Apr 2026,High (Leif),no contrib pts
+Warwick,FA8,3,44 45 46 47 49 50 51,,Apr 2026,High (Leif),skips 48; incl Reader; no contrib pts
+Nottingham,L4,1,27 28 29 30 31 32 33 34 35 36 37,38 39,Aug 2025,High (Grades tab),
+Nottingham,L5,2,36 37 38 39 40 41 42 43 44,45 46 47 48,Aug 2025,High (Grades tab),
+Nottingham,L6,3,45 46 47 48 49 50 51 52,53 54 55 56,Aug 2025,High (Grades tab),
+Southampton,L4,1,28 29 30 31 32 33 34 35,36 37 38 39 40,Aug 2025,High (Leif),HRZ overlaps next grade
+Southampton,L5,2,36 37 38 39 40 41 42 43 44,45 46 47 48 49,Aug 2025,High (Leif),HRZ overlaps next grade
+Southampton,L6,3,45 46 47 48 49 50 51 52 53,,Aug 2025,High (Leif),no HRZ
+Liverpool,7,1,31 32 33 34 35 36,37 38,Aug 2025,High (verified),national spine; overlapping grades
+Liverpool,8,2,37 38 39 40 41 42 43 44 45,46 47 48,Aug 2025,High (verified),
+Liverpool,9,3,46 47 48 49 50 51 52 53,54 55 56,Aug 2025,High (verified),Grade 10 = professorial (incomplete in source)
+Durham,7,1,30 31 32 33 34 35 36,37 38 39,Apr 2026,High (verified),
+Durham,8,2,37 38 39 40 41 42 43,44 45 46,Apr 2026,High (verified),
+Durham,9,3,45 46 47 48 49,50 51 52,Apr 2026,High (verified),
+Sheffield,7,1,27 28 29 30 31 32 33 34 35,36 37 38,2004 (framework),Low (2004 doc),2004 architecture (Leif-corrected); may have changed since
+Sheffield,8,2,36 37 38 39 40 41 42 43,44 45 46 47,2004 (framework),Low (2004 doc),2004 architecture (Leif-corrected)
+Sheffield,9,3,45 46 47 48 49,50 51 52 53 54,2004 (framework),Low (2004 doc),pts 52-54 local; salaries uprated/approx

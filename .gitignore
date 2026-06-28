@@ -1,0 +1,7 @@
+# Working master and OS/editor cruft — not for publication
+payscales.xlsx
+DELETE_ME/
+.DS_Store
+**/.DS_Store
+node_modules/
+*.tmp

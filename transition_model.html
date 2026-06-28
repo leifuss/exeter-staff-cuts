@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transition savings — no pay cuts</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--ex:#d97706;--exeter:#b45309;--ss:#15803d;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 14px;max-width:840px;font-size:14px}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 14px;font-size:15.5px}.answer b{color:var(--exeter)}
+.controls{display:flex;flex-wrap:wrap;gap:12px 18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:11.5px;color:var(--mut);font-weight:600}
+.ctl select{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.big{display:flex;gap:16px;flex-wrap:wrap;margin:4px 0 8px}
+.kpi{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:10px 14px;min-width:130px}
+.kpi .v{font-size:20px;font-weight:700;color:var(--exeter)}.kpi .k{font-size:11.5px;color:var(--mut)}
+svg{display:block}table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px;max-width:640px}
+th,td{border:1px solid var(--line);padding:5px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>Transition savings — phasing in a cheaper structure, no pay cuts</h1>
+<p class="sub">If Exeter kept everyone's current salary but moved its <b>non-professorial</b> grade structure to a peer's,
+savings would build up gradually, not arrive at once. Existing staff are grandfathered; the saving comes only as people
+(a) reach the new, often earlier, grade ceiling and stop gaining increments, and (b) are promoted or newly hired onto
+the lower structure. This shows how the annual saving ramps from near-zero towards the full steady-state figure. It is an <b>illustrative synthetic-cohort scenario</b> (equal cohorts at every career stage, everyone progressing through all grades), not a forecast.</p>
+<div class="answer" id="answer"></div>
+<div class="big" id="kpis"></div>
+<div class="controls">
+ <div class="ctl"><label>Move Exeter's structure to</label><select id="target"></select></div>
+ <div class="ctl"><label>Workforce</label><select id="wf"><option value="er">E&amp;R (750)</option><option value="ere" selected>E&amp;R+Edu (1155)</option></select></div>
+ <div class="ctl"><label>Promotion pace</label><select id="pace"><option value="fast">Fast</option><option value="middle" selected>Middle</option><option value="slow">Slow</option></select></div>
+ <div class="ctl"><label>Contribution share</label><select id="cp"><option value="0">0%</option><option value="0.2">20%</option><option value="0.3" selected>30%</option><option value="0.4">40%</option></select></div>
+ <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary</option><option value="1">+on-costs</option></select></div>
+ <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
+</div>
+<div class="card"><h2 style="font-size:15px;margin:0 0 2px">Annual saving by year after the switch</h2>
+ <p class="small" style="margin:0 0 6px">Solid = annual saving; dashed green = full steady-state saving once the workforce has turned over.</p>
+ <svg id="chart" viewBox="0 0 880 320" width="880" height="320"></svg></div>
+<div class="card"><h2 style="font-size:15px;margin:0 0 4px">Year by year</h2><div id="tbl"></div></div>
+<details><summary>How this works &amp; caveats</summary><div class="small" style="margin-top:8px">
+• A steady-state Exeter workforce is represented as equal cohorts at every career stage. At the switch, everyone keeps
+their current salary (no cut); future increments and promotions follow the target structure; leavers are replaced by new
+hires on the target structure.<br>
+• Saving in a given year = what the workforce would have cost continuing on Exeter's structure, minus what it costs with
+grandfathering + the target structure going forward. Year 1 is near zero (everyone grandfathered); it then climbs
+quickly — most of the saving lands within ~5 years — because the dominant mechanism is new promotions and hires
+arriving on the lower structure, which recurs every few years, rather than slow retirement turnover. A small
+transitional overshoot can occur (grandfathered staff who topped out early are briefly cheaper than steady-state
+hires) before it settles.<br>
+• <b>Non-professorial only</b> (the layer where structure bites). Professorial transition would add a slower, smaller
+component on top. Excludes attrition variation, redundancy/transition costs, and any negotiated protections beyond "no cut".<br>
+• Posts are equivalent average-salary posts (saving ÷ Exeter's average salary), not predicted job retention. Indicative, order-of-magnitude.<br>• Salaries above spine point 51 (local non-professorial spine extensions, which differ by institution) use each institution's own published values.<br></div></details>
+</div>
+<script>
+const D={"nat": {"27": 35608, "28": 36636, "29": 37694, "30": 38784, "31": 39906, "32": 41064, "33": 42254, "34": 43482, "35": 44746, "36": 46049, "37": 47389, "38": 48822, "39": 50253, "40": 51753, "41": 53301, "42": 54893, "43": 56535, "44": 58225, "45": 59966, "46": 61759, "47": 63606, "48": 65509, "49": 67468, "50": 69488, "51": 71566, "52": 73710, "53": 75917, "54": 78179, "55": 80529, "56": 82935, "57": 85424, "58": 87986}, "struct": {"Exeter": {"1": {"n": [34, 35, 36], "c": [37, 38, 39, 40, 41]}, "2": {"n": [40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [48, 49, 50], "c": [51, 52, 53, 54, 55, 56]}}, "Bristol": {"1": {"n": [34, 35, 36, 37, 38], "c": [39]}, "2": {"n": [39, 40, 41, 42, 43], "c": [44]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": []}}, "Leeds": {"1": {"n": [32, 33, 34, 35, 36, 37, 38], "c": [39, 40]}, "2": {"n": [40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Cardiff": {"1": {"n": [32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [40, 41, 42, 43], "c": [44, 45]}, "3": {"n": [46, 47, 48, 49], "c": [50, 51]}}, "Birmingham": {"1": {"n": [28, 29, 30, 33, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 41, 43], "c": [44, 45, 46, 47]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}, "York": {"1": {"n": [29, 30, 31, 33, 34, 36], "c": [37, 38]}, "2": {"n": [36, 38, 40, 41, 43], "c": [44, 45]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51]}}, "Bath": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Warwick": {"1": {"n": [27, 29, 31, 33, 34, 35, 36], "c": []}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": []}, "3": {"n": [44, 45, 46, 47, 49, 50, 51], "c": []}}, "Nottingham": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Southampton": {"1": {"n": [28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38, 39, 40]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52, 53], "c": []}}, "Liverpool": {"1": {"n": [31, 32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52, 53], "c": [54, 55, 56]}}, "Durham": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Sheffield": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46, 47]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}}, "wf": {"er": 750, "ere": 1155}, "ext": {"Leeds": {"52": 73708, "53": 75912, "54": 78185, "55": 80523, "56": 82930}, "Nottingham": {"52": 73686, "53": 75891, "54": 78165, "55": 80503, "56": 82913}, "Edinburgh": {"52": 73692, "53": 76087, "54": 78469, "55": 81016, "56": 83558, "57": 86268}, "Birmingham": {"52": 73708, "53": 75914, "54": 78184}, "Bath": {"52": 73709}, "Glasgow": {"52": 73709, "53": 75921}, "Southampton": {"52": 73183, "53": 74851}, "Aberdeen": {"52": 73709}, "Liverpool": {"52": 73710, "53": 75917, "54": 78187, "55": 80526, "56": 82936}, "Durham": {"52": 73708}, "Sheffield": {"52": 73716, "53": 75927, "54": 78206}}},nat=D.nat,struct=D.struct,WF=D.wf,EXT=D.ext||{};
+function salx(inst,pt,yr){const e=EXT[inst];return ((e&&e[pt]!=null)?e[pt]:nat[pt])*(yr==2027?1.02:1);}
+const TEN={fast:{1:4,2:6,3:7},middle:{1:5,2:7,3:8},slow:{1:6,2:8,3:9}};
+const NPALL=Object.keys(struct);
+const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString(),m=n=>'£'+(n/1e6).toFixed(2)+'m';
+function sal(pt,yr){return nat[pt]*(yr==2027?1.02:1);}
+function oncost(v){return v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v;}
+// per-grade salary-by-year-in-grade arrays + full career array A[]
+function gradeArrays(inst,T,cp,yr,oc){const gs={},A=[],gstart={};let start=0;
+ for(const g of [1,2,3]){gstart[g]=start;const info=struct[inst][g],R=info.n,L=R.length,c=info.c,cp1=c.length?salx(inst,c[0],yr):null;const arr=[];
+   for(let k=1;k<=T[g];k++){let v;if(k<=L)v=salx(inst,R[k-1],yr);else{const ce=salx(inst,R[L-1],yr);v=cp1!=null?(1-cp)*ce+cp*cp1:ce;}v=oc?oncost(v):v;arr.push(v);A.push(v);}
+   gs[g]=arr;start+=T[g];}
+ return {gs,A,gstart,CL:start};}
+function gradeAt(age,gstart){return age<gstart[2]?1:(age<gstart[3]?2:3);}
+function sim(target){const pace=$('pace').value,cp=+$('cp').value,yr=+$('yr').value,oc=$('oc').value==='1',N=WF[$('wf').value];
+ const T=TEN[pace];const EX=gradeArrays('Exeter',T,cp,yr,oc),TG=gradeArrays(target,T,cp,yr,oc);
+ const A=EX.A,CL=EX.CL,cohort=N/CL,gstart=EX.gstart;
+ const ceilT={1:Math.max(...TG.gs[1]),2:Math.max(...TG.gs[2]),3:Math.max(...TG.gs[3])};
+ const TGat=(g,yig)=>TG.gs[g][Math.min(yig,TG.gs[g].length)-1];
+ const exAvg=A.reduce((a,b)=>a+b,0)/CL;
+ // existing person who was at career-year c at switch; salary now at career-year age
+ function existB(c,age){const g0=gradeAt(c,gstart),g=gradeAt(age,gstart);
+   if(g===g0) return Math.max(A[c], Math.min(A[age], ceilT[g0]));       // keep own increments until target ceiling (top out earlier)
+   return Math.max(A[c], Math.min(A[age], TGat(g, age-gstart[g]+1)));   // promoted onto target's (lower) grade
+ }
+ const years=[];const YMAX=Math.max(CL,16);
+ for(let t=0;t<=YMAX;t++){let save=0;
+   for(let c=0;c<CL;c++){const age=c+t;
+     if(age<CL) save+=cohort*(A[age]-existB(c,age));
+     else{const cy=age%CL; save+=cohort*(A[cy]-TG.A[cy]);}}            // replaced by full target hire
+   years.push(save);}
+ const sstrue=N*(A.reduce((a,b,i)=>a+(b-TG.A[i]),0)/CL);
+ return {years,ss:sstrue,exAvg,CL};}
+function draw(){const target=$('target').value;const r=sim(target);
+ const jobs=v=>v/r.exAvg;
+ const y1=r.years[1]||0, y5=r.years.slice(1,6).reduce((a,b)=>a+b,0), cum5=y5;
+ const ssJobs=Math.round(jobs(r.ss));
+ // years to 50/90% of steady state
+ let y50=r.years.findIndex(v=>v>=0.5*r.ss), y90=r.years.findIndex(v=>v>=0.9*r.ss);
+ const p5=Math.round((r.years[5]||0)/r.ss*100);
+ $('answer').innerHTML=`Switching Exeter's non-professorial structure to <b>${target}</b> (no pay cuts) saves about `+
+   `<b>${m(r.years[1])}</b> in year 1 and <b>${m(cum5)}</b> over the first five years, building to a steady state of `+
+   `<b>${m(r.ss)} ≈ ${ssJobs} posts/yr</b>. The saving arrives <b>fast</b> — about half by year ${y50} and essentially fully phased in by year 5 — `+
+   `because it comes mainly from new promotions and hires landing on the lower structure, not from waiting for staff to leave.`;
+ $('kpis').innerHTML=`<div class="kpi"><div class="v">${m(r.years[1])}</div><div class="k">year-1 saving (≈${Math.round(jobs(r.years[1]))} posts)</div></div>`+
+   `<div class="kpi"><div class="v">${m(cum5)}</div><div class="k">cumulative, first 5 yrs</div></div>`+
+   `<div class="kpi"><div class="v">${m(r.ss)}</div><div class="k">steady-state /yr (≈${ssJobs} posts)</div></div>`+
+   `<div class="kpi"><div class="v">~${y50}-${y90} yrs</div><div class="k">to 50%–90% of full saving</div></div>`;
+ // chart
+ const W=880,H=320,L=64,R=20,Tm=14,B=42,n=r.years.length;
+ const x=t=>L+t/(n-1)*(W-L-R),ymax=Math.max(r.ss,Math.max(...r.years))*1.08,Y=v=>Tm+(ymax-v)/ymax*(H-Tm-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ for(let gg=0;gg<=4;gg++){const v=ymax*gg/4;s+=`<line x1="${L}" y1="${Y(v)}" x2="${W-R}" y2="${Y(v)}" stroke="#eee"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end" fill="#9ca3af" font-size="11">${m(v)}</text>`;}
+ s+=`<line x1="${L}" y1="${Y(r.ss)}" x2="${W-R}" y2="${Y(r.ss)}" stroke="var(--ss)" stroke-dasharray="5 4"/><text x="${W-R}" y="${Y(r.ss)-4}" text-anchor="end" fill="#15803d" font-size="11">steady state ${m(r.ss)}</text>`;
+ for(let t=0;t<n;t+=2)s+=`<text x="${x(t)}" y="${H-B+14}" text-anchor="middle" fill="#9ca3af" font-size="11">${t}</text>`;
+ s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" fill="#6b7280" font-size="11">years after switch</text>`;
+ s+=`<path d="${r.years.map((v,t)=>(t?'L':'M')+x(t)+' '+Y(v)).join(' ')}" fill="none" stroke="var(--ex)" stroke-width="3"/>`;
+ r.years.forEach((v,t)=>{s+=`<circle cx="${x(t)}" cy="${Y(v)}" r="2.4" fill="var(--ex)"/>`;});
+ s+=`</svg>`;$('chart').outerHTML=s.replace('<svg','<svg id="chart"');
+ let h='<table><tr><th class="l">Year</th><th>Annual saving</th><th>≈ posts</th><th>% of steady state</th></tr>';
+ [1,2,3,5,10,r.CL].forEach(t=>{if(t<r.years.length){const v=r.years[t];
+   h+=`<tr><td class="l">${t}</td><td>${m(v)}</td><td>${Math.round(jobs(v))}</td><td>${Math.round(v/r.ss*100)}%</td></tr>`;}});
+ h+='</table>';$('tbl').innerHTML=h;
+}
+$('target').innerHTML=NPALL.filter(i=>i!=='Exeter').map(i=>`<option ${i=='Nottingham'?'selected':''}>${i}</option>`).join('');
+['target','wf','pace','cp','oc','yr'].forEach(id=>$(id).addEventListener('change',draw));draw();
+</script></body></html>

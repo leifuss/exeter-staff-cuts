@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Professorial pay model</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--ex:#d97706;--exeter:#b45309;--bar:#9aa6b2;--ref:#2563eb;--save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 14px;max-width:840px;font-size:14px}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 16px;font-size:15.5px}.answer b{color:var(--exeter)}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:12px;color:var(--mut);font-weight:600}
+.ctl select{font:inherit;font-size:13px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.ctl .hint{font-size:11px;color:#9ca3af;max-width:240px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.card h2{font-size:15px;margin:0 0 4px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
+svg{display:block}.lgnd{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-top:4px}
+.lg{display:inline-flex;align-items:center;gap:6px}.sw{width:16px;height:5px;border-radius:2px;display:inline-block}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}tr.ex td{background:#fff7ed;font-weight:600}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>Professorial pay — Russell Group comparators</h1>
+<p class="sub">Professors get <b>no automatic increments</b>: pay rises only via a discretionary review every two
+years, only some of which succeed. So the chief cost lever is the <b>award rate</b>, not the structure, and the
+scales are far more uniform than the lower grades. A professor starts at the band floor at 48 and retires at 67
+(~9 reviews); each grants one step with the chosen probability. Band 3 (rare, by exception) is excluded. Kept
+separate from the non-professorial models. Weighted by Exeter's 510 professors applied to every structure.</p>
+<div class="answer" id="answer"></div>
+<div class="controls">
+ <div class="ctl"><label>Award rate (per 2-yr review)</label><select id="p">
+   <option value="0.5">Fast — 50% succeed</option><option value="0.4" selected>Middle — 40%</option><option value="0.3">Slow — 30%</option></select></div>
+ <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
+ <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
+</div>
+<div class="card"><p class="lead">Average professorial cost per head on each structure (Exeter highlighted; dashed line = Exeter).</p>
+ <svg id="bars" viewBox="0 0 920 300" width="920" height="300"></svg></div>
+<div class="card"><h2>Career trajectory — all institutions (expected salary, age 48→67)</h2>
+ <p class="lead">Slow stochastic climb from each band floor; Exeter in bold.</p>
+ <svg id="traj" viewBox="0 0 920 300" width="920" height="300"></svg>
+ <div class="lgnd" id="trajlegend"></div></div>
+<div class="card"><h2>What Exeter would save by adopting each structure (510 professors)</h2><div id="tbl"></div></div>
+<details><summary>Assumptions, data &amp; caveats</summary><div class="small" style="margin-top:8px" id="caveats"></div></details>
+</div>
+<script>
+const D={"lad": {"Exeter": [78189, 80529, 82935, 85424, 87986, 90628, 93346, 96146, 99031, 102000, 105062, 108214, 111459], "Bristol": [74828, 77537, 80246, 82955, 85664, 88373, 91082, 93791, 96500, 99209, 101918, 104627, 107336, 110045], "Bath": [75182, 76686, 78220, 79783, 81380, 83007, 84668, 86360, 88088, 89850, 91646, 93480, 95350, 97256, 99202, 101186, 103210, 105272, 107379, 109525], "Leeds": [75912, 78185, 80523, 82930, 85413, 87969, 90603, 93317, 96117, 99000, 101973, 105028, 108179], "Cardiff": [76188, 77711, 79264, 80850, 82468, 84117, 85800, 87515, 89265, 91051, 92871, 94729, 96622, 98556, 100527, 102538, 104589, 106680, 108812, 110989, 113208, 115474], "Nottingham": [73713, 75924, 78203, 80548, 82965, 85454, 88018, 90660, 93377, 96179, 99065, 102036], "Southampton": [78052, 78832, 79620, 80417, 81221, 82033, 82853, 83682, 84519, 85364, 86218, 87080, 87951, 88830, 89718, 90616, 91522, 92437, 93361, 94295, 95238, 96190, 97152, 98124, 99105, 100096, 101097, 102108, 103129, 104160, 105202, 106254, 107316, 108390, 109473, 110568], "Warwick": [73794, 75146, 76496, 77848, 79198, 80550, 81901, 83252, 84603, 85955, 87305, 88657, 90008, 91359, 92710, 94062, 95412, 96764, 98115, 99466, 100817, 102169, 103519, 104871, 106222, 107573, 108924], "Birmingham": [76509, 78804, 81169, 83646, 86156, 88741, 90080, 92782, 96514, 99409, 102393, 105464, 109383], "Durham": [73711, 76400, 79100, 81800, 84500, 87200, 89900, 92600, 95300, 98000, 100700, 103400, 106663]}, "meta": {"Exeter": {"y": "2025-26", "note": ""}, "Bristol": {"y": "Aug 2025", "note": "Grade M, Ranges 1-2"}, "Bath": {"y": "Aug 2025", "note": "Intro+Amber+Green"}, "Leeds": {"y": "Aug 2025", "note": "Zones 1-2"}, "Cardiff": {"y": "Aug 2025", "note": "Bands 1-2"}, "Nottingham": {"y": "Aug 2025", "note": "R&T L7 Bands A-B"}, "Southampton": {"y": "2025-26", "note": "ERE L7 Band A (fine steps)"}, "Warwick": {"y": "Apr 2026", "note": "FA9"}, "Birmingham": {"y": "2021 (uprated)", "note": "uprated from 1/8/21 by x1.13 (approx)"}, "Durham": {"y": "2025-26 (bands)", "note": "indicative Band 1-2; rungs interpolated from published min/max"}}, "count": 510}, LAD=D.lad, META=D.meta, COUNT=D.count;
+const ALL=Object.keys(LAD);
+const COLORS={Exeter:'#d97706',Durham:'#7c3aed',Bristol:'#2563eb',Bath:'#059669',Cardiff:'#db2777',Leeds:'#0891b2',Southampton:'#ca8a04',Warwick:'#4b5563',Birmingham:'#b91c1c',Nottingham:'#65a30d'};
+const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString();
+const cssv=v=>v[0]=='-'?getComputedStyle(document.documentElement).getPropertyValue(v).trim():v;
+function comb(n,k){let c=1;for(let i=0;i<k;i++)c=c*(n-i)/(i+1);return c;}
+function binpmf(n,k,p){return comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);}
+function expSal(lad,t,p,yr){const L=lad.length,f=yr==2027?1.02:1,rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binpmf(rev,k,p)*lad[Math.min(k,L-1)];return e*f;}
+function perHead(lad,p,yr,oc){let tot=0;for(let t=0;t<20;t++)tot+=expSal(lad,t,p,yr);let v=tot/20;return oc?v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v:v;}
+function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
+ const rows=ALL.map(i=>({i,ph:perHead(LAD[i],p,yr,oc)})).sort((a,b)=>b.ph-a.ph);
+ const exph=rows.find(r=>r.i==='Exeter').ph,exbill=exph*COUNT;
+ const rank=rows.findIndex(r=>r.i==='Exeter')+1, dearer=rows.filter(r=>r.ph>exph).map(r=>r.i);
+ const cheap=rows[rows.length-1];
+ const exF=perHead(LAD.Exeter,0.5,yr,oc)*COUNT,exS=perHead(LAD.Exeter,0.3,yr,oc)*COUNT;
+ $('answer').innerHTML=`At a ${Math.round(p*100)}% award rate, Exeter's professoriate costs <b>${gbp(exph)}/head</b> (£${(exbill/1e6).toFixed(1)}m for 510) — <b>${rank}${rank==1?'st':rank==2?'nd':rank==3?'rd':'th'} dearest of ${ALL.length}</b>. `+
+  (dearer.length?`Dearer: ${dearer.join(', ')}.`:`No structure here is dearer.`)+
+  ` Adopting the cheapest (${cheap.i}) would save ${gbp(exbill-cheap.ph*COUNT)}/yr. The bigger lever is the award rate: 50%→30% saves ${gbp(exF-exS)}/yr.`;
+ // bars
+ const W=920,H=300,L=92,R=150,Tm=10,rh=(H-Tm-20)/rows.length;
+ const vmax=Math.max(...rows.map(r=>r.ph))*1.01,vmin=Math.min(...rows.map(r=>r.ph))*0.92,x=v=>L+(v-vmin)/(vmax-vmin)*(W-L-R);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<line x1="${x(exph)}" y1="${Tm}" x2="${x(exph)}" y2="${H-18}" stroke="var(--ref)" stroke-dasharray="5 4"/>`;
+ rows.forEach((d,k)=>{const y=Tm+k*rh,bh=rh-8,exb=d.i==='Exeter',bw=x(d.ph)-L,save=exbill-d.ph*COUNT;
+  s+=`<text x="${L-8}" y="${y+bh/2+4}" text-anchor="end" font-size="12.5" font-weight="600" fill="${exb?'#b45309':'#1d1d1b'}">${d.i}</text>`;
+  s+=`<rect x="${L}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${exb?'var(--ex)':'var(--bar)'}"/>`;
+  s+=`<text x="${x(d.ph)+6}" y="${y+bh/2+4}" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${gbp(d.ph)}${exb?'':'  ('+(save>=0?'save '+gbp(save):'+'+gbp(-save))+')'}</text>`;});
+ s+=`</svg>`;$('bars').outerHTML=s.replace('<svg','<svg id="bars"');
+ // trajectory
+ const W2=920,H2=300,L2=64,R2=20,T2=12,B2=38;const ages=[...Array(20).keys()];
+ const series=ALL.map(i=>({i,pts:ages.map(t=>expSal(LAD[i],t,p,yr))})).sort((a,b)=>b.pts[19]-a.pts[19]);
+ const allv=[].concat(...series.map(s=>s.pts)),ymin=Math.min(...allv)*0.98,ymax=Math.max(...allv)*1.02;
+ const xx=t=>L2+t/19*(W2-L2-R2),YY=v=>T2+(ymax-v)/(ymax-ymin)*(H2-T2-B2);
+ let s2=`<svg viewBox="0 0 ${W2} ${H2}" xmlns="http://www.w3.org/2000/svg">`;
+ for(let g=0;g<=4;g++){const v=ymin+(ymax-ymin)*g/4;s2+=`<line x1="${L2}" y1="${YY(v)}" x2="${W2-R2}" y2="${YY(v)}" stroke="#eee"/><text x="${L2-8}" y="${YY(v)+4}" text-anchor="end" fill="#9ca3af" font-size="11">${gbp(v)}</text>`;}
+ for(let t=0;t<20;t+=2)s2+=`<text x="${xx(t)}" y="${H2-B2+14}" text-anchor="middle" fill="#9ca3af" font-size="11">${48+t}</text>`;
+ s2+=`<text x="${(L2+W2-R2)/2}" y="${H2-6}" text-anchor="middle" fill="#6b7280" font-size="11">age</text>`;
+ series.forEach(se=>{const col=COLORS[se.i]||'#999',ex=se.i==='Exeter';
+   s2+=`<path d="${se.pts.map((v,t)=>(t?'L':'M')+xx(t)+' '+YY(v)).join(' ')}" fill="none" stroke="${col}" stroke-width="${ex?3.4:1.6}" opacity="${ex?1:.8}"/>`;});
+ s2+=`</svg>`;$('traj').outerHTML=s2.replace('<svg','<svg id="traj"');
+ $('trajlegend').innerHTML=ALL.map(i=>`<span class="lg"><span class="sw" style="background:${COLORS[i]||'#999'};height:${i==='Exeter'?6:4}px"></span>${i}</span>`).join('');
+ // table
+ let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th><th>Scale year</th></tr>';
+ rows.forEach(d=>{const bill=d.ph*COUNT,save=exbill-bill,cls=save>0?'save':(save<0?'cost':'');
+  h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
+   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
+ h+='</table>';$('tbl').innerHTML=h;
+}
+$('caveats').innerHTML='• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
+ '• <b>Durham</b> publishes indicative professorial bands only — its ladder rungs are interpolated from the band min/max (treat as approximate). <b>Liverpool</b> professorial pay is not modelled (its published scale stops mid-range).<br>'+
+ '• <b>Birmingham uprated from 2021 by ~13%</b> (approx) — treat as indicative.<br>'+
+ '• Two bands modelled as one climbing ladder; Band 3 excluded. Weighted by Exeter\'s 510 professors on every structure.<br>'+
+ '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
+ '• Award rate ~40% reported; start 48, retire 67, review every 2 yrs. Base salaries; excludes transition costs.';
+['p','oc','yr'].forEach(id=>$(id).addEventListener('change',draw));draw();
+</script></body></html>
