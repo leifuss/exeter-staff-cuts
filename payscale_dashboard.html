@@ -181,11 +181,12 @@ function drawArch(){
    return '#'+f(h.slice(0,2))+f(h.slice(2,4))+f(h.slice(4,6));};
  const patFor=(a,b)=>{const k=a+'|'+b; if(patMap[k])return patMap[k]; const id='pp'+Object.keys(patMap).length; patMap[k]=id;
    patDefs+=`<pattern id="${id}" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${a}"/><rect width="4" height="8" fill="${b}"/></pattern>`; return id;};
- s+=`<text class="tick" x="6" y="14" text-anchor="start" style="fill:#b08900">salary (2025-26):</text>`;
+ s+=`<text class="tick" x="6" y="14" text-anchor="start" style="fill:#b08900">UCU spine point:</text>`;
+ s+=`<text class="tick" x="6" y="${H-11}" text-anchor="start" style="fill:#b08900">salary:</text>`;
  for(let p=P0;p<=P1+1;p++){ if(p%2===1){s+=`<line class="gl" x1="${x(p)}" y1="${Tm-6}" x2="${x(p)}" y2="${H-26}"/>`;
-   if(p<=P1)s+=`<text class="tick" x="${x(p)}" y="${H-11}" text-anchor="middle">${p}</text>`;}}
+   if(p<=P1)s+=`<text class="tick" x="${x(p)}" y="${Tm-20}" text-anchor="middle">${p}</text>`;}}
  [27,31,35,39,43,47,51].forEach(p=>{s+=`<line class="glsal" x1="${x(p)}" y1="${Tm-6}" x2="${x(p)}" y2="${H-26}"/>`;
-   s+=`<text class="tick" x="${x(p)}" y="${Tm-20}" text-anchor="middle">${ptSal(p)}</text>`;});
+   s+=`<text class="tick" x="${x(p)}" y="${H-11}" text-anchor="middle">${ptSal(p)}</text>`;});
  s+=`<line x1="${x(52)}" y1="${Tm-6}" x2="${x(52)}" y2="${H-26}" stroke="#e0c060" stroke-dasharray="4 3"/>`;
  s+=`<text class="tick" x="${x(52)}" y="14" text-anchor="middle" style="fill:#b08900">national ceiling →</text>`;
  names.forEach((n,i)=>{const y=Tm+i*(rowH+gap), isEx=n==='Exeter';
