@@ -1,9 +1,16 @@
-# Russell Group academic pay — Exeter cost models
+# Academic pay structures — Russell Group & comparator universities
 
-Interactive models estimating how much of Exeter's academic pay bill is attributable to its **pay
-structure** rather than to paying people more on the same national spine. Each model applies Exeter's own
-workforce to other Russell Group universities' published pay structures, so the only thing that varies is
-the system, not the people.
+A like-for-like comparison of academic **pay structures**, built entirely from each university's own
+**publicly published** pay scales. Every university is on the same nationally-negotiated pay spine, so a given
+spine point pays the same salary everywhere — only the *structure* (grade lengths, entry points, overlaps)
+differs. To compare structures fairly, one fixed workforce (Exeter's) is applied to each, so nothing about
+individuals changes — only the design of the scale.
+
+This is public data and a comparison, **not a verdict**. It makes no claim that anyone is overpaid and takes
+no view on how any university should respond. Whether a higher- or lower-than-sector structure justifies
+redundancies — or whether budget pressure should be met structurally, through redundancy, or elsewhere, and at
+which levels — is for management and the recognised unions to weigh together. Academic pay also cannot be judged
+in isolation: executive and senior-management remuneration warrants equal scrutiny (not compiled here).
 
 ## Start here
 Live site: **https://leifuss.github.io/exeter-staff-cuts/** (served via GitHub Pages).
@@ -17,17 +24,19 @@ Keep the whole folder together (the dashboards load each other in frames and lin
   **Summary** and **Sources** tabs.
 - `payscale_dashboard.html` — the three non-professorial grades on the common spine, and a cost comparison.
 - `career_cost_model.html` — a representative career age 28→professor (fast/middle/slow promotion) and its cost.
-- `professorial_model.html` — the professoriate (2-yearly discretionary increments), ten institutions.
-- `transition_model.html` — how savings phase in with **no pay cuts** (grandfathering; savings from earlier
-  topping-out and lower promotion/entry).
-- `monte_carlo.html` — varies the uncertain assumptions 5,000 times to give a credible range.
+- `professorial_model.html` — the professoriate (2-yearly discretionary increments), nine institutions.
+- `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
+  earlier topping-out and lower promotion/entry).
+- `monte_carlo.html` — varies the uncertain assumptions thousands of times to give a sensitivity range.
+
+In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (drawn from the all-in model).
 
 ## Data
 - `national_spine.csv` — verified UCU/UCEA national spine, 2025-26 (+ provisional 2026-27 = +2%).
 - `grades.csv`, `grades.json` — each institution's grade structure (normal increment + contribution points).
 - `cost_model_results.csv` — non-professorial cost results across scenarios/workforces.
 - `sources/` — every published pay scale used (PDF/xlsx), incl. `sources/professorial/`; raw HESA tables.
-- `payscales.xlsx` — original master spreadsheet.
+  (`payscales.xlsx`, the original working spreadsheet, is kept locally but not published in this repo.)
 
 ## Staffing (HESA, 2024/25, Table 17)
 Exeter's workforce by salary band mapped to grades (39–52k = Lecturer; 52–70k = SL & AP; 70k+ = professor):
@@ -55,17 +64,27 @@ plausible changes in assumptions — not as precise accounting. Birmingham's pro
 from 2021. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-Exeter's all-in academic pay bill ≈ £106m — the **most expensive of the 10 modelled systems**. (Scottish universities,
-including the dearer Edinburgh, are excluded from the comparison; see below.) Holding the workforce fixed and changing only
-the pay system would save, relative to: the mean of the 10 modelled systems ≈ 84 equivalent average-salary posts; the lowest
-system (Nottingham) ≈ 134; the cheapest mix ≈ 154 (more at the cheaper structures' own pay) — of the same order as the
-~125 posts being cut.
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **nine whole systems**
+modelled. Holding the workforce fixed and changing only the structure, the modelled difference is: vs the mean of the nine
+≈ 80 average-salary-post equivalents; vs the lowest (Nottingham) ≈ 134; vs the cheapest mix ≈ 154 (more at the cheaper
+structures' own pay). These are equivalences for scale (£ ÷ average salary), not predicted savings or job counts — provided
+only so the magnitudes can be compared with the ~125 posts announced. Indicative.
 
 ## Which universities are included
-English and Welsh Russell Group universities on the national pay spine with available pay data (13 non-professorial structures,
-10 also professorial). **Excluded by design:** Oxford, Cambridge and the London institutions (incl. UCL), and Northern Ireland
-(distinct labour markets / cost bases); and the **Scottish universities (Edinburgh, Glasgow, Aberdeen)**, which operate under a
-different student-funding model — their data is retained in `grades.json`/`grades.csv` but kept out of the comparison. Some other
-Russell Group universities are omitted because pay data was not available. Sheffield is included on its **2004** grade architecture
-(salaries above point 51 uprated/approximate); Durham professorial rungs are interpolated from published bands; Liverpool
-professorial pay is not modelled (its published scale is incomplete).
+The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
+**12 non-professorial structures, 9 also modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
+**Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
+(Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
+Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
+**2004** grade architecture (salaries above point 51 uprated/approximate; current scales are staff-login only); Durham professorial
+rungs are interpolated from published bands; Liverpool professorial pay is not modelled (its published scale is incomplete).
+
+## Help fill the gaps — and check it yourself
+The comparison is only as good as its coverage, and this analysis has limitations. Two asks:
+
+1. **Reuse the data.** The pay structures are provided in machine-readable form (`grades.json`, `grades.csv`, `national_spine.csv`,
+   `cost_model_results.csv`) precisely so others can re-run, challenge or extend the analysis rather than take it on trust.
+   Corrections and alternative approaches are welcome (open an issue or PR).
+2. **Send missing scales.** Most useful: the Russell Group members not yet covered — especially **Newcastle** and **Manchester** —
+   and the **professorial** scales for **York, Liverpool and Sheffield** (we have their main grades but not their professorial bands).
+   Current published scales for any other institution are welcome too.

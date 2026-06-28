@@ -5,7 +5,6 @@ E&R only,750,2025-26,bottom,salary only,Leeds,55722,41791817,343690,6.1
 E&R only,750,2025-26,bottom,salary only,Cardiff,54373,40779933,1355574,24.1
 E&R only,750,2025-26,bottom,salary only,Birmingham,51350,38512734,3622773,64.5
 E&R only,750,2025-26,bottom,salary only,York,51621,38715988,3419518,60.9
-E&R only,750,2025-26,bottom,salary only,Bath,51961,38970584,3164923,56.3
 E&R only,750,2025-26,bottom,salary only,Warwick,51967,38975459,3160047,56.2
 E&R only,750,2025-26,bottom,salary only,Nottingham,52476,39356951,2778555,49.5
 E&R only,750,2025-26,bottom,salary only,Southampton,52690,39517396,2618110,46.6
@@ -18,7 +17,6 @@ E&R only,750,2025-26,bottom,incl,Leeds,71689,53766862,446796,6.2
 E&R only,750,2025-26,bottom,incl,Cardiff,69935,52451413,1762246,24.4
 E&R only,750,2025-26,bottom,incl,Birmingham,66005,49504054,4709605,65.2
 E&R only,750,2025-26,bottom,incl,York,66358,49768285,4445374,61.5
-E&R only,750,2025-26,bottom,incl,Bath,66799,50099259,4114399,56.9
 E&R only,750,2025-26,bottom,incl,Warwick,66807,50105597,4108061,56.8
 E&R only,750,2025-26,bottom,incl,Nottingham,67469,50601537,3612122,50.0
 E&R only,750,2025-26,bottom,incl,Southampton,67747,50810115,3403543,47.1
@@ -31,7 +29,6 @@ E&R only,750,2025-26,even,salary only,Leeds,57301,42975559,-273303,-4.8
 E&R only,750,2025-26,even,salary only,Cardiff,55236,41427120,1275136,22.4
 E&R only,750,2025-26,even,salary only,Birmingham,52866,39649382,3052874,53.6
 E&R only,750,2025-26,even,salary only,York,53158,39868491,2833765,49.8
-E&R only,750,2025-26,even,salary only,Bath,53409,40056521,2645735,46.5
 E&R only,750,2025-26,even,salary only,Warwick,53842,40381181,2321075,40.8
 E&R only,750,2025-26,even,salary only,Nottingham,54583,40937356,1764900,31.0
 E&R only,750,2025-26,even,salary only,Southampton,54727,41045290,1656966,29.1
@@ -44,7 +41,6 @@ E&R only,750,2025-26,even,incl,Leeds,73741,55305727,-355294,-4.8
 E&R only,750,2025-26,even,incl,Cardiff,71057,53292756,1657677,22.6
 E&R only,750,2025-26,even,incl,Birmingham,67976,50981696,3968737,54.2
 E&R only,750,2025-26,even,incl,York,68355,51266538,3683894,50.3
-E&R only,750,2025-26,even,incl,Bath,68681,51510978,3439455,46.9
 E&R only,750,2025-26,even,incl,Warwick,69244,51933035,3017398,41.2
 E&R only,750,2025-26,even,incl,Nottingham,70208,52656063,2294370,31.3
 E&R only,750,2025-26,even,incl,Southampton,70395,52796376,2154056,29.4
@@ -57,7 +53,6 @@ E&R only,750,2025-26,top,salary only,Leeds,58879,44159301,-890296,-15.4
 E&R only,750,2025-26,top,salary only,Cardiff,56099,42074307,1194698,20.7
 E&R only,750,2025-26,top,salary only,Birmingham,54381,40786029,2482976,43.0
 E&R only,750,2025-26,top,salary only,York,54695,41020994,2248012,39.0
-E&R only,750,2025-26,top,salary only,Bath,54857,41142458,2126547,36.9
 E&R only,750,2025-26,top,salary only,Warwick,55716,41786902,1482103,25.7
 E&R only,750,2025-26,top,salary only,Nottingham,56690,42517761,751244,13.0
 E&R only,750,2025-26,top,salary only,Southampton,56764,42573183,695823,12.1
@@ -70,7 +65,6 @@ E&R only,750,2025-26,top,incl,Leeds,75793,56844591,-1157385,-15.6
 E&R only,750,2025-26,top,incl,Cardiff,72179,54134099,1553108,20.9
 E&R only,750,2025-26,top,incl,Birmingham,69946,52459338,3227869,43.5
 E&R only,750,2025-26,top,incl,York,70353,52764792,2922415,39.4
-E&R only,750,2025-26,top,incl,Bath,70564,52922696,2764511,37.2
 E&R only,750,2025-26,top,incl,Warwick,71681,53760473,1926734,25.9
 E&R only,750,2025-26,top,incl,Nottingham,72947,54710589,976618,13.2
 E&R only,750,2025-26,top,incl,Southampton,73044,54782637,904569,12.2
@@ -83,7 +77,6 @@ E&R only,750,2026-27(+2%),bottom,salary only,Leeds,56837,42627653,350563,6.1
 E&R only,750,2026-27(+2%),bottom,salary only,Cardiff,55461,41595532,1382685,24.1
 E&R only,750,2026-27(+2%),bottom,salary only,Birmingham,52377,39282989,3695228,64.5
 E&R only,750,2026-27(+2%),bottom,salary only,York,52654,39490308,3487909,60.9
-E&R only,750,2026-27(+2%),bottom,salary only,Bath,53000,39749996,3228221,56.3
 E&R only,750,2026-27(+2%),bottom,salary only,Warwick,53007,39754969,3223248,56.2
 E&R only,750,2026-27(+2%),bottom,salary only,Nottingham,53525,40144090,2834126,49.5
 E&R only,750,2026-27(+2%),bottom,salary only,Southampton,53744,40307744,2670472,46.6
@@ -96,7 +89,6 @@ E&R only,750,2026-27(+2%),bottom,incl,Leeds,73138,54853450,455732,6.2
 E&R only,750,2026-27(+2%),bottom,incl,Cardiff,71349,53511691,1797491,24.4
 E&R only,750,2026-27(+2%),bottom,incl,Birmingham,67341,50505385,4803797,65.1
 E&R only,750,2026-27(+2%),bottom,incl,York,67700,50774900,4534281,61.5
-E&R only,750,2026-27(+2%),bottom,incl,Bath,68150,51112495,4196687,56.9
 E&R only,750,2026-27(+2%),bottom,incl,Warwick,68159,51118959,4190223,56.8
 E&R only,750,2026-27(+2%),bottom,incl,Nottingham,68833,51624818,3684364,50.0
 E&R only,750,2026-27(+2%),bottom,incl,Southampton,69117,51837568,3471614,47.1
@@ -109,7 +101,6 @@ E&R only,750,2026-27(+2%),even,salary only,Leeds,58447,43835070,-278769,-4.8
 E&R only,750,2026-27(+2%),even,salary only,Cardiff,56341,42255662,1300639,22.4
 E&R only,750,2026-27(+2%),even,salary only,Birmingham,53923,40442369,3113932,53.6
 E&R only,750,2026-27(+2%),even,salary only,York,54221,40665861,2890440,49.8
-E&R only,750,2026-27(+2%),even,salary only,Bath,54477,40857652,2698649,46.5
 E&R only,750,2026-27(+2%),even,salary only,Warwick,54918,41188804,2367497,40.8
 E&R only,750,2026-27(+2%),even,salary only,Nottingham,55675,41756103,1800198,31.0
 E&R only,750,2026-27(+2%),even,salary only,Southampton,55822,41866195,1690106,29.1
@@ -122,7 +113,6 @@ E&R only,750,2026-27(+2%),even,incl,Leeds,75231,56423091,-362400,-4.8
 E&R only,750,2026-27(+2%),even,incl,Cardiff,72493,54369861,1690830,22.6
 E&R only,750,2026-27(+2%),even,incl,Birmingham,69350,52012580,4048112,54.2
 E&R only,750,2026-27(+2%),even,incl,York,69737,52303119,3757572,50.3
-E&R only,750,2026-27(+2%),even,incl,Bath,70070,52552447,3508244,46.9
 E&R only,750,2026-27(+2%),even,incl,Warwick,70644,52982946,3077746,41.2
 E&R only,750,2026-27(+2%),even,incl,Nottingham,71627,53720434,2340257,31.3
 E&R only,750,2026-27(+2%),even,incl,Southampton,71818,53863554,2197137,29.4
@@ -135,7 +125,6 @@ E&R only,750,2026-27(+2%),top,salary only,Leeds,60057,45042487,-908102,-15.4
 E&R only,750,2026-27(+2%),top,salary only,Cardiff,57221,42915793,1218592,20.7
 E&R only,750,2026-27(+2%),top,salary only,Birmingham,55469,41601750,2532636,43.0
 E&R only,750,2026-27(+2%),top,salary only,York,55789,41841414,2292972,39.0
-E&R only,750,2026-27(+2%),top,salary only,Bath,55954,41965308,2169078,36.9
 E&R only,750,2026-27(+2%),top,salary only,Warwick,56830,42622640,1511745,25.7
 E&R only,750,2026-27(+2%),top,salary only,Nottingham,57824,43368116,766269,13.0
 E&R only,750,2026-27(+2%),top,salary only,Southampton,57900,43424646,709739,12.1
@@ -148,7 +137,6 @@ E&R only,750,2026-27(+2%),top,incl,Leeds,77324,57992733,-1180532,-15.6
 E&R only,750,2026-27(+2%),top,incl,Cardiff,73637,55228031,1584170,20.9
 E&R only,750,2026-27(+2%),top,incl,Birmingham,71360,53519774,3292427,43.5
 E&R only,750,2026-27(+2%),top,incl,York,71775,53831338,2980863,39.4
-E&R only,750,2026-27(+2%),top,incl,Bath,71990,53992400,2819801,37.2
 E&R only,750,2026-27(+2%),top,incl,Warwick,73129,54846932,1965269,25.9
 E&R only,750,2026-27(+2%),top,incl,Nottingham,74421,55816051,996150,13.2
 E&R only,750,2026-27(+2%),top,incl,Southampton,74519,55889540,922661,12.2
@@ -161,7 +149,6 @@ E&R + Education-only,1155,2025-26,bottom,salary only,Leeds,54016,62388769,583174
 E&R + Education-only,1155,2025-26,bottom,salary only,Cardiff,52737,60910962,2060980,37.8
 E&R + Education-only,1155,2025-26,bottom,salary only,Birmingham,49582,57267273,5704669,104.6
 E&R + Education-only,1155,2025-26,bottom,salary only,York,49990,57738813,5233129,96.0
-E&R + Education-only,1155,2025-26,bottom,salary only,Bath,50442,58260478,4711465,86.4
 E&R + Education-only,1155,2025-26,bottom,salary only,Warwick,50241,58028377,4943565,90.7
 E&R + Education-only,1155,2025-26,bottom,salary only,Nottingham,50627,58474524,4497418,82.5
 E&R + Education-only,1155,2025-26,bottom,salary only,Southampton,50803,58677896,4294047,78.8
@@ -174,7 +161,6 @@ E&R + Education-only,1155,2025-26,bottom,incl,Leeds,69471,80239149,758126,10.8
 E&R + Education-only,1155,2025-26,bottom,incl,Cardiff,67808,78318001,2679274,38.2
 E&R + Education-only,1155,2025-26,bottom,incl,Birmingham,63707,73581205,7416070,105.8
 E&R + Education-only,1155,2025-26,bottom,incl,York,64237,74194207,6803068,97.0
-E&R + Education-only,1155,2025-26,bottom,incl,Bath,64825,74872371,6124904,87.3
 E&R + Education-only,1155,2025-26,bottom,incl,Warwick,64563,74570641,6426634,91.6
 E&R + Education-only,1155,2025-26,bottom,incl,Nottingham,65065,75150631,5846644,83.4
 E&R + Education-only,1155,2025-26,bottom,incl,Southampton,65294,75415014,5582261,79.6
@@ -187,7 +173,6 @@ E&R + Education-only,1155,2025-26,even,salary only,Leeds,55554,64165041,-373334,
 E&R + Education-only,1155,2025-26,even,salary only,Cardiff,53595,61902435,1889272,34.2
 E&R + Education-only,1155,2025-26,even,salary only,Birmingham,51104,59024752,4766955,86.3
 E&R + Education-only,1155,2025-26,even,salary only,York,51506,59489314,4302393,77.9
-E&R + Education-only,1155,2025-26,even,salary only,Bath,51857,59894411,3897296,70.6
 E&R + Education-only,1155,2025-26,even,salary only,Warwick,52098,60173100,3618607,65.5
 E&R + Education-only,1155,2025-26,even,salary only,Nottingham,52714,60884773,2906934,52.6
 E&R + Education-only,1155,2025-26,even,salary only,Southampton,52744,60919868,2871839,52.0
@@ -200,7 +185,6 @@ E&R + Education-only,1155,2025-26,even,incl,Leeds,71470,82548304,-485335,-6.8
 E&R + Education-only,1155,2025-26,even,incl,Cardiff,68924,79606916,2456054,34.6
 E&R + Education-only,1155,2025-26,even,incl,Birmingham,65685,75865928,6197041,87.2
 E&R + Education-only,1155,2025-26,even,incl,York,66208,76469859,5593110,78.7
-E&R + Education-only,1155,2025-26,even,incl,Bath,66664,76996485,5066484,71.3
 E&R + Education-only,1155,2025-26,even,incl,Warwick,66977,77358780,4704189,66.2
 E&R + Education-only,1155,2025-26,even,incl,Nottingham,67778,78283955,3779014,53.2
 E&R + Education-only,1155,2025-26,even,incl,Southampton,67818,78329579,3733390,52.5
@@ -213,7 +197,6 @@ E&R + Education-only,1155,2025-26,top,salary only,Leeds,57092,65941314,-1329842,
 E&R + Education-only,1155,2025-26,top,salary only,Cardiff,54454,62893908,1717564,30.7
 E&R + Education-only,1155,2025-26,top,salary only,Birmingham,52625,60782232,3829240,68.5
 E&R + Education-only,1155,2025-26,top,salary only,York,53021,61239816,3371656,60.3
-E&R + Education-only,1155,2025-26,top,salary only,Bath,53271,61528345,3083127,55.1
 E&R + Education-only,1155,2025-26,top,salary only,Warwick,53955,62317822,2293649,41.0
 E&R + Education-only,1155,2025-26,top,salary only,Nottingham,54801,63295023,1316449,23.5
 E&R + Education-only,1155,2025-26,top,salary only,Southampton,54686,63161841,1449631,25.9
@@ -226,7 +209,6 @@ E&R + Education-only,1155,2025-26,top,incl,Leeds,73470,84857458,-1728795,-24.0
 E&R + Education-only,1155,2025-26,top,incl,Cardiff,70040,80895830,2232833,31.0
 E&R + Education-only,1155,2025-26,top,incl,Birmingham,67663,78150652,4978012,69.2
 E&R + Education-only,1155,2025-26,top,incl,York,68178,78745511,4383152,60.9
-E&R + Education-only,1155,2025-26,top,incl,Bath,68503,79120598,4008065,55.7
 E&R + Education-only,1155,2025-26,top,incl,Warwick,69391,80146919,2981744,41.4
 E&R + Education-only,1155,2025-26,top,incl,Nottingham,70491,81417280,1711384,23.8
 E&R + Education-only,1155,2025-26,top,incl,Southampton,70341,81244144,1884520,26.2
@@ -239,7 +221,6 @@ E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Leeds,55097,63636544,5
 E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Cardiff,53791,62129181,2102200,37.8
 E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Birmingham,50574,58412618,5818763,104.6
 E&R + Education-only,1155,2026-27(+2%),bottom,salary only,York,50990,58893589,5337792,96.0
-E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Bath,51451,59425687,4805694,86.4
 E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Warwick,51246,59188945,5042436,90.7
 E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Nottingham,51640,59644014,4587367,82.5
 E&R + Education-only,1155,2026-27(+2%),bottom,salary only,Southampton,51819,59851453,4379928,78.8
@@ -252,7 +233,6 @@ E&R + Education-only,1155,2026-27(+2%),bottom,incl,Leeds,70876,81861257,773288,1
 E&R + Education-only,1155,2026-27(+2%),bottom,incl,Cardiff,69179,79901686,2732860,38.2
 E&R + Education-only,1155,2026-27(+2%),bottom,incl,Birmingham,64996,75070154,7564391,105.7
 E&R + Education-only,1155,2026-27(+2%),bottom,incl,York,65537,75695416,6939129,97.0
-E&R + Education-only,1155,2026-27(+2%),bottom,incl,Bath,66136,76387143,6247402,87.3
 E&R + Education-only,1155,2026-27(+2%),bottom,incl,Warwick,65870,76079379,6555167,91.6
 E&R + Education-only,1155,2026-27(+2%),bottom,incl,Nottingham,66382,76670969,5963577,83.4
 E&R + Education-only,1155,2026-27(+2%),bottom,incl,Southampton,66615,76940639,5693906,79.6
@@ -265,7 +245,6 @@ E&R + Education-only,1155,2026-27(+2%),even,salary only,Leeds,56665,65448342,-38
 E&R + Education-only,1155,2026-27(+2%),even,salary only,Cardiff,54667,63140484,1927057,34.2
 E&R + Education-only,1155,2026-27(+2%),even,salary only,Birmingham,52126,60205248,4862294,86.3
 E&R + Education-only,1155,2026-27(+2%),even,salary only,York,52536,60679101,4388440,77.9
-E&R + Education-only,1155,2026-27(+2%),even,salary only,Bath,52894,61092299,3975242,70.6
 E&R + Education-only,1155,2026-27(+2%),even,salary only,Warwick,53140,61376562,3690979,65.5
 E&R + Education-only,1155,2026-27(+2%),even,salary only,Nottingham,53768,62102469,2965072,52.6
 E&R + Education-only,1155,2026-27(+2%),even,salary only,Southampton,53799,62138266,2929275,52.0
@@ -278,7 +257,6 @@ E&R + Education-only,1155,2026-27(+2%),even,incl,Leeds,72915,84216595,-495041,-6
 E&R + Education-only,1155,2026-27(+2%),even,incl,Cardiff,70317,81216379,2505175,34.6
 E&R + Education-only,1155,2026-27(+2%),even,incl,Birmingham,67013,77400572,6320982,87.2
 E&R + Education-only,1155,2026-27(+2%),even,incl,York,67547,78016581,5704972,78.7
-E&R + Education-only,1155,2026-27(+2%),even,incl,Bath,68012,78553739,5167814,71.3
 E&R + Education-only,1155,2026-27(+2%),even,incl,Warwick,68332,78923281,4798273,66.2
 E&R + Education-only,1155,2026-27(+2%),even,incl,Nottingham,69149,79866960,3854594,53.2
 E&R + Education-only,1155,2026-27(+2%),even,incl,Southampton,69189,79913495,3808058,52.5
@@ -291,7 +269,6 @@ E&R + Education-only,1155,2026-27(+2%),top,salary only,Leeds,58234,67260140,-135
 E&R + Education-only,1155,2026-27(+2%),top,salary only,Cardiff,55543,64151786,1751915,30.7
 E&R + Education-only,1155,2026-27(+2%),top,salary only,Birmingham,53678,61997877,3905825,68.5
 E&R + Education-only,1155,2026-27(+2%),top,salary only,York,54082,62464612,3439089,60.3
-E&R + Education-only,1155,2026-27(+2%),top,salary only,Bath,54337,62758912,3144789,55.1
 E&R + Education-only,1155,2026-27(+2%),top,salary only,Warwick,55034,63564179,2339522,41.0
 E&R + Education-only,1155,2026-27(+2%),top,salary only,Nottingham,55897,64560923,1342778,23.5
 E&R + Education-only,1155,2026-27(+2%),top,salary only,Southampton,55779,64425078,1478623,25.9
@@ -304,7 +281,6 @@ E&R + Education-only,1155,2026-27(+2%),top,incl,Leeds,74954,86571932,-1763370,-2
 E&R + Education-only,1155,2026-27(+2%),top,incl,Cardiff,71455,82531072,2277490,31.0
 E&R + Education-only,1155,2026-27(+2%),top,incl,Birmingham,69031,79730990,5077572,69.2
 E&R + Education-only,1155,2026-27(+2%),top,incl,York,69556,80337746,4470816,60.9
-E&R + Education-only,1155,2026-27(+2%),top,incl,Bath,69888,80720335,4088226,55.7
 E&R + Education-only,1155,2026-27(+2%),top,incl,Warwick,70794,81767183,3041379,41.4
 E&R + Education-only,1155,2026-27(+2%),top,incl,Nottingham,71916,83062950,1745611,23.8
 E&R + Education-only,1155,2026-27(+2%),top,incl,Southampton,71763,82886351,1922210,26.2

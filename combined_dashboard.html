@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Russell Group academic pay — Exeter models</title>
+<title>Academic pay structures — Russell Group &amp; comparator universities</title>
 <style>
 :root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--exeter:#b45309;}
 *{box-sizing:border-box}html,body{margin:0;height:100%}
@@ -28,76 +28,135 @@ iframe.active{display:block}
 .cardlink:hover{border-color:var(--exeter);box-shadow:0 1px 4px rgba(0,0,0,.06)}
 .cardlink b{color:var(--exeter)}.cardlink p{margin:4px 0 0;font-size:12.5px;color:var(--mut)}
 .small{font-size:12.5px;color:var(--mut)}
+.figpanel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0 4px;overflow-x:auto}
+.ov svg{max-width:100%;height:auto;display:block}
+code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
 </style></head>
 <body>
 <header>
- <h1>Russell Group academic pay — Exeter cost models</h1>
+ <h1>Academic pay structures — Russell Group &amp; comparator universities</h1>
  <div class="tabs" id="tabs">
   <button class="tab active" data-f="overview">Overview</button>
-  <button class="tab" data-f="all_in_model.html">All-in + mix &amp; match</button>
+  <button class="tab" data-f="all_in_model.html">All-in pay bill</button>
   <button class="tab" data-f="payscale_dashboard.html">Grade structure &amp; cost</button>
   <button class="tab" data-f="career_cost_model.html">Career model</button>
   <button class="tab" data-f="professorial_model.html">Professorial</button>
+  <button class="tab" data-f="all_in_model.html#mix">Mix &amp; match</button>
   <button class="tab" data-f="transition_model.html">Transition</button>
   <button class="tab" data-f="monte_carlo.html">Robustness (Monte Carlo)</button>
+  <button class="tab" data-f="all_in_model.html#sources">Sources</button>
  </div>
 </header>
 <div class="body">
  <div id="overview" class="active"><div class="ov">
   <div class="splash">
-   <h2>Why this matters</h2>
-   <p>Exeter is cutting <b>around 125 academic posts</b> to balance its budget. Before accepting that as unavoidable, these
-   models ask a prior question: <b>does Exeter's unusual pay structure make its academic salary bill structurally higher
-   than comparable universities' — independent of paying any individual more?</b> If much of the gap is structural, then
-   reforming the grade architecture (with <b>no pay cuts</b>) is an alternative lever to compulsory redundancy. On the
-   central estimate, the structural gap is <b>of the same order as the cuts themselves</b> — which is why it is worth examining.</p>
+   <h2>What this is — and what it isn't</h2>
+   <p>A like-for-like comparison of academic pay <b>structures</b>, built entirely from each university's own
+   <b>publicly published pay scales</b>. Every university here is on the same nationally-negotiated pay spine, so a given
+   spine point pays the <b>same salary everywhere</b> — what differs is the <i>structure</i>: how long each grade is, where it
+   starts, how the grades overlap. To compare structures fairly, one fixed workforce (Exeter's) is applied to each, so
+   nothing about individuals, seniority or workload changes — only the design of the scale.</p>
+   <p style="margin-top:10px">This is offered as <b>public data and a comparison, not a verdict.</b> It does not claim anyone
+   is overpaid, and takes no view on what any university should do. Whether a higher- or lower-than-sector pay structure is
+   justified — and whether budget pressures should be addressed through pay structure, redundancies, or elsewhere, and at
+   which levels — is for <b>management and the recognised trade unions to weigh together</b>. These academic-pay costs also
+   <b>cannot be judged in isolation</b>: executive and senior-management remuneration warrants equal scrutiny (not compiled
+   here — that data isn't readily available).</p>
   </div>
-  <p>Six linked models estimating how much of Exeter's academic pay bill is attributable to its <b>pay structure</b>
-  rather than to paying people more on the same national spine. Each applies Exeter's own workforce to other Russell
-  Group universities' published structures, so only the system varies, not the people. Click a tab above, or a card below.</p>
-  <div class="note"><b>Read me — these are indicative figures.</b> They rest on reasoned assumptions (promotion pace,
-  contribution-point uptake, the SL/AP split, professorial award rates) for which there is little hard sector data.
-  The value is as a <b>yardstick for the order of magnitude</b> and for testing whether the conclusion survives plausible
-  changes (it does), not as precise accounting. Treat any number as "roughly this many", not "exactly".</div>
-  <div class="note" style="background:#f0f7ff;border-color:#cfe0f5;color:#1e3a5f">The through-line across all six: <b>Exeter
-  sits at the expensive end of the modelled comparators at every level</b> — most sharply in the non-professorial grades (where
-  grade architecture is the lever) and more modestly among professors (where the discretionary award rate is the lever).
-  On the all-in view Exeter is the <b>single most expensive of the 10 modelled systems</b>, and the structural difference is of the
-  <b>same order as the ~125 posts Exeter is cutting</b>: about 84 equivalent average-salary posts vs the <b>mean of the 10 modelled
-  systems</b>, ~134 vs the lowest (Nottingham), ~154 for the cheapest mix. Valued at the cheaper structures' own (lower) pay these
-  are higher still (roughly ~88 / ~146 / ~169). These are
-  <i>equivalences for scale</i> (saving ÷ average salary), not predicted cash savings or guaranteed jobs. Indicative.
-  <br><br><span style="font-size:12.5px;color:#6b7280">Coverage: 13 non-professorial structures · 10 professorial · 10 all-in comparisons.</span></div>
-  <div class="note" style="font-size:13px"><b>What drives the gap.</b> The difference comes mainly from Exeter's <b>high grade
-  entry points</b> (its Lecturer grade starts at spine point 34 vs 27–32 for most peers) and its <b>short grades</b> (staff top
-  out fast and park at the ceiling), with the discretionary contribution-point tail a secondary lever. Gaps in the spine don't
-  help — they slightly raise cost. The cleanest saving is lower entry points and longer lower grades, which (unlike redundancy)
-  touch no current staff. <b>Research-only staff</b> (research associates/fellows) are not modelled here: internally-funded ones
-  would show similar savings, externally-funded ones mainly as reduced grant co-funding — a likely <i>additional</i> saving left
-  out of the headline. Fuller discussion on the <b>All-in → Summary</b> tab.</div>
-  <div class="note" style="font-size:13px"><b>Which universities are included.</b> The comparison covers English and Welsh
-  Russell Group universities on the national pay spine for which pay data was available (13 non-professorial structures, 10 of
-  them also professorial). <b>Excluded by design:</b> Oxford, Cambridge and the London institutions (incl. UCL), and Northern
-  Ireland — distinct labour markets and cost bases; and the <b>Scottish universities (Edinburgh, Glasgow, Aberdeen)</b>, which
-  operate under a different student-funding model (their data is kept in the files but out of the comparison). Some other Russell
-  Group universities are omitted simply because their pay data was not available. Sheffield is included on its 2004 grade
-  architecture (a caveat noted in Sources).</div>
+
+  <p class="small">Context: Exeter has announced around <b>125 academic post reductions</b>. The chart below shows how its
+  pay <i>structure</i> compares with peers', using only the universities' own published scales.</p>
+
+  <div class="figpanel"><svg viewBox="0 0 860 448" width="860" height="448" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<text x="0" y="22" font-size="16" font-weight="700" fill="#1d1d1b">Modelled total academic pay bill: each structure applied to Exeter's workforce</text>
+<text x="0" y="42" font-size="12.5" fill="#6b7280">Built only from the universities' own published pay scales. Same national spine throughout — only the grade <tspan font-style="italic">structure</tspan> differs.</text>
+<text x="0" y="60" font-size="12.5" fill="#6b7280">Bars show each structure's modelled annual bill <tspan font-weight="600">below Exeter's</tspan> (Exeter = reference at top). Indicative, central assumptions.</text>
+<rect x="120" y="78" width="13" height="9" rx="2" fill="#b45309" opacity="0.45"/><text x="138" y="86" font-size="12" fill="#374151">Research &amp; teaching (E&amp;R)</text>
+<rect x="305" y="78" width="13" height="9" rx="2" fill="#15803d"/><text x="323" y="86" font-size="12" fill="#374151">incl. teaching-only (E&amp;R + T)</text>
+<text x="112" y="117" text-anchor="end" font-size="13" font-weight="700" fill="#b45309">Exeter</text>
+<line x1="120" y1="98" x2="120" y2="408" stroke="#b45309" stroke-width="1.5"/>
+<text x="126" y="117" font-size="12" fill="#b45309">reference (£106m all-in, modelled)</text>
+<text x="112" y="156.0" text-anchor="end" font-size="13" fill="#1d1d1b">Nottingham</text>
+<rect x="120" y="142" width="395.0" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="153" width="567.3" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="693.3" y="157.0" font-size="11.5" fill="#15803d">−£8.6m / yr <tspan fill="#9ca3af">(E&amp;R −£6.0m)</tspan></text>
+<text x="112" y="190.0" text-anchor="end" font-size="13" fill="#1d1d1b">Warwick</text>
+<rect x="120" y="176" width="412.1" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="187" width="555.0" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="681.0" y="191.0" font-size="11.5" fill="#15803d">−£8.4m / yr <tspan fill="#9ca3af">(E&amp;R −£6.2m)</tspan></text>
+<text x="112" y="224.0" text-anchor="end" font-size="13" fill="#1d1d1b">Southampton</text>
+<rect x="120" y="210" width="331.0" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="221" width="484.2" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="610.2" y="225.0" font-size="11.5" fill="#15803d">−£7.3m / yr <tspan fill="#9ca3af">(E&amp;R −£5.0m)</tspan></text>
+<text x="112" y="258.0" text-anchor="end" font-size="13" fill="#1d1d1b">Durham</text>
+<rect x="120" y="244" width="325.4" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="255" width="445.1" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="571.1" y="259.0" font-size="11.5" fill="#15803d">−£6.7m / yr <tspan fill="#9ca3af">(E&amp;R −£4.9m)</tspan></text>
+<text x="112" y="292.0" text-anchor="end" font-size="13" fill="#1d1d1b">Birmingham</text>
+<rect x="120" y="278" width="252.1" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="289" width="374.5" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="500.5" y="293.0" font-size="11.5" fill="#15803d">−£5.7m / yr <tspan fill="#9ca3af">(E&amp;R −£3.8m)</tspan></text>
+<text x="112" y="326.0" text-anchor="end" font-size="13" fill="#1d1d1b">Cardiff</text>
+<rect x="120" y="312" width="198.0" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="323" width="253.9" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="379.9" y="327.0" font-size="11.5" fill="#15803d">−£3.8m / yr <tspan fill="#9ca3af">(E&amp;R −£3.0m)</tspan></text>
+<text x="112" y="360.0" text-anchor="end" font-size="13" fill="#1d1d1b">Bristol</text>
+<rect x="120" y="346" width="204.2" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="357" width="240.5" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="366.5" y="361.0" font-size="11.5" fill="#15803d">−£3.6m / yr <tspan fill="#9ca3af">(E&amp;R −£3.1m)</tspan></text>
+<text x="112" y="394.0" text-anchor="end" font-size="13" fill="#1d1d1b">Leeds</text>
+<rect x="120" y="380" width="104.2" height="9" rx="2" fill="#b45309" opacity="0.4"/>
+<rect x="120" y="391" width="139.0" height="9" rx="2" fill="#15803d" opacity="0.9"/>
+<text x="265.0" y="395.0" font-size="11.5" fill="#15803d">−£2.1m / yr <tspan fill="#9ca3af">(E&amp;R −£1.6m)</tspan></text>
+<text x="0" y="416" font-size="11" fill="#9ca3af">Difference is arithmetic from public pay scales on one fixed workforce — not a target, recommendation, or claim about individuals.</text>
+<text x="0" y="432" font-size="11" fill="#9ca3af">These academic-pay costs can't be judged in isolation — executive and senior-management pay needs equal scrutiny (not compiled here).</text>
+</svg></div>
+  <p class="small">One view of the central case. The <b>All-in pay bill</b> tab lets you change the assumptions (promotion
+  pace, contribution-point uptake, on-costs, workforce) and watch how the picture moves.</p>
+
+  <div class="note"><b>These are indicative figures.</b> The pay scales themselves are exact and public; the <i>modelling</i>
+  on top — promotion pace, contribution-point uptake, the senior-lecturer/associate-professor split, professorial award
+  rates — rests on assumptions for which there is limited hard sector data. Treat every number as <b>"roughly this many",
+  not "exactly"</b>: a yardstick for the order of magnitude, useful mainly for testing whether a conclusion survives
+  plausible changes in the assumptions.</div>
+
+  <div class="note" style="background:#f0f7ff;border-color:#cfe0f5"><b>Please check it yourself — don't just take this
+  analysis.</b> The underlying data is provided in machine-readable form (<code>grades.json</code>, <code>grades.csv</code>,
+  <code>national_spine.csv</code>, <code>cost_model_results.csv</code>) precisely so others can re-run, challenge or extend
+  it. This analysis has limitations and is better for more eyes — corrections and alternative approaches are welcome.</div>
+
+  <div class="note" style="background:#f1faf6;border-color:#cfe9df"><b>Help fill the gaps.</b> The comparison is only as good
+  as its coverage. Most useful would be the Russell Group members not yet included — especially <b>Newcastle</b> and
+  <b>Manchester</b> — and the <b>professorial</b> scales for <b>York, Liverpool and Sheffield</b> (we have their main grades
+  but not their professorial bands). If you can share a current published scale, please pass it on.</div>
+
+  <div class="note" style="font-size:13px"><b>Coverage &amp; scope.</b> Built from the published scales of 16 universities
+  (<b>12</b> in the active comparison; 9 modelled as a whole pay bill). All on the national spine, so the salary at each point
+  is identical and only the structure differs. The active set is <b>Russell Group</b> universities in England and Wales.
+  <b>Kept in the data but out of the comparison:</b> the Scottish universities (Edinburgh, Glasgow, Aberdeen — different
+  student-funding model) and non-Russell-Group comparators (e.g. Bath). <b>Excluded by design:</b> Oxford, Cambridge, the
+  London institutions and Northern Ireland (distinct labour markets). Sheffield uses its 2004 grade architecture (its current
+  scales are staff-login only). Full provenance — each scale linked to the university's live page — is on the
+  <b>Sources</b> tab.</div>
+
   <h2>The tabs</h2>
   <div class="grid" id="cards"></div>
-  <p class="small" style="margin-top:16px">Built on corrected, source-verified pay data for 16 institutions (13 in the active comparison); staffing
-  from 2024/25 HESA (Table 17 salary bands mapped to grades; SL/AP split 50/50). See the <b>All-in &rarr; Sources</b> tab for the underlying
-  documents. Keep this file alongside the other dashboards and the data folder for links and frames to work.</p>
+  <p class="small" style="margin-top:16px">Staffing from 2024/25 HESA (salary bands mapped to grades; senior-lecturer /
+  associate-professor split 50/50). Keep this file alongside the other dashboards and the data folder so the frames and links
+  work.</p>
  </div></div>
  <iframe id="frame" title="model"></iframe>
 </div>
 <script>
 const cards=[
- ['all_in_model.html','All-in + mix &amp; match','Whole academic pay bill (non-prof + professorial) per university, equivalent average-salary posts vs the ~125 cuts, plus a mix-and-match of different universities’ systems. Has Summary &amp; Sources tabs.'],
- ['payscale_dashboard.html','Grade structure &amp; cost','The three non-professorial grades on the common spine, and the per-head cost comparison across institutions.'],
- ['career_cost_model.html','Career model','A representative academic’s salary age 28→professor under fast/middle/slow promotion, and the cost it implies.'],
- ['professorial_model.html','Professorial','The professoriate modelled separately (2-yearly discretionary increments); ten institutions on real scales.'],
- ['transition_model.html','Transition','How savings phase in with no pay cuts — staff grandfathered, savings from earlier topping-out and lower promotion/entry.'],
- ['monte_carlo.html','Robustness (Monte Carlo)','Varies the uncertain assumptions 5,000 times to give a sensitivity range for the equivalent-posts figure (non-professorial model).'],
+ ['all_in_model.html','All-in pay bill','The whole academic pay bill (lower grades + professoriate) for each structure on one fixed workforce, with a Summary. Difference vs Exeter shown neutrally.'],
+ ['payscale_dashboard.html','Grade structure &amp; cost','The three non-professorial grades on the shared national spine, and a per-head cost comparison.'],
+ ['career_cost_model.html','Career model','A representative academic’s salary age 28→professor under fast/middle/slow promotion, for every structure.'],
+ ['professorial_model.html','Professorial','The professoriate modelled separately (2-yearly discretionary increments).'],
+ ['all_in_model.html#mix','Mix &amp; match','Exploratory: combine one university’s lower grades with another’s professoriate.'],
+ ['transition_model.html','Transition','How any change would phase in with no pay cuts — current staff grandfathered.'],
+ ['monte_carlo.html','Robustness (Monte Carlo)','Varies the uncertain assumptions thousands of times to show a sensitivity range.'],
+ ['all_in_model.html#sources','Sources','Every pay scale used, each linked to the university’s live page; plus the data files.'],
 ];
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
