@@ -27,7 +27,8 @@ Keep the whole folder together (the dashboards load each other in frames and lin
 - `professorial_model.html` — the professoriate (2-yearly discretionary increments), nine institutions.
 - `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
   earlier topping-out and lower promotion/entry).
-- `monte_carlo.html` — varies the uncertain assumptions thousands of times to give a sensitivity range.
+- `monte_carlo.html` — varies the uncertain assumptions thousands of times to give a sensitivity range
+  (kept in the repo but not currently surfaced in the combined dashboard).
 
 In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (drawn from the all-in model).
 

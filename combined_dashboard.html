@@ -37,35 +37,39 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
  <h1>Academic pay structures — Russell Group &amp; comparator universities</h1>
  <div class="tabs" id="tabs">
   <button class="tab active" data-f="overview">Overview</button>
-  <button class="tab" data-f="all_in_model.html">All-in pay bill</button>
   <button class="tab" data-f="payscale_dashboard.html">Grade structure &amp; cost</button>
   <button class="tab" data-f="career_cost_model.html">Career model</button>
   <button class="tab" data-f="professorial_model.html">Professorial</button>
+  <button class="tab" data-f="all_in_model.html">All-in pay bill</button>
   <button class="tab" data-f="all_in_model.html#mix">Mix &amp; match</button>
   <button class="tab" data-f="transition_model.html">Transition</button>
-  <button class="tab" data-f="monte_carlo.html">Robustness (Monte Carlo)</button>
   <button class="tab" data-f="all_in_model.html#sources">Sources</button>
  </div>
 </header>
 <div class="body">
  <div id="overview" class="active"><div class="ov">
   <div class="splash">
-   <h2>What this is — and what it isn't</h2>
-   <p>A like-for-like comparison of academic pay <b>structures</b>, built entirely from each university's own
-   <b>publicly published pay scales</b>. Every university here is on the same nationally-negotiated pay spine, so a given
-   spine point pays the <b>same salary everywhere</b> — what differs is the <i>structure</i>: how long each grade is, where it
-   starts, how the grades overlap. To compare structures fairly, one fixed workforce (Exeter's) is applied to each, so
-   nothing about individuals, seniority or workload changes — only the design of the scale.</p>
-   <p style="margin-top:10px">This is offered as <b>public data and a comparison, not a verdict.</b> It does not claim anyone
-   is overpaid, and takes no view on what any university should do. Whether a higher- or lower-than-sector pay structure is
-   justified — and whether budget pressures should be addressed through pay structure, redundancies, or elsewhere, and at
-   which levels — is for <b>management and the recognised trade unions to weigh together</b>. These academic-pay costs also
-   <b>cannot be judged in isolation</b>: executive and senior-management remuneration warrants equal scrutiny (not compiled
-   here — that data isn't readily available).</p>
+   <h2>Why this site exists: the Exeter cuts — and a question the official case skips</h2>
+   <p>In June 2026 the University of Exeter began consulting on proposals to cut <b>around 150 full-time posts</b> (the UCU warns
+   many more are at risk), citing falling tuition income, rising costs, underfunded research and a drop in international students.
+   The reductions fall heavily on the <b>humanities and social sciences</b>. This site asks something the official case has not:
+   <b>how does Exeter's academic pay structure compare with other Russell Group universities'?</b></p>
+   <p style="margin-top:10px">Built entirely from universities' <b>own published pay scales</b>, it finds that <b>Exeter's
+   structure is the most expensive of the English and Welsh Russell Group systems that could be modelled</b> — and that the
+   difference, applied to Exeter's own workforce, is of broadly the <b>same order of magnitude as the saving the cuts are meant to
+   deliver</b>. On that evidence the scale of the cuts looks less like a necessity than a <b>choice</b>: pay structure is a large,
+   comparable lever that has not been part of the public conversation. (As reported by the UCU, Exeter's <i>own</i> modelling is
+   said to show the deficit closing by 2029 from reserves and voluntary measures, without compulsory redundancies — so
+   alternatives plainly exist.)</p>
+   <p style="margin-top:10px;font-size:13px;color:#6b7280">Two things this is <b>not</b>. It is not a claim that any individual is
+   overpaid: every university here is on the same national pay spine, so a given point pays the same everywhere — only the
+   <i>design</i> of the grades differs. And it can't be read in isolation — realigning structure saves only gradually (see the
+   <b>Transition</b> tab), and <b>executive and senior-management pay deserves equal scrutiny</b> (that data isn't compiled here).
+   The pay scales are public and the data is downloadable, so anyone can check, challenge or extend this.</p>
   </div>
 
-  <p class="small">Context: Exeter has announced around <b>125 academic post reductions</b>. The chart below shows how its
-  pay <i>structure</i> compares with peers', using only the universities' own published scales.</p>
+  <p class="small">The chart below shows, for each Russell Group structure modelled, how much Exeter's annual academic pay bill
+  would change if it used that structure on the same workforce — using only the universities' own published scales.</p>
 
   <div class="figpanel"><svg viewBox="0 0 860 448" width="860" height="448" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
 <text x="0" y="22" font-size="16" font-weight="700" fill="#1d1d1b">Modelled total academic pay bill: each structure applied to Exeter's workforce</text>
@@ -139,7 +143,9 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
   scales are staff-login only). Full provenance — each scale linked to the university's live page — is on the
   <b>Sources</b> tab.</div>
 
-  <h2>The tabs</h2>
+  <h2>How to read it — the tabs in order</h2>
+  <p class="small" style="margin-top:0">The tabs build the picture up step by step: the lower grades, then a career, then the
+  professoriate, then the two combined (the headline), then variations and how change would phase in. Each opens in its own tab above.</p>
   <div class="grid" id="cards"></div>
   <p class="small" style="margin-top:16px">Staffing from 2024/25 HESA (salary bands mapped to grades; senior-lecturer /
   associate-professor split 50/50). Keep this file alongside the other dashboards and the data folder so the frames and links
@@ -149,14 +155,13 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
 </div>
 <script>
 const cards=[
- ['all_in_model.html','All-in pay bill','The whole academic pay bill (lower grades + professoriate) for each structure on one fixed workforce, with a Summary. Difference vs Exeter shown neutrally.'],
- ['payscale_dashboard.html','Grade structure &amp; cost','The three non-professorial grades on the shared national spine, and a per-head cost comparison.'],
- ['career_cost_model.html','Career model','A representative academic’s salary age 28→professor under fast/middle/slow promotion, for every structure.'],
- ['professorial_model.html','Professorial','The professoriate modelled separately (2-yearly discretionary increments).'],
- ['all_in_model.html#mix','Mix &amp; match','Exploratory: combine one university’s lower grades with another’s professoriate.'],
- ['transition_model.html','Transition','How any change would phase in with no pay cuts — current staff grandfathered.'],
- ['monte_carlo.html','Robustness (Monte Carlo)','Varies the uncertain assumptions thousands of times to show a sensitivity range.'],
- ['all_in_model.html#sources','Sources','Every pay scale used, each linked to the university’s live page; plus the data files.'],
+ ['payscale_dashboard.html','1 · Grade structure &amp; cost','The three non-professorial grades laid out on the shared national spine, and a per-head cost comparison — where the structural differences start.'],
+ ['career_cost_model.html','2 · Career model','One representative academic’s salary from age 28 to professor (fast/middle/slow promotion), for every structure — how short vs long grades play out over a career.'],
+ ['professorial_model.html','3 · Professorial','The professoriate modelled separately (2-yearly discretionary increments).'],
+ ['all_in_model.html','4 · All-in pay bill','The two layers combined: the whole academic pay bill for each structure on one fixed workforce, with a Summary. This is the headline comparison.'],
+ ['all_in_model.html#mix','5 · Mix &amp; match','Exploratory: combine one university’s lower grades with another’s professoriate.'],
+ ['transition_model.html','6 · Transition','How any change would phase in with no pay cuts — current staff grandfathered; structural savings build slowly.'],
+ ['all_in_model.html#sources','Sources','Every pay scale used, each linked to the university’s live page; plus the machine-readable data files.'],
 ];
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
