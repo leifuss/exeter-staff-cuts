@@ -48,7 +48,7 @@ summary{cursor:pointer;font-weight:600} .small{font-size:12.5px;color:var(--mut)
 code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
 </style></head><body><div class="wrap">
 <h1>Russell Group academic pay — structure &amp; cost</h1>
-<p class="sub">Everyone here pays on the same national salary spine, so a given spine point pays the same everywhere up to the national ceiling (point 51); above that, points are institution-specific local extensions. What differs is each university's <b>grade structure</b>: where it draws grade boundaries and
+<p class="sub">Almost all academic staff in the Russell Group are paid on the same national salary spine, so a given spine point pays the same everywhere up to the national ceiling (point 51); above that, points are institution-specific local extensions. What differs is each university's <b>grade structure</b>: where it draws grade boundaries and
 how many real increments sit inside each grade. Tab 1 shows the structures; Tab 2 turns them into a cost
 comparison. Exeter is highlighted throughout.</p>
 <div class="note" style="border-color:#cfe0f5;background:#f0f7ff"><b>What this tab covers — and what it doesn't.</b> It shows the three permanent
@@ -93,10 +93,14 @@ Staff numbers come from <b>HESA</b> (2024/25), not from the university directly.
  staff cost on each university's scale, and what would Exeter save by switching to it." Choose which staff
  to count below. Transition costs are ignored.</div>
  <div class="answer" id="answer"></div>
+ <div class="note"><b>About the "where staff sit" setting.</b> We don't know how Exeter's staff are actually
+ distributed within each grade, so the model lets you try three assumptions and see how much it matters: most staff
+ near the <b>bottom</b> of their grade (fast promotion), <b>spread evenly</b>, or most near the <b>top</b> (slow
+ promotion). The pound figures shift, but the <b>ranking of structures stays the same</b> under all three.</div>
  <div class="controls">
   <div class="ctl"><label>Workforce counted</label>
-   <select id="pop"><option value="er" selected>E&amp;R only (750 staff)</option>
-    <option value="ere">E&amp;R + Education-only (1155 staff)</option></select>
+   <select id="pop"><option value="er">E&amp;R only (750 staff)</option>
+    <option value="ere" selected>E&amp;R + Education-only (1155 staff)</option></select>
    <span class="hint">Education-only adds ~275 (mostly lecturers); R-only postdocs excluded.</span></div>
   <div class="ctl"><label>Where staff sit in their grade</label>
    <select id="scn"><option value="even" selected>Spread evenly</option>
