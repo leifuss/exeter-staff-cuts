@@ -44,6 +44,6 @@ Liverpool,9,3,46 47 48 49 50 51 52 53,54 55 56,Aug 2025,High (verified),Grade 10
 Durham,7,1,30 31 32 33 34 35 36,37 38 39,Apr 2026,High (verified),
 Durham,8,2,37 38 39 40 41 42 43,44 45 46,Apr 2026,High (verified),
 Durham,9,3,45 46 47 48 49,50 51 52,Apr 2026,High (verified),
-Sheffield,7,1,28 29 30 31 32 33 34 35 36 37,38 39 40,Aug 2025,High (verified),"current scale (1 Aug 2025, rev 1 Jan 2026); normal vs exceptional range"
-Sheffield,8,2,37 38 39 40 41 42 43 44,45 46 47 48,Aug 2025,High (verified),
-Sheffield,9,3,45 46 47 48 49 50,51 52 53 54 55,Aug 2025,High (verified),pts 52-55 local extension (published values)
+Sheffield,7,1,30 31 32 33 34 35 36 37,38 39 40,Aug 2025,High (Leif),"current scale (1 Aug 2025, rev 1 Jan 2026); normal vs exceptional range"
+Sheffield,8,2,38 39 40 41 42 43 44,45 46 47 48,Aug 2025,High (Leif),
+Sheffield,9,3,46 47 48 49 50,51 52 53 54 55,Aug 2025,High (Leif),pts 52-55 local extension (published values)

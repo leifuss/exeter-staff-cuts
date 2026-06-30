@@ -67,7 +67,7 @@ from 2021. Excludes transition/redundancy costs and second-order effects.
 ## Headline (current data, E&R + teaching, middle assumptions)
 On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **ten whole systems**
 modelled. Holding the workforce fixed and changing only the structure, the modelled difference is: vs the mean of the ten
-≈ 86 average-salary-post equivalents; vs the lowest (Sheffield) ≈ 139; vs the cheapest mix ≈ 152 (more at the cheaper
+≈ 82 average-salary-post equivalents; vs the lowest (Nottingham) ≈ 134; vs the cheapest mix ≈ 152 (more at the cheaper
 structures' own pay). These are equivalences for scale (£ ÷ average salary), not predicted savings or job counts — provided
 only so the magnitudes can be compared with the ~125 posts announced. Indicative.
 

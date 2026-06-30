@@ -93,7 +93,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  h+='</table>';$('tbl').innerHTML=h;
 }
 $('caveats').innerHTML='• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
- '• <b>Durham</b> publishes indicative professorial bands only — its ladder rungs are interpolated from the band min/max (treat as approximate). <b>Sheffield</b> uses its Professorial Equivalent scale (Bands I–III, exceptional top points excluded). <b>Liverpool</b> professorial pay is not modelled (its published scale stops mid-range).<br>'+
+ '• <b>Durham</b> publishes indicative professorial bands only — its ladder rungs are interpolated from the band min/max (treat as approximate). <b>Sheffield</b> has an <b>automatic introductory zone</b> (£71.6k–£78.2k) then discretionary Bands I–III; like every institution here it is modelled as all-discretionary, which slightly understates it. <b>Liverpool</b> professorial pay is not modelled (its published scale stops mid-range).<br>'+
  '• <b>Birmingham uprated from 2021 by ~13%</b> (approx) — treat as indicative.<br>'+
  '• Two bands modelled as one climbing ladder; Band 3 excluded. Weighted by Exeter\'s 510 professors on every structure.<br>'+
  '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
