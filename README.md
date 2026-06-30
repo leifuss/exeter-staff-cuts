@@ -24,7 +24,7 @@ Keep the whole folder together (the dashboards load each other in frames and lin
   **Summary** and **Sources** tabs.
 - `payscale_dashboard.html` — the three non-professorial grades on the common spine, and a cost comparison.
 - `career_cost_model.html` — a representative career age 28→professor (fast/middle/slow promotion) and its cost.
-- `professorial_model.html` — the professoriate (2-yearly discretionary increments), nine institutions.
+- `professorial_model.html` — the professoriate (2-yearly discretionary increments), ten institutions.
 - `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
   earlier topping-out and lower promotion/entry).
 - `monte_carlo.html` — varies the uncertain assumptions thousands of times to give a sensitivity range
@@ -65,20 +65,20 @@ plausible changes in assumptions — not as precise accounting. Birmingham's pro
 from 2021. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **nine whole systems**
-modelled. Holding the workforce fixed and changing only the structure, the modelled difference is: vs the mean of the nine
-≈ 80 average-salary-post equivalents; vs the lowest (Nottingham) ≈ 134; vs the cheapest mix ≈ 154 (more at the cheaper
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **ten whole systems**
+modelled. Holding the workforce fixed and changing only the structure, the modelled difference is: vs the mean of the ten
+≈ 86 average-salary-post equivalents; vs the lowest (Sheffield) ≈ 139; vs the cheapest mix ≈ 152 (more at the cheaper
 structures' own pay). These are equivalences for scale (£ ÷ average salary), not predicted savings or job counts — provided
 only so the magnitudes can be compared with the ~125 posts announced. Indicative.
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
-**12 non-professorial structures, 9 also modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
+**12 non-professorial structures, 10 also modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
 **Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
 (Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
 Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
-**2004** grade architecture (salaries above point 51 uprated/approximate; current scales are staff-login only); Durham professorial
-rungs are interpolated from published bands; Liverpool professorial pay is not modelled (its published scale is incomplete).
+**current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool
+professorial pay is not modelled (its published scale is incomplete).
 
 ## Help fill the gaps — and check it yourself
 The comparison is only as good as its coverage, and this analysis has limitations. Two asks:
@@ -87,5 +87,5 @@ The comparison is only as good as its coverage, and this analysis has limitation
    `cost_model_results.csv`) precisely so others can re-run, challenge or extend the analysis rather than take it on trust.
    Corrections and alternative approaches are welcome (open an issue or PR).
 2. **Send missing scales.** Most useful: the Russell Group members not yet covered — especially **Newcastle** and **Manchester** —
-   and the **professorial** scales for **York, Liverpool and Sheffield** (we have their main grades but not their professorial bands).
+   and the **professorial** scales for **York and Liverpool** (we have their main grades but not their professorial bands).
    Current published scales for any other institution are welcome too.

@@ -1146,7 +1146,6 @@
    "grade": "7",
    "tier": 1,
    "normal_points": [
-    27,
     28,
     29,
     30,
@@ -1154,40 +1153,42 @@
     32,
     33,
     34,
-    35
+    35,
+    36,
+    37
    ],
    "contribution_points": [
-    36,
-    37,
-    38
+    38,
+    39,
+    40
    ],
-   "effective": "2004 (framework)",
-   "confidence": "Low (2004 doc)",
-   "note": "2004 architecture (Leif-corrected); may have changed since"
+   "effective": "Aug 2025",
+   "confidence": "High (verified)",
+   "note": "current scale (1 Aug 2025, rev 1 Jan 2026); normal vs exceptional range"
   },
   {
    "institution": "Sheffield",
    "grade": "8",
    "tier": 2,
    "normal_points": [
-    36,
     37,
     38,
     39,
     40,
     41,
     42,
-    43
+    43,
+    44
    ],
    "contribution_points": [
-    44,
     45,
     46,
-    47
+    47,
+    48
    ],
-   "effective": "2004 (framework)",
-   "confidence": "Low (2004 doc)",
-   "note": "2004 architecture (Leif-corrected)"
+   "effective": "Aug 2025",
+   "confidence": "High (verified)",
+   "note": ""
   },
   {
    "institution": "Sheffield",
@@ -1198,18 +1199,19 @@
     46,
     47,
     48,
-    49
+    49,
+    50
    ],
    "contribution_points": [
-    50,
     51,
     52,
     53,
-    54
+    54,
+    55
    ],
-   "effective": "2004 (framework)",
-   "confidence": "Low (2004 doc)",
-   "note": "pts 52-54 local; salaries uprated/approx"
+   "effective": "Aug 2025",
+   "confidence": "High (verified)",
+   "note": "pts 52-55 local extension (published values)"
   }
  ],
  "ext_salary": {
@@ -1265,9 +1267,10 @@
    "52": 73708
   },
   "Sheffield": {
-   "52": 73716,
-   "53": 75927,
-   "54": 78206
+   "52": 73708,
+   "53": 75915,
+   "54": 78186,
+   "55": 80524
   }
  }
 }
