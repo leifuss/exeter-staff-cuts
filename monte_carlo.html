@@ -107,7 +107,8 @@ function run(){
  $('pctable').innerHTML='<table class="pc"><tr><th>5th</th><th>25th</th><th>Median</th><th>75th</th><th>95th</th></tr>'+
    `<tr><td>${p5.toFixed(0)}</td><td>${p25.toFixed(0)}</td><td><b>${med.toFixed(0)}</b></td><td>${p75.toFixed(0)}</td><td>${p95.toFixed(0)}</td></tr></table>`;
 }
-function drawHist(data,m){const W=880,H=320,L=46,R=20,T=14,B=42;const lo=data[0],hi=data[data.length-1];
+function drawHist(data,m){const W=880,H=320,L=46,R=20,T=14,B=42;
+ const lo=Math.min(0,data[0]), hi=Math.max(160,data[data.length-1]);   // fixed frame: 0-160+, so the ~150 cuts line is always visible
  const nb=28,bw=(hi-lo)/nb||1,bins=new Array(nb).fill(0);
  data.forEach(v=>{let b=Math.floor((v-lo)/bw);if(b>=nb)b=nb-1;if(b<0)b=0;bins[b]++;});
  const maxc=Math.max(...bins);const x=v=>L+(v-lo)/(hi-lo)*(W-L-R);const yb=H-B;const hgt=c=>c/maxc*(yb-T);
@@ -116,14 +117,17 @@ function drawHist(data,m){const W=880,H=320,L=46,R=20,T=14,B=42;const lo=data[0]
  s+=`<rect x="${x(m.p5)}" y="${T}" width="${x(m.p95)-x(m.p5)}" height="${yb-T}" fill="var(--ci)" opacity="0.5"/>`;
  bins.forEach((c,k)=>{const bx=x(lo+k*bw),bwid=Math.max(1,x(lo+(k+1)*bw)-bx-1);
    s+=`<rect x="${bx}" y="${yb-hgt(c)}" width="${bwid}" height="${hgt(c)}" fill="var(--bar)"/>`;});
+ // ~150 proposed cuts reference line
+ s+=`<line x1="${x(150)}" y1="${T}" x2="${x(150)}" y2="${yb}" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+ s+=`<text x="${x(150)}" y="${T-2}" text-anchor="middle" fill="#b91c1c" font-size="11" font-weight="600">~150 proposed cuts</text>`;
  // median line
  s+=`<line x1="${x(m.med)}" y1="${T}" x2="${x(m.med)}" y2="${yb}" stroke="var(--ex)" stroke-width="2.5"/>`;
- s+=`<text x="${x(m.med)}" y="${T-2}" text-anchor="middle" fill="${'#b45309'}" font-size="12" font-weight="700">median ${m.med.toFixed(0)}</text>`;
+ s+=`<text x="${x(m.med)}" y="${Math.abs(x(m.med)-x(150))<70?T+12:T-2}" text-anchor="middle" fill="${'#b45309'}" font-size="12" font-weight="700">median ${m.med.toFixed(0)}</text>`;
  [m.p5,m.p95].forEach(v=>{s+=`<line x1="${x(v)}" y1="${T}" x2="${x(v)}" y2="${yb}" stroke="#b08900" stroke-dasharray="4 3"/>`+
    `<text x="${x(v)}" y="${yb+14}" text-anchor="middle" fill="#b08900" font-size="11">${v.toFixed(0)}</text>`;});
  // x axis ticks
  for(let t=0;t<=5;t++){const v=lo+(hi-lo)*t/5;s+=`<text x="${x(v)}" y="${H-6}" text-anchor="middle" fill="#9ca3af" font-size="11">${v.toFixed(0)}</text>`;}
- s+=`<text x="${(L+W-R)/2}" y="${H-22}" text-anchor="middle" fill="#6b7280" font-size="11">equivalent average-salary posts vs benchmark · shaded = 5th–95th percentile</text>`;
+ s+=`<text x="${(L+W-R)/2}" y="${H-22}" text-anchor="middle" fill="#6b7280" font-size="11">equivalent average-salary posts vs benchmark · shaded = 5th–95th percentile · axis fixed at 0–160 so runs are comparable</text>`;
  s+=`</svg>`;$('hist').outerHTML=s.replace('<svg','<svg id="hist"');
 }
 ['pop','bm','oc','yr'].forEach(id=>$(id).addEventListener('change',run));
