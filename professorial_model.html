@@ -63,14 +63,22 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
   (dearer.length?`Dearer: ${dearer.join(', ')}.`:`No structure here is dearer.`)+
   ` Adopting the cheapest (${cheap.i}) would save ${gbp(exbill-cheap.ph*COUNT)}/yr. The bigger lever is the award rate: 50%→30% saves ${gbp(exF-exS)}/yr.`;
  // bars
- const W=920,H=300,L=92,R=150,Tm=10,rh=(H-Tm-20)/rows.length;
- const vmax=Math.max(...rows.map(r=>r.ph))*1.01,vmin=Math.min(...rows.map(r=>r.ph))*0.92,x=v=>L+(v-vmin)/(vmax-vmin)*(W-L-R);
+ // zero-centred difference-from-Exeter bars
+ const W=920,H=300,L=92,R=150,Tm=10,rh=(H-Tm-36)/rows.length;
+ const diffs=rows.map(r=>r.ph-exph), maxAbs=Math.max(...diffs.map(Math.abs))*1.08||1;
+ const cx=L+(W-L-R)/2, hw=(W-L-R)/2, xv=d=>cx+d/maxAbs*hw;
  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
- s+=`<line x1="${x(exph)}" y1="${Tm}" x2="${x(exph)}" y2="${H-18}" stroke="var(--ref)" stroke-dasharray="5 4"/>`;
- rows.forEach((d,k)=>{const y=Tm+k*rh,bh=rh-8,exb=d.i==='Exeter',bw=x(d.ph)-L,save=exbill-d.ph*COUNT;
+ s+=`<line x1="${cx}" y1="${Tm}" x2="${cx}" y2="${H-32}" stroke="#b45309" stroke-width="1.5"/>`;
+ s+=`<text x="${cx}" y="${H-18}" text-anchor="middle" font-size="11" fill="#b45309">Exeter = ${gbp(exph)}/head</text>`;
+ s+=`<text x="${L}" y="${H-18}" text-anchor="start" font-size="10" fill="#15803d">← cheaper</text><text x="${W-R}" y="${H-18}" text-anchor="end" font-size="10" fill="#b91c1c">dearer →</text>`;
+ rows.forEach((d,k)=>{const y=Tm+k*rh,bh=rh-8,exb=d.i==='Exeter',df=d.ph-exph,save=exbill-d.ph*COUNT;
   s+=`<text x="${L-8}" y="${y+bh/2+4}" text-anchor="end" font-size="12.5" font-weight="600" fill="${exb?'#b45309':'#1d1d1b'}">${d.i}</text>`;
-  s+=`<rect x="${L}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${exb?'var(--ex)':'var(--bar)'}"/>`;
-  s+=`<text x="${x(d.ph)+6}" y="${y+bh/2+4}" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${gbp(d.ph)}${exb?'':'  ('+(save>=0?'save '+gbp(save):'+'+gbp(-save))+')'}</text>`;});
+  if(exb){s+=`<text x="${cx+6}" y="${y+bh/2+4}" font-size="11" fill="#b45309">reference — ${gbp(exph)}/head</text>`;}
+  else{const x0=Math.min(cx,xv(df)),bw=Math.abs(xv(df)-cx);
+   s+=`<rect x="${x0}" y="${y}" width="${Math.max(1,bw)}" height="${bh}" rx="3" fill="${df<0?'#15803d':'#b91c1c'}" opacity="0.82"/>`;
+   const lx=df<0?x0-6:x0+bw+6;
+   s+=`<text x="${lx}" y="${y+bh/2+4}" text-anchor="${df<0?'end':'start'}" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${gbp(d.ph)}  (${save>=0?'save '+gbp(save):'+'+gbp(-save)})</text>`;}
+ });
  s+=`</svg>`;$('bars').outerHTML=s.replace('<svg','<svg id="bars"');
  // trajectory
  const W2=920,H2=300,L2=64,R2=20,T2=12,B2=38;const ages=[...Array(20).keys()];
