@@ -82,6 +82,13 @@ this year; and the modelled population is **full-time staff in the main academic
 and professional-services staff are not counted, so these are **minimum** estimates of the structural difference.
 Indicative.
 
+**Calibration:** with on-costs the modelled bill is ≈£137m — about 35% of the £396.6m total staff costs in Exeter's
+2024/25 Annual Report, with the other ~65% being exactly the groups the model excludes (professional services,
+research-only, part-time, sub-Lecturer grades, non-salary staff costs). For scale, the structural difference
+(≈£5–9m/yr salary, ≈£7–11m/yr with on-costs) is of the same order as Exeter's entire 2024/25 operating surplus
+(£8.2m, down from £22.5m — the operating line, not the headline surplus, which was distorted by a one-off pension
+provision release in the prior year).
+
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
 **12 non-professorial structures, 10 also modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the

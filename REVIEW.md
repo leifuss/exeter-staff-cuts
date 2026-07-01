@@ -374,7 +374,7 @@ sourced evidence supported 150.
 | 4 | Attach headline qualifications | **Done** — phase-in, future-hires, and population caveats now sit on the hero chart, the all-in headline, the Summary tab and the README headline |
 | 5 | Ranges not points | **Done** — all-in headline reports the fast→slow spread (≈75–90 vs mean, ≈125–145 vs lowest); README headline updated to match |
 | 6 | Widen sensitivity analysis | **Done** — Monte Carlo now runs the whole all-in model and samples the professorial award rate (30–50%) alongside the original three inputs |
-| 7 | Calibration check | **Partial** — "Does the model add up?" section added to the Summary tab with a clearly-marked placeholder; the university's website blocks automated retrieval of the 2024/25 accounts, so the academic-staff-costs figure needs to be read from the published PDF |
+| 7 | Calibration check | **Done** — modelled bill ≈£137m with on-costs ≈ 35% of the £396.6m total staff costs in the 2024/25 Annual Report, with the wedge itemised; accounts context (operating surplus £8.2m, severance comparison) added to the Summary tab, quoting the operating line and explicitly avoiding the pension-distorted headline surplus |
 | 8 | FTE wording | **Done** — all bases relabelled "full-time headcount"; part-time exclusion stated |
 | 9 | Quantify research-only exclusion | **Done (rough bound)** — 545 of 780 full-time research-only staff priced through the same comparison: ≈£2m/yr vs mean, ≈£4m/yr vs cheapest (salary only); stated in Summary tab and README |
 | 10 | Coverage at point of claim | **Done** — "(Manchester and Newcastle not yet covered)" added at the Overview claim, the all-in coverage line and the README headline |
