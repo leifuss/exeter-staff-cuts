@@ -83,7 +83,7 @@ model.
   model shows the saving ramping over roughly five years, while the deficit is now);
   and (c) that a steady-state structural saving is *fungible* with an immediate
   cash-savings target. All three qualifications exist somewhere on the site, but none
-  is attached to the headline where the "≈134 posts vs ~125 cuts" juxtaposition is
+  is attached to the headline where the "posts vs cuts" juxtaposition is
   made. A sceptical reader (or the university's finance office) will spot this gap
   immediately, and it is the most likely line of rebuttal.
 - **Coverage is thinner than the framing suggests.** The active whole-system comparison
@@ -184,7 +184,7 @@ These are the settings the headline actually depends on, roughly in order of lev
 ### Smaller technical points
 
 - **The cuts denominator is inconsistent** (detailed in §3): ~150 in
-  `combined_dashboard.html:53,130` and `all_in_model.html:31`; ~125 in
+  `combined_dashboard.html:53,130` and `all_in_model.html:31`; ~125 (since removed — 150 confirmed correct) in
   `all_in_model.html:163,184,196,225,262` and README lines 23 and 72.
 - **The static hero chart is out of sync with the model.** The hand-coded Overview SVG
   shows Nottingham at "≈ 140 posts" (`combined_dashboard.html:128`) while the README
@@ -234,7 +234,7 @@ Carlo, rather than as "≈ 82 / ≈ 134" point values.
 1. **The 125 vs 150 inconsistency is the most damaging presentation defect.** The
    Overview tells readers "around 150 full-time posts" are being cut and the hero
    chart's footnote repeats "~150" (`combined_dashboard.html:53,130`); the model pages
-   and README compare against "~125 cuts". The site's entire rhetorical structure is
+   and README compared against "~125 cuts" (since removed). The site's entire rhetorical structure is
    "structural difference ≈ size of cuts", so a 20% wobble in the comparator — visible
    to anyone who reads two pages — hands critics an easy way to dismiss the whole
    thing. If the two numbers are genuinely different things (e.g. FTE announced in the
@@ -384,6 +384,10 @@ sourced evidence supported 150.
 | 14 | "What this shows / doesn't" box | **Done** — five-bullet box at the top of the Overview |
 | 15 | Numeric axis on hero | **Done** — posts axis with gridlines, plus a dashed reference line at the ~150 proposed cuts |
 
-Not yet possible: re-deriving Birmingham's professorial ladder from a current scale
-(the archived PDF still ends at the 1/8/21 column; an updated file was reported but has
-not yet reached the repository), and adding Manchester/Newcastle (data being sourced).
+Subsequently completed: Birmingham's professorial ladder re-derived from the current
+published scale (1/8/25 column of `Birmingham_Professorial_Pay_Scales.pdf`); the old
+×1.13 uprate and its caveats removed — the uprate turned out accurate to ~0.5%, and the
+headline moved by at most 1 post-equivalent. The ~150 cuts figure was confirmed correct
+by the author. Still open: Manchester/Newcastle (data being sourced) and the accounts
+calibration (annual report to be examined separately first, then the figure wired into
+the Summary tab's calibration box).
