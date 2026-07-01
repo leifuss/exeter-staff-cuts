@@ -92,7 +92,12 @@ another's professoriate — is now its own top-level tab.)</p>
  is not free of consequences, only free of compulsory redundancy. The cleanest lever the data supports is to <b>lower entry
  points and lengthen the lower grades</b>: it captures most of the gap, is less fraught than cutting the discretionary tail,
  and (unlike redundancy) touches no one currently employed.</p></div>
- <div class="card"><h2>Research-only staff — likely further saving, not yet modelled</h2>
+ <div class="card"><h2>Why the headline is a minimum — research-only and professional-services staff</h2>
+ <p style="font-size:14px">The headline covers E&amp;R and teaching-only academics plus the professoriate. Two whole groups
+ are left out, and both point the same way: <b>research-only staff</b> (bounded below) and <b>professional-services
+ staff</b>, whose grade structures differ between universities in exactly the same way as academic ones but whose scales
+ and staffing are not yet compiled here. Whatever they would add, they only <i>add</i> — so the headline figures are
+ best read as the <b>minimum</b> structural difference.</p>
  <p style="font-size:14px">This model covers the three <i>academic</i> grades and the professoriate. It does <b>not</b> include
  research-only staff (research associates and fellows), who mostly sit on the grade below Lecturer. The same structural logic
  applies, but the budget effect depends on who pays: for <b>internally funded</b> posts (bridging funding, core fellowships)
@@ -181,7 +186,7 @@ function drawMatched(){const s=S(),ex=exData(s),head=ex.head;
    `<b>${m(msav)} above the mean</b> of the ${full.length} whole systems and <b>${m(sv)} above the lowest full system</b> (${cheap.i}). `+
    `Across the fast→slow promotion assumptions that is <b>${rr(sf.mean,ss.mean)}</b> average-salary posts vs the mean and <b>${rr(sf.low,ss.low)}</b> vs the lowest `+
    `(saving ÷ Exeter's average salary — an equivalence for scale, <i>not</i> a prediction that jobs would be retained; cf. the ~150 proposed cuts). `+
-   `<span class="small">Remember what a structural saving is: it phases in over roughly five years (see <b>Transition</b>) and comes mostly from paying <i>future</i> hires less — a scenario estimate, not cash available this year. Population: Exeter's full-time staff in the three main academic grades plus the professoriate (~1,655 of 2,490 full-time academic staff; research-only and part-time staff excluded).</span>`;
+   `<span class="small">Remember what a structural saving is: it phases in over roughly five years (see <b>Transition</b>) and comes mostly from paying <i>future</i> hires less — a scenario estimate, not cash available this year. Population: Exeter's full-time staff in the three main academic grades plus the professoriate (~1,655 of 2,490 full-time academic staff). Research-only, part-time and professional-services staff are <b>not counted</b>, so read these figures as a <b>minimum</b>.</span>`;
  // zero-centred difference-from-Exeter chart
  const W=960,H=320,Lm=104,R=150,Tm=10,rh=(H-Tm-20)/rows.length;
  const diffs=rows.map(r=>r.tot-ex.tot), maxAbs=Math.max(...diffs.map(Math.abs))*1.06||1;

@@ -78,6 +78,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
     <li>We price <b>Exeter's own current staff</b> on each university's structure, so the only thing that changes is the pay system, not the people.</li>
     <li>On that like-for-like test, Exeter's structure is the <b>most expensive of the ten systems we could model</b>.</li>
     <li>The difference is <b>comparable in scale to the proposed ~150-post cuts</b> — but a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less. It is not cash in the bank this year.</li>
+    <li>The figures are a <b>minimum</b>: they cover only E&amp;R and teaching-only academics plus the professoriate. Research-only staff (~780 full-time) and professional-services staff — whose grade structures differ in the same way — are <b>not counted</b>, and would likely add to the saving.</li>
     <li>This is a <b>comparison, not a costed alternative plan</b> — and not a claim that anyone is overpaid.</li>
    </ul></div>
 
@@ -202,7 +203,7 @@ rows.forEach((r,k)=>{const y=TOP+(k+1)*RH;let cx=L;
   if(w>0.5)g+=`<rect x="${cx}" y="${y}" width="${w}" height="${BH}" rx="1.5" fill="${COLS[si]}" opacity="0.92"/>`;cx+=Math.max(0,w);});
  g+=`<text x="${cx+6}" y="${y+BH/2+4}" font-size="12" font-weight="600" fill="#1d1d1b">≈ ${Math.round(r.tot)} posts</text>`;});
 g+=`</svg>`;
-g+=`<p class="small" style="margin:8px 0 0">Notional posts = the whole modelled saving ÷ Exeter's average academic salary — an equivalence for scale, <b>not</b> predicted job retention: a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less (see the <b>Transition</b> tab). Central assumptions (middle promotion pace, 30% contribution-point uptake, 40% professorial award rate), salary-only basis, 2025-26. Excludes research-only staff and non-academic costs; executive/senior-management pay needs equal scrutiny.</p>`;
+g+=`<p class="small" style="margin:8px 0 0">Notional posts = the whole modelled saving ÷ Exeter's average academic salary — an equivalence for scale, <b>not</b> predicted job retention: a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less (see the <b>Transition</b> tab). Central assumptions (middle promotion pace, 30% contribution-point uptake, 40% professorial award rate), salary-only basis, 2025-26. <b>A minimum:</b> research-only and professional-services staff are not counted — likely additional savings there. Executive/senior-management pay needs equal scrutiny.</p>`;
 document.getElementById('heropanel').innerHTML=g;
 })();
 </script>
