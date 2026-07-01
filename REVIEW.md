@@ -356,3 +356,34 @@ except (7) and (9).
 *Method note: this review was produced by reading every HTML dashboard, data file and
 document in the repository and tracing the model code by hand; the model was not
 re-executed. Line numbers refer to commit `73ab66e`.*
+
+---
+
+## Implementation status (July 2026)
+
+The recommendations were implemented on this branch as follows. The cuts figure was
+standardised on **~150 full-time posts** (the June 2026 consultation figure, per
+contemporary press reporting), not ~125 as this review initially defaulted to — the
+sourced evidence supported 150.
+
+| # | Recommendation | Status |
+|---|---|---|
+| 1 | Unify cuts figure | **Done** — ~150 everywhere, defined once on the Overview with provenance |
+| 2 | Re-sync/dynamise hero SVG | **Done** — hero chart now computed live from the same data/engine as the all-in model; numbers can no longer drift |
+| 3 | Exeter `ext` gap | **Done** — Exeter's published local values added for points 52–56 *and* the locally-amended point 48 (£65,827 vs national £65,509), across all dashboards and `grades.json` |
+| 4 | Attach headline qualifications | **Done** — phase-in, future-hires, and population caveats now sit on the hero chart, the all-in headline, the Summary tab and the README headline |
+| 5 | Ranges not points | **Done** — all-in headline reports the fast→slow spread (≈75–90 vs mean, ≈125–145 vs lowest); README headline updated to match |
+| 6 | Widen sensitivity analysis | **Done** — Monte Carlo now runs the whole all-in model and samples the professorial award rate (30–50%) alongside the original three inputs |
+| 7 | Calibration check | **Partial** — "Does the model add up?" section added to the Summary tab with a clearly-marked placeholder; the university's website blocks automated retrieval of the 2024/25 accounts, so the academic-staff-costs figure needs to be read from the published PDF |
+| 8 | FTE wording | **Done** — all bases relabelled "full-time headcount"; part-time exclusion stated |
+| 9 | Quantify research-only exclusion | **Done (rough bound)** — 545 of 780 full-time research-only staff priced through the same comparison: ≈£2m/yr vs mean, ≈£4m/yr vs cheapest (salary only); stated in Summary tab and README |
+| 10 | Coverage at point of claim | **Done** — "(Manchester and Newcastle not yet covered)" added at the Overview claim, the all-in coverage line and the README headline |
+| 11 | Zero-base / diverging bars | **Done** — all four truncated-axis bar charts (per-head cost ×2, cumulative earnings, professorial) converted to zero-centred difference-from-Exeter diverging bars |
+| 12 | Surface Monte Carlo | **Done** — hub tab "How sure can we be?", with plain-language intro |
+| 13 | Glossary / expansions | **Done** — glossary box on the Overview; E&R expanded at first use in every selector |
+| 14 | "What this shows / doesn't" box | **Done** — five-bullet box at the top of the Overview |
+| 15 | Numeric axis on hero | **Done** — posts axis with gridlines, plus a dashed reference line at the ~150 proposed cuts |
+
+Not yet possible: re-deriving Birmingham's professorial ladder from a current scale
+(the archived PDF still ends at the 1/8/21 column; an updated file was reported but has
+not yet reached the repository), and adding Manchester/Newcastle (data being sourced).

@@ -20,15 +20,16 @@ Keep the whole folder together (the dashboards load each other in frames and lin
 
 ## The models (also openable individually)
 - `all_in_model.html` — whole academic pay bill (non-professorial + professorial), per university, with a
-  **mix-and-match** tab (one university's grades + another's professoriate), jobs vs the ~125 cuts, plus
+  **mix-and-match** tab (one university's grades + another's professoriate), jobs vs the ~150 proposed cuts, plus
   **Summary** and **Sources** tabs.
 - `payscale_dashboard.html` — the three non-professorial grades on the common spine, and a cost comparison.
 - `career_cost_model.html` — a representative career age 28→professor (fast/middle/slow promotion) and its cost.
 - `professorial_model.html` — the professoriate (2-yearly discretionary increments), ten institutions.
 - `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
   earlier topping-out and lower promotion/entry).
-- `monte_carlo.html` — varies the uncertain assumptions thousands of times to give a sensitivity range
-  (kept in the repo but not currently surfaced in the combined dashboard).
+- `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
+  professorial award rate) 5,000 times across the whole all-in model to give a sensitivity range — surfaced in the
+  combined dashboard as **"How sure can we be?"**.
 
 In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (drawn from the all-in model).
 
@@ -40,8 +41,10 @@ In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (d
   (`payscales.xlsx`, the original working spreadsheet, is kept locally but not published in this repo.)
 
 ## Staffing (HESA, 2024/25, Table 17)
-Exeter's workforce by salary band mapped to grades (39–52k = Lecturer; 52–70k = SL & AP; 70k+ = professor):
-E&R = 750 non-professorial + 470 professors; E&R + teaching-only = 1,155 + 500; professoriate (all functions) = 510.
+Exeter's **full-time** academic staff (headcount, not FTE) by salary band mapped to grades (39–52k = Lecturer;
+52–70k = SL & AP; 70k+ = professor): E&R (Education & Research) = 750 non-professorial + 470 professors;
+E&R + teaching-only = 1,155 + 500; professoriate (all functions) = 510. Part-time staff and research-only staff
+are outside the modelled population (~1,655 of Exeter's 2,490 full-time academic staff are modelled).
 
 ## What drives the difference
 The gap is driven, in descending order, by: **grade entry points** (Exeter's Lecturer grade starts at spine point 34 vs
@@ -54,8 +57,11 @@ Note this largely means paying *new* staff less at given stages — a recruitmen
 ## Research-only staff (not modelled)
 The models cover the three academic grades plus the professoriate, not research-only staff (research associates/fellows, who
 sit on the grade below Lecturer). Likely **additional** savings exist there — direct for internally-funded posts, and as
-reduced grant co-funding for the externally-funded majority — but quantifying needs the internal/external split, funder mix,
-and research-grade scales. Flagged, not counted in the headline.
+reduced grant co-funding for the externally-funded majority. A rough bound: 545 of the 780 full-time research-only staff
+sit in the Lecturer/SL salary bands the model can price; running just those through the same comparison adds roughly
+**£2m/yr vs the mean and £4m/yr vs the cheapest structure** (salary only; ~£3–5m with on-costs). The remaining 230 sit on
+the research grade below Lecturer, for which peers' scales are not yet collected. Because external funders pay most research
+salaries, only part of this would reach Exeter's core budget — flagged as scale, not counted in the headline.
 
 ## Important — these are indicative figures
 They rest on reasoned assumptions (promotion pace, contribution-point uptake, the 50/50 SL/AP split,
@@ -66,10 +72,15 @@ from 2021. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
 On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **ten whole systems**
-modelled. Holding the workforce fixed and changing only the structure, the modelled difference is: vs the mean of the ten
-≈ 82 average-salary-post equivalents; vs the lowest (Nottingham) ≈ 134; vs the cheapest mix ≈ 152 (more at the cheaper
-structures' own pay). These are equivalences for scale (£ ÷ average salary), not predicted savings or job counts — provided
-only so the magnitudes can be compared with the ~125 posts announced. Indicative.
+modelled (Manchester and Newcastle are not yet covered — see below). Holding the workforce fixed and changing only the
+structure, the modelled difference is: vs the mean of the ten ≈ **75–90** average-salary-post equivalents across the
+fast→slow promotion assumptions (≈ 83 central); vs the lowest (Nottingham) ≈ **125–145** (≈ 134 central); vs the cheapest
+mix ≈ 152 central (more at the cheaper structures' own pay). These are equivalences for scale (£ ÷ average salary), not
+predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
+June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
+over roughly five years** (see the transition model); it saves mostly by **paying future hires less**, not by freeing cash
+this year; and the modelled population is **full-time staff in the main academic grades** (research-only and part-time
+staff excluded). Indicative.
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:

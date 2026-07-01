@@ -20,21 +20,22 @@ table.pc th,table.pc td{border:1px solid var(--line);padding:5px 9px;text-align:
 details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}
 summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
 </style></head><body><div class="wrap">
-<h1>How robust is the figure? <span style="font-size:15px;color:#6b7280;font-weight:400">— non-professorial model only</span></h1>
-<p class="sub">The headline depends on three things we can't pin down: how fast people are promoted, what share of
-topped-out staff hold a contribution point, and how the HESA "Senior Lecturer / Associate Professor" total
-splits between Grades 2 and 3. This runs the tenure model <b>5,000 times</b>, each time drawing those three from
+<h1>How sure can we be? <span style="font-size:15px;color:#6b7280;font-weight:400">— the all-in figure as a range, not a number</span></h1>
+<p class="sub">The headline depends on four things nobody can pin down: how fast people are promoted, what share of
+topped-out staff hold a contribution point, how the HESA "Senior Lecturer / Associate Professor" total
+splits between Grades 2 and 3, and how often professors win a discretionary award. This runs the <b>whole all-in
+model</b> (lower grades + professoriate) <b>5,000 times</b>, each time drawing those four from
 plausible ranges, and shows the <i>spread</i> of the result rather than one number. It uses the same engine as
-the career model; on-costs and pay year are fixed choices, not uncertainties.</p>
+the all-in model; on-costs and pay year are fixed choices, not uncertainties.</p>
 
 <div class="answer" id="answer">Running…</div>
 <div class="controls">
- <div class="ctl"><label>Workforce</label><select id="pop"><option value="er">E&amp;R only (750)</option>
-   <option value="ere" selected>E&amp;R + Education-only (1155)</option></select></div>
+ <div class="ctl"><label>Workforce</label><select id="pop"><option value="er">E&amp;R (Education &amp; Research) only (750 + 470 professors)</option>
+   <option value="ere" selected>E&amp;R + Education-only (1,155 + 500 professors)</option></select></div>
  <div class="ctl"><label>Benchmark to match</label><select id="bm">
    <option value="gw4">GW4 peer average (Bristol, Cardiff)</option>
-   <option value="cheapest" selected>Cheapest structure (any of 12)</option>
-   <option value="peeravg">Average of all 12 peers</option></select></div>
+   <option value="cheapest" selected>Cheapest full system (any of 10)</option>
+   <option value="peeravg">Average of the other 9 full systems</option></select></div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
  <button id="resample">Resample</button>
@@ -46,20 +47,21 @@ the career model; on-costs and pay year are fixed choices, not uncertainties.</p
 
 <div class="card ranges"><h2>What's varied each run (triangular: low–high, most-likely)</h2>
  <table><tr><td>Lecturer→SL</td><td>4–6 yrs (5)</td><td>SL→AP</td><td>6–8 yrs (7)</td><td>AP→Prof</td><td>7–9 yrs (8)</td></tr>
- <tr><td>Contribution-point share</td><td>20–40% (30%)</td><td>AP share of SL/AP</td><td>35–65% (50%)</td><td>Runs</td><td>5,000</td></tr></table></div>
+ <tr><td>Contribution-point share</td><td>20–40% (30%)</td><td>AP share of SL/AP</td><td>35–65% (50%)</td><td>Professorial award rate</td><td>30–50% (40%)</td></tr>
+ <tr><td>Runs</td><td>5,000</td><td></td><td></td><td></td><td></td></tr></table></div>
 
 <details><summary>Reading &amp; caveats</summary><div class="small" style="margin-top:8px">
 • "Equivalent posts" = annual saving ÷ Exeter's average cost per head — an equivalence for scale, not a prediction that this many jobs would be retained.<br>• Salaries above spine point 51 (local non-professorial spine extensions, which differ by institution) use each institution's own published values.<br><br>
 • The 5th–95th percentile is a <b>sensitivity range under the selected assumptions</b> — the input ranges are reasoned, not estimated, so it is not a full credible interval. The median is the central value.<br>
 • Seeded for reproducibility — the same settings give the same result; "Resample" draws a fresh set of 5,000.<br>
 • Ranges are reasoned, not measured (no sector data on pace dispersion, CP uptake or the true SL/AP split) — widen
-or narrow them as better Exeter data arrives. Covers the <b>non-professorial model only</b> — it excludes professorial pay, transition behaviour, workforce mapping and local-point uncertainty, so it tests that layer, not the whole all-in figure.</div></details>
+or narrow them as better Exeter data arrives. Covers the <b>whole all-in model</b> (lower grades + professoriate). Still outside the ranges: the HESA salary-band→grade mapping, transition behaviour, and local-point transcription — so this is a strong sensitivity test, not a complete accounting of uncertainty.</div></details>
 </div>
 <script>
-const D={"nat": {"27": 35608, "28": 36636, "29": 37694, "30": 38784, "31": 39906, "32": 41064, "33": 42254, "34": 43482, "35": 44746, "36": 46049, "37": 47389, "38": 48822, "39": 50253, "40": 51753, "41": 53301, "42": 54893, "43": 56535, "44": 58225, "45": 59966, "46": 61759, "47": 63606, "48": 65509, "49": 67468, "50": 69488, "51": 71566, "52": 73710, "53": 75917, "54": 78179, "55": 80529, "56": 82935, "57": 85424, "58": 87986}, "struct": {"Exeter": {"1": {"n": [34, 35, 36], "c": [37, 38, 39, 40, 41]}, "2": {"n": [40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [48, 49, 50], "c": [51, 52, 53, 54, 55, 56]}}, "Bristol": {"1": {"n": [34, 35, 36, 37, 38], "c": [39]}, "2": {"n": [39, 40, 41, 42, 43], "c": [44]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": []}}, "Leeds": {"1": {"n": [32, 33, 34, 35, 36, 37, 38], "c": [39, 40]}, "2": {"n": [40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Cardiff": {"1": {"n": [32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [40, 41, 42, 43], "c": [44, 45]}, "3": {"n": [46, 47, 48, 49], "c": [50, 51]}}, "Birmingham": {"1": {"n": [28, 29, 30, 33, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 41, 43], "c": [44, 45, 46, 47]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}, "York": {"1": {"n": [29, 30, 31, 33, 34, 36], "c": [37, 38]}, "2": {"n": [36, 38, 40, 41, 43], "c": [44, 45]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51]}}, "Warwick": {"1": {"n": [27, 29, 31, 33, 34, 35, 36], "c": []}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": []}, "3": {"n": [44, 45, 46, 47, 49, 50, 51], "c": []}}, "Nottingham": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Southampton": {"1": {"n": [28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38, 39, 40]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52, 53], "c": []}}, "Liverpool": {"1": {"n": [31, 32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52, 53], "c": [54, 55, 56]}}, "Durham": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Sheffield": {"1": {"n": [30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39, 40]}, "2": {"n": [38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50], "c": [51, 52, 53, 54, 55]}}}, "ext": {"Leeds": {"52": 73708, "53": 75912, "54": 78185, "55": 80523, "56": 82930}, "Nottingham": {"52": 73686, "53": 75891, "54": 78165, "55": 80503, "56": 82913}, "Edinburgh": {"52": 73692, "53": 76087, "54": 78469, "55": 81016, "56": 83558, "57": 86268}, "Birmingham": {"52": 73708, "53": 75914, "54": 78184}, "Bath": {"52": 73709}, "Glasgow": {"52": 73709, "53": 75921}, "Southampton": {"52": 73183, "53": 74851}, "Aberdeen": {"52": 73709}, "Liverpool": {"52": 73710, "53": 75917, "54": 78187, "55": 80526, "56": 82936}, "Durham": {"52": 73708}, "Sheffield": {"52": 73708, "53": 75915, "54": 78186, "55": 80524}}}, nat=D.nat, struct=D.struct, EXT=D.ext||{};
+const D={"nat": {"27": 35608, "28": 36636, "29": 37694, "30": 38784, "31": 39906, "32": 41064, "33": 42254, "34": 43482, "35": 44746, "36": 46049, "37": 47389, "38": 48822, "39": 50253, "40": 51753, "41": 53301, "42": 54893, "43": 56535, "44": 58225, "45": 59966, "46": 61759, "47": 63606, "48": 65509, "49": 67468, "50": 69488, "51": 71566, "52": 73710, "53": 75917, "54": 78179, "55": 80529, "56": 82935, "57": 85424, "58": 87986}, "struct": {"Exeter": {"1": {"n": [34, 35, 36], "c": [37, 38, 39, 40, 41]}, "2": {"n": [40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [48, 49, 50], "c": [51, 52, 53, 54, 55, 56]}}, "Bristol": {"1": {"n": [34, 35, 36, 37, 38], "c": [39]}, "2": {"n": [39, 40, 41, 42, 43], "c": [44]}, "3": {"n": [44, 45, 46, 47, 48, 49], "c": []}}, "Leeds": {"1": {"n": [32, 33, 34, 35, 36, 37, 38], "c": [39, 40]}, "2": {"n": [40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Cardiff": {"1": {"n": [32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [40, 41, 42, 43], "c": [44, 45]}, "3": {"n": [46, 47, 48, 49], "c": [50, 51]}}, "Birmingham": {"1": {"n": [28, 29, 30, 33, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 41, 43], "c": [44, 45, 46, 47]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51, 52, 53, 54]}}, "York": {"1": {"n": [29, 30, 31, 33, 34, 36], "c": [37, 38]}, "2": {"n": [36, 38, 40, 41, 43], "c": [44, 45]}, "3": {"n": [44, 46, 47, 48, 49], "c": [50, 51]}}, "Warwick": {"1": {"n": [27, 29, 31, 33, 34, 35, 36], "c": []}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": []}, "3": {"n": [44, 45, 46, 47, 49, 50, 51], "c": []}}, "Nottingham": {"1": {"n": [27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52], "c": [53, 54, 55, 56]}}, "Southampton": {"1": {"n": [28, 29, 30, 31, 32, 33, 34, 35], "c": [36, 37, 38, 39, 40]}, "2": {"n": [36, 37, 38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48, 49]}, "3": {"n": [45, 46, 47, 48, 49, 50, 51, 52, 53], "c": []}}, "Liverpool": {"1": {"n": [31, 32, 33, 34, 35, 36], "c": [37, 38]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43, 44, 45], "c": [46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50, 51, 52, 53], "c": [54, 55, 56]}}, "Durham": {"1": {"n": [30, 31, 32, 33, 34, 35, 36], "c": [37, 38, 39]}, "2": {"n": [37, 38, 39, 40, 41, 42, 43], "c": [44, 45, 46]}, "3": {"n": [45, 46, 47, 48, 49], "c": [50, 51, 52]}}, "Sheffield": {"1": {"n": [30, 31, 32, 33, 34, 35, 36, 37], "c": [38, 39, 40]}, "2": {"n": [38, 39, 40, 41, 42, 43, 44], "c": [45, 46, 47, 48]}, "3": {"n": [46, 47, 48, 49, 50], "c": [51, 52, 53, 54, 55]}}}, "ext": {"Exeter": {"48": 65827, "52": 73710, "53": 75917, "54": 78189, "55": 80529, "56": 82935}, "Leeds": {"52": 73708, "53": 75912, "54": 78185, "55": 80523, "56": 82930}, "Nottingham": {"52": 73686, "53": 75891, "54": 78165, "55": 80503, "56": 82913}, "Edinburgh": {"52": 73692, "53": 76087, "54": 78469, "55": 81016, "56": 83558, "57": 86268}, "Birmingham": {"52": 73708, "53": 75914, "54": 78184}, "Bath": {"52": 73709}, "Glasgow": {"52": 73709, "53": 75921}, "Southampton": {"52": 73183, "53": 74851}, "Aberdeen": {"52": 73709}, "Liverpool": {"52": 73710, "53": 75917, "54": 78187, "55": 80526, "56": 82936}, "Durham": {"52": 73708}, "Sheffield": {"52": 73708, "53": 75915, "54": 78186, "55": 80524}}, "lad": {"Exeter": [78189, 80529, 82935, 85424, 87986, 90628, 93346, 96146, 99031, 102000, 105062, 108214, 111459], "Bristol": [74828, 77537, 80246, 82955, 85664, 88373, 91082, 93791, 96500, 99209, 101918, 104627, 107336, 110045], "Leeds": [75912, 78185, 80523, 82930, 85413, 87969, 90603, 93317, 96117, 99000, 101973, 105028, 108179], "Southampton": [78052, 78832, 79620, 80417, 81221, 82033, 82853, 83682, 84519, 85364, 86218, 87080, 87951, 88830, 89718, 90616, 91522, 92437, 93361, 94295, 95238, 96190, 97152, 98124, 99105, 100096, 101097, 102108, 103129, 104160, 105202, 106254, 107316, 108390, 109473, 110568], "Warwick": [73794, 75146, 76496, 77848, 79198, 80550, 81901, 83252, 84603, 85955, 87305, 88657, 90008, 91359, 92710, 94062, 95412, 96764, 98115, 99466, 100817, 102169, 103519, 104871, 106222, 107573, 108924], "Cardiff": [76188, 77711, 79264, 80850, 82468, 84117, 85800, 87515, 89265, 91051, 92871, 94729, 96622, 98556, 100527, 102538, 104589, 106680, 108812, 110989, 113208, 115474], "Nottingham": [73713, 75924, 78203, 80548, 82965, 85454, 88018, 90660, 93377, 96179, 99065, 102036], "Birmingham": [76509, 78804, 81169, 83646, 86156, 88741, 90080, 92782, 96514, 99410, 102393, 105464, 109383], "Durham": [73711, 76400, 79100, 81800, 84500, 87200, 89900, 92600, 95300, 98000, 100700, 103400, 106663], "Sheffield": [71566, 73708, 75915, 78186, 80524, 82932, 85414, 87970, 90603, 93320, 96114, 98989, 101954, 105009, 108153, 111391]}, "profnw": {"er": 470, "ere": 500}}, nat=D.nat, struct=D.struct, LAD=D.lad, PROFNW=D.profnw, EXT=D.ext||{};
 function salx(inst,pt,yr){const e=EXT[inst];return ((e&&e[pt]!=null)?e[pt]:nat[pt])*(yr==2027?1.02:1);}
 const ALL=Object.keys(struct), GW4=['Bristol','Cardiff'];
-const WFB={er:{g1:195,slap:555},ere:{g1:420,slap:735}};
+const WFB={er:{g1:195,slap:555,prof:470},ere:{g1:420,slap:735,prof:500}};
 const $=id=>document.getElementById(id);
 const gbp=n=>'£'+Math.round(n).toLocaleString();
 function sal(pt,yr){return nat[pt]*(yr==2027?1.02:1);}
@@ -67,6 +69,12 @@ function oncost(s){return s+0.15*Math.max(0,s-5000)+0.145*s+0.005*s;}
 function Egrade(info,T,cp,yr,inst){const R=info.n,L=R.length,c=info.c,cp1=c.length?salx(inst,c[0],yr):null;let tot=0;
  for(let k=1;k<=T;k++){if(k<=L)tot+=salx(inst,R[k-1],yr);else{const ce=salx(inst,R[L-1],yr);tot+=cp1!=null?(1-cp)*ce+cp*cp1:ce;}}return tot/T;}
 function perHead(inst,T,cp,w,yr,oc){let v=(w[1]*Egrade(struct[inst][1],T[1],cp,yr,inst)+w[2]*Egrade(struct[inst][2],T[2],cp,yr,inst)+w[3]*Egrade(struct[inst][3],T[3],cp,yr,inst))/(w[1]+w[2]+w[3]);return oc?oncost(v):v;}
+function comb(n,k){let c=1;for(let i=0;i<k;i++)c=c*(n-i)/(i+1);return c;}
+function binp(n,k,p){return comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);}
+function phP(inst,aw,yr,oc){const lad=LAD[inst],L=lad.length,f=yr==2027?1.02:1;let tot=0;
+ for(let t=0;t<20;t++){const rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binp(rev,k,aw)*lad[Math.min(k,L-1)];tot+=e;}
+ let v=tot/20*f;return oc?oncost(v):v;}
+const FULL=Object.keys(LAD).filter(i=>struct[i]);
 // seeded RNG (mulberry32)
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function tri(r,lo,mode,hi){const u=r(),c=(mode-lo)/(hi-lo);return u<c?lo+Math.sqrt(u*(hi-lo)*(mode-lo)):hi-Math.sqrt((1-u)*(hi-lo)*(hi-mode));}
@@ -76,21 +84,21 @@ function run(){
  const base=WFB[pop],g1=base.g1,slap=base.slap;const r=mulberry32(seed);const ITER=5000,out=[];
  for(let it=0;it<ITER;it++){
    const T={1:Math.round(tri(r,4,5,6)),2:Math.round(tri(r,6,7,8)),3:Math.round(tri(r,7,8,9))};
-   const cp=tri(r,0.2,0.3,0.4), ap=tri(r,0.35,0.5,0.65);
-   const w={1:g1,2:slap*(1-ap),3:slap*ap},N=g1+slap;
-   const ph={};ALL.forEach(i=>ph[i]=perHead(i,T,cp,w,yr,oc));
-   const ex=ph['Exeter'];let target;
-   if(bm==='gw4')target=GW4.reduce((a,i)=>a+ph[i],0)/GW4.length;
-   else if(bm==='cheapest')target=Math.min(...ALL.map(i=>ph[i]));
-   else target=ALL.filter(i=>i!=='Exeter').reduce((a,i)=>a+ph[i],0)/(ALL.length-1);
-   out.push((ex-target)*N/ex);
+   const cp=tri(r,0.2,0.3,0.4), ap=tri(r,0.35,0.5,0.65), aw=tri(r,0.3,0.4,0.5);
+   const w={1:g1,2:slap*(1-ap),3:slap*ap},N=g1+slap,NP=base.prof,HEAD=N+NP;
+   const tot={};FULL.forEach(i=>tot[i]=perHead(i,T,cp,w,yr,oc)*N+phP(i,aw,yr,oc)*NP);
+   const ex=tot['Exeter'];let target;
+   if(bm==='gw4')target=GW4.reduce((a,i)=>a+tot[i],0)/GW4.length;
+   else if(bm==='cheapest')target=Math.min(...FULL.filter(i=>i!=='Exeter').map(i=>tot[i]));
+   else target=FULL.filter(i=>i!=='Exeter').reduce((a,i)=>a+tot[i],0)/(FULL.length-1);
+   out.push((ex-target)*HEAD/ex);
  }
  out.sort((a,b)=>a-b);
  const pc=q=>out[Math.floor(q*(out.length-1))];
  const med=pc(.5),p5=pc(.05),p95=pc(.95),p25=pc(.25),p75=pc(.75),lo=out[0],hi=out[out.length-1];
- const bmTxt={gw4:'its GW4 peers (Bristol, Cardiff)',cheapest:'the cheapest of the 12 structures',peeravg:'the average of the other 11'}[bm];
- $('answer').innerHTML=`Varying promotion pace, contribution uptake and the SL/AP split across 5,000 runs, Exeter's structure costs a median of <b>${med.toFixed(0)} posts</b> more than ${bmTxt}. `+
-   `the sensitivity range (5th–95th percentile) is <b>${p5.toFixed(0)}–${p95.toFixed(0)} posts</b> (full range ${lo.toFixed(0)}–${hi.toFixed(0)}).`;
+ const bmTxt={gw4:'its GW4 peers (Bristol, Cardiff)',cheapest:'the cheapest of the 10 full systems',peeravg:'the average of the other 9 full systems'}[bm];
+ $('answer').innerHTML=`Varying promotion pace, contribution uptake, the SL/AP split and the professorial award rate across 5,000 runs, Exeter's whole pay system costs a median of <b>${med.toFixed(0)} posts</b> more than ${bmTxt}. `+
+   `The sensitivity range (5th–95th percentile) is <b>${p5.toFixed(0)}–${p95.toFixed(0)} posts</b> (full range ${lo.toFixed(0)}–${hi.toFixed(0)}).`;
  drawHist(out,{med,p5,p95});
  $('pctable').innerHTML='<table class="pc"><tr><th>5th</th><th>25th</th><th>Median</th><th>75th</th><th>95th</th></tr>'+
    `<tr><td>${p5.toFixed(0)}</td><td>${p25.toFixed(0)}</td><td><b>${med.toFixed(0)}</b></td><td>${p75.toFixed(0)}</td><td>${p95.toFixed(0)}</td></tr></table>`;
