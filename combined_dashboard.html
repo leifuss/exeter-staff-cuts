@@ -69,6 +69,15 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    The pay scales are public and the data is downloadable, so anyone can check, challenge or extend this.</p>
   </div>
 
+  <p class="small">The chart below shows, for each Russell Group structure modelled, how much Exeter's annual academic pay bill
+  would change if it used that structure on the same workforce — using only the universities' own published scales. It is
+  computed live from the same data and central assumptions as the <b>All-in pay bill</b> tab, so the numbers here always match
+  the detailed model.</p>
+
+  <div class="figpanel" id="heropanel"></div>
+  <p class="small">One view of the central case. The <b>All-in pay bill</b> tab lets you change the assumptions (promotion
+  pace, contribution-point uptake, on-costs, workforce) and watch how the picture moves.</p>
+
   <div class="note" style="background:#f0f7ff;border-color:#cfe0f5"><b>What this shows — and what it doesn't</b>
    <ul style="margin:6px 0 0;padding-left:20px">
     <li>Every university here uses the <b>same national pay spine</b>: a given spine point pays the same salary everywhere. Only the <i>structure</i> — where each grade starts, how long it runs, what sits above its ceiling — differs.</li>
@@ -78,15 +87,6 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
     <li>The figures are a <b>minimum</b>: they cover only E&amp;R and teaching-only academics plus the professoriate. Research-only staff (~780 full-time) and professional-services staff — whose grade structures differ in the same way — are <b>not counted</b>, and would likely add to the saving.</li>
     <li>This is a <b>comparison, not a costed alternative plan</b> — and not a claim that anyone is overpaid.</li>
    </ul></div>
-
-  <p class="small">The chart below shows, for each Russell Group structure modelled, how much Exeter's annual academic pay bill
-  would change if it used that structure on the same workforce — using only the universities' own published scales. It is
-  computed live from the same data and central assumptions as the <b>All-in pay bill</b> tab, so the numbers here always match
-  the detailed model.</p>
-
-  <div class="figpanel" id="heropanel"></div>
-  <p class="small">One view of the central case. The <b>All-in pay bill</b> tab lets you change the assumptions (promotion
-  pace, contribution-point uptake, on-costs, workforce) and watch how the picture moves.</p>
 
   <div class="note" style="background:#fafaf7;border-color:#e3e3df;font-size:13px"><b>Jargon in plain English.</b>
   <b>E&amp;R</b> = Education &amp; Research staff (the standard teaching-and-research academic contract) ·
@@ -143,7 +143,7 @@ const cards=[
  ['monte_carlo.html','7 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02c'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02d'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
