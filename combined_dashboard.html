@@ -150,10 +150,12 @@ const cards=[
  ['monte_carlo.html','7 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
+const V='2026-07-02a'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
+function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
  if(f==='overview'){ov.classList.add('active');frame.classList.remove('active');}
- else{ov.classList.remove('active');if(frame.getAttribute('src')!==f)frame.setAttribute('src',f);frame.classList.add('active');}}
+ else{ov.classList.remove('active');const u=vurl(f);if(frame.getAttribute('src')!==u)frame.setAttribute('src',u);frame.classList.add('active');}}
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.f)));
 document.getElementById('cards').innerHTML=cards.map(c=>`<div class="cardlink" data-f="${c[0]}"><b>${c[1]}</b><p>${c[2]}</p></div>`).join('');
 document.querySelectorAll('.cardlink').forEach(c=>c.addEventListener('click',()=>show(c.dataset.f)));

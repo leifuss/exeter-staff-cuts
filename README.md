@@ -18,6 +18,10 @@ Live site: **https://leifuss.github.io/exeter-staff-cuts/** (served via GitHub P
 Or open **`combined_dashboard.html`** locally — it holds all six models as tabs, plus an Overview and a Sources tab.
 Keep the whole folder together (the dashboards load each other in frames and link to `sources/`).
 
+**Updating the site:** bump the `V` version constant near the top of the script in `combined_dashboard.html`
+whenever content changes — it cache-busts the framed sub-pages so visitors' browsers fetch the new versions
+(GitHub Pages' own CDN cache clears within ~10 minutes).
+
 ## The models (also openable individually)
 - `all_in_model.html` — whole academic pay bill (non-professorial + professorial), per university, with a
   **mix-and-match** tab (one university's grades + another's professoriate), jobs vs the ~150 proposed cuts, plus
