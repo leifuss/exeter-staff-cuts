@@ -34,11 +34,10 @@ What differs between universities is the <b>floor</b> each ladder starts at (She
 weighted by Exeter's professoriate applied to every structure, and kept separate from the non-professorial models.</p>
 <div class="answer" id="answer"></div>
 <div class="controls">
- <div class="ctl"><label>Progression model</label><select id="pm">
-   <option value="uniform" selected>Uniform biennial merit (comparable baseline)</option>
-   <option value="doc">Documented mechanisms (draft — see caveats)</option></select>
-   <span class="hint">The baseline treats every professoriate identically (a like-for-like review). "Documented mechanisms"
-   uses each university's own progression rules — several are automatic — but rests on patchier evidence.</span></div>
+ <div class="ctl"><label>Progression model</label><span style="font-weight:600">Documented mechanisms</span>
+   <span class="hint">Each university's own progression rules are used — several are automatic annual increments, Exeter's is
+   biennial merit (among the slowest). This rests on patchier evidence than the scales themselves (see caveats);
+   it is being validated against peers' £100k+ disclosures.</span></div>
  <div class="ctl"><label>Merit award rate (per review)</label><select id="p">
    <option value="0.5">Fast — 50% succeed</option><option value="0.4" selected>Middle — 40%</option><option value="0.3">Slow — 30%</option></select></div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
@@ -47,7 +46,7 @@ weighted by Exeter's professoriate applied to every structure, and kept separate
 <div class="card"><p class="lead">Average professorial cost per head, shown as the <b>local premium above the top of the national pay spine</b> (£71,566) — the part of professorial pay that is locally determined and actually varies. Exeter highlighted; the number on each bar is the actual average cost per head.</p>
  <svg id="bars" viewBox="0 0 920 300" width="920" height="300"></svg></div>
 <div class="card"><h2>Career trajectory — a professor progressing on schedule, age 48→67</h2>
- <p class="lead">A representative professor promoted to the floor at 48, advancing <b>on schedule</b> (each due review succeeds). Step width shows the mechanism: <b>annual</b> increments rise every year; <b>biennial</b> merit reviews (Exeter, Southampton) rise every two years, so they climb more slowly and plateau lower. Switch <b>Progression model</b> to "Documented mechanisms" to see the real cadences — the baseline treats every university as biennial. Dashed red line = the £100,000 accounts threshold. Exeter in bold.</p>
+ <p class="lead">A representative professor promoted to the floor at 48, advancing <b>on schedule</b> (each due review succeeds). Step width shows the mechanism: <b>annual</b> increments rise every year; <b>biennial</b> merit reviews (Exeter, Southampton) rise every two years, so they climb more slowly and plateau lower. Each line uses that university's <b>documented cadence</b> — automatic annual, annual merit, or biennial merit. Dashed red line = the £100,000 accounts threshold. Exeter in bold.</p>
  <svg id="traj" viewBox="0 0 920 300" width="920" height="300"></svg>
  <div class="lgnd" id="trajlegend"></div></div>
 <div class="card"><h2>What Exeter would save by adopting each structure (510 professors)</h2><div id="tbl"></div></div>
@@ -98,7 +97,9 @@ const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString
 const cssv=v=>v[0]=='-'?getComputedStyle(document.documentElement).getPropertyValue(v).trim():v;
 function comb(n,k){let c=1;for(let i=0;i<k;i++)c=c*(n-i)/(i+1);return c;}
 function binpmf(n,k,p){return comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);}
-function mode(){const el=document.getElementById('pm');return el?el.value:'uniform';}
+// Documented mechanisms are now the default and only mode; the uniform-biennial baseline code
+// is kept below (in expSal/trajRungs) for reference but is no longer selectable in the UI.
+function mode(){const el=document.getElementById('pm');return el&&el.value?el.value:'doc';}
 function expSal(inst,t,p,yr){const lad=LAD[inst],f=yr==2027?1.02:1;
  if(mode()==='doc'){const pv=probVec(inst,p,20)[Math.min(t,19)];return pv.reduce((a,pr,i)=>a+pr*lad[i],0)*f;}
  const L=lad.length,rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binpmf(rev,k,p)*lad[Math.min(k,L-1)];return e*f;}
@@ -175,7 +176,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
    `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td>${(function(){const ca=crossAge100k(d.i,yr);return ca?('age '+ca):'—';})()}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
  h+='</table>';$('tbl').innerHTML=h;
 }
-$('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit; Leeds, Cardiff, Sheffield and Nottingham give <b>automatic annual increments within zones/bands</b>; Newcastle, York, Manchester and Liverpool are automatic at the bottom then merit. The default "uniform biennial" view deliberately ignores this so every professoriate faces the same review — a like-for-like comparison of <i>scales</i>. The "documented mechanisms" view models each university\'s own rules and can change the ranking dramatically (Exeter falls to mid-pack) — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and the Leeds/Cardiff/Nottingham band boundaries are assumed. The plan is to validate it against peer universities\' own £100k+ staff tables (see the High pay tab) before it becomes the default.<br>'+
+$('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit; Leeds, Cardiff, Sheffield and Nottingham give <b>automatic annual increments within zones/bands</b>; Newcastle, York, Manchester and Liverpool are automatic at the bottom then merit. This view models each university\'s <b>own documented rules</b>, which puts Exeter mid-pack rather than at the top — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and the Leeds/Cardiff/Nottingham band boundaries are assumed. A like-for-like "uniform biennial" baseline (every professoriate on the same review) is retained in the code but no longer shown; the documented mechanisms are being validated against peers\' own £100k+ staff tables (see the High pay tab).<br>'+
  '• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
  '• <b>York</b>: Band 1 has <b>automatic annual increments</b> (unlike the discretionary reviews modelled here), so the model likely <i>understates</i> York\'s professorial cost; Band 2 has no published rungs — interpolated between its min/max like Durham. <b>Manchester</b> is modelled on Grade 9 zones 9E+9D (SP53–64); zones 9C–9A (up to £226k) are excluded as Band-3 analogues.<br>'+
  '• <b>Newcastle</b> is modelled on its published IB Professor scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.<br>'+
@@ -183,5 +184,5 @@ $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baselin
   '• Two bands modelled as one climbing ladder; Band 3 excluded. Weighted by Exeter\'s 510 professors on every structure.<br>'+
  '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
  '• Award rate ~40% reported; start 48, retire 67, review every 2 yrs. Base salaries; excludes transition costs.';
-['pm','p','oc','yr'].forEach(id=>$(id).addEventListener('change',draw));draw();
+['pm','p','oc','yr'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',draw);});draw();
 </script></body></html>

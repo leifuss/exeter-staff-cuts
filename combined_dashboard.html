@@ -145,7 +145,7 @@ const cards=[
  ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02n'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02o'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
@@ -166,8 +166,17 @@ function comb(n,k){let c=1;for(let i=0;i<k;i++)c=c*(n-i)/(i+1);return c;}
 function binp(n,k,p){return comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);}
 function EgNP(info,T,inst){const R=info.n,L=R.length,c=info.c,cp1=c.length?salx(inst,c[0]):null;let tot=0;
  for(let k=1;k<=T;k++){if(k<=L)tot+=salx(inst,R[k-1]);else{const ce=salx(inst,R[L-1]);tot+=cp1!=null?(1-CP)*ce+CP*cp1:ce;}}return tot/T;}
-function phP(inst){const lad=LAD[inst],L=lad.length;let tot=0;
- for(let t=0;t<20;t++){const rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binp(rev,k,AW)*lad[Math.min(k,L-1)];tot+=e;}
+// Professorial per-head: documented mechanisms (each university's own progression rules), the site default.
+// Markov forward simulation, 20 years, cohort starting at the bottom rung. 'a'=automatic annual,
+// 'm1'=annual merit (award rate AW), 'm2'=biennial merit (AW on alternate years).
+const PROG={"Exeter":Array(12).fill('m2'),"Southampton":Array(35).fill('m2'),"Bristol":Array(13).fill('m1'),"Warwick":Array(26).fill('m1'),"Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m1'),"Sheffield":Array(15).fill('a'),"Leeds":[...Array(6).fill('a'),'m1',...Array(5).fill('a')],"Cardiff":[...Array(10).fill('a'),'m1',...Array(10).fill('a')],"Nottingham":[...Array(5).fill('a'),'m1',...Array(5).fill('a')],"Newcastle":['a','a','m1','m1'],"York":[...Array(5).fill('a'),...Array(9).fill('m1')],"Manchester":[...Array(3).fill('a'),...Array(8).fill('m1')],"Liverpool":[...Array(4).fill('a'),'m1','m1','m1']};
+function phP(inst){const lad=LAD[inst],L=lad.length,tr=PROG[inst]||Array(L).fill('m2');let tot=0;
+ let p=new Array(L).fill(0);p[0]=1;
+ for(let t=0;t<20;t++){tot+=p.reduce((a,pr,i)=>a+pr*lad[i],0);
+  const q=new Array(L).fill(0);
+  for(let k=0;k<L;k++){if(!p[k])continue;if(k===L-1){q[k]+=p[k];continue;}
+   const m=tr[k],pr=m==='a'?1:(m==='m1'?AW:(t%2===1?AW:0));q[k+1]+=p[k]*pr;q[k]+=p[k]*(1-pr);}
+  p=q;}
  return tot/20;}
 const er=WF.er,ere=WF.ere,to={1:ere['1']-er['1'],2:ere['2']-er['2'],3:ere['3']-er['3']};
 const NP=+ere['1']+ +ere['2']+ +ere['3'],NPROF=PROFNW.ere,HEAD=NP+NPROF;
@@ -212,7 +221,7 @@ rows.forEach((r,k)=>{const y=TOP+(k+1)*RH;
    if(w>0.5)g+=`<rect x="${cx}" y="${y}" width="${w}" height="${BH}" rx="1.5" fill="${COLS[si]}" opacity="0.92"/>`;cx+=Math.max(0,w);});
   g+=`<text x="${cx+6}" y="${y+BH/2+4}" font-size="12" font-weight="600" fill="#1d1d1b">≈ ${Math.round(r.tot)} posts</text>`;}});
 g+=`</svg>`;
-g+=`<p class="small" style="margin:8px 0 0">Notional posts = the whole modelled saving ÷ Exeter's average academic salary — an equivalence for scale, <b>not</b> predicted job retention: a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less (see the <b>Transition</b> tab). Central assumptions (middle promotion pace, 30% contribution-point uptake, 40% professorial award rate), salary-only basis, 2025-26. <b>A minimum:</b> research-only and professional-services staff are not counted — likely additional savings there. Professorial progression uses the uniform biennial baseline (see the Professorial tab for a draft mechanism-aware view). Executive/senior-management pay needs equal scrutiny.</p>`;
+g+=`<p class="small" style="margin:8px 0 0">Notional posts = the whole modelled saving ÷ Exeter's average academic salary — an equivalence for scale, <b>not</b> predicted job retention: a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less (see the <b>Transition</b> tab). Central assumptions (middle promotion pace, 30% contribution-point uptake, 40% professorial award rate), salary-only basis, 2025-26. <b>A minimum:</b> research-only and professional-services staff are not counted — likely additional savings there. Professorial progression uses each university's documented mechanisms (draft; see the Professorial tab). Executive/senior-management pay needs equal scrutiny.</p>`;
 document.getElementById('heropanel').innerHTML=g;
 })();
 </script>
