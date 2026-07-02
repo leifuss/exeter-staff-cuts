@@ -145,7 +145,7 @@ const cards=[
  ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02l'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02n'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));

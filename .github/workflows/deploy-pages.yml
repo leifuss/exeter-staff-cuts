@@ -19,11 +19,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  # Split build/deploy (the canonical Pages layout) so that re-running the
+  # deploy job never re-uploads the artifact — which would otherwise leave two
+  # artifacts named "github-pages" and fail with "Multiple artifacts ... found".
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +33,14 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'          # the whole repo root is the site (static HTML)
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
