@@ -62,9 +62,12 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    Newcastle are not yet covered — see "Help fill the gaps" below) — and that the difference, applied to Exeter's own workforce,
    is of broadly the <b>same order of magnitude as the saving the cuts are meant to deliver</b>. On that evidence the scale of
    the cuts looks less like a necessity than a <b>choice</b>: pay structure is a large, comparable lever that has not been part
-   of the public conversation. For scale: the modelled structural difference (roughly £5–11m a year depending on the
-   comparator and cost basis) is of the <b>same order as Exeter's entire 2024/25 operating surplus (£8.2m)</b> — the
-   accounts of a solvent institution with a thinning margin, not a failing one. (As reported by the UCU, Exeter's
+   of the public conversation. For scale: converging on the <b>Russell Group median structure</b> — the principal benchmark throughout this site —
+   would save roughly <b>£7–9m a year</b>, of the <b>same order as Exeter's entire 2024/25 operating surplus (£8.2m)</b>:
+   a recurring saving that would roughly <b>double the operating margin, with no severance bill</b>. And it is convergence
+   with the middle of the peer group, not a race to the bottom — the floor is the nationally negotiated spine, and half
+   the modelled peers already operate at or below the median. (The accounts are those of a solvent institution with a
+   thinning margin, not a failing one.) (As reported by the UCU, Exeter's
    <i>own</i> modelling is
    said to show the deficit closing by 2029 from reserves and voluntary measures, without compulsory redundancies — so
    alternatives plainly exist.)</p>
@@ -79,7 +82,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    <ul style="margin:6px 0 0;padding-left:20px">
     <li>Every university here uses the <b>same national pay spine</b>: a given spine point pays the same salary everywhere. Only the <i>structure</i> — where each grade starts, how long it runs, what sits above its ceiling — differs.</li>
     <li>We price <b>Exeter's own current staff</b> on each university's structure, so the only thing that changes is the pay system, not the people.</li>
-    <li>On that like-for-like test, Exeter's structure is the <b>most expensive of the ten systems we could model</b>.</li>
+    <li>On that like-for-like test, Exeter's structure is the <b>most expensive of the ten systems we could model</b>. The <b>principal benchmark is the Russell Group median</b> — the middle of the peer group; the cheapest system is shown too, but as a bound, not a proposal.</li>
     <li>The difference is <b>comparable in scale to the proposed ~150-post cuts</b> — but a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less. It is not cash in the bank this year.</li>
     <li>The figures are a <b>minimum</b>: they cover only E&amp;R and teaching-only academics plus the professoriate. Research-only staff (~780 full-time) and professional-services staff — whose grade structures differ in the same way — are <b>not counted</b>, and would likely add to the saving.</li>
     <li>This is a <b>comparison, not a costed alternative plan</b> — and not a claim that anyone is overpaid.</li>
@@ -150,7 +153,7 @@ const cards=[
  ['monte_carlo.html','7 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02a'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02b'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
@@ -199,6 +202,10 @@ g+=`<text x="${x(maxP/2)}" y="${axisY+30}" text-anchor="middle" font-size="11" f
 // cuts reference line
 g+=`<line x1="${x(CUTS)}" y1="${TOP-14}" x2="${x(CUTS)}" y2="${axisY}" stroke="#b91c1c" stroke-width="1.5" stroke-dasharray="5 4"/>`;
 g+=`<text x="${x(CUTS)}" y="${TOP-18}" text-anchor="middle" font-size="11" font-weight="600" fill="#b91c1c">~150 posts proposed for cuts</text>`;
+// RG median reference line (principal benchmark)
+const medPosts=(a=>{const t=[...a].sort((x,y)=>x-y);return (t[Math.floor((t.length-1)/2)]+t[Math.ceil((t.length-1)/2)])/2;})(rows.map(r=>r.tot));
+g+=`<line x1="${x(medPosts)}" y1="${TOP-2}" x2="${x(medPosts)}" y2="${axisY}" stroke="#15803d" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+g+=`<text x="${x(medPosts)}" y="${TOP-5}" text-anchor="middle" font-size="11" font-weight="600" fill="#15803d">RG median ≈ ${Math.round(medPosts)} posts</text>`;
 // Exeter reference row
 g+=`<text x="${L-8}" y="${TOP+BH/2+4}" text-anchor="end" font-size="13" font-weight="700" fill="#b45309">Exeter</text>`;
 g+=`<text x="${L+6}" y="${TOP+BH/2+4}" font-size="12" fill="#b45309">its current structure — reference (0 posts)</text>`;

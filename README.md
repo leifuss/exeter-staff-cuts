@@ -76,9 +76,13 @@ plausible changes in assumptions — not as precise accounting. Excludes transit
 ## Headline (current data, E&R + teaching, middle assumptions)
 On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **ten whole systems**
 modelled (Manchester and Newcastle are not yet covered — see below). Holding the workforce fixed and changing only the
-structure, the modelled difference is: vs the mean of the ten ≈ **75–90** average-salary-post equivalents across the
-fast→slow promotion assumptions (≈ 84 central); vs the lowest (Nottingham) ≈ **125–145** (≈ 134 central); vs the cheapest
-mix ≈ 152 central (more at the cheaper structures' own pay). These are equivalences for scale (£ ÷ average salary), not
+structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 99–111
+average-salary-post equivalents across the fast→slow promotion assumptions (≈ 105 central; ≈ £6.8m/yr in salary, ≈ £8.8m
+with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
+bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
+negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
+the ten ≈ 75–90 (≈ 84 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
+(a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
 predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
 June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
 over roughly five years** (see the transition model); it saves mostly by **paying future hires less**, not by freeing cash
