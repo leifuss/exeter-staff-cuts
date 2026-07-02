@@ -145,7 +145,7 @@ const cards=[
  ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02p'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02q'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
@@ -169,7 +169,7 @@ function EgNP(info,T,inst){const R=info.n,L=R.length,c=info.c,cp1=c.length?salx(
 // Professorial per-head: documented mechanisms (each university's own progression rules), the site default.
 // Markov forward simulation, 20 years, cohort starting at the bottom rung. 'a'=automatic annual,
 // 'm1'=annual merit (award rate AW), 'm2'=biennial merit (AW on alternate years).
-const PROG={"Exeter":Array(12).fill('m2'),"Southampton":Array(35).fill('m2'),"Bristol":Array(13).fill('m1'),"Warwick":Array(26).fill('m1'),"Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m1'),"Sheffield":Array(15).fill('a'),"Leeds":[...Array(4).fill('a'),...Array(8).fill('m1')],"Cardiff":[...Array(10).fill('a'),'m1',...Array(10).fill('a')],"Nottingham":[...Array(5).fill('a'),'m1',...Array(5).fill('a')],"Newcastle":['a','m1','m1','m1'],"York":[...Array(5).fill('a'),...Array(9).fill('m1')],"Manchester":[...Array(3).fill('a'),...Array(8).fill('m1')],"Liverpool":[...Array(4).fill('a'),'m1','m1','m1']};
+const PROG={"Exeter":Array(12).fill('m2'),"Southampton":Array(35).fill('m2'),"Bristol":Array(13).fill('m1'),"Warwick":Array(26).fill('m1'),"Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m1'),"Sheffield":[...Array(3).fill('a'),...Array(12).fill('m1')],"Leeds":[...Array(4).fill('a'),...Array(8).fill('m1')],"Cardiff":[...Array(10).fill('a'),...Array(11).fill('m1')],"Nottingham":[...Array(5).fill('a'),...Array(6).fill('m1')],"Newcastle":['a','m1','m1','m1'],"York":[...Array(5).fill('a'),...Array(9).fill('m1')],"Manchester":[...Array(3).fill('a'),...Array(8).fill('m1')],"Liverpool":[...Array(4).fill('a'),'m1','m1','m1']};
 function phP(inst){const lad=LAD[inst],L=lad.length,tr=PROG[inst]||Array(L).fill('m2');let tot=0;
  let p=new Array(L).fill(0);p[0]=1;
  for(let t=0;t<20;t++){tot+=p.reduce((a,pr,i)=>a+pr*lad[i],0);

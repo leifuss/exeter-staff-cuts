@@ -74,10 +74,10 @@ const PROG={
  "Exeter":Array(12).fill('m2'),"Southampton":Array(35).fill('m2'),
  "Bristol":Array(13).fill('m1'),"Warwick":Array(26).fill('m1'),
  "Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m1'),
- "Sheffield":Array(15).fill('a'),
+ "Sheffield":[...Array(3).fill('a'),...Array(12).fill('m1')],
  "Leeds":[...Array(4).fill('a'),...Array(8).fill('m1')],
- "Cardiff":[...Array(10).fill('a'),'m1',...Array(10).fill('a')],
- "Nottingham":[...Array(5).fill('a'),'m1',...Array(5).fill('a')],
+ "Cardiff":[...Array(10).fill('a'),...Array(11).fill('m1')],
+ "Nottingham":[...Array(5).fill('a'),...Array(6).fill('m1')],
  "Newcastle":['a','m1','m1','m1'],
  "York":[...Array(5).fill('a'),...Array(9).fill('m1')],
  "Manchester":[...Array(3).fill('a'),...Array(8).fill('m1')],
@@ -93,8 +93,8 @@ function probVec(inst,aw,years){const lad=LAD[inst],tr=PROG[inst],L=lad.length;
   p=q;out.push(p.slice());}
  return out;}
 const MECH={"Exeter":"biennial, merit","Southampton":"biennial, merit","Bristol":"annual, merit","Warwick":"annual, merit",
- "Leeds":"automatic SP4–SP8, then annual merit (threshold ~SP8/9)","Cardiff":"annual, automatic within bands (band boundary: merit; split assumed)",
- "Nottingham":"annual, banded (boundary assumed)","Sheffield":"annual increment expected (modelled automatic)",
+ "Leeds":"automatic SP4–SP8, then annual merit (threshold ~SP8/9)","Cardiff":"automatic SP2–12, then annual merit",
+ "Nottingham":"automatic through Band 1 (SP1–6), then annual merit","Sheffield":"automatic through introductory zone (SP2–5), then annual merit",
  "Newcastle":"automatic SP53\u201354 only (1 step), then SP55\u201357 annual merit (CPs)","York":"automatic Band 1, then annual merit",
  "Manchester":"automatic zone 9E, then annual merit","Liverpool":"automatic Level 1 (55\u201359), annual merit to \u00a399k; L2\u20134 spot salaries (excluded)",
  "Birmingham":"unclear \u2014 annual merit assumed","Durham":"not published \u2014 annual merit assumed"};
@@ -184,7 +184,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
    `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td>${(function(){const ca=crossAge100k(d.i,yr);return ca?('age '+ca):'—';})()}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
  h+='</table>';$('tbl').innerHTML=h;
 }
-$('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit; Cardiff, Sheffield and Nottingham give <b>automatic annual increments within bands</b>; Leeds, Newcastle, York, Manchester and Liverpool are <b>automatic at the bottom then merit</b> (Leeds automatic SP4–SP8 then merit; Newcastle just SP53→54 automatic then merit; Liverpool automatic SP55–59 then merit to £99k). This view models each university\'s <b>own documented rules</b>, which puts Exeter mid-pack rather than at the top — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and the exact automatic/merit thresholds (Leeds ~SP8/9; Cardiff/Nottingham band boundaries) are estimated. Once into merit awards a professor who keeps earning them will still climb into a higher band, so within-ladder merit is modelled at the normal award rate; crossing into the excluded Band-3 zones (Prof 3/4 spot salaries) is genuinely harder and sits outside these ladders. A like-for-like "uniform biennial" baseline (every professoriate on the same review) is retained in the code but no longer shown; the documented mechanisms are being validated against peers\' own £100k+ staff tables (see the High pay tab).<br>'+
+$('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit throughout; the rest are <b>automatic at the bottom then annual merit</b> — the automatic zone varies: Newcastle just SP53→54 (1 step), Manchester SP53–56, Liverpool SP55–59 (to £99k), Sheffield the introductory zone (SP2–5), York to Band-1 top (SP6), Leeds SP4–SP8, Nottingham Band 1 (SP1–6), Cardiff SP2–12. This view models each university\'s <b>own documented rules</b>, which puts Exeter mid-pack rather than at the top — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and some automatic/merit thresholds are estimated. There is <b>no expectation that a professor reaches the top of the ladder</b> — typically the top of Band 1 and some way into Band 2 — so modelling merit at the normal award rate (rather than assuming full traversal) is deliberate; the excluded Band-3 zones (Prof 3/4 spot salaries) are genuinely harder to reach and sit outside these ladders. A like-for-like "uniform biennial" baseline (every professoriate on the same review) is retained in the code but no longer shown; the documented mechanisms are being validated against peers\' own £100k+ staff tables (see the High pay tab).<br>'+
  '• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
  '• <b>York</b>: Band 1 has <b>automatic annual increments</b> (unlike the discretionary reviews modelled here), so the model likely <i>understates</i> York\'s professorial cost; Band 2 has no published rungs — interpolated between its min/max like Durham. <b>Manchester</b> is modelled on Grade 9 zones 9E+9D (SP53–64); zones 9C–9A (up to £226k) are excluded as Band-3 analogues.<br>'+
  '• <b>Newcastle</b> is modelled on its published IB Professor scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.<br>'+

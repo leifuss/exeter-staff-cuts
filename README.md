@@ -98,10 +98,10 @@ the dearest in the set; its *professoriate*, on a like-for-like biennial-merit v
 documented mechanisms (several peers award **automatic annual increments** where Exeter runs a slower biennial merit review)
 Exeter's professoriate ranks about **11th of 14**, which pulls the all-in gap down sharply. Holding the workforce fixed and
 changing only the structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark:
-≈ 14–31 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £1.5m/yr in salary, ≈ £1.9m with
+≈ 35–47 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £2.6m/yr in salary, ≈ £3.3m with
 on-costs)**. It is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; about half the modelled peers already sit at or below the median). Secondary comparators: vs the mean of the
-fourteen ≈ 12–25 posts (≈ £1.2m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
+fourteen ≈ 23–36 posts (≈ £1.9m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
 for scale (£ ÷ average salary), not predicted savings or job counts — provided only so the magnitudes can be compared with the
 **~150 full-time posts** the June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a
 structural change **phases in over roughly five years** (see the transition model); it saves mostly by **paying future hires
@@ -118,7 +118,7 @@ in the code but is no longer shown, pending that validation.
 **Calibration:** with on-costs the modelled bill is ≈£137m — about 35% of the £396.6m total staff costs in Exeter's
 2024/25 Annual Report, with the other ~65% being exactly the groups the model excludes (professional services,
 research-only, part-time, sub-Lecturer grades, non-salary staff costs). For scale, the structural difference vs the median
-(≈£1.5m/yr salary, ≈£1.9m with on-costs) is a fraction of Exeter's 2024/25 operating surplus (£8.2m, down from £22.5m — the
+(≈£2.6m/yr salary, ≈£3.3m with on-costs) is a fraction of Exeter's 2024/25 operating surplus (£8.2m, down from £22.5m — the
 operating line, not the headline surplus, which was distorted by a one-off pension provision release in the prior year); the
 difference vs the cheapest full system (≈£7m/yr) is of the same order as that surplus.
 
