@@ -44,6 +44,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
   <button class="tab" data-f="all_in_model.html#mix">Mix &amp; match</button>
   <button class="tab" data-f="transition_model.html">Transition</button>
   <button class="tab" data-f="monte_carlo.html">How sure can we be?</button>
+  <button class="tab" data-f="highpay.html">High pay</button>
   <button class="tab" data-f="all_in_model.html#sources">Data &amp; sources</button>
  </div>
 </header>
@@ -141,9 +142,10 @@ const cards=[
  ['all_in_model.html#mix','5 · Mix &amp; match','Exploratory: combine one university’s lower grades with another’s professoriate.'],
  ['transition_model.html','6 · Transition','How any change would phase in with no pay cuts — current staff grandfathered; structural savings build slowly.'],
  ['monte_carlo.html','7 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
+ ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02j'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02k'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));

@@ -34,6 +34,9 @@ whenever content changes — it cache-busts the framed sub-pages so visitors' br
 - `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
   professorial award rate) 5,000 times across the whole all-in model to give a sensitivity range — surfaced in the
   combined dashboard as **"How sure can we be?"**.
+- `highpay.html` — five years of the annual reports' **£100k+ staff** table (2019/20–2024/25): the raw count has
+  tripled (135 → 404); against a pay-award-adjusted threshold the real growth is ≈30%, concentrated in 2023/24 —
+  alongside severance and key-management-pay series from the same accounts.
 
 In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (drawn from the all-in model).
 
@@ -41,7 +44,8 @@ In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (d
 - `national_spine.csv` — verified UCU/UCEA national spine, 2025-26 (+ provisional 2026-27 = +2%).
 - `grades.csv`, `grades.json` — each institution's grade structure (normal increment + contribution points).
 - `cost_model_results.csv` — non-professorial cost results across scenarios/workforces.
-- `sources/` — every published pay scale used (PDF/xlsx), incl. `sources/professorial/`; raw HESA tables.
+- `sources/` — every published pay scale used (PDF/xlsx), incl. `sources/professorial/`; raw HESA tables; the
+  University's Annual Reports 2020/21–2024/25 (used for the high-pay series and the calibration).
   (`payscales.xlsx`, the original working spreadsheet, is kept locally but not published in this repo.)
 
 ## Staffing (HESA, 2024/25, Table 17)
