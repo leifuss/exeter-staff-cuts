@@ -28,7 +28,9 @@ whenever content changes — it cache-busts the framed sub-pages so visitors' br
   **Summary** and **Sources** tabs.
 - `payscale_dashboard.html` — the three non-professorial grades on the common spine, and a cost comparison.
 - `career_cost_model.html` — a representative career age 28→professor (fast/middle/slow promotion) and its cost.
-- `professorial_model.html` — the professoriate (2-yearly discretionary increments), thirteen institutions.
+- `professorial_model.html` — the professoriate, all fourteen institutions, with a **progression-model toggle**:
+  a uniform biennial-merit baseline (default, like-for-like) vs each university's **documented mechanisms** (draft —
+  several peers give automatic increments; Exeter's biennial merit review is among the slowest in the set).
 - `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
   earlier topping-out and lower promotion/entry).
 - `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
@@ -75,16 +77,21 @@ salaries, only part of this would reach Exeter's core budget — flagged as scal
 They rest on reasoned assumptions (promotion pace, contribution-point uptake, the 50/50 SL/AP split,
 professorial award rates, and an approximate salary-band→grade mapping) for which there is limited hard
 sector data. Use them as a **yardstick for the order of magnitude** and to test whether conclusions survive
-plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order effects.
+plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order
+effects. Professorial progression defaults to a uniform biennial-merit baseline for every university; documented
+mechanisms differ (several peers give automatic increments) and a draft mechanism-aware toggle on the Professorial and
+All-in tabs shows how much that could change the picture — it is being validated against peers' £100k+ disclosures
+before becoming the default.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **thirteen whole
-systems** modelled. Holding the workforce fixed and changing only the structure, the modelled difference is — **vs the
-Russell Group median structure, the principal benchmark: ≈ 89–105 average-salary-post equivalents across the fast→slow
-promotion assumptions (≈ 97 central; ≈ £6.2m/yr in salary, ≈ £8.1m with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of all **fourteen
+English and Welsh Russell Group systems** — coverage is now complete. Holding the workforce fixed and changing only the
+structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 85–103
+average-salary-post equivalents across the fast→slow promotion assumptions (≈ 94 central; ≈ £6.0m/yr in salary, ≈ £7.8m
+with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
 bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
-the thirteen ≈ 78–91 (≈ 85 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
+the fourteen ≈ 74–87 (≈ 81 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
 (a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
 predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
 June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
@@ -106,8 +113,9 @@ The active comparison is **Russell Group** universities in England and Wales on 
 **Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
 (Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
 Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
-**current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool
-professorial pay is not modelled (its published scale is incomplete). Newcastle is modelled on its published IB Professor
+**current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool's
+professoriate is modelled on its published Level 1 scale (SP55–59, automatic) plus its off-scale range to £99,001;
+Levels 2–4 (spot salaries to £145k+) are excluded like other Band-3 analogues. Newcastle is modelled on its published IB Professor
 scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.
 Manchester's academic grades are 6/7/8 (Lecturer = Grade 6), with the professoriate on Grade 9. York's
 professorial Band 2 rungs are interpolated from its published min/max, and its Band 1 increments are automatic (which the
@@ -120,6 +128,7 @@ The comparison is only as good as its coverage, and this analysis has limitation
 1. **Reuse the data.** The pay structures are provided in machine-readable form (`grades.json`, `grades.csv`, `national_spine.csv`,
    `cost_model_results.csv`) precisely so others can re-run, challenge or extend the analysis rather than take it on trust.
    Corrections and alternative approaches are welcome (open an issue or PR).
-2. **Send missing scales.** Most useful: the **professorial** scale for **Liverpool** (we have its main grades but not its professorial bands) —
-   and corrections or updates to any scale used here.
+2. **Send missing scales.** Coverage is complete. Most useful now: **corrections** to any scale used here, and **documentation of professorial
+   progression rules** (automatic vs merit, review frequency), which are poorly published and materially affect the
+   professorial comparison.
    Current published scales for any other institution are welcome too.

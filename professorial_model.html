@@ -34,7 +34,12 @@ progression is discretionary and slow, the starting floor does most of the work.
 weighted by Exeter's professoriate applied to every structure, and kept separate from the non-professorial models.</p>
 <div class="answer" id="answer"></div>
 <div class="controls">
- <div class="ctl"><label>Award rate (per 2-yr review)</label><select id="p">
+ <div class="ctl"><label>Progression model</label><select id="pm">
+   <option value="uniform" selected>Uniform biennial merit (comparable baseline)</option>
+   <option value="doc">Documented mechanisms (draft — see caveats)</option></select>
+   <span class="hint">The baseline treats every professoriate identically (a like-for-like review). "Documented mechanisms"
+   uses each university's own progression rules — several are automatic — but rests on patchier evidence.</span></div>
+ <div class="ctl"><label>Merit award rate (per review)</label><select id="p">
    <option value="0.5">Fast — 50% succeed</option><option value="0.4" selected>Middle — 40%</option><option value="0.3">Slow — 30%</option></select></div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
@@ -58,21 +63,52 @@ progression, and the opposite end of the pay scale from the posts proposed for c
 </div>
 <div class="tip" id="tip"></div>
 <script>
-const D={"lad": {"Manchester": [75914, 78186, 80524, 82933, 85417, 87972, 90606, 93320, 96114, 98991, 101955, 105011], "York": [78798, 81126, 83451, 85778, 88107, 90434, 93054, 95750, 98524, 101378, 104316, 107338, 110448, 113647, 116940], "Newcastle": [74921, 76794, 78609, 80468, 82282], "Exeter": [78189, 80529, 82935, 85424, 87986, 90628, 93346, 96146, 99031, 102000, 105062, 108214, 111459], "Bristol": [74828, 77537, 80246, 82955, 85664, 88373, 91082, 93791, 96500, 99209, 101918, 104627, 107336, 110045], "Leeds": [75912, 78185, 80523, 82930, 85413, 87969, 90603, 93317, 96117, 99000, 101973, 105028, 108179], "Cardiff": [76188, 77711, 79264, 80850, 82468, 84117, 85800, 87515, 89265, 91051, 92871, 94729, 96622, 98556, 100527, 102538, 104589, 106680, 108812, 110989, 113208, 115474], "Nottingham": [73713, 75924, 78203, 80548, 82965, 85454, 88018, 90660, 93377, 96179, 99065, 102036], "Southampton": [78052, 78832, 79620, 80417, 81221, 82033, 82853, 83682, 84519, 85364, 86218, 87080, 87951, 88830, 89718, 90616, 91522, 92437, 93361, 94295, 95238, 96190, 97152, 98124, 99105, 100096, 101097, 102108, 103129, 104160, 105202, 106254, 107316, 108390, 109473, 110568], "Warwick": [73794, 75146, 76496, 77848, 79198, 80550, 81901, 83252, 84603, 85955, 87305, 88657, 90008, 91359, 92710, 94062, 95412, 96764, 98115, 99466, 100817, 102169, 103519, 104871, 106222, 107573, 108924], "Birmingham": [76107, 78389, 80742, 83206, 85702, 88274, 89606, 92294, 96006, 98887, 101854, 104910, 108807], "Durham": [73711, 76400, 79100, 81800, 84500, 87200, 89900, 92600, 95300, 98000, 100700, 103400, 106663], "Sheffield": [71566, 73708, 75915, 78186, 80524, 82932, 85414, 87970, 90603, 93320, 96114, 98989, 101954, 105009, 108153, 111391]}, "meta": {"Manchester": {"y": "Aug 2025", "note": "Grade 9 zones 9E+9D (SP53-64) as one ladder; zones 9C-9A excluded (Band-3 analogues)"}, "York": {"y": "Aug 2025", "note": "Band 1 (6 points, automatic annual increments) + Band 2 interpolated from published min/max (spot salaries); Band 3 excluded"}, "Newcastle": {"y": "Apr 2026", "note": "IB Professor scale, spine 53-57 — short published ladder; may understate if a professorial zone exists above"}, "Exeter": {"y": "2025-26", "note": ""}, "Bristol": {"y": "Aug 2025", "note": "Grade M, Ranges 1-2"}, "Leeds": {"y": "Aug 2025", "note": "Zones 1-2"}, "Cardiff": {"y": "Aug 2025", "note": "Bands 1-2"}, "Nottingham": {"y": "Aug 2025", "note": "R&T L7 Bands A-B"}, "Southampton": {"y": "2025-26", "note": "ERE L7 Band A (fine steps)"}, "Warwick": {"y": "Apr 2026", "note": "FA9"}, "Birmingham": {"y": "Aug 2025", "note": "Bands 1-2 (1/8/25 column)"}, "Durham": {"y": "2025-26 (bands)", "note": "indicative Band 1-2; rungs interpolated from published min/max"}, "Sheffield": {"y": "Aug 2025", "note": "Professorial Equivalent Pay Scale, Bands I-III (top exceptional points excluded)"}}, "count": 510}, LAD=D.lad, META=D.meta, COUNT=D.count;
+const D={"lad": {"Liverpool": [80526, 82936, 85416, 87975, 90606, 93404, 96202, 99001], "Manchester": [75914, 78186, 80524, 82933, 85417, 87972, 90606, 93320, 96114, 98991, 101955, 105011], "York": [78798, 81126, 83451, 85778, 88107, 90434, 93054, 95750, 98524, 101378, 104316, 107338, 110448, 113647, 116940], "Newcastle": [74921, 76794, 78609, 80468, 82282], "Exeter": [78189, 80529, 82935, 85424, 87986, 90628, 93346, 96146, 99031, 102000, 105062, 108214, 111459], "Bristol": [74828, 77537, 80246, 82955, 85664, 88373, 91082, 93791, 96500, 99209, 101918, 104627, 107336, 110045], "Leeds": [75912, 78185, 80523, 82930, 85413, 87969, 90603, 93317, 96117, 99000, 101973, 105028, 108179], "Cardiff": [76188, 77711, 79264, 80850, 82468, 84117, 85800, 87515, 89265, 91051, 92871, 94729, 96622, 98556, 100527, 102538, 104589, 106680, 108812, 110989, 113208, 115474], "Nottingham": [73713, 75924, 78203, 80548, 82965, 85454, 88018, 90660, 93377, 96179, 99065, 102036], "Southampton": [78052, 78832, 79620, 80417, 81221, 82033, 82853, 83682, 84519, 85364, 86218, 87080, 87951, 88830, 89718, 90616, 91522, 92437, 93361, 94295, 95238, 96190, 97152, 98124, 99105, 100096, 101097, 102108, 103129, 104160, 105202, 106254, 107316, 108390, 109473, 110568], "Warwick": [73794, 75146, 76496, 77848, 79198, 80550, 81901, 83252, 84603, 85955, 87305, 88657, 90008, 91359, 92710, 94062, 95412, 96764, 98115, 99466, 100817, 102169, 103519, 104871, 106222, 107573, 108924], "Birmingham": [76107, 78389, 80742, 83206, 85702, 88274, 89606, 92294, 96006, 98887, 101854, 104910, 108807], "Durham": [73711, 76400, 79100, 81800, 84500, 87200, 89900, 92600, 95300, 98000, 100700, 103400, 106663], "Sheffield": [71566, 73708, 75915, 78186, 80524, 82932, 85414, 87970, 90603, 93320, 96114, 98989, 101954, 105009, 108153, 111391]}, "meta": {"Liverpool": {"y": "Dec 2025 guidance (Aug 2025 rates)", "note": "Level 1 (SP55-59) + off-scale to £99,001 (3 interpolated steps); Levels 2-4 spot salaries excluded"}, "Manchester": {"y": "Aug 2025", "note": "Grade 9 zones 9E+9D (SP53-64) as one ladder; zones 9C-9A excluded (Band-3 analogues)"}, "York": {"y": "Aug 2025", "note": "Band 1 (6 points, automatic annual increments) + Band 2 interpolated from published min/max (spot salaries); Band 3 excluded"}, "Newcastle": {"y": "Apr 2026", "note": "IB Professor scale, spine 53-57 — short published ladder; may understate if a professorial zone exists above"}, "Exeter": {"y": "2025-26", "note": ""}, "Bristol": {"y": "Aug 2025", "note": "Grade M, Ranges 1-2"}, "Leeds": {"y": "Aug 2025", "note": "Zones 1-2"}, "Cardiff": {"y": "Aug 2025", "note": "Bands 1-2"}, "Nottingham": {"y": "Aug 2025", "note": "R&T L7 Bands A-B"}, "Southampton": {"y": "2025-26", "note": "ERE L7 Band A (fine steps)"}, "Warwick": {"y": "Apr 2026", "note": "FA9"}, "Birmingham": {"y": "Aug 2025", "note": "Bands 1-2 (1/8/25 column)"}, "Durham": {"y": "2025-26 (bands)", "note": "indicative Band 1-2; rungs interpolated from published min/max"}, "Sheffield": {"y": "Aug 2025", "note": "Professorial Equivalent Pay Scale, Bands I-III (top exceptional points excluded)"}}, "count": 510}, LAD=D.lad, META=D.meta, COUNT=D.count;
 const ALL=Object.keys(LAD);
-const COLORS={Exeter:'#d97706',Newcastle:'#0d9488',York:'#17becf',Manchester:'#831843',Durham:'#7c3aed',Bristol:'#2563eb',Sheffield:'#843c39',Cardiff:'#db2777',Leeds:'#0891b2',Southampton:'#ca8a04',Warwick:'#4b5563',Birmingham:'#b91c1c',Nottingham:'#65a30d'};
+const PROG={
+ "Exeter":Array(12).fill('m2'),"Southampton":Array(35).fill('m2'),
+ "Bristol":Array(13).fill('m1'),"Warwick":Array(26).fill('m1'),
+ "Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m1'),
+ "Sheffield":Array(15).fill('a'),
+ "Leeds":[...Array(6).fill('a'),'m1',...Array(5).fill('a')],
+ "Cardiff":[...Array(10).fill('a'),'m1',...Array(10).fill('a')],
+ "Nottingham":[...Array(5).fill('a'),'m1',...Array(5).fill('a')],
+ "Newcastle":['a','a','m1','m1'],
+ "York":[...Array(5).fill('a'),...Array(9).fill('m1')],
+ "Manchester":[...Array(3).fill('a'),...Array(8).fill('m1')],
+ "Liverpool":[...Array(4).fill('a'),'m1','m1','m1']};
+// documented-mechanism expected rung distribution: Markov forward simulation, 20 years
+function probVec(inst,aw,years){const lad=LAD[inst],tr=PROG[inst],L=lad.length;
+ let p=new Array(L).fill(0);p[0]=1;const out=[p.slice()];
+ for(let t=0;t<years-1;t++){const q=new Array(L).fill(0);
+  for(let k=0;k<L;k++){if(!p[k])continue;
+   if(k===L-1){q[k]+=p[k];continue;}
+   const m=tr[k],pr=m==='a'?1:(m==='m1'?aw:(t%2===1?aw:0));
+   q[k+1]+=p[k]*pr;q[k]+=p[k]*(1-pr);}
+  p=q;out.push(p.slice());}
+ return out;}
+const MECH={"Exeter":"biennial, merit","Southampton":"biennial, merit","Bristol":"annual, merit","Warwick":"annual, merit",
+ "Leeds":"annual, automatic within zones (zone boundary: merit; split assumed)","Cardiff":"annual, automatic within bands (band boundary: merit; split assumed)",
+ "Nottingham":"annual, banded (boundary assumed)","Sheffield":"annual increment expected (modelled automatic)",
+ "Newcastle":"automatic SP53\u201354, then annual merit","York":"automatic Band 1, then annual merit",
+ "Manchester":"automatic zone 9E, then annual merit","Liverpool":"automatic Level 1 (55\u201359), annual merit to \u00a399k; L2\u20134 spot salaries (excluded)",
+ "Birmingham":"unclear \u2014 annual merit assumed","Durham":"not published \u2014 annual merit assumed"};
+const COLORS={Exeter:'#d97706',Liverpool:'#393b79',Newcastle:'#0d9488',York:'#17becf',Manchester:'#831843',Durham:'#7c3aed',Bristol:'#2563eb',Sheffield:'#843c39',Cardiff:'#db2777',Leeds:'#0891b2',Southampton:'#ca8a04',Warwick:'#4b5563',Birmingham:'#b91c1c',Nottingham:'#65a30d'};
 const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString();
 const cssv=v=>v[0]=='-'?getComputedStyle(document.documentElement).getPropertyValue(v).trim():v;
 function comb(n,k){let c=1;for(let i=0;i<k;i++)c=c*(n-i)/(i+1);return c;}
 function binpmf(n,k,p){return comb(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k);}
-function expSal(lad,t,p,yr){const L=lad.length,f=yr==2027?1.02:1,rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binpmf(rev,k,p)*lad[Math.min(k,L-1)];return e*f;}
-function perHead(lad,p,yr,oc){let tot=0;for(let t=0;t<20;t++)tot+=expSal(lad,t,p,yr);let v=tot/20;return oc?v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v:v;}
+function mode(){const el=document.getElementById('pm');return el?el.value:'uniform';}
+function expSal(inst,t,p,yr){const lad=LAD[inst],f=yr==2027?1.02:1;
+ if(mode()==='doc'){const pv=probVec(inst,p,20)[Math.min(t,19)];return pv.reduce((a,pr,i)=>a+pr*lad[i],0)*f;}
+ const L=lad.length,rev=Math.floor(t/2);let e=0;for(let k=0;k<=rev;k++)e+=binpmf(rev,k,p)*lad[Math.min(k,L-1)];return e*f;}
+function perHead(inst,p,yr,oc){let tot=0;for(let t=0;t<20;t++)tot+=expSal(inst,t,p,yr);let v=tot/20;return oc?v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v:v;}
 function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
- const rows=ALL.map(i=>({i,ph:perHead(LAD[i],p,yr,oc)})).sort((a,b)=>b.ph-a.ph);
+ const rows=ALL.map(i=>({i,ph:perHead(i,p,yr,oc)})).sort((a,b)=>b.ph-a.ph);
  const exph=rows.find(r=>r.i==='Exeter').ph,exbill=exph*COUNT;
  const rank=rows.findIndex(r=>r.i==='Exeter')+1, dearer=rows.filter(r=>r.ph>exph).map(r=>r.i);
  const cheap=rows[rows.length-1];
- const exF=perHead(LAD.Exeter,0.5,yr,oc)*COUNT,exS=perHead(LAD.Exeter,0.3,yr,oc)*COUNT;
+ const exF=perHead('Exeter',0.5,yr,oc)*COUNT,exS=perHead('Exeter',0.3,yr,oc)*COUNT;
  $('answer').innerHTML=`At a ${Math.round(p*100)}% award rate, Exeter's professoriate costs <b>${gbp(exph)}/head</b> (£${(exbill/1e6).toFixed(1)}m for 510) — <b>${rank}${rank==1?'st':rank==2?'nd':rank==3?'rd':'th'} dearest of ${ALL.length}</b>. `+
   (dearer.length?`Dearer: ${dearer.join(', ')}.`:`No structure here is dearer.`)+
   ` Adopting the cheapest (${cheap.i}) would save ${gbp(exbill-cheap.ph*COUNT)}/yr. The bigger lever is the award rate: 50%→30% saves ${gbp(exF-exS)}/yr.`;
@@ -91,7 +127,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  s+=`</svg>`;$('bars').outerHTML=s.replace('<svg','<svg id="bars"');
  // trajectory
  const W2=920,H2=300,L2=64,R2=20,T2=12,B2=38;const ages=[...Array(20).keys()];
- const series=ALL.map(i=>({i,pts:ages.map(t=>expSal(LAD[i],t,p,yr))})).sort((a,b)=>b.pts[19]-a.pts[19]);
+ const series=ALL.map(i=>({i,pts:ages.map(t=>expSal(i,t,p,yr))})).sort((a,b)=>b.pts[19]-a.pts[19]);
  const allv=[].concat(...series.map(s=>s.pts)),ymin=Math.min(...allv)*0.98,ymax=Math.max(...allv)*1.02;
  const xx=t=>L2+t/19*(W2-L2-R2),YY=v=>T2+(ymax-v)/(ymax-ymin)*(H2-T2-B2);
  let s2=`<svg viewBox="0 0 ${W2} ${H2}" xmlns="http://www.w3.org/2000/svg">`;
@@ -119,18 +155,19 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
    el.addEventListener('mouseenter',()=>hilite(el.dataset.inst));
    el.addEventListener('mouseleave',()=>hilite(null));});
  // table
- let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th><th>Scale year</th></tr>';
+ let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th><th>Documented progression</th><th>Scale year</th></tr>';
  rows.forEach(d=>{const bill=d.ph*COUNT,save=exbill-bill,cls=save>0?'save':(save<0?'cost':'');
   h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
-   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
+   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
  h+='</table>';$('tbl').innerHTML=h;
 }
-$('caveats').innerHTML='• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
+$('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit; Leeds, Cardiff, Sheffield and Nottingham give <b>automatic annual increments within zones/bands</b>; Newcastle, York, Manchester and Liverpool are automatic at the bottom then merit. The default "uniform biennial" view deliberately ignores this so every professoriate faces the same review — a like-for-like comparison of <i>scales</i>. The "documented mechanisms" view models each university\'s own rules and can change the ranking dramatically (Exeter falls to mid-pack) — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and the Leeds/Cardiff/Nottingham band boundaries are assumed. The plan is to validate it against peer universities\' own £100k+ staff tables (see the High pay tab) before it becomes the default.<br>'+
+ '• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
  '• <b>York</b>: Band 1 has <b>automatic annual increments</b> (unlike the discretionary reviews modelled here), so the model likely <i>understates</i> York\'s professorial cost; Band 2 has no published rungs — interpolated between its min/max like Durham. <b>Manchester</b> is modelled on Grade 9 zones 9E+9D (SP53–64); zones 9C–9A (up to £226k) are excluded as Band-3 analogues.<br>'+
  '• <b>Newcastle</b> is modelled on its published IB Professor scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.<br>'+
- '• <b>Durham</b> publishes indicative professorial bands only — its ladder rungs are interpolated from the band min/max (treat as approximate). <b>Sheffield</b> has an <b>automatic introductory zone</b> (£71.6k–£78.2k) then discretionary Bands I–III; like every institution here it is modelled as all-discretionary, which slightly understates it. <b>Liverpool</b> professorial pay is not modelled (its published scale stops mid-range).<br>'+
+ '• <b>Durham</b> publishes indicative professorial bands only — its ladder rungs are interpolated from the band min/max (treat as approximate). <b>Sheffield</b> has an <b>automatic introductory zone</b> (£71.6k–£78.2k) then discretionary Bands I–III; like every institution here it is modelled as all-discretionary, which slightly understates it. <b>Liverpool</b> is modelled on its Level 1 scale (SP55–59, automatic annual) plus its published off-scale range to £99,001 (3 interpolated steps); Levels 2–4 (spot salaries to £145k+) are excluded like other Band-3 analogues.<br>'+
   '• Two bands modelled as one climbing ladder; Band 3 excluded. Weighted by Exeter\'s 510 professors on every structure.<br>'+
  '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
  '• Award rate ~40% reported; start 48, retire 67, review every 2 yrs. Base salaries; excludes transition costs.';
-['p','oc','yr'].forEach(id=>$(id).addEventListener('change',draw));draw();
+['pm','p','oc','yr'].forEach(id=>$(id).addEventListener('change',draw));draw();
 </script></body></html>
