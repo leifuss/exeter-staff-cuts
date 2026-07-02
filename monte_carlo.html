@@ -112,7 +112,7 @@ function run(){
 }
 function drawHist(data,m){const W=880,H=320,L=46,R=20,T=14,B=42;
  const lo=Math.min(0,data[0]), hi=Math.max(160,data[data.length-1]);   // fixed frame: 0-160+, so the ~150 cuts line is always visible
- const nb=28,bw=(hi-lo)/nb||1,bins=new Array(nb).fill(0);
+ const nb=80,bw=(hi-lo)/nb||1,bins=new Array(nb).fill(0);
  data.forEach(v=>{let b=Math.floor((v-lo)/bw);if(b>=nb)b=nb-1;if(b<0)b=0;bins[b]++;});
  const maxc=Math.max(...bins);const x=v=>L+(v-lo)/(hi-lo)*(W-L-R);const yb=H-B;const hgt=c=>c/maxc*(yb-T);
  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;

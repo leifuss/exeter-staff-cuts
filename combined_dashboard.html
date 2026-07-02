@@ -143,7 +143,7 @@ const cards=[
  ['monte_carlo.html','7 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02d'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02e'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
