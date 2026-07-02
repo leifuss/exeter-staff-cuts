@@ -73,7 +73,7 @@ const ALL=Object.keys(LAD);
 const PROG={
  "Exeter":Array(12).fill('m2'),"Southampton":Array(35).fill('m2'),
  "Bristol":Array(13).fill('m1'),"Warwick":Array(26).fill('m1'),
- "Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m1'),
+ "Birmingham":Array(12).fill('m1'),"Durham":Array(12).fill('m2'),
  "Sheffield":[...Array(3).fill('a'),...Array(12).fill('m1')],
  "Leeds":[...Array(4).fill('a'),...Array(8).fill('m1')],
  "Cardiff":[...Array(10).fill('a'),...Array(11).fill('m1')],
@@ -97,7 +97,7 @@ const MECH={"Exeter":"biennial, merit","Southampton":"biennial, merit","Bristol"
  "Nottingham":"automatic through Band 1 (SP1–6), then annual merit","Sheffield":"automatic through introductory zone (SP2–5), then annual merit",
  "Newcastle":"automatic SP53\u201354 only (1 step), then SP55\u201357 annual merit (CPs)","York":"automatic Band 1, then annual merit",
  "Manchester":"automatic zone 9E, then annual merit","Liverpool":"automatic Level 1 (55\u201359), annual merit to \u00a399k; L2\u20134 spot salaries (excluded)",
- "Birmingham":"unclear \u2014 annual merit assumed","Durham":"not published \u2014 annual merit assumed"};
+ "Birmingham":"unclear \u2014 annual merit assumed","Durham":"\u2018reviewed from time to time\u2019 \u2014 not directly comparable; modelled as slow (biennial) merit"};
 const COLORS={Exeter:'#d97706',Liverpool:'#393b79',Newcastle:'#0d9488',York:'#17becf',Manchester:'#831843',Durham:'#7c3aed',Bristol:'#2563eb',Sheffield:'#843c39',Cardiff:'#db2777',Leeds:'#0891b2',Southampton:'#ca8a04',Warwick:'#4b5563',Birmingham:'#b91c1c',Nottingham:'#65a30d'};
 const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString();
 const cssv=v=>v[0]=='-'?getComputedStyle(document.documentElement).getPropertyValue(v).trim():v;
@@ -188,7 +188,7 @@ $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baselin
  '• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
  '• <b>York</b>: Band 1 has <b>automatic annual increments</b> (unlike the discretionary reviews modelled here), so the model likely <i>understates</i> York\'s professorial cost; Band 2 has no published rungs — interpolated between its min/max like Durham. <b>Manchester</b> is modelled on Grade 9 zones 9E+9D (SP53–64); zones 9C–9A (up to £226k) are excluded as Band-3 analogues.<br>'+
  '• <b>Newcastle</b> is modelled on its published IB Professor scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.<br>'+
- '• <b>Durham</b> publishes indicative professorial bands only — its ladder rungs are interpolated from the band min/max (treat as approximate). <b>Sheffield</b> has an <b>automatic introductory zone</b> (£71.6k–£78.2k) then discretionary Bands I–III; like every institution here it is modelled as all-discretionary, which slightly understates it. <b>Liverpool</b> is modelled on its Level 1 scale (SP55–59, automatic annual) plus its published off-scale range to £99,001 (3 interpolated steps); Levels 2–4 (spot salaries to £145k+) are excluded like other Band-3 analogues.<br>'+
+ '• <b>Durham is the least comparable in the set</b> — it publishes only indicative bands (rungs interpolated from the band min/max) and states pay is merely "reviewed from time to time" with no published cadence, so it is modelled as slow (biennial) merit; treat its position as a rough placeholder rather than a like-for-like result. <b>Sheffield</b> has an <b>automatic introductory zone</b> (£71.6k–£78.2k) then discretionary Bands I–III; like every institution here it is modelled as all-discretionary, which slightly understates it. <b>Liverpool</b> is modelled on its Level 1 scale (SP55–59, automatic annual) plus its published off-scale range to £99,001 (3 interpolated steps); Levels 2–4 (spot salaries to £145k+) are excluded like other Band-3 analogues.<br>'+
   '• Two bands modelled as one climbing ladder; Band 3 excluded. Weighted by Exeter\'s 510 professors on every structure.<br>'+
  '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
  '• Award rate ~40% reported; start 48, retire 67, review every 2 yrs. Base salaries; excludes transition costs.';

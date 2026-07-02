@@ -101,7 +101,7 @@ changing only the structure, the modelled difference is — **vs the Russell Gro
 ≈ 35–47 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £2.6m/yr in salary, ≈ £3.3m with
 on-costs)**. It is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; about half the modelled peers already sit at or below the median). Secondary comparators: vs the mean of the
-fourteen ≈ 23–36 posts (≈ £1.9m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
+fourteen ≈ 26–39 posts (≈ £2.1m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
 for scale (£ ÷ average salary), not predicted savings or job counts — provided only so the magnitudes can be compared with the
 **~150 full-time posts** the June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a
 structural change **phases in over roughly five years** (see the transition model); it saves mostly by **paying future hires
