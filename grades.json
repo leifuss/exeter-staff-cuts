@@ -1142,6 +1142,70 @@
    "note": ""
   },
   {
+   "institution": "Newcastle",
+   "grade": "F",
+   "tier": 1,
+   "normal_points": [
+    32,
+    33,
+    34,
+    35,
+    36
+   ],
+   "contribution_points": [
+    37,
+    38,
+    39
+   ],
+   "effective": "Apr 2026",
+   "confidence": "High (Leif)",
+   "note": "Lecturer; grade F runs 28-36 (25-30 research-assistant entry); T&R minimum start SP32"
+  },
+  {
+   "institution": "Newcastle",
+   "grade": "G",
+   "tier": 2,
+   "normal_points": [
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "contribution_points": [
+    47
+   ],
+   "effective": "Apr 2026",
+   "confidence": "High (Leif)",
+   "note": "Lecturer (upper) / Senior Research Associate"
+  },
+  {
+   "institution": "Newcastle",
+   "grade": "H",
+   "tier": 3,
+   "normal_points": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+   ],
+   "contribution_points": [
+    50,
+    51,
+    52
+   ],
+   "effective": "Apr 2026",
+   "confidence": "High (Leif)",
+   "note": "Senior Lecturer; Reader (IA: 50-52 + disc 53-56) not separately modelled"
+  },
+  {
    "institution": "Sheffield",
    "grade": "7",
    "tier": 1,
@@ -1211,6 +1275,14 @@
   }
  ],
  "ext_salary": {
+  "Newcastle": {
+   "52": 73090,
+   "53": 74921,
+   "54": 76794,
+   "55": 78609,
+   "56": 80468,
+   "57": 82282
+  },
   "Exeter": {
    "48": 65827,
    "52": 73710,

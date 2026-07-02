@@ -28,7 +28,7 @@ whenever content changes — it cache-busts the framed sub-pages so visitors' br
   **Summary** and **Sources** tabs.
 - `payscale_dashboard.html` — the three non-professorial grades on the common spine, and a cost comparison.
 - `career_cost_model.html` — a representative career age 28→professor (fast/middle/slow promotion) and its cost.
-- `professorial_model.html` — the professoriate (2-yearly discretionary increments), ten institutions.
+- `professorial_model.html` — the professoriate (2-yearly discretionary increments), eleven institutions.
 - `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
   earlier topping-out and lower promotion/entry).
 - `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
@@ -74,14 +74,14 @@ sector data. Use them as a **yardstick for the order of magnitude** and to test 
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **ten whole systems**
-modelled (Manchester and Newcastle are not yet covered — see below). Holding the workforce fixed and changing only the
-structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 99–111
-average-salary-post equivalents across the fast→slow promotion assumptions (≈ 105 central; ≈ £6.8m/yr in salary, ≈ £8.8m
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **eleven whole
+systems** modelled (Manchester is not yet covered — see below). Holding the workforce fixed and changing only the
+structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 96–109
+average-salary-post equivalents across the fast→slow promotion assumptions (≈ 103 central; ≈ £6.6m/yr in salary, ≈ £8.6m
 with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
 bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
-the ten ≈ 75–90 (≈ 84 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
+the eleven ≈ 79–92 (≈ 85 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
 (a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
 predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
 June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
@@ -99,12 +99,13 @@ provision release in the prior year).
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
-**12 non-professorial structures, 10 also modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
+**13 non-professorial structures, 11 also modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
 **Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
 (Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
 Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
 **current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool
-professorial pay is not modelled (its published scale is incomplete).
+professorial pay is not modelled (its published scale is incomplete). Newcastle is modelled on its published IB Professor
+scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.
 
 ## Help fill the gaps — and check it yourself
 The comparison is only as good as its coverage, and this analysis has limitations. Two asks:
@@ -112,6 +113,6 @@ The comparison is only as good as its coverage, and this analysis has limitation
 1. **Reuse the data.** The pay structures are provided in machine-readable form (`grades.json`, `grades.csv`, `national_spine.csv`,
    `cost_model_results.csv`) precisely so others can re-run, challenge or extend the analysis rather than take it on trust.
    Corrections and alternative approaches are welcome (open an issue or PR).
-2. **Send missing scales.** Most useful: the Russell Group members not yet covered — especially **Newcastle** and **Manchester** —
+2. **Send missing scales.** Most useful: the Russell Group members not yet covered — especially **Manchester** —
    and the **professorial** scales for **York and Liverpool** (we have their main grades but not their professorial bands).
    Current published scales for any other institution are welcome too.
