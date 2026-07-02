@@ -1142,6 +1142,74 @@
    "note": ""
   },
   {
+   "institution": "Manchester",
+   "grade": "6",
+   "tier": 1,
+   "normal_points": [
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36
+   ],
+   "contribution_points": [
+    37,
+    38,
+    39
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (author)",
+   "note": "Lecturer = Grade 6"
+  },
+  {
+   "institution": "Manchester",
+   "grade": "7",
+   "tier": 2,
+   "normal_points": [
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+   ],
+   "contribution_points": [
+    45,
+    46,
+    47
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (author)",
+   "note": ""
+  },
+  {
+   "institution": "Manchester",
+   "grade": "8",
+   "tier": 3,
+   "normal_points": [
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+   ],
+   "contribution_points": [
+    52,
+    53,
+    54
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (author)",
+   "note": "professoriate = Grade 9"
+  },
+  {
    "institution": "Newcastle",
    "grade": "F",
    "tier": 1,
@@ -1275,6 +1343,11 @@
   }
  ],
  "ext_salary": {
+  "Manchester": {
+   "52": 73710,
+   "53": 75914,
+   "54": 78186
+  },
   "Newcastle": {
    "52": 73090,
    "53": 74921,

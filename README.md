@@ -34,6 +34,9 @@ whenever content changes — it cache-busts the framed sub-pages so visitors' br
 - `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
   professorial award rate) 5,000 times across the whole all-in model to give a sensitivity range — surfaced in the
   combined dashboard as **"How sure can we be?"**.
+- `highpay.html` — five years of the annual reports' **£100k+ staff** table (2019/20–2024/25): the raw count has
+  tripled (135 → 404); against a pay-award-adjusted threshold the real growth is ≈30%, concentrated in 2023/24 —
+  alongside severance and key-management-pay series from the same accounts.
 
 In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (drawn from the all-in model).
 
@@ -41,7 +44,8 @@ In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (d
 - `national_spine.csv` — verified UCU/UCEA national spine, 2025-26 (+ provisional 2026-27 = +2%).
 - `grades.csv`, `grades.json` — each institution's grade structure (normal increment + contribution points).
 - `cost_model_results.csv` — non-professorial cost results across scenarios/workforces.
-- `sources/` — every published pay scale used (PDF/xlsx), incl. `sources/professorial/`; raw HESA tables.
+- `sources/` — every published pay scale used (PDF/xlsx), incl. `sources/professorial/`; raw HESA tables; the
+  University's Annual Reports 2020/21–2024/25 (used for the high-pay series and the calibration).
   (`payscales.xlsx`, the original working spreadsheet, is kept locally but not published in this repo.)
 
 ## Staffing (HESA, 2024/25, Table 17)
@@ -74,14 +78,13 @@ sector data. Use them as a **yardstick for the order of magnitude** and to test 
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **twelve whole
-systems** modelled (Manchester is professorial-only so far — see below). Holding the workforce fixed and changing only the
-structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 93–107
-average-salary-post equivalents across the fast→slow promotion assumptions (≈ 100 central; ≈ £6.4m/yr in salary, ≈ £8.4m
-with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **thirteen whole
+systems** modelled. Holding the workforce fixed and changing only the structure, the modelled difference is — **vs the
+Russell Group median structure, the principal benchmark: ≈ 89–105 average-salary-post equivalents across the fast→slow
+promotion assumptions (≈ 97 central; ≈ £6.2m/yr in salary, ≈ £8.1m with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
 bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
-the twelve ≈ 77–91 (≈ 84 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
+the thirteen ≈ 78–91 (≈ 85 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
 (a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
 predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
 June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
@@ -99,13 +102,14 @@ provision release in the prior year).
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
-**13 non-professorial structures, 13 professorial, 12 modelled as a whole pay bill** (Manchester is professorial-only so far). **Kept in the data but out of the comparison:** the
+**14 non-professorial structures, 13 professorial, 13 modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
 **Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
 (Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
 Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
 **current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool
 professorial pay is not modelled (its published scale is incomplete). Newcastle is modelled on its published IB Professor
-scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it. York's
+scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.
+Manchester's academic grades are 6/7/8 (Lecturer = Grade 6), with the professoriate on Grade 9. York's
 professorial Band 2 rungs are interpolated from its published min/max, and its Band 1 increments are automatic (which the
 discretionary-review model likely understates); Manchester's professoriate is modelled on Grade 9 zones 9E+9D, with zones
 9C–9A excluded as Band-3 analogues.
@@ -116,6 +120,6 @@ The comparison is only as good as its coverage, and this analysis has limitation
 1. **Reuse the data.** The pay structures are provided in machine-readable form (`grades.json`, `grades.csv`, `national_spine.csv`,
    `cost_model_results.csv`) precisely so others can re-run, challenge or extend the analysis rather than take it on trust.
    Corrections and alternative approaches are welcome (open an issue or PR).
-2. **Send missing scales.** Most useful: **Manchester's main grade structure** (its professorial scale is now in) and the **professorial** scale for
-   **Liverpool** (we have its main grades but not its professorial bands).
+2. **Send missing scales.** Most useful: the **professorial** scale for **Liverpool** (we have its main grades but not its professorial bands) —
+   and corrections or updates to any scale used here.
    Current published scales for any other institution are welcome too.

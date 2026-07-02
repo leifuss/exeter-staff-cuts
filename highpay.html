@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>High pay at Exeter — five years of £100k+</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--ex:#d97706;--exeter:#b45309;--save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 14px;max-width:860px;font-size:14px}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 16px;font-size:15.5px}.answer b{color:var(--exeter)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.card h2{font-size:15px;margin:0 0 4px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
+svg{display:block;max-width:100%;height:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+.lgnd{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-top:6px}
+.lg{display:inline-flex;align-items:center;gap:6px}.sw{width:16px;height:5px;border-radius:2px;display:inline-block}.sq{width:13px;height:13px;border-radius:3px;display:inline-block}
+</style></head><body><div class="wrap">
+<h1>High pay at Exeter — five years of £100,000+</h1>
+<p class="sub">Every annual report lists the number of staff paid <b>£100,000 or more</b> (basic pay, excluding employer
+pension contributions and the Vice-Chancellor, who is reported separately). This page collects that table from the last
+five published reports — six years of data, since each report also restates the previous year — and asks the obvious
+question: <b>is the growth just pay awards pushing people over a fixed £100k line, or is something else going on?</b></p>
+<div class="answer" id="answer"></div>
+
+<div class="card"><h2>Staff paid £100,000+ — headcount by year</h2>
+ <p class="lead">Amber = the raw count above the fixed £100,000 line, as reported. Green = the same count measured against
+ an <b>inflation-adjusted line</b>: £100,000 in 2019/20, uprated each year by the national pay award at that salary level —
+ i.e. how many people earn more than what £100k <i>was</i> in 2019/20. The gap between the two lines is pure pay-award
+ drift over a fixed nominal threshold.</p>
+ <svg id="trend" viewBox="0 0 900 340" width="900" height="340"></svg>
+ <div class="lgnd"><span class="lg"><span class="sw" style="background:#d97706"></span>≥ £100k (nominal, as reported)</span>
+ <span class="lg"><span class="sw" style="background:#15803d"></span>≥ 2019/20-equivalent £100k (award-adjusted)</span></div></div>
+
+<div class="card"><h2>Where they sit — the distribution by year</h2>
+ <p class="lead">The same headcounts split into salary ranges. Nearly all the growth enters at the <b>bottom of the range</b>
+ (£100–110k) — the crossing point for the top of the professorial ladder — while the £150k+ tail barely moves. The 2024/25
+ spike in £100–110k (221 people) is the professorial-ladder cohort pushed across the line by the 2024 pay award.</p>
+ <svg id="dist" viewBox="0 0 900 320" width="900" height="320"></svg>
+ <div class="lgnd" id="distlegend"></div></div>
+
+<div class="card"><h2>Year by year</h2><div id="tbl"></div>
+ <p class="small">Severance = "compensation for loss of office" (statutory redundancy + voluntary severance).
+ KMP = key management personnel (Executive Board), including employer's pension. Both from the same staff-costs notes.</p></div>
+
+<div class="card"><h2>What this means</h2>
+ <p style="font-size:14px" id="meaning"></p>
+ <p style="font-size:14px"><b>Two things worth holding together.</b> First, most of the headline tripling is arithmetic:
+ the top of Exeter's professorial ladder sits just below £100k, so each national pay award pushes a large, pre-existing
+ cohort across a fixed line — that is a fact about the threshold, not about hiring. Second, what remains after adjusting
+ for awards is still <b>real growth of roughly 30% in five years</b> in the £100k+ (2019/20 terms) population — over the same
+ period in which two voluntary severance rounds removed ~700 posts and ~150 more are proposed for cuts. The high-pay
+ population grew while the workforce shrank.</p>
+ <p style="font-size:14px"><b>Is Exeter an outlier?</b> Every university publishes the same table in its annual report
+ (an Office for Students requirement), so this comparison is extendable to the whole Russell Group. If you can share
+ peers' annual reports (or just their higher-paid-staff pages), the same charts can be built comparatively —
+ the natural normaliser is £100k+ staff per 1,000 academic staff.</p></div>
+
+<details><summary>Sources, method &amp; caveats</summary><div class="small" style="margin-top:8px">
+• Source: University of Exeter Annual Reports and Financial Statements 2020/21–2024/25 (Note 7, "Higher paid staff"),
+archived in <a href="sources/">sources/</a>. Each report also restates the prior year; restated and originally-reported
+figures agree in every overlapping year, so the series is internally consistent.<br>
+• Figures are <b>basic pay excluding employer pension</b> (except salary-sacrifice), excluding the Vice-Chancellor, and —
+per the OfS Accounts Direction — excluding staff who joined or left part-way through the year (stated from 2022/23;
+earlier reports use the same note format).<br>
+• The <b>award-adjusted line</b> uprates the £100,000 threshold by the national (JNCHES) pay award as applied at
+£100k-level spine points: 2020/21 <b>0%</b>, 2021/22 <b>+1.5%</b>, 2022/23 <b>+3% (Aug 2022) +2% (Feb 2023 interim)</b> —
+Exeter's own 2022/23 report attributes that year's jump to these two increases — 2023/24 <b>+3%</b> (remainder of the
+5% 2023 award), 2024/25 <b>+2.5%</b> (verified against published spine values). Cumulative: £100,000 in 2019/20 ≈
+<b>£112,600</b> in 2024/25. Counts above mid-band thresholds are interpolated linearly within the £5k band.<br>
+• Headcount, not FTE, in the charts (FTE shown in the table); part-year staff excluded per the accounts direction.<br>
+• The professorial-ladder explanation for the £100–110k bulge is corroborated on the <b>Professorial</b> tab: Exeter's
+ladder tops out at £105,062–£111,459, exactly where the 161-person 2024/25 bulge sits.</div></details>
+</div>
+<script>
+const YEARS=[
+ {y:"2019/20",tot:135,fte:114.0,idx:1.000,sev:"£764k / 122 posts",kmp:"—",
+  b:{100:20,105:27,110:19,115:12,120:18,125:18,130:1,135:4,140:3,150:2,155:3,165:1,170:1,180:1,185:1,210:2,220:1,230:1}},
+ {y:"2020/21",tot:157,fte:128.0,idx:1.000,sev:"£528k / 104 posts",kmp:"£3,904k / 18 posts",
+  b:{100:25,105:18,110:33,115:13,120:15,125:22,130:4,135:6,140:4,150:3,155:3,165:3,170:1,180:2,185:1,210:2,220:1,230:1}},
+ {y:"2021/22",tot:162,fte:132.9,idx:1.015,sev:"£561k / 135 posts",kmp:"£3,642k / 19 posts",
+  b:{100:17,105:23,110:27,115:16,120:9,125:28,130:6,135:6,140:7,145:2,150:2,155:2,160:3,165:4,170:1,180:2,190:3,210:2,225:1,230:1}},
+ {y:"2022/23",tot:222,fte:187.0,idx:1.0662,sev:"£1,269k / 138 posts",kmp:"£3,664k / 19 posts",
+  b:{100:61,105:21,110:19,115:21,120:27,125:13,130:19,135:12,140:3,145:5,150:3,155:1,160:1,165:5,175:2,180:1,190:2,200:1,210:1,215:2,220:1,235:1}},
+ {y:"2023/24",tot:273,fte:229.1,idx:1.0982,sev:"£8,802k / 268 posts",kmp:"£3,502k / 16 posts",
+  b:{100:73,105:23,110:26,115:20,120:30,125:17,130:27,135:20,140:8,145:6,150:5,155:2,160:2,165:2,170:3,175:1,180:2,190:2,200:1,205:1,215:2}},
+ {y:"2024/25",tot:404,fte:254.6,idx:1.1256,sev:"£10,038k / 427 posts",kmp:"£3,848k / 16 posts",
+  b:{100:60,105:161,110:19,115:10,120:30,125:25,130:25,135:11,140:17,145:19,150:6,155:2,160:3,165:2,175:4,180:1,185:2,190:1,195:1,205:1,210:1,220:1,235:1,250:1}},
+];
+const $=id=>document.getElementById(id);
+// sanity: band sums must equal reported totals
+YEARS.forEach(d=>{const s=Object.values(d.b).reduce((a,b)=>a+b,0);if(s!==d.tot)console.error("band sum mismatch",d.y,s,d.tot);});
+// count of staff above threshold T (linear interpolation within the 5k band containing T)
+function above(d,T){let n=0;
+ for(const lo in d.b){const l=+lo*1000,hi=l+5000,c=d.b[lo];
+  if(T<=l)n+=c; else if(T<hi)n+=c*(hi-T)/5000;}
+ return n;}
+const real=YEARS.map(d=>above(d,100000*d.idx));
+// ---------- answer ----------
+const growth=(YEARS[5].tot/YEARS[0].tot), rgrow=(real[5]/real[0]-1)*100;
+$('answer').innerHTML=`The number of Exeter staff paid over £100,000 has <b>tripled in five years</b> — from
+ <b>${YEARS[0].tot}</b> in 2019/20 to <b>${YEARS[5].tot}</b> in 2024/25. Most of that is <b>pay-award drift</b>: the top of the
+ professorial ladder sits just below the fixed £100k line, so each national award pushes a large cohort across it.
+ But not all of it — measured against an <b>award-adjusted threshold</b> (what £100k was in 2019/20), the high-pay population
+ still grew by roughly <b>${Math.round(rgrow)}%</b> (${Math.round(real[0])} → ${Math.round(real[5])}), over the same five years
+ in which ~700 posts left through severance schemes and ~150 more are proposed for cuts.`;
+$('meaning').innerHTML=`On the raw count, growth looks explosive (×${growth.toFixed(1)}). The award-adjusted (green) line
+ tells the more careful story: flat-ish to 2022/23, then a genuine step up in 2023/24 (~${Math.round(real[2])}–${Math.round(real[3])} to ~${Math.round(real[4])})
+ that persists into 2024/25 (~${Math.round(real[5])}). The 2023/24 rise is real — more people earning above the 2019/20-equivalent
+ line — and coincides with the restructuring period, not with any single pay award.`;
+// ---------- trend chart ----------
+(function(){
+const W=900,H=340,L=56,R=24,T=16,B=44,n=YEARS.length;
+const ymax=450, x=i=>L+i/(n-1)*(W-L-R), y=v=>T+(1-v/ymax)*(H-T-B);
+let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+for(let g=0;g<=ymax;g+=100){s+=`<line x1="${L}" y1="${y(g)}" x2="${W-R}" y2="${y(g)}" stroke="${g?'#eee':'#ccc'}"/><text x="${L-8}" y="${y(g)+4}" text-anchor="end" font-size="11" fill="#9ca3af">${g}</text>`;}
+YEARS.forEach((d,i)=>{s+=`<text x="${x(i)}" y="${H-B+16}" text-anchor="middle" font-size="11.5" fill="#6b7280">${d.y}</text>`;});
+const path=(vals,col,wd)=>`<path d="${vals.map((v,i)=>(i?'L':'M')+x(i)+' '+y(v)).join(' ')}" fill="none" stroke="${col}" stroke-width="${wd}"/>`;
+s+=path(YEARS.map(d=>d.tot),'#d97706',3);
+s+=path(real,'#15803d',2.5);
+YEARS.forEach((d,i)=>{s+=`<circle cx="${x(i)}" cy="${y(d.tot)}" r="3.4" fill="#d97706"/><text x="${x(i)}" y="${y(d.tot)-9}" text-anchor="middle" font-size="12" font-weight="700" fill="#b45309">${d.tot}</text>`;
+ s+=`<circle cx="${x(i)}" cy="${y(real[i])}" r="3" fill="#15803d"/><text x="${x(i)}" y="${y(real[i])+17}" text-anchor="middle" font-size="11" fill="#15803d">${Math.round(real[i])}</text>`;});
+s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="#6b7280">staff paid £100,000+ (headcount, excl. VC and employer pension) · financial year</text></svg>`;
+$('trend').outerHTML=s.replace('<svg','<svg id="trend"');
+})();
+// ---------- distribution chart ----------
+(function(){
+const GROUPS=[["£100–110k",100,110,'#f59e0b'],["£110–125k",110,125,'#0891b2'],["£125–150k",125,150,'#7c3aed'],["£150k+",150,9999,'#4b5563']];
+const W=900,H=320,L=56,R=24,T=16,B=44,n=YEARS.length,bw=54;
+const ymax=450, x=i=>L+(i+0.5)/n*(W-L-R), y=v=>T+(1-v/ymax)*(H-T-B);
+let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+for(let g=0;g<=ymax;g+=100){s+=`<line x1="${L}" y1="${y(g)}" x2="${W-R}" y2="${y(g)}" stroke="${g?'#eee':'#ccc'}"/><text x="${L-8}" y="${y(g)+4}" text-anchor="end" font-size="11" fill="#9ca3af">${g}</text>`;}
+YEARS.forEach((d,i)=>{let acc=0;
+ GROUPS.forEach(gr=>{let c=0;for(const lo in d.b){const l=+lo;if(l>=gr[1]&&l<gr[2])c+=d.b[lo];}
+  if(c>0){s+=`<rect x="${x(i)-bw/2}" y="${y(acc+c)}" width="${bw}" height="${y(acc)-y(acc+c)}" fill="${gr[3]}" opacity="0.9"/>`;
+   if(c>=12)s+=`<text x="${x(i)}" y="${(y(acc)+y(acc+c))/2+4}" text-anchor="middle" font-size="10.5" fill="#fff" font-weight="600">${c}</text>`;}
+  acc+=c;});
+ s+=`<text x="${x(i)}" y="${y(acc)-6}" text-anchor="middle" font-size="12" font-weight="700" fill="#1d1d1b">${d.tot}</text>`;
+ s+=`<text x="${x(i)}" y="${H-B+16}" text-anchor="middle" font-size="11.5" fill="#6b7280">${d.y}</text>`;});
+s+=`</svg>`;
+$('dist').outerHTML=s.replace('<svg','<svg id="dist"');
+$('distlegend').innerHTML=GROUPS.map(g=>`<span class="lg"><span class="sq" style="background:${g[3]}"></span>${g[0]}</span>`).join('');
+})();
+// ---------- table ----------
+let h='<table><tr><th class="l">Year</th><th>£100k+ (headcount)</th><th>£100k+ (FTE)</th><th>£100k+ at 2019/20-equivalent line</th><th>Severance paid</th><th>Key management (incl. pension)</th></tr>';
+YEARS.forEach((d,i)=>{h+=`<tr><td class="l">${d.y}</td><td><b>${d.tot}</b></td><td>${d.fte.toFixed(1)}</td><td>${Math.round(real[i])}</td><td>${d.sev}</td><td>${d.kmp}</td></tr>`;});
+h+='</table>';$('tbl').innerHTML=h;
+</script></body></html>

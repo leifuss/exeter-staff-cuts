@@ -44,6 +44,9 @@ Liverpool,9,3,46 47 48 49 50 51 52 53,54 55 56,Aug 2025,High (verified),Grade 10
 Durham,7,1,30 31 32 33 34 35 36,37 38 39,Apr 2026,High (verified),
 Durham,8,2,37 38 39 40 41 42 43,44 45 46,Apr 2026,High (verified),
 Durham,9,3,45 46 47 48 49,50 51 52,Apr 2026,High (verified),
+Manchester,6,1,29 30 31 32 33 34 35 36,37 38 39,Aug 2025 (June 2026 new spine),High (author),Lecturer = Grade 6
+Manchester,7,2,37 38 39 40 41 42 43 44,45 46 47,Aug 2025 (June 2026 new spine),High (author),
+Manchester,8,3,45 46 47 48 49 50 51,52 53 54,Aug 2025 (June 2026 new spine),High (author),professoriate = Grade 9
 Newcastle,F,1,32 33 34 35 36,37 38 39,Apr 2026,High (Leif),"Lecturer; grade F runs 28-36 (25-30 research-assistant entry); T&R minimum start SP32"
 Newcastle,G,2,37 38 39 40 41 42 43 44 45 46,47,Apr 2026,High (Leif),Lecturer (upper) / Senior Research Associate
 Newcastle,H,3,44 45 46 47 48 49,50 51 52,Apr 2026,High (Leif),"Senior Lecturer; Reader (IA: 50-52 + disc 53-56) not separately modelled"
