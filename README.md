@@ -34,9 +34,10 @@ whenever content changes — it cache-busts the framed sub-pages so visitors' br
   **Summary** and **Sources** tabs.
 - `payscale_dashboard.html` — the three non-professorial grades on the common spine, and a cost comparison.
 - `career_cost_model.html` — a representative career age 28→professor (fast/middle/slow promotion) and its cost.
-- `professorial_model.html` — the professoriate, all fourteen institutions, with a **progression-model toggle**:
-  a uniform biennial-merit baseline (default, like-for-like) vs each university's **documented mechanisms** (draft —
-  several peers give automatic increments; Exeter's biennial merit review is among the slowest in the set).
+- `professorial_model.html` — the professoriate, all fourteen institutions, modelled on each university's **documented
+  progression mechanisms** (the default — several peers give automatic annual increments; Exeter's biennial merit review is
+  among the slowest in the set, so Exeter ranks mid-pack here). A like-for-like uniform biennial baseline is kept in the code
+  but no longer shown, pending validation against peers' £100k+ disclosures.
 - `transition_model.html` — how any change would phase in with **no pay cuts** (grandfathering; savings from
   earlier topping-out and lower promotion/entry).
 - `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
@@ -84,34 +85,42 @@ They rest on reasoned assumptions (promotion pace, contribution-point uptake, th
 professorial award rates, and an approximate salary-band→grade mapping) for which there is limited hard
 sector data. Use them as a **yardstick for the order of magnitude** and to test whether conclusions survive
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order
-effects. Professorial progression defaults to a uniform biennial-merit baseline for every university; documented
-mechanisms differ (several peers give automatic increments) and a draft mechanism-aware toggle on the Professorial and
-All-in tabs shows how much that could change the picture — it is being validated against peers' £100k+ disclosures
-before becoming the default.
+effects. Professorial progression now uses each university's documented mechanisms (several peers give automatic annual
+increments; Exeter's biennial merit is among the slowest), which places Exeter mid-pack on the professoriate and shrinks the
+all-in gap. This mechanism data is a **draft** being validated against peers' £100k+ disclosures; a uniform biennial-merit
+baseline is retained in the code but no longer shown.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of all **fourteen
-English and Welsh Russell Group systems** — coverage is now complete. Holding the workforce fixed and changing only the
-structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 85–103
-average-salary-post equivalents across the fast→slow promotion assumptions (≈ 94 central; ≈ £6.0m/yr in salary, ≈ £7.8m
-with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
-bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
-negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
-the fourteen ≈ 74–87 (≈ 81 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
-(a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
-predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
-June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
-over roughly five years** (see the transition model); it saves mostly by **paying future hires less**, not by freeing cash
-this year; and the modelled population is **full-time staff in the main academic grades** — research-only, part-time
-and professional-services staff are not counted, so these are **minimum** estimates of the structural difference.
-Indicative.
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits **near the top** of the **fourteen
+English and Welsh Russell Group systems** (coverage is complete) — though **not clearly first** once each university's own
+**documented professorial progression rules** are applied (the site default). Exeter's *non-professorial* grades remain among
+the dearest in the set; its *professoriate*, on a like-for-like biennial-merit view, looked dearest too — but under the
+documented mechanisms (several peers award **automatic annual increments** where Exeter runs a slower biennial merit review)
+Exeter's professoriate ranks about **11th of 14**, which pulls the all-in gap down sharply. Holding the workforce fixed and
+changing only the structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark:
+≈ 35–47 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £2.6m/yr in salary, ≈ £3.3m with
+on-costs)**. It is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
+negotiated spine; about half the modelled peers already sit at or below the median). Secondary comparators: vs the mean of the
+fourteen ≈ 26–39 posts (≈ £2.1m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
+for scale (£ ÷ average salary), not predicted savings or job counts — provided only so the magnitudes can be compared with the
+**~150 full-time posts** the June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a
+structural change **phases in over roughly five years** (see the transition model); it saves mostly by **paying future hires
+less**, not by freeing cash this year; and the modelled population is **full-time staff in the main academic grades** —
+research-only, part-time and professional-services staff are not counted. Indicative.
+
+**Note on the professorial layer.** The headline is now smaller than earlier drafts because the professorial comparison uses
+each university's documented progression mechanism rather than a single uniform review. That mechanism data is **draft** and
+being validated against peers' own £100k+ staff disclosures (see the High pay tab); the more defensible, structural part of the
+gap is in the **non-professorial grades** (entry points and grade lengths), which are unaffected by this choice. A like-for-like
+"uniform biennial" professorial baseline — under which Exeter is the dearest system and the median gap is ≈ £6m/yr — is retained
+in the code but is no longer shown, pending that validation.
 
 **Calibration:** with on-costs the modelled bill is ≈£137m — about 35% of the £396.6m total staff costs in Exeter's
 2024/25 Annual Report, with the other ~65% being exactly the groups the model excludes (professional services,
-research-only, part-time, sub-Lecturer grades, non-salary staff costs). For scale, the structural difference
-(≈£5–9m/yr salary, ≈£7–11m/yr with on-costs) is of the same order as Exeter's entire 2024/25 operating surplus
-(£8.2m, down from £22.5m — the operating line, not the headline surplus, which was distorted by a one-off pension
-provision release in the prior year).
+research-only, part-time, sub-Lecturer grades, non-salary staff costs). For scale, the structural difference vs the median
+(≈£2.6m/yr salary, ≈£3.3m with on-costs) is a fraction of Exeter's 2024/25 operating surplus (£8.2m, down from £22.5m — the
+operating line, not the headline surplus, which was distorted by a one-off pension provision release in the prior year); the
+difference vs the cheapest full system (≈£7m/yr) is of the same order as that surplus.
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
