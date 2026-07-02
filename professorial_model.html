@@ -39,7 +39,7 @@ weighted by Exeter's professoriate applied to every structure, and kept separate
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
 </div>
-<div class="card"><p class="lead">Average professorial cost per head on each structure (Exeter highlighted; dashed line = Exeter).</p>
+<div class="card"><p class="lead">Average professorial cost per head, shown as the <b>local premium above the top of the national pay spine</b> (£71,566) — the part of professorial pay that is locally determined and actually varies. Exeter highlighted; the number on each bar is the actual average cost per head.</p>
  <svg id="bars" viewBox="0 0 920 300" width="920" height="300"></svg></div>
 <div class="card"><h2>Career trajectory — all institutions (expected salary, age 48→67)</h2>
  <p class="lead">Slow stochastic climb from each band floor; Exeter in bold.</p>
@@ -76,23 +76,18 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  $('answer').innerHTML=`At a ${Math.round(p*100)}% award rate, Exeter's professoriate costs <b>${gbp(exph)}/head</b> (£${(exbill/1e6).toFixed(1)}m for 510) — <b>${rank}${rank==1?'st':rank==2?'nd':rank==3?'rd':'th'} dearest of ${ALL.length}</b>. `+
   (dearer.length?`Dearer: ${dearer.join(', ')}.`:`No structure here is dearer.`)+
   ` Adopting the cheapest (${cheap.i}) would save ${gbp(exbill-cheap.ph*COUNT)}/yr. The bigger lever is the award rate: 50%→30% saves ${gbp(exF-exS)}/yr.`;
- // bars
- // zero-centred difference-from-Exeter bars
- const W=920,H=300,L=92,R=150,Tm=10,rh=(H-Tm-36)/rows.length;
- const diffs=rows.map(r=>r.ph-exph), maxAbs=Math.max(...diffs.map(Math.abs))*1.08||1;
- const cx=L+(W-L-R)/2, hw=(W-L-R)/2, xv=d=>cx+d/maxAbs*hw;
+ // bars: local professorial premium above the top of the national pay spine (SP51)
+ const SP51=71566;
+ const W=920,H=300,L=104,R=132,Tm=10,rh=(H-Tm-30)/rows.length;
+ const prem=r=>r.ph-SP51, maxP=Math.max(...rows.map(prem))*1.06||1;
+ const x=v=>L+v/maxP*(W-L-R);
  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
- s+=`<line x1="${cx}" y1="${Tm}" x2="${cx}" y2="${H-32}" stroke="#b45309" stroke-width="1.5"/>`;
- s+=`<text x="${cx}" y="${H-18}" text-anchor="middle" font-size="11" fill="#b45309">Exeter = ${gbp(exph)}/head</text>`;
- s+=`<text x="${L}" y="${H-18}" text-anchor="start" font-size="10" fill="#15803d">← cheaper</text><text x="${W-R}" y="${H-18}" text-anchor="end" font-size="10" fill="#b91c1c">dearer →</text>`;
- rows.forEach((d,k)=>{const y=Tm+k*rh,bh=rh-8,exb=d.i==='Exeter',df=d.ph-exph,save=exbill-d.ph*COUNT;
+ s+=`<line x1="${L}" y1="${Tm-2}" x2="${L}" y2="${H-26}" stroke="#b45309" stroke-width="1.5"/>`;
+ s+=`<text x="${L}" y="${H-9}" text-anchor="start" font-size="10.5" fill="#6b7280">0 = top of the national pay spine (SP51, ${gbp(SP51)}); bar length = the local professorial premium above it</text>`;
+ rows.forEach((d,k)=>{const y=Tm+k*rh,bh=rh-8,exb=d.i==='Exeter',bw=Math.max(1,x(prem(d))-L);
   s+=`<text x="${L-8}" y="${y+bh/2+4}" text-anchor="end" font-size="12.5" font-weight="600" fill="${exb?'#b45309':'#1d1d1b'}">${d.i}</text>`;
-  if(exb){s+=`<text x="${cx+6}" y="${y+bh/2+4}" font-size="11" fill="#b45309">reference — ${gbp(exph)}/head</text>`;}
-  else{const x0=Math.min(cx,xv(df)),bw=Math.abs(xv(df)-cx);
-   s+=`<rect x="${x0}" y="${y}" width="${Math.max(1,bw)}" height="${bh}" rx="3" fill="${df<0?'#15803d':'#b91c1c'}" opacity="0.82"/>`;
-   // value + saving in a fixed right-hand column, clear of the university names on the left
-   s+=`<text x="${W-6}" y="${y+bh/2+4}" text-anchor="end" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${gbp(d.ph)}  (${save>=0?'save '+gbp(save):'+'+gbp(-save)})</text>`;}
- });
+  s+=`<rect x="${L}" y="${y}" width="${bw}" height="${bh}" rx="3" fill="${exb?'var(--ex)':'var(--bar)'}"/>`;
+  s+=`<text x="${L+bw+6}" y="${y+bh/2+4}" font-size="11" font-weight="${exb?'600':'400'}" fill="${exb?'#b45309':'#1d1d1b'}">${gbp(d.ph)}/head</text>`;});
  s+=`</svg>`;$('bars').outerHTML=s.replace('<svg','<svg id="bars"');
  // trajectory
  const W2=920,H2=300,L2=64,R2=20,T2=12,B2=38;const ages=[...Array(20).keys()];
