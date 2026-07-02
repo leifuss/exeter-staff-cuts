@@ -112,6 +112,7 @@ function trajRungs(inst){const L=LAD[inst].length,tr=mode()==='doc'?PROG[inst]:n
    if(m==='m2'){since++;if(since>=2){rung++;since=0;}}else{rung++;since=0;}}out.push(rung);}
  return out;}
 function trajSalary(inst,yr){const f=yr==2027?1.02:1,lad=LAD[inst];return trajRungs(inst).map(r=>lad[r]*f);}
+function crossAge100k(inst,yr){const pts=trajSalary(inst,yr);for(let t=0;t<pts.length;t++)if(pts[t]>=100000)return 48+t;return null;}
 function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  const rows=ALL.map(i=>({i,ph:perHead(i,p,yr,oc)})).sort((a,b)=>b.ph-a.ph);
  const exph=rows.find(r=>r.i==='Exeter').ph,exbill=exph*COUNT;
@@ -148,6 +149,9 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  series.forEach(se=>{const col=COLORS[se.i]||'#999',ex=se.i==='Exeter';const dp=stepPath(se.pts);
    s2+=`<path class="trline" data-inst="${se.i}" d="${dp}" fill="none" stroke="${col}" stroke-width="${ex?3.4:1.6}" opacity="${ex?1:.8}"/>`;
    s2+=`<path class="trhit" data-inst="${se.i}" d="${dp}" fill="none" stroke="rgba(0,0,0,0)" stroke-width="13" style="pointer-events:stroke;cursor:pointer"/>`;});
+ // dot on the £100k line marking the age each first crosses it
+ series.forEach(se=>{const ca=crossAge100k(se.i,yr);if(ca==null)return;
+   s2+=`<circle class="trdot" data-inst="${se.i}" cx="${xx(ca-48)}" cy="${YY(100000)}" r="3.6" fill="${COLORS[se.i]||'#999'}" stroke="#fff" stroke-width="1.1"/>`;});
  s2+=`</svg>`;$('traj').outerHTML=s2.replace('<svg','<svg id="traj"');
  $('trajlegend').innerHTML=ALL.map(i=>`<span class="lg" data-inst="${i}"><span class="sw" style="background:${COLORS[i]||'#999'};height:${i==='Exeter'?6:4}px"></span>${i==='Exeter'?'<b>Exeter</b>':i}</span>`).join('');
  // hover: highlight one line, dim the rest, floating tooltip with institution + expected salary at nearest age
@@ -158,17 +162,17 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
    h.addEventListener('mousemove',ev=>{const inst=h.dataset.inst;hilite(inst);
      const r=svgT.getBoundingClientRect(),fx=(ev.clientX-r.left)/r.width*W2;
      let t=Math.round((fx-L2)/(W2-L2-R2)*19);t=Math.max(0,Math.min(19,t));
-     tip.textContent=`${inst} — ${gbp(byInst[inst][t])} at age ${48+t} (on schedule)`;
+     const ca=crossAge100k(inst,yr);tip.textContent=`${inst} — ${gbp(byInst[inst][t])} at age ${48+t} (on schedule) · ${ca?('crosses £100k at age '+ca):'never reaches £100k on schedule'}`;
      tip.style.left=(ev.clientX+14)+'px';tip.style.top=(ev.clientY-10)+'px';tip.style.opacity=1;});
    h.addEventListener('mouseleave',()=>{hilite(null);tip.style.opacity=0;});});
  document.querySelectorAll('#trajlegend .lg').forEach(el=>{
    el.addEventListener('mouseenter',()=>hilite(el.dataset.inst));
    el.addEventListener('mouseleave',()=>hilite(null));});
  // table
- let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th><th>Documented progression</th><th>Scale year</th></tr>';
+ let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th><th>Reaches £100k</th><th>Documented progression</th><th>Scale year</th></tr>';
  rows.forEach(d=>{const bill=d.ph*COUNT,save=exbill-bill,cls=save>0?'save':(save<0?'cost':'');
   h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
-   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
+   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td>${(function(){const ca=crossAge100k(d.i,yr);return ca?('age '+ca):'—';})()}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
  h+='</table>';$('tbl').innerHTML=h;
 }
 $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit; Leeds, Cardiff, Sheffield and Nottingham give <b>automatic annual increments within zones/bands</b>; Newcastle, York, Manchester and Liverpool are automatic at the bottom then merit. The default "uniform biennial" view deliberately ignores this so every professoriate faces the same review — a like-for-like comparison of <i>scales</i>. The "documented mechanisms" view models each university\'s own rules and can change the ranking dramatically (Exeter falls to mid-pack) — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and the Leeds/Cardiff/Nottingham band boundaries are assumed. The plan is to validate it against peer universities\' own £100k+ staff tables (see the High pay tab) before it becomes the default.<br>'+
