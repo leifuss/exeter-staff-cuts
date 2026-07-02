@@ -18,6 +18,12 @@ Live site: **https://leifuss.github.io/exeter-staff-cuts/** (served via GitHub P
 Or open **`combined_dashboard.html`** locally — it holds all six models as tabs, plus an Overview and a Sources tab.
 Keep the whole folder together (the dashboards load each other in frames and link to `sources/`).
 
+**Deploying:** the site is served by GitHub Pages from `main` via the Actions workflow in
+`.github/workflows/deploy-pages.yml` (Settings → Pages → Source = "GitHub Actions"). The workflow uses
+`concurrency: cancel-in-progress: true`, so a new deploy supersedes any stuck one rather than queuing behind it.
+You can also trigger it manually from the Actions tab ("Deploy Pages" → "Run workflow"). To keep well under the
+Pages build rate limit (~10/hour), batch several content changes into one merge rather than merging each separately.
+
 **Updating the site:** bump the `V` version constant near the top of the script in `combined_dashboard.html`
 whenever content changes — it cache-busts the framed sub-pages so visitors' browsers fetch the new versions
 (GitHub Pages' own CDN cache clears within ~10 minutes).
