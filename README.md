@@ -52,7 +52,8 @@ are outside the modelled population (~1,655 of Exeter's 2,490 full-time academic
 
 ## What drives the difference
 The gap is driven, in descending order, by: **grade entry points** (Exeter's Lecturer grade starts at spine point 34 vs
-27–32 for most peers — the single biggest lever); **grade length** (Exeter's short 3/5/3-increment grades top out fast and
+27–32 for most peers — the single biggest lever; only Manchester starts higher, at 37, and is accordingly the one
+structure dearer than Exeter's); **grade length** (Exeter's short 3/5/3-increment grades top out fast and
 park staff at the ceiling, where longer grades keep them climbing); the **contribution-point tail** above each ceiling
 (Warwick has none); and **ceiling height / overlap**. Gaps in the spine don't save money — they slightly raise it by
 accelerating progression. The cleanest lever is lower entry points and longer lower grades, which touch no current staff.
@@ -74,14 +75,14 @@ sector data. Use them as a **yardstick for the order of magnitude** and to test 
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **twelve whole
-systems** modelled (Manchester is professorial-only so far — see below). Holding the workforce fixed and changing only the
-structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark: ≈ 93–107
-average-salary-post equivalents across the fast→slow promotion assumptions (≈ 100 central; ≈ £6.4m/yr in salary, ≈ £8.4m
-with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m is the **second highest of the thirteen
+whole systems** modelled — only Manchester's structure (≈ £110m) prices Exeter's workforce higher. Holding the workforce
+fixed and changing only the structure, the modelled difference is — **vs the Russell Group median structure, the principal
+benchmark: ≈ 88–105 average-salary-post equivalents across the fast→slow promotion assumptions (≈ 96 central;
+≈ £6.2m/yr in salary, ≈ £8.1m with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
 bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
-the twelve ≈ 77–91 (≈ 84 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
+the thirteen ≈ 66–80 (≈ 73 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
 (a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
 predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
 June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
@@ -99,13 +100,14 @@ provision release in the prior year).
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
-**13 non-professorial structures, 13 professorial, 12 modelled as a whole pay bill** (Manchester is professorial-only so far). **Kept in the data but out of the comparison:** the
+**14 non-professorial structures, 13 professorial, 13 modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
 **Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
 (Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
 Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
 **current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool
 professorial pay is not modelled (its published scale is incomplete). Newcastle is modelled on its published IB Professor
-scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it. York's
+scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.
+Manchester's Lecturer = Grade 7, and Senior Lecturer and Reader share Grade 8 (modelled as identical tiers 2 and 3). York's
 professorial Band 2 rungs are interpolated from its published min/max, and its Band 1 increments are automatic (which the
 discretionary-review model likely understates); Manchester's professoriate is modelled on Grade 9 zones 9E+9D, with zones
 9C–9A excluded as Band-3 analogues.
@@ -116,6 +118,6 @@ The comparison is only as good as its coverage, and this analysis has limitation
 1. **Reuse the data.** The pay structures are provided in machine-readable form (`grades.json`, `grades.csv`, `national_spine.csv`,
    `cost_model_results.csv`) precisely so others can re-run, challenge or extend the analysis rather than take it on trust.
    Corrections and alternative approaches are welcome (open an issue or PR).
-2. **Send missing scales.** Most useful: **Manchester's main grade structure** (its professorial scale is now in) and the **professorial** scale for
-   **Liverpool** (we have its main grades but not its professorial bands).
+2. **Send missing scales.** Most useful: the **professorial** scale for **Liverpool** (we have its main grades but not its professorial bands) —
+   and corrections or updates to any scale used here.
    Current published scales for any other institution are welcome too.

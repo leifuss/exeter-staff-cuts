@@ -1142,6 +1142,73 @@
    "note": ""
   },
   {
+   "institution": "Manchester",
+   "grade": "7",
+   "tier": 1,
+   "normal_points": [
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+   ],
+   "contribution_points": [
+    45,
+    46,
+    47
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (Leif)",
+   "note": "Lecturer = Grade 7"
+  },
+  {
+   "institution": "Manchester",
+   "grade": "8",
+   "tier": 2,
+   "normal_points": [
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52
+   ],
+   "contribution_points": [
+    53,
+    54
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (Leif)",
+   "note": "Senior Lecturer and Reader share Grade 8 \u2014 tiers 2 and 3 identical"
+  },
+  {
+   "institution": "Manchester",
+   "grade": "8",
+   "tier": 3,
+   "normal_points": [
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52
+   ],
+   "contribution_points": [
+    53,
+    54
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (Leif)",
+   "note": "as tier 2 (shared Grade 8); professoriate = Grade 9"
+  },
+  {
    "institution": "Newcastle",
    "grade": "F",
    "tier": 1,
@@ -1275,6 +1342,11 @@
   }
  ],
  "ext_salary": {
+  "Manchester": {
+   "52": 73710,
+   "53": 75914,
+   "54": 78186
+  },
   "Newcastle": {
    "52": 73090,
    "53": 74921,
