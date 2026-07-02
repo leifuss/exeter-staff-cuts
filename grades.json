@@ -1143,8 +1143,31 @@
   },
   {
    "institution": "Manchester",
-   "grade": "7",
+   "grade": "6",
    "tier": 1,
+   "normal_points": [
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36
+   ],
+   "contribution_points": [
+    37,
+    38,
+    39
+   ],
+   "effective": "Aug 2025 (June 2026 new spine)",
+   "confidence": "High (author)",
+   "note": "Lecturer = Grade 6"
+  },
+  {
+   "institution": "Manchester",
+   "grade": "7",
+   "tier": 2,
    "normal_points": [
     37,
     38,
@@ -1161,30 +1184,8 @@
     47
    ],
    "effective": "Aug 2025 (June 2026 new spine)",
-   "confidence": "High (Leif)",
-   "note": "Lecturer = Grade 7"
-  },
-  {
-   "institution": "Manchester",
-   "grade": "8",
-   "tier": 2,
-   "normal_points": [
-    45,
-    46,
-    47,
-    48,
-    49,
-    50,
-    51,
-    52
-   ],
-   "contribution_points": [
-    53,
-    54
-   ],
-   "effective": "Aug 2025 (June 2026 new spine)",
-   "confidence": "High (Leif)",
-   "note": "Senior Lecturer and Reader share Grade 8 \u2014 tiers 2 and 3 identical"
+   "confidence": "High (author)",
+   "note": ""
   },
   {
    "institution": "Manchester",
@@ -1197,16 +1198,16 @@
     48,
     49,
     50,
-    51,
-    52
+    51
    ],
    "contribution_points": [
+    52,
     53,
     54
    ],
    "effective": "Aug 2025 (June 2026 new spine)",
-   "confidence": "High (Leif)",
-   "note": "as tier 2 (shared Grade 8); professoriate = Grade 9"
+   "confidence": "High (author)",
+   "note": "professoriate = Grade 9"
   },
   {
    "institution": "Newcastle",

@@ -52,8 +52,7 @@ are outside the modelled population (~1,655 of Exeter's 2,490 full-time academic
 
 ## What drives the difference
 The gap is driven, in descending order, by: **grade entry points** (Exeter's Lecturer grade starts at spine point 34 vs
-27–32 for most peers — the single biggest lever; only Manchester starts higher, at 37, and is accordingly the one
-structure dearer than Exeter's); **grade length** (Exeter's short 3/5/3-increment grades top out fast and
+27–32 for most peers — the single biggest lever); **grade length** (Exeter's short 3/5/3-increment grades top out fast and
 park staff at the ceiling, where longer grades keep them climbing); the **contribution-point tail** above each ceiling
 (Warwick has none); and **ceiling height / overlap**. Gaps in the spine don't save money — they slightly raise it by
 accelerating progression. The cleanest lever is lower entry points and longer lower grades, which touch no current staff.
@@ -75,14 +74,13 @@ sector data. Use them as a **yardstick for the order of magnitude** and to test 
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order effects.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m is the **second highest of the thirteen
-whole systems** modelled — only Manchester's structure (≈ £110m) prices Exeter's workforce higher. Holding the workforce
-fixed and changing only the structure, the modelled difference is — **vs the Russell Group median structure, the principal
-benchmark: ≈ 88–105 average-salary-post equivalents across the fast→slow promotion assumptions (≈ 96 central;
-≈ £6.2m/yr in salary, ≈ £8.1m with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
+On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits at the top of the **thirteen whole
+systems** modelled. Holding the workforce fixed and changing only the structure, the modelled difference is — **vs the
+Russell Group median structure, the principal benchmark: ≈ 89–105 average-salary-post equivalents across the fast→slow
+promotion assumptions (≈ 97 central; ≈ £6.2m/yr in salary, ≈ £8.1m with on-costs)**. A recurring saving of that size roughly **doubles Exeter's 2024/25 operating margin — with no severance
 bill** — and it is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
 negotiated spine; half the modelled peers already operate at or below the median). Secondary comparators: vs the mean of
-the thirteen ≈ 66–80 (≈ 73 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
+the thirteen ≈ 78–91 (≈ 85 central); vs the lowest (Nottingham) ≈ 125–145 (≈ 134 central); vs the cheapest mix ≈ 152 central
 (a bound, not a proposal). These are equivalences for scale (£ ÷ average salary), not
 predicted savings or job counts — provided only so the magnitudes can be compared with the **~150 full-time posts** the
 June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a structural change **phases in
@@ -107,7 +105,7 @@ Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct la
 **current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool
 professorial pay is not modelled (its published scale is incomplete). Newcastle is modelled on its published IB Professor
 scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.
-Manchester's Lecturer = Grade 7, and Senior Lecturer and Reader share Grade 8 (modelled as identical tiers 2 and 3). York's
+Manchester's academic grades are 6/7/8 (Lecturer = Grade 6), with the professoriate on Grade 9. York's
 professorial Band 2 rungs are interpolated from its published min/max, and its Band 1 increments are automatic (which the
 discretionary-review model likely understates); Manchester's professoriate is modelled on Grade 9 zones 9E+9D, with zones
 9C–9A excluded as Band-3 analogues.
