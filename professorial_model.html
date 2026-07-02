@@ -90,8 +90,8 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
   if(exb){s+=`<text x="${cx+6}" y="${y+bh/2+4}" font-size="11" fill="#b45309">reference — ${gbp(exph)}/head</text>`;}
   else{const x0=Math.min(cx,xv(df)),bw=Math.abs(xv(df)-cx);
    s+=`<rect x="${x0}" y="${y}" width="${Math.max(1,bw)}" height="${bh}" rx="3" fill="${df<0?'#15803d':'#b91c1c'}" opacity="0.82"/>`;
-   const lx=df<0?x0-6:x0+bw+6;
-   s+=`<text x="${lx}" y="${y+bh/2+4}" text-anchor="${df<0?'end':'start'}" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${gbp(d.ph)}  (${save>=0?'save '+gbp(save):'+'+gbp(-save)})</text>`;}
+   // value + saving in a fixed right-hand column, clear of the university names on the left
+   s+=`<text x="${W-6}" y="${y+bh/2+4}" text-anchor="end" font-size="11" fill="${save>0?'#15803d':(save<0?'#b91c1c':'#1d1d1b')}">${gbp(d.ph)}  (${save>=0?'save '+gbp(save):'+'+gbp(-save)})</text>`;}
  });
  s+=`</svg>`;$('bars').outerHTML=s.replace('<svg','<svg id="bars"');
  // trajectory
