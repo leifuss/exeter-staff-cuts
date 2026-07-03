@@ -61,9 +61,11 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    <b>two independent levers — a university could use either without the other</b>:</p>
    <ul style="margin:8px 0 0;padding-left:20px;font-size:14px">
      <li><b>The non-professorial grades (Lecturer / SL / AP)</b> — this is where the difference is, and it is the robust part.
-     Realigning to the <b>Russell Group median structure</b> would save roughly <b>£2.7m a year</b> (≈£3.5m with employer
-     on-costs), recurring, with <b>no severance bill</b>. It comes from lower entry points and longer lower grades, so it
-     touches <b>no current member of staff</b> — mainly it means paying <i>future</i> hires slightly less at given stages.</li>
+     Realigning to the <b>Russell Group median structure</b> would save roughly <b>£4.7m a year</b> (≈£6m with employer
+     on-costs) — about <b>84 average-salary posts</b>, recurring, with <b>no severance bill</b>. It comes from lower entry points
+     and longer lower grades, so it touches <b>no current member of staff</b> — mainly it means paying <i>future</i> hires
+     slightly less at given stages. (This is <i>larger</i> than the all-in figure, because bundling in the professoriate — where
+     Exeter is below the median — pulls the combined number down.)</li>
      <li><b>The professoriate</b> is a <b>separate choice</b>. Once each university's <i>own documented progression rules</i> are
      applied (several peers award automatic annual increments where Exeter runs a slower biennial merit review), Exeter's
      professoriate already sits <b>around or below the middle of the group</b> — so there is <b>little or no structural saving</b>
@@ -80,10 +82,11 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    The pay scales are public and the data is downloadable, so anyone can check, challenge or extend this.</p>
   </div>
 
-  <p class="small">The chart below shows, for each Russell Group structure modelled, how much Exeter's annual academic pay bill
-  would change if it used that structure on the same workforce — using only the universities' own published scales. It is
-  computed live from the same data and central assumptions as the <b>All-in pay bill</b> tab, so the numbers here always match
-  the detailed model.</p>
+  <p class="small">The chart below shows, for each Russell Group structure modelled, how much Exeter's annual <b>non-professorial</b>
+  pay bill (the Lecturer / SL / AP grades) would change if it used that structure on the same workforce — using only the universities'
+  own published scales. This is the robust, mechanism-independent lever; it is computed live from the same data and central assumptions
+  as the <b>Grade structure &amp; cost</b> tab. The professoriate is shown separately on the <b>Professorial</b> tab, and the
+  two combined on the <b>All-in pay bill</b> tab.</p>
 
   <div class="figpanel" id="heropanel"></div>
   <p class="small">One view of the central case. The <b>All-in pay bill</b> tab lets you change the assumptions (promotion
@@ -155,7 +158,7 @@ const cards=[
  ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02t'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02u'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
@@ -191,20 +194,22 @@ function phP(inst){const lad=LAD[inst],L=lad.length,tr=PROG[inst]||Array(L).fill
 const er=WF.er,ere=WF.ere,to={1:ere['1']-er['1'],2:ere['2']-er['2'],3:ere['3']-er['3']};
 const NP=+ere['1']+ +ere['2']+ +ere['3'],NPROF=PROFNW.ere,HEAD=NP+NPROF;
 function grpCost(inst,w){let a=0;for(const t of [1,2,3])a+=w[t]*EgNP(struct[inst][String(t)],TEN[t],inst);return a;}
-const exER=grpCost('Exeter',er),exTO=grpCost('Exeter',to),exP=phP('Exeter')*NPROF;
-const exTot=exER+exTO+exP,avg=exTot/HEAD;
+const exER=grpCost('Exeter',er),exTO=grpCost('Exeter',to);
+// Overview chart is NON-PROFESSORIAL only — the robust, mechanism-independent lever. The professoriate
+// (where Exeter is around/below the RG median under documented progression) is shown on the Professorial tab.
+const avg=(exER+exTO)/NP; // yardstick: Exeter's average non-professorial academic salary
 const rows=Object.keys(LAD).filter(i=>struct[i]&&i!=='Exeter').map(i=>{
- const segs=[exER-grpCost(i,er),exTO-grpCost(i,to),exP-phP(i)*NPROF];
+ const segs=[exER-grpCost(i,er),exTO-grpCost(i,to)];
  return {i,segs,tot:segs.reduce((a,b)=>a+b,0)/avg};}).sort((a,b)=>a.tot-b.tot);
 const CUTS=150,COLS=['#15803d','#f59e0b','#7c3aed'];
 const W=860,L=118,R=24,TOP=104,RH=32,BH=20,n=rows.length,axisY=TOP+(n+1)*RH+8,H=axisY+58;
 const minP=Math.min(0,...rows.map(r=>r.tot))*1.15, maxP=Math.max(CUTS,...rows.map(r=>r.tot))*1.1;
 const x=p=>L+(p-minP)/(maxP-minP)*(W-L-R), PPW=(W-L-R)/(maxP-minP);
 let g=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">`;
-g+=`<text x="0" y="22" font-size="16" font-weight="700" fill="#1d1d1b">If Exeter used each structure: notional academic posts the saving would fund</text>`;
-g+=`<text x="0" y="42" font-size="12.5" fill="#6b7280">Each university's published pay structure, applied to Exeter's workforce. Same national spine — only the <tspan font-style="italic">structure</tspan> differs.</text>`;
-g+=`<text x="0" y="60" font-size="12.5" fill="#6b7280">Annual saving vs Exeter's structure ÷ Exeter's average academic salary, split by staff group. Indicative — roughly this many, not exactly.</text>`;
-const LEG=[['E&R (Education &amp; Research) academics',0],['Teaching-only academics',1],['Professors',2]];
+g+=`<text x="0" y="22" font-size="16" font-weight="700" fill="#1d1d1b">If Exeter used each structure's non-professorial grades: notional posts the saving would fund</text>`;
+g+=`<text x="0" y="42" font-size="12.5" fill="#6b7280">Each university's published <tspan font-weight="600">non-professorial</tspan> grade structure (Lecturer / SL / AP), applied to Exeter's workforce. Same national spine — only the <tspan font-style="italic">structure</tspan> differs. The professoriate is a separate lever (Professorial tab).</text>`;
+g+=`<text x="0" y="60" font-size="12.5" fill="#6b7280">Annual saving vs Exeter's structure ÷ Exeter's average non-professorial salary, split by staff group. Indicative — roughly this many, not exactly.</text>`;
+const LEG=[['E&R (Education &amp; Research) academics',0],['Teaching-only academics',1]];
 let lx=L; LEG.forEach(l=>{g+=`<rect x="${lx}" y="76" width="13" height="11" rx="2" fill="${COLS[l[1]]}"/><text x="${lx+18}" y="86" font-size="12" fill="#374151">${l[0]}</text>`;lx+=l[0].replace('&amp;','&').length*6.4+40;});
 // axis gridlines
 for(let p=Math.ceil(minP/25)*25;p<=maxP;p+=25){const gx=x(p);
@@ -231,7 +236,7 @@ rows.forEach((r,k)=>{const y=TOP+(k+1)*RH;
    if(w>0.5)g+=`<rect x="${cx}" y="${y}" width="${w}" height="${BH}" rx="1.5" fill="${COLS[si]}" opacity="0.92"/>`;cx+=Math.max(0,w);});
   g+=`<text x="${cx+6}" y="${y+BH/2+4}" font-size="12" font-weight="600" fill="#1d1d1b">≈ ${Math.round(r.tot)} posts</text>`;}});
 g+=`</svg>`;
-g+=`<p class="small" style="margin:8px 0 0">Notional posts = the whole modelled saving ÷ Exeter's average academic salary — an equivalence for scale, <b>not</b> predicted job retention: a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less (see the <b>Transition</b> tab). Central assumptions (middle promotion pace, 30% contribution-point uptake, 40% professorial award rate), salary-only basis, 2025-26. <b>A minimum:</b> research-only and professional-services staff are not counted — likely additional savings there. Professorial progression uses each university's documented mechanisms (draft; see the Professorial tab). Executive/senior-management pay needs equal scrutiny.</p>`;
+g+=`<p class="small" style="margin:8px 0 0">Notional posts = the modelled <b>non-professorial</b> saving ÷ Exeter's average non-professorial salary — an equivalence for scale, <b>not</b> predicted job retention: a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less (see the <b>Transition</b> tab). Central assumptions (middle promotion pace, 30% contribution-point uptake), salary-only basis, 2025-26. <b>A minimum:</b> research-only and professional-services staff are not counted — likely additional savings there. <b>The professoriate is excluded here</b> and shown on the <b>Professorial</b> tab — under each university's documented progression Exeter sits around or below the RG median there, so it adds little to the structural case. Executive/senior-management pay needs equal scrutiny.</p>`;
 document.getElementById('heropanel').innerHTML=g;
 })();
 </script>

@@ -111,7 +111,11 @@ research-only, part-time and professional-services staff are not counted. Indica
 **Note on the professorial layer.** The headline is now smaller than earlier drafts because the professorial comparison uses
 each university's documented progression mechanism rather than a single uniform review. That mechanism data is **draft** and
 being validated against peers' own £100k+ staff disclosures (see the High pay tab); the more defensible, structural part of the
-gap is in the **non-professorial grades** (entry points and grade lengths), which are unaffected by this choice. A like-for-like
+gap is in the **non-professorial grades** (entry points and grade lengths), which are unaffected by this choice. Those two levers
+are **independent** — a university could adopt one without the other — and the overview chart now shows the non-professorial lever
+on its own: realigning just those grades to the RG median saves ≈ **£4.7m/yr salary (≈£6m with on-costs; ~84 average-salary
+posts)**, *larger* than the all-in figure because Exeter's professoriate already sits below the median and dilutes the combined
+number. A like-for-like
 "uniform biennial" professorial baseline — under which Exeter is the dearest system and the median gap is ≈ £6m/yr — is retained
 in the code but is no longer shown, pending that validation.
 
