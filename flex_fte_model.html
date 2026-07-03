@@ -107,23 +107,31 @@ function marginalZone(S){const a=adj(S);return a>125140?'45% band':a>100000?'~62
 function draw(){
  const g=G(), F=+$('sal').value, fte=+$('fte').value, cap=+$('cap').value, take=+$('take').value;
  const P=F*fte, gd=F-P, cd=cash(F)-cash(P), us=uni(F)-uni(P), cc=cliffReclaim(F,P), effCd=cd-cc;
+ // typical saving NET of the guaranteed increments: mean annual saving over the 10-year path
+ const rows=pathRows(g,F,fte,cap), avgSave=rows.reduce((a,r)=>a+r.sav,0)/rows.length, incCost=us-avgSave;
  $('answer').innerHTML=`A <b>${g.label.toLowerCase()}</b> on <b>${gbp(F)}</b> moving to <b>${fte} FTE</b> gives up <b>${gbp(gd)}</b> of gross salary — `+
   `but only <b>${gbp(cd)}</b> of take-home${cc?` (<b>${gbp(effCd)}</b> after reclaiming ${gbp(cc)} of ${g.cliff==='cb'?'Child Benefit':'childcare support'})`:''}, `+
-  `because pay here is taxed at <b>${marginalZone(F)}</b>. The university saves <b>${gbp(us)}/yr all-in</b> (salary + employer NI + employer USS) — `+
-  `so the person loses about <b>${(effCd/us).toFixed(2)}</b> of take-home for every £1 saved. Across <b>${take}</b> staff that is `+
-  `<b>${gbp(us*take)}/yr</b>, recurring, voluntary and with no severance.`;
+  `because pay here is taxed at <b>${marginalZone(F)}</b>. In year 1 the university saves <b>${gbp(us)}/yr all-in</b> (salary + employer NI + employer USS); `+
+  `<b>after paying the guaranteed increments</b> the sustained saving averages <b>${gbp(avgSave)}/yr</b>. `+
+  `The person loses about <b>${(effCd/us).toFixed(2)}</b> of take-home for every £1 saved. Across <b>${take}</b> staff the sustained saving is `+
+  `<b>${gbp(avgSave*take)}/yr</b> — recurring, voluntary and with no severance.`;
  const kpi=(k,v,s,cls)=>`<div class="kpi ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
  $('kpis').innerHTML=
   kpi('Gross salary given up',gbp(gd),`${Math.round((1-fte)*100)}% of ${gbp(F)}`)+
   kpi('Take-home drop',gbp(cd),cc?`${gbp(effCd)} after cliff reclaim`:`${Math.round(100*cd/gd)}% of the gross drop`,'cost')+
-  kpi('University saving / person',gbp(us),'salary + on-costs, per year','save')+
+  kpi('Uni saving — year 1',gbp(us),'FTE cut only, before increments','save')+
+  kpi('Net cost of the increments',incCost>50?gbp(incCost):'≈ none',incCost>50?'avg/yr — already netted below':'progression they’d get anyway','cost')+
+  kpi('Sustained saving / person',gbp(avgSave),'per yr, net of increments (10-yr avg)','save')+
   kpi('Efficiency',`${(effCd/us).toFixed(2)}`,'take-home lost per £1 saved','hi')+
-  kpi(`Total saving (${take})`,gbp(us*take),'per year, recurring','save')+
+  kpi(`Total sustained (${take})`,gbp(avgSave*take),'per yr, net of increments','save')+
   kpi('Income cliff',cc?`Reclaims ${gbp(cc)}`:(g.cliff==='none'?'n/a below cliffs':(adj(F)>100000?'Above £100k':'Below £100k')),g.cliff==='cb'?'Child Benefit £60–80k':g.cliff==='childcare'?'childcare £100k':'—','hi');
  drawYoY(g,F,fte,cap);drawEff(g,fte);texts(g);
 }
 function closest(lad,F){let b=0;for(let i=0;i<lad.length;i++)if(Math.abs(lad[i]-F)<Math.abs(lad[b]-F))b=i;return b;}
-function drawYoY(g,F,fte,cap){
+// Year-by-year path. The 'my' (part-time) line climbs a rung EVERY year (the guaranteed increments),
+// while the counterfactual climbs at the group's normal cadence — so each year's saving is already
+// NET of the cost of the increments the person is being given.
+function pathRows(g,F,fte,cap){
  const lad=g.lad,start=closest(lad,F),N=10,capIx=Math.max(closest(lad,cap),start);
  let rows=[],cum=0;
  for(let t=0;t<N;t++){
@@ -132,6 +140,10 @@ function drawYoY(g,F,fte,cap){
   const cf=uni(lad[cfIx]),my=uni(lad[myIx]*fte),sav=cf-my;cum+=sav;
   rows.push({t,cf,my,sav,cum});
  }
+ return rows;
+}
+function drawYoY(g,F,fte,cap){
+ const rows=pathRows(g,F,fte,cap),N=rows.length;
  const W=920,H=300,L=64,R=20,T=16,B=42,maxV=Math.max(...rows.map(r=>r.cf))*1.05,minV=Math.min(...rows.map(r=>r.my))*0.92;
  const xx=t=>L+t/(N-1)*(W-L-R),yy=v=>T+(1-(v-minV)/(maxV-minV))*(H-T-B);
  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
