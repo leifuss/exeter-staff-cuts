@@ -56,13 +56,23 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    posts</b> (more than 500 staff notified at risk), falling heavily on the <b>humanities and social sciences</b>.
    This site asks a question the official case has not: <b>how does Exeter's academic pay structure compare with
    other Russell Group universities'?</b></p>
-   <p style="margin-top:10px">Built from universities' <b>own published pay scales</b>, it finds Exeter's structure the
-   <b>most expensive of the fourteen Russell Group systems modelled — now the full English and Welsh Russell Group</b>. Converging on the
-   <b>Russell Group median structure</b> — the principal benchmark throughout — would save roughly <b>£6–8m a year</b> (salary vs with employer on-costs):
-   comparable to Exeter's entire 2024/25 operating surplus (£8.2m), recurring, and with <b>no severance bill</b>. It is
-   convergence with the middle of the peer group, not a race to the bottom. On that evidence the scale of the cuts looks
-   less like a necessity than a <b>choice</b>. (The UCU reports Exeter's own modelling shows the deficit closing by 2029
-   without compulsory redundancies.)</p>
+   <p style="margin-top:10px">Built from universities' <b>own published pay scales</b>, it finds Exeter's all-in academic pay
+   bill the <b>highest of the fourteen English and Welsh Russell Group systems</b> modelled. That difference splits into
+   <b>two independent levers — a university could use either without the other</b>:</p>
+   <ul style="margin:8px 0 0;padding-left:20px;font-size:14px">
+     <li><b>The non-professorial grades (Lecturer / SL / AP)</b> — this is where the difference is, and it is the robust part.
+     Realigning to the <b>Russell Group median structure</b> would save roughly <b>£2.7m a year</b> (≈£3.5m with employer
+     on-costs), recurring, with <b>no severance bill</b>. It comes from lower entry points and longer lower grades, so it
+     touches <b>no current member of staff</b> — mainly it means paying <i>future</i> hires slightly less at given stages.</li>
+     <li><b>The professoriate</b> is a <b>separate choice</b>. Once each university's <i>own documented progression rules</i> are
+     applied (several peers award automatic annual increments where Exeter runs a slower biennial merit review), Exeter's
+     professoriate already sits <b>around or below the middle of the group</b> — so there is <b>little or no structural saving</b>
+     there against the median. Exeter could realign the grade structure and leave the professoriate untouched entirely.</li>
+   </ul>
+   <p style="margin-top:10px">A recurring structural saving of that order is comparable to Exeter's 2024/25 operating surplus
+   (£8.2m), and it is <b>convergence with the middle of the peer group, not a race to the bottom</b>. On that evidence the
+   scale of the cuts looks less like a necessity than a <b>choice</b>. (The UCU reports Exeter's own modelling shows the
+   deficit closing by 2029 without compulsory redundancies.)</p>
    <p style="margin-top:10px;font-size:13px;color:#6b7280">Two things this is <b>not</b>. It is not a claim that any individual is
    overpaid: every university here is on the same national pay spine, so a given point pays the same everywhere — only the
    <i>design</i> of the grades differs. And it can't be read in isolation — realigning structure saves only gradually (see the
@@ -83,7 +93,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
    <ul style="margin:6px 0 0;padding-left:20px">
     <li>Every university here uses the <b>same national pay spine</b>: a given spine point pays the same salary everywhere. Only the <i>structure</i> — where each grade starts, how long it runs, what sits above its ceiling — differs.</li>
     <li>We price <b>Exeter's own current staff</b> on each university's structure, so the only thing that changes is the pay system, not the people.</li>
-    <li>On that like-for-like test, Exeter's structure is the <b>most expensive of all fourteen English and Welsh Russell Group systems</b>. The <b>principal benchmark is the Russell Group median</b> — the middle of the peer group; the cheapest system is shown too, but as a bound, not a proposal.</li>
+    <li>On that like-for-like test, Exeter's <b>all-in structure is the most expensive of all fourteen English and Welsh Russell Group systems</b> — but the gap is almost entirely in the <b>non-professorial grades</b>; on the professoriate, using each university's documented progression, Exeter is <b>around or below the median</b>. The <b>principal benchmark is the Russell Group median</b>; the cheapest system is shown too, but as a bound, not a proposal.</li>
     <li>The difference is <b>comparable in scale to the proposed ~150-post cuts</b> — but a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less. It is not cash in the bank this year.</li>
     <li>The figures are a <b>minimum</b>: they cover only E&amp;R and teaching-only academics plus the professoriate. Research-only staff (~780 full-time) and professional-services staff — whose grade structures differ in the same way — are <b>not counted</b>, and would likely add to the saving.</li>
     <li>This is a <b>comparison, not a costed alternative plan</b> — and not a claim that anyone is overpaid.</li>
@@ -145,7 +155,7 @@ const cards=[
  ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02r'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-02s'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
