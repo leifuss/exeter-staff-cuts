@@ -43,6 +43,11 @@ whenever content changes — it cache-busts the framed sub-pages so visitors' br
 - `monte_carlo.html` — varies the uncertain assumptions (promotion pace, contribution uptake, SL/AP split,
   professorial award rate) 5,000 times across the whole all-in model to give a sensitivity range — surfaced in the
   combined dashboard as **"How sure can we be?"**.
+- `flex_fte_model.html` — a **voluntary alternative lever**: incentivising higher-paid professors to move to part-time
+  (e.g. 0.8 FTE) in exchange for a **guaranteed annual increment** (capped at the top of their band). Because £100k+ pay is
+  heavily taxed (and the personal-allowance / childcare cliffs sit right in the professorial bulge), the **take-home cost to
+  the professor is far smaller than the university's all-in saving** — a recurring, severance-free saving. Interactive: set
+  salary, target FTE, band cap, children and take-up; all tax/NI/USS assumptions are editable. Illustrative and strictly voluntary.
 - `highpay.html` — five years of the annual reports' **£100k+ staff** table (2019/20–2024/25): the raw count has
   tripled (135 → 404); against a pay-award-adjusted threshold the real growth is ≈30%, concentrated in 2023/24 —
   alongside severance and key-management-pay series from the same accounts.

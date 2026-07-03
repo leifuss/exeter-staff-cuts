@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flexible-working / 0.8 FTE lever</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--ex:#d97706;--exeter:#b45309;--bar:#9aa6b2;--ref:#2563eb;--save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 14px;max-width:860px;font-size:14px}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 16px;font-size:15px}.answer b{color:var(--exeter)}
+.note{background:#f0f7ff;border:1px solid #cfe0f5;border-radius:9px;padding:10px 13px;font-size:13px;margin:0 0 14px}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:12px;color:var(--mut);font-weight:600}
+.ctl select,.ctl input{font:inherit;font-size:13px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;width:150px}
+.ctl .hint{font-size:11px;color:#9ca3af;max-width:230px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .k{font-size:11.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.kpi .v{font-size:22px;font-weight:700;margin-top:3px}.kpi .s{font-size:11.5px;color:#9ca3af;margin-top:2px}
+.kpi.save .v{color:var(--save)}.kpi.cost .v{color:var(--cost)}.kpi.hi{border-color:#f0d8b0;background:#fffdf8}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.card h2{font-size:15px;margin:0 0 4px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
+svg{display:block;max-width:100%}.lgnd{display:flex;gap:8px 16px;flex-wrap:wrap;font-size:13px;color:var(--ink);margin-top:6px}
+.lg{display:inline-flex;align-items:center;gap:6px}.sw{width:22px;height:5px;border-radius:2px;display:inline-block}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>A voluntary lever: incentivised part-time (0.8 FTE) for higher-paid professors</h1>
+<p class="sub">Professorial pay is hard to change directly — it already rises below inflation, so Exeter professors tend to lose
+ground in real terms year on year. But at £100k+ a large share of each pound is lost to tax, so giving up a slice of
+<i>gross</i> salary costs far less in <i>take-home</i> than it saves the university (which also sheds employer NI and pension).
+This tool models one idea: professors voluntarily move to part-time in exchange for a <b>guaranteed annual increment</b> (up to
+the top of their current band). <b>Illustrative and strictly voluntary</b> — it prices a mechanism, it does not propose that
+anyone be pushed part-time.</p>
+<div class="answer" id="answer"></div>
+<div class="controls" id="controls">
+ <div class="ctl"><label>Professor's current salary (1.0 FTE)</label><select id="sal"></select>
+   <span class="hint">Exeter professorial rungs. Most £100k+ staff sit in the £105–108k bulge.</span></div>
+ <div class="ctl"><label>Move to</label><select id="fte">
+   <option value="0.9">0.9 FTE</option><option value="0.8" selected>0.8 FTE</option><option value="0.7">0.7 FTE</option><option value="0.6">0.6 FTE</option></select></div>
+ <div class="ctl"><label>Guarantee increments up to</label><select id="cap"></select>
+   <span class="hint">Top of the current professorial band — increments stop here; crossing to the next band stays on merit.</span></div>
+ <div class="ctl"><label>Young children (childcare cliff)</label><select id="kids">
+   <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+   <span class="hint">Tax-Free Childcare + free hours are lost above £100k adjusted income; going part-time can reclaim them.</span></div>
+ <div class="ctl"><label>How many professors take it up</label><input id="take" type="number" value="100" min="1" max="510" step="10"></div>
+ <div class="ctl"><label>USS member / employer %</label><input id="uss" type="text" value="6.1 / 14.5"></div>
+ <div class="ctl"><label>Employer NI %  (over £5,000)</label><input id="erni" type="number" value="15" min="0" max="25" step="0.5" style="width:90px"></div>
+ <div class="ctl"><label>Childcare value / child / yr</label><input id="ccval" type="number" value="2000" min="0" max="15000" step="500"></div>
+</div>
+<div class="kpis" id="kpis"></div>
+
+<div class="card"><h2>Year on year: the university keeps saving, the professor keeps progressing</h2>
+ <p class="lead">All-in cost (salary + employer NI + employer USS) if the professor <b>stays 1.0 FTE</b> on Exeter's biennial merit
+ (blue) vs moves to part-time with a <b>guaranteed annual increment</b> (amber), capped at the band top. The gap is the annual
+ saving; it persists — and grows once the capped part-time salary stops rising while the full-time counterfactual keeps climbing.</p>
+ <svg id="yoy" viewBox="0 0 920 300" width="920" height="300"></svg>
+ <div class="lgnd"><span class="lg"><span class="sw" style="background:#2563eb"></span>Stays 1.0 FTE (counterfactual)</span>
+   <span class="lg"><span class="sw" style="background:#d97706"></span>Part-time + guaranteed increment</span>
+   <span class="lg"><span class="sw" style="background:#15803d;opacity:.25"></span>Annual saving</span></div>
+ <div id="yoytbl"></div></div>
+
+<div class="card"><h2>How the take-home drop compares to the university saving</h2>
+ <p class="lead">The bar shows, for each professorial rung, how much <b>cash-in-hand</b> the professor gives up (red) against how
+ much the <b>university saves all-in</b> (green) by moving to the chosen FTE — the shorter the red bar relative to the green, the
+ more efficient the trade. The dashed line marks where adjusted income crosses <b>£100,000</b> (childcare / allowance cliff).</p>
+ <svg id="eff" viewBox="0 0 920 330" width="920" height="330"></svg></div>
+
+<details><summary>Assumptions, tax model &amp; caveats</summary><div class="small" style="margin-top:8px" id="caveats"></div></details>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const LAD=[78189,80529,82935,85424,87986,90628,93346,96146,99031,102000,105062,108214,111459];
+const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString();
+function ussRates(){const m=($('uss').value||'6.1 / 14.5').split('/');return{mem:(parseFloat(m[0])||6.1)/100,emp:(parseFloat(m[1])||14.5)/100};}
+// England 2025-26 income tax on taxable income (after net-pay pension), with personal-allowance taper
+function incomeTax(taxable){let pa=12570;if(taxable>100000)pa=Math.max(0,12570-(taxable-100000)/2);
+ const tx=Math.max(0,taxable-pa);let t=0;t+=Math.min(tx,37700)*0.20;
+ t+=Math.max(0,Math.min(tx-37700,(125140-pa)-37700))*0.40;t+=Math.max(0,tx-(125140-pa))*0.45;return t;}
+function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max(S-50270,0)*0.02;}
+function adj(S){return S-ussRates().mem*S;}                         // adjusted net income (USS net-pay)
+function cash(S){return S-ussRates().mem*S-incomeTax(adj(S))-empNI(S);}  // cash in hand
+function uni(S){const er=+$('erni').value/100;return S+Math.max(0,S-5000)*er+S*ussRates().emp;} // employer all-in
+function childcareReclaim(F,P){const kids=+$('kids').value,val=+$('ccval').value;
+ return (adj(F)>100000&&adj(P)<=100000)?kids*val:0;}
+function marginalZone(S){const a=adj(S);return a>125140?'45% band':a>100000?'~62% (allowance taper)':a>50270?'42% (40%+NI)':'32% (20%+NI)';}
+
+function draw(){
+ const F=+$('sal').value, fte=+$('fte').value, cap=+$('cap').value, take=+$('take').value;
+ const P=F*fte;
+ const gd=F-P, cd=cash(F)-cash(P), us=uni(F)-uni(P), cc=childcareReclaim(F,P);
+ const effCd=cd-cc; // effective take-home hit after reclaiming childcare support
+ // headline
+ $('answer').innerHTML=`A professor on <b>${gbp(F)}</b> moving to <b>${fte} FTE</b> gives up <b>${gbp(gd)}</b> of gross salary — `+
+  `but only <b>${gbp(cd)}</b> of take-home${cc?` (<b>${gbp(effCd)}</b> after reclaiming ${gbp(cc)} of childcare support)`:''}, `+
+  `because pay here is taxed at <b>${marginalZone(F)}</b>. The university saves <b>${gbp(us)}/yr all-in</b> `+
+  `(salary + employer NI + employer USS) — so the professor loses about <b>${(effCd/us).toFixed(2)}</b> of take-home for every £1 saved. `+
+  `Across <b>${take}</b> professors that is <b>${gbp(us*take)}/yr</b>, recurring, voluntary and with no severance.`;
+ // KPIs
+ const kpi=(k,v,s,cls)=>`<div class="kpi ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+ $('kpis').innerHTML=
+  kpi('Gross salary given up',gbp(gd),`${Math.round((1-fte)*100)}% of ${gbp(F)}`)+
+  kpi('Professor take-home drop',gbp(cd),cc?`${gbp(effCd)} after childcare reclaim`:`${Math.round(100*cd/gd)}% of the gross drop`,'cost')+
+  kpi('University saving / prof',gbp(us),'salary + on-costs, per year','save')+
+  kpi('Efficiency',`${(effCd/us).toFixed(2)}`,'prof take-home lost per £1 saved','hi')+
+  kpi(`Total saving (${take} profs)`,gbp(us*take),'per year, recurring','save')+
+  kpi('Childcare cliff',cc?`Reclaims ${gbp(cc)}`:(adj(F)>100000?'Above £100k':'Below £100k'),cc?'crosses below £100k':'adjusted income','hi');
+ drawYoY(F,fte,cap);
+ drawEff(fte);
+ caveats();
+}
+
+function drawYoY(F,fte,cap){
+ const start=LAD.indexOf(F)<0?closest(F):LAD.indexOf(F), N=10;
+ const capIx=LAD.indexOf(cap)<0?LAD.length-1:LAD.indexOf(cap);
+ let rows=[],cum=0;
+ for(let t=0;t<N;t++){
+  const cfIx=Math.min(start+Math.floor(t/2),capIx);           // 1.0 FTE, biennial merit, capped at band top
+  const myIx=Math.min(start+t,capIx);                          // part-time + guaranteed annual increment
+  const cf=uni(LAD[cfIx]), my=uni(LAD[myIx]*fte), sav=cf-my; cum+=sav;
+  rows.push({t,cf,my,sav,cum,cfSal:LAD[cfIx],mySal:LAD[myIx]*fte});
+ }
+ const W=920,H=300,L=64,R=20,T=16,B=42,maxV=Math.max(...rows.map(r=>r.cf))*1.05,minV=Math.min(...rows.map(r=>r.my))*0.94;
+ const xx=t=>L+t/(N-1)*(W-L-R), yy=v=>T+(1-(v-minV)/(maxV-minV))*(H-T-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ for(let g=0;g<=4;g++){const v=minV+(maxV-minV)*g/4;s+=`<line x1="${L}" y1="${yy(v)}" x2="${W-R}" y2="${yy(v)}" stroke="#eee"/><text x="${L-8}" y="${yy(v)+4}" text-anchor="end" font-size="10.5" fill="#9ca3af">${gbp(v)}</text>`;}
+ // saving band between the two lines
+ let up=`M ${xx(0)} ${yy(rows[0].cf)}`,dn='';rows.forEach(r=>up+=` L ${xx(r.t)} ${yy(r.cf)}`);
+ for(let i=rows.length-1;i>=0;i--)up+=` L ${xx(rows[i].t)} ${yy(rows[i].my)}`;
+ s+=`<path d="${up} Z" fill="#15803d" opacity="0.14"/>`;
+ const line=(key,col,w)=>{let d=`M ${xx(0)} ${yy(rows[0][key])}`;rows.forEach(r=>d+=` L ${xx(r.t)} ${yy(r[key])}`);return `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}"/>`;};
+ s+=line('cf','#2563eb',2.4)+line('my','#d97706',3);
+ for(let t=0;t<N;t++)s+=`<text x="${xx(t)}" y="${H-B+16}" text-anchor="middle" font-size="10.5" fill="#9ca3af">Y${t}</text>`;
+ s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7280">years at reduced FTE</text>`;
+ s+=`<text x="${W-R}" y="${yy(rows[N-1].my)-8}" text-anchor="end" font-size="11" font-weight="600" fill="#15803d">cumulative saving ≈ ${gbp(rows[N-1].cum)} over ${N} yrs</text>`;
+ s+=`</svg>`;$('yoy').outerHTML=s.replace('<svg','<svg id="yoy"');
+ let h='<table><tr><th class="l">Year</th><th>Stays 1.0 FTE cost</th><th>Part-time + increment cost</th><th>Saving that year</th><th>Cumulative</th></tr>';
+ rows.forEach(r=>h+=`<tr><td class="l">Y${r.t}</td><td>${gbp(r.cf)}</td><td>${gbp(r.my)}</td><td style="color:#15803d">${gbp(r.sav)}</td><td>${gbp(r.cum)}</td></tr>`);
+ $('yoytbl').innerHTML=h+'</table>';
+}
+function closest(F){let b=0;for(let i=0;i<LAD.length;i++)if(Math.abs(LAD[i]-F)<Math.abs(LAD[b]-F))b=i;return b;}
+
+function drawEff(fte){
+ const W=920,H=330,L=118,R=150,T=14,B=30,rh=(H-T-B)/LAD.length;
+ const maxV=Math.max(...LAD.map(F=>uni(F)-uni(F*fte)))*1.08;
+ const xx=v=>L+v/maxV*(W-L-R);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#ccc"/>`;
+ // £100k adjusted-income cliff, mapped to the salary whose adj income = 100k
+ const cliffSal=100000/(1-ussRates().mem);
+ LAD.forEach((F,k)=>{const y=T+k*rh,bh=rh/2-2;
+  const cd=cash(F)-cash(F*fte), us=uni(F)-uni(F*fte);
+  s+=`<text x="${L-8}" y="${y+rh/2}" text-anchor="end" font-size="11.5" fill="#1d1d1b">${gbp(F)}</text>`;
+  s+=`<rect x="${L}" y="${y+1}" width="${Math.max(1,xx(us)-L)}" height="${bh}" rx="1.5" fill="#15803d" opacity="0.85"/>`;
+  s+=`<rect x="${L}" y="${y+bh+3}" width="${Math.max(1,xx(cd)-L)}" height="${bh}" rx="1.5" fill="#b91c1c" opacity="0.82"/>`;
+  s+=`<text x="${xx(us)+5}" y="${y+bh}" font-size="10.5" fill="#15803d">saves ${gbp(us)}</text>`;
+  s+=`<text x="${xx(cd)+5}" y="${y+2*bh+2}" font-size="10.5" fill="#b91c1c">−${gbp(cd)} take-home</text>`;});
+ // cliff marker: which rungs are above 100k adjusted
+ s+=`<text x="${L}" y="${H-8}" font-size="10.5" fill="#6b7280">green = university all-in saving · red = professor take-home given up · ${fte} FTE</text>`;
+ s+=`</svg>`;$('eff').outerHTML=s.replace('<svg','<svg id="eff"');
+}
+
+function caveats(){
+ const cliffSal=Math.round(100000/(1-ussRates().mem));
+ $('caveats').innerHTML=
+ `• <b>Tax model:</b> England 2025-26. Income tax with the personal-allowance taper (£1 of allowance lost per £2 of adjusted income over £100,000, giving a ~60% band to £125,140, then 45%). Employee NI 8% (£12,570–£50,270) then 2%. USS is treated as a <b>net-pay</b> scheme, so member contributions reduce taxable and adjusted net income but not the NI base — which is why the £100k cliff falls at a <b>salary of ≈${gbp(cliffSal)}</b>, not £100k. Scottish rates differ (not modelled).<br>`+
+ `• <b>University saving</b> = the FTE reduction in salary + employer NI (${$('erni').value}% over £5,000) + employer USS (${(ussRates().emp*100).toFixed(1)}%). All editable above.<br>`+
+ `• <b>Childcare cliff:</b> Tax-Free Childcare (up to £2,000/child) and 15/30 free hours are withdrawn entirely once <i>either</i> parent's adjusted net income exceeds £100,000. The reclaim is applied only when moving part-time takes adjusted income from above to below £100k; the per-child value is an editable estimate (free-hours value varies by area/age — set it in the box).<br>`+
+ `• <b>Band cap:</b> guaranteed increments stop at the top of the current professorial band; crossing to the next band stays on merit/exceptional review. This bounds the long-run cost and mirrors the sector norm (automatic within band, merit across). At Band 1 the guarantee is roughly the automatic annual increment peers already receive — but paid only at reduced FTE.<br>`+
+ `• <b>Counterfactual</b> in the year-on-year chart assumes the professor otherwise stays full-time on Exeter's biennial merit (one rung every two years), capped at the same band top. It never costs the university more than staying full-time in any year, because reduced-FTE pay at any rung is below full-time pay at the starting rung.<br>`+
+ `• <b>What it is not:</b> part-time means the professor delivers a corresponding share less teaching/research — this buys time back, it is not a free saving, and it must be entirely voluntary (equalities effects on who can afford to take it up should be monitored). Pairing with <b>USS flexible (phased) retirement</b> — drawing part of the pension while reducing FTE — can offset most of the take-home drop for those near retirement, making the move close to neutral for them while the university still saves in full.<br>`+
+ `• Pension accrual scales with the reduced salary (USS is career-average, so lower FTE means proportionately lower accrual). Indicative throughout; a mechanism, not a proposal about any individual.`;
+}
+
+// build salary + cap dropdowns
+(function(){
+ LAD.forEach((v,i)=>{$('sal').insertAdjacentHTML('beforeend',`<option value="${v}"${v===105062?' selected':''}>${gbp(v)}</option>`);
+   $('cap').insertAdjacentHTML('beforeend',`<option value="${v}"${v===108214?' selected':''}>${gbp(v)}</option>`);});
+})();
+['sal','fte','cap','kids','take','uss','erni','ccval'].forEach(id=>{const el=$(id);if(el){el.addEventListener('change',draw);el.addEventListener('input',draw);}});
+draw();
+</script>
+</body></html>
