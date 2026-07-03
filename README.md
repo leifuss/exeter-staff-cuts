@@ -98,10 +98,10 @@ the dearest in the set; its *professoriate*, on a like-for-like biennial-merit v
 documented mechanisms (several peers award **automatic annual increments** where Exeter runs a slower biennial merit review)
 Exeter's professoriate ranks about **11th of 14**, which pulls the all-in gap down sharply. Holding the workforce fixed and
 changing only the structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark:
-≈ 35–47 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £2.6m/yr in salary, ≈ £3.3m with
+≈ 24–39 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £2.0m/yr in salary, ≈ £2.6m with
 on-costs)**. It is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
-negotiated spine; about half the modelled peers already sit at or below the median). Secondary comparators: vs the mean of the
-fourteen ≈ 26–39 posts (≈ £2.1m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
+negotiated spine; about half the modelled peers already sit at or below the median). Secondary comparators: vs the mean
+≈ 20–34 posts (≈ £1.7m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
 for scale (£ ÷ average salary), not predicted savings or job counts — provided only so the magnitudes can be compared with the
 **~150 full-time posts** the June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a
 structural change **phases in over roughly five years** (see the transition model); it saves mostly by **paying future hires
@@ -122,17 +122,19 @@ in the code but is no longer shown, pending that validation.
 **Calibration:** with on-costs the modelled bill is ≈£137m — about 35% of the £396.6m total staff costs in Exeter's
 2024/25 Annual Report, with the other ~65% being exactly the groups the model excludes (professional services,
 research-only, part-time, sub-Lecturer grades, non-salary staff costs). For scale, the structural difference vs the median
-(≈£2.6m/yr salary, ≈£3.3m with on-costs) is a fraction of Exeter's 2024/25 operating surplus (£8.2m, down from £22.5m — the
+(≈£2.0m/yr salary, ≈£2.6m with on-costs) is a fraction of Exeter's 2024/25 operating surplus (£8.2m, down from £22.5m — the
 operating line, not the headline surplus, which was distorted by a one-off pension provision release in the prior year); the
 difference vs the cheapest full system (≈£7m/yr) is of the same order as that surplus.
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
-**14 non-professorial structures, 13 professorial, 13 modelled as a whole pay bill.** **Kept in the data but out of the comparison:** the
+**14 non-professorial structures, 13 professorial, 13 modelled as a whole pay bill** (Durham is non-professorial only — its professoriate is excluded, see below). **Kept in the data but out of the comparison:** the
 **Scottish** universities (Edinburgh, Glasgow, Aberdeen — different student-funding model) and **non-Russell-Group comparators**
 (Bath; Aberdeen is also Scottish) — retained in `grades.json`/`grades.csv` for transparency. **Excluded by design:** Oxford,
 Cambridge, the London institutions (incl. UCL) and Northern Ireland (distinct labour markets / cost bases). Sheffield is on its
-**current (Aug 2025)** grade and professorial scales; Durham professorial rungs are interpolated from published bands; Liverpool's
+**current (Aug 2025)** grade and professorial scales; **Durham's professoriate is excluded** from the professorial and all-in
+comparisons — it publishes only indicative bands with no scale of the spot salaries actually awarded, so it cannot be priced
+reliably (and nothing suggests it pays professors less), so it appears as a non-professorial structure only; Liverpool's
 professoriate is modelled on its published Level 1 scale (SP55–59, automatic) plus its off-scale range to £99,001;
 Levels 2–4 (spot salaries to £145k+) are excluded like other Band-3 analogues. Newcastle is modelled on its published IB Professor
 scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.
