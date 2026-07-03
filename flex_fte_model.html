@@ -43,6 +43,9 @@ fairness grounds. <b>Illustrative and strictly voluntary</b> — it prices a mec
    <option value="0.9">0.9 FTE</option><option value="0.8" selected>0.8 FTE</option><option value="0.7">0.7 FTE</option><option value="0.6">0.6 FTE</option></select></div>
  <div class="ctl"><label>Protect increments up to</label><select id="cap"></select>
    <span class="hint">Top of the current band/grade — increments stop here; crossing to the next stays on merit/promotion.</span></div>
+ <div class="ctl"><label>Prof merit award rate (counterfactual)</label><select id="aw">
+   <option value="0.3">30% of reviews succeed</option><option value="0.4" selected>40%</option><option value="0.5">50%</option><option value="1">100% (automatic)</option></select>
+   <span class="hint">Professors progress only through a discretionary <b>biennial</b> review — this is the share who get an increment. It sets how fast the "stays 1.0 FTE" counterfactual rises, so it drives the net cost of the guarantee. No effect for grades with automatic increments.</span></div>
  <div class="ctl"><label>Children (income cliffs)</label><select id="kids">
    <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
    <span class="hint" id="kidhint"></span></div>
@@ -73,17 +76,17 @@ fairness grounds. <b>Illustrative and strictly voluntary</b> — it prices a mec
 <script>
 const STAFF={
  prof:{label:'Professor',lad:[78189,80529,82935,85424,87986,90628,93346,96146,99031,102000,105062,108214,111459],
-   defSal:105062,defCap:108214,step:0.5,cliff:'childcare',
+   defSal:105062,defCap:108214,cfMode:'merit',cliff:'childcare',
    hint:'Exeter professorial rungs. Most £100k+ staff sit in the £105–108k bulge.',
    carrot:'a guaranteed annual increment',
    note:'Professors currently progress only through a slow biennial merit review (below inflation), so a guaranteed annual increment is a genuine, novel benefit — and at Band 1 it is roughly what peers get automatically.'},
  sl:{label:'Senior Lecturer / Associate Professor',lad:[52539,54395,56921,59139,61391,63793,66537,69352],
-   defSal:61391,defCap:66537,step:1,cliff:'cb',
+   defSal:61391,defCap:66537,cfMode:'auto',cliff:'cb',
    hint:'Representative SL/AP points on the national spine (illustrative).',
    carrot:'protected annual increments (incl. at the grade ceiling)',
    note:'SL/AP staff already receive automatic annual increments within grade, so the only novel bit is protecting progression at the ceiling — the incentive here is mostly the flexibility itself.'},
  lect:{label:'Lecturer',lad:[39412,40497,41671,42882,45163,47572,50116],
-   defSal:45163,defCap:50116,step:1,cliff:'none',
+   defSal:45163,defCap:50116,cfMode:'auto',cliff:'none',
    hint:'Representative Lecturer points on the national spine (illustrative).',
    carrot:'protected annual increments',
    note:'Lecturers already receive automatic annual increments and sit below the tax cliffs, so this is the least efficient as a saving and the hardest to afford — offer it for fairness/flexibility, not for the money.'}};
@@ -128,16 +131,19 @@ function draw(){
  drawYoY(g,F,fte,cap);drawEff(g,fte);texts(g);
 }
 function closest(lad,F){let b=0;for(let i=0;i<lad.length;i++)if(Math.abs(lad[i]-F)<Math.abs(lad[b]-F))b=i;return b;}
-// Year-by-year path. The 'my' (part-time) line climbs a rung EVERY year (the guaranteed increments),
-// while the counterfactual climbs at the group's normal cadence — so each year's saving is already
-// NET of the cost of the increments the person is being given.
+function salAt(lad,f){f=Math.max(0,Math.min(f,lad.length-1));const i=Math.floor(f);return i>=lad.length-1?lad[lad.length-1]:lad[i]+(lad[i+1]-lad[i])*(f-i);}
+// Year-by-year path. The 'my' (part-time) line climbs a rung EVERY year (the guaranteed increments).
+// The counterfactual reflects each group's REAL progression: professors advance only via a discretionary
+// biennial review, so only the award-rate share get an increment (expected advance = awardRate rungs every
+// 2 years — modelled as a fractional expected rung); non-professorial grades advance automatically each year.
+// Each year's saving is therefore NET of the true cost of guaranteeing the increment.
 function pathRows(g,F,fte,cap){
- const lad=g.lad,start=closest(lad,F),N=10,capIx=Math.max(closest(lad,cap),start);
+ const lad=g.lad,start=closest(lad,F),N=10,capIx=Math.max(closest(lad,cap),start),aw=+$('aw').value;
  let rows=[],cum=0;
  for(let t=0;t<N;t++){
-  const cfIx=Math.min(start+Math.floor(t*g.step),capIx);   // counterfactual progression cadence
-  const myIx=Math.min(start+t,capIx);                       // part-time + protected annual increment
-  const cf=uni(lad[cfIx]),my=uni(lad[myIx]*fte),sav=cf-my;cum+=sav;
+  const cfFrac=g.cfMode==='merit'?Math.min(start+aw*Math.floor(t/2),capIx):Math.min(start+t,capIx);
+  const myIx=Math.min(start+t,capIx);                       // guaranteed annual increment (certain) at reduced FTE
+  const cf=uni(salAt(lad,cfFrac)),my=uni(lad[myIx]*fte),sav=cf-my;cum+=sav;
   rows.push({t,cf,my,sav,cum});
  }
  return rows;
@@ -180,7 +186,8 @@ function texts(g){
  $('kidhint').textContent=g.cliff==='childcare'?'Tax-Free Childcare + free hours are lost above £100k adjusted income; part-time can reclaim them.':
    g.cliff==='cb'?'Child Benefit is tapered away between £60k and £80k adjusted income; part-time can reclaim some.':'No income-related child cliffs bite in this range.';
  $('yoyh').textContent=`Year on year: the university keeps saving, and progression is protected (${g.carrot})`;
- $('yoylead').innerHTML=`All-in cost (salary + employer NI + employer USS) if the person <b>stays 1.0 FTE</b> on their normal progression (blue) vs moving to part-time with <b>${g.carrot}</b> (amber), capped at the band/grade top. The gap is the annual saving.`;
+ $('yoylead').innerHTML=`All-in cost (salary + employer NI + employer USS) if the person <b>stays 1.0 FTE</b> on their normal progression (blue) vs moving to part-time with <b>${g.carrot}</b> (amber), capped at the band/grade top. The gap is the annual saving.`+
+   (g.cfMode==='merit'?` The blue line rises only at the <b>merit award rate</b> above (professors don't get automatic increments), so a guaranteed annual increment is genuinely faster progression — its cost is already netted into the saving.`:` These grades already get automatic annual increments, so the "guarantee" only protects the grade ceiling — it adds almost nothing.`);
  $('nonprof').innerHTML=`<b>${g.label}:</b> ${g.note}<br><br>`+
   `<b>Bottom line across groups.</b> The lever is most powerful for <b>professors</b> (efficiency ≈ 0.34–0.42 — they lose only ~40p of take-home per £1 the university saves — plus the £100k childcare/allowance cliff sits right in the bulge). For <b>Senior Lecturers / Associate Professors</b> it is weaker (≈ 0.42–0.52) but still real, and the Child Benefit taper (£60–80k) adds a smaller cliff bonus. For <b>Lecturers</b> it is weakest (≈ 0.52) and hardest to afford. So as a <i>savings</i> lever it is genuinely professor-shaped. But offering it <b>only</b> to the highest paid would be indefensible: as a <b>flexibility and fairness</b> measure it should be open to everyone who wants it, even though the financial return per head is smaller and take-up will concentrate among those seeking reduced hours anyway (caring responsibilities, phased retirement, wellbeing). The university still saves ≈1.3× the gross reduction whoever takes it, so even modest uptake among willing lower-paid staff is money — with the essential guardrail that it must be genuinely voluntary and never pressure on those who can least afford it.`;
 }
@@ -191,7 +198,7 @@ function caveats(){
  `• <b>University saving</b> = the FTE reduction in salary + employer NI (${$('erni').value}% over £5,000) + employer USS (${(ussRates().emp*100).toFixed(1)}%). All editable above.<br>`+
  `• <b>Income cliffs:</b> Tax-Free Childcare (up to £2,000/child) + 15/30 free hours are withdrawn above £100,000 (professors); Child Benefit is tapered between £60,000 and £80,000 (senior non-professorial). Reclaim is applied only when part-time takes adjusted income below the relevant threshold.<br>`+
  `• <b>Band/grade cap:</b> protected increments stop at the top of the current band; crossing to the next stays on merit/promotion — this bounds the long-run cost. Non-professorial grades already give automatic annual increments, so the "protection" only bites at the grade ceiling.<br>`+
- `• <b>Counterfactual</b> assumes the person otherwise stays full-time on their normal progression (professors: biennial merit; others: automatic annual), capped at the band/grade top. Reduced-FTE pay at any rung is below full-time pay at the starting rung, so it never costs the university more in-year.<br>`+
+ `• <b>Counterfactual &amp; the cost of the increment:</b> the "stays 1.0 FTE" line reflects real progression — professors advance only through a <b>discretionary biennial review</b>, so only the <b>award-rate share</b> (set above, default 40%) get an increment; the expected advance is modelled as a fractional rung. Because that is far slower than a guaranteed annual increment, the guarantee is a genuine added cost, and the <b>sustained saving is net of it</b>. Raising the award rate makes the counterfactual rise faster and the guarantee cheaper; lowering it makes the guarantee dearer. Non-professorial grades already progress automatically, so there the guarantee costs almost nothing. Reduced-FTE pay at any rung is still below full-time pay at the starting rung, so it never costs more in year one.<br>`+
  `• <b>Non-professorial ladders shown here are representative</b> spine points for illustration, not Exeter's exact grade boundaries.<br>`+
  `• <b>What it is not:</b> part-time means a corresponding share less work delivered — it buys time back, it is not a free saving, and it must be entirely voluntary (monitor equalities effects on who takes it up). Pairing with <b>USS flexible (phased) retirement</b> can offset most of the take-home drop for those near retirement. Pension accrual scales with reduced salary. Indicative throughout — a mechanism, not a proposal about any individual.`;
 }
@@ -201,7 +208,7 @@ function buildSalCap(){
    $('cap').insertAdjacentHTML('beforeend',`<option value="${v}"${v===g.defCap?' selected':''}>${gbp(v)}</option>`);});
 }
 $('grp').addEventListener('change',()=>{buildSalCap();draw();caveats();});
-['sal','fte','cap','kids','take','uss','erni','ccval'].forEach(id=>{const el=$(id);if(el){el.addEventListener('change',()=>{draw();caveats();});el.addEventListener('input',()=>{draw();caveats();});}});
+['sal','fte','cap','aw','kids','take','uss','erni','ccval'].forEach(id=>{const el=$(id);if(el){el.addEventListener('change',()=>{draw();caveats();});el.addEventListener('input',()=>{draw();caveats();});}});
 buildSalCap();draw();caveats();
 </script>
 </body></html>
