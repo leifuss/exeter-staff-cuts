@@ -31,3 +31,24 @@ benefits. `extract_highpay.py` preserves each note's exact wording — record th
 basis per university and only compare like-for-like, otherwise the comparison is
 apples-to-oranges and would flatter or penalise Exeter purely on definition. (Also grab
 each university's academic-staff FTE from the same accounts for the per-1,000 normaliser.)
+
+## Parsed 2024/25 £100k+ counts (from highpay_extract.txt)
+| University | 2025 £100k+ | Basis | VC | Total staff FTE | per 1,000 |
+|---|---|---|---|---|---|
+| **Exeter** | 404 HC / 254.6 FTE | basic, both | excl | 6,359 | 63.5 (HC) / 40.0 (FTE) |
+| Manchester | 408 | FTE basic | incl | 11,833 | 34.5 |
+| Leeds | 382 | FTE basic | excl | — | — |
+| Warwick | 337.3 | FTE basic (summed) | incl | — | — |
+| Birmingham | 337 | headcount basic | excl | 8,875 | 38.0 |
+| Bristol | 312 | headcount basic | excl | — | — |
+| Southampton | 296 HC / 216.8 FTE | basic, both | incl | — | — |
+| Nottingham | 293.5 | FTE basic | incl | 8,190 | 35.8 |
+| Liverpool | 291 | headcount basic (=total-rem) | incl | 6,589 | 44.2 |
+| Newcastle | 265 | FTE basic, clinical split | incl | — | — |
+| Cardiff | 185 | headcount, clinical split | excl | — | — |
+| Durham | 175 | headcount basic | excl | 4,905 | 35.7 |
+| Sheffield | 156 | FTE basic | incl | 7,797 | 20.0 |
+
+**Finding:** normalised per 1,000 staff FTE, Exeter is **top of both basis groups** (headcount and FTE). To complete the
+normalisation for Bristol, Leeds, York, Cardiff, Newcastle, Southampton and Warwick, re-run `extract_highpay.py` (now also
+captures the staff-numbers note) and read their total-staff-FTE from `highpay_extract.txt`.
