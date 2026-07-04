@@ -47,6 +47,18 @@ question: <b>is the growth just pay awards pushing people over a fixed £100k li
  <svg id="dist" viewBox="0 0 900 340" width="900" height="340"></svg>
  <div class="lgnd" id="distlegend"></div></div>
 
+<div class="card"><h2>Is Exeter an outlier? Comparison with 13 Russell Group peers</h2>
+ <p class="lead">The same £100,000+ disclosure from each peer's <b>2024/25 accounts</b>. Raw counts can't be compared directly —
+ universities differ in size, and (crucially) <b>report on different bases</b>: some give <b>headcount</b>, some <b>FTE</b> (a
+ part-time professor counts as less than one), some include the Vice-Chancellor, some split clinical staff. So this normalises to
+ <b>£100k+ staff per 1,000 total staff (FTE)</b>, and keeps headcount and FTE reporters in <b>separate groups</b> — Exeter appears
+ in both (it publishes both). Only peers whose accounts also disclose total staff FTE can be normalised here; the rest are listed
+ raw below.</p>
+ <svg id="cmp" viewBox="0 0 900 360" width="900" height="360"></svg>
+ <div class="lgnd"><span class="lg"><span class="sq" style="background:#b45309"></span>Exeter</span>
+   <span class="lg"><span class="sq" style="background:#0891b2"></span>peer</span></div>
+ <div class="small" id="cmpraw" style="margin-top:10px"></div></div>
+
 <div class="card"><h2>Year by year</h2><div id="tbl"></div>
  <p class="small">Severance = "compensation for loss of office" (statutory redundancy + voluntary severance).
  KMP = key management personnel (Executive Board), including employer's pension. Both from the same staff-costs notes.</p></div>
@@ -171,6 +183,57 @@ $('metbtns').addEventListener('click',e=>{if(e.target.dataset.m){metric=e.target
 $('distlegend').innerHTML=GROUPS.map(g=>`<span class="lg"><span class="sq" style="background:${g[3]}"></span>${g[0]}</span>`).join('');
 drawDist(5);
 })();
+// ---------- peer comparison ----------
+(function(){
+// £100k+ from each peer's 2024/25 accounts. hc=headcount basis, fte=FTE basis (some report only one).
+// den = total staff FTE from the same accounts (null where not disclosed on the captured pages). vc = VC included.
+const CMP=[
+ {u:'Exeter',hc:404,fte:254.6,den:6359,vc:false},
+ {u:'Bristol',hc:312,fte:null,den:null,vc:false},
+ {u:'Leeds',hc:null,fte:382,den:null,vc:false},
+ {u:'York',hc:null,fte:139,den:null,vc:true},
+ {u:'Birmingham',hc:337,fte:null,den:8875,vc:false},
+ {u:'Cardiff',hc:185,fte:null,den:null,vc:false},
+ {u:'Durham',hc:175,fte:null,den:4905,vc:false},
+ {u:'Liverpool',hc:291,fte:null,den:6589,vc:true},
+ {u:'Manchester',hc:null,fte:408,den:11833,vc:true},
+ {u:'Newcastle',hc:null,fte:265,den:null,vc:true},
+ {u:'Nottingham',hc:null,fte:293.5,den:8190,vc:true},
+ {u:'Sheffield',hc:null,fte:156,den:7797,vc:true},
+ {u:'Southampton',hc:296,fte:216.8,den:null,vc:true},
+ {u:'Warwick',hc:null,fte:337.3,den:null,vc:true},
+];
+const rate=(n,den)=>1000*n/den;
+const grp=(metric)=>CMP.filter(d=>d.den&&d[metric]!=null).map(d=>({u:d.u,r:rate(d[metric],d.den),n:d[metric],den:d.den})).sort((a,b)=>b.r-a.r);
+const groups=[['Headcount basis','hc',grp('hc')],['FTE basis','fte',grp('fte')]];
+const W=900,L=118,R=64,rh=26,gap=34,top=14;
+let n=groups.reduce((a,g)=>a+g[2].length,0), H=top+groups.length*gap+n*rh+30;
+const maxR=Math.max(...groups.flatMap(g=>g[2].map(r=>r.r)))*1.12;
+const x=v=>L+v/maxR*(W-L-R);
+let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">`;
+let y=top;
+groups.forEach(([title,mk,rows])=>{
+ s+=`<text x="0" y="${y+12}" font-size="12.5" font-weight="700" fill="#374151">${title} <tspan font-weight="400" fill="#9ca3af">(£100k+ per 1,000 staff FTE)</tspan></text>`;
+ y+=gap-8;
+ rows.forEach(d=>{const ex=d.u==='Exeter',bw=Math.max(1,x(d.r)-L);
+  s+=`<text x="${L-8}" y="${y+rh/2+3}" text-anchor="end" font-size="12.5" font-weight="${ex?700:400}" fill="${ex?'#b45309':'#1d1d1b'}">${d.u}</text>`;
+  s+=`<rect x="${L}" y="${y+3}" width="${bw}" height="${rh-9}" rx="2" fill="${ex?'#b45309':'#0891b2'}" opacity="${ex?1:0.82}"/>`;
+  s+=`<text x="${x(d.r)+5}" y="${y+rh/2+3}" font-size="11.5" font-weight="${ex?700:400}" fill="#374151">${d.r.toFixed(1)} <tspan fill="#9ca3af">(${(+d.n).toLocaleString()}/${(d.den/1000).toFixed(1)}k)</tspan></text>`;
+  y+=rh;});
+ y+=12;
+});
+s+=`</svg>`;$('cmp').outerHTML=s.replace('<svg','<svg id="cmp"');
+// raw list of all 13 peers with basis flags
+const basis=d=>d.hc!=null&&d.fte!=null?'HC + FTE':d.hc!=null?'headcount':'FTE';
+const val=d=>d.hc!=null?d.hc.toLocaleString():d.fte.toLocaleString();
+const peers=CMP.filter(d=>d.u!=='Exeter').sort((a,b)=>(b.hc||b.fte)-(a.hc||a.fte));
+$('cmpraw').innerHTML='<b>All 13 peers — raw 2024/25 £100k+ (not size-adjusted; basis differs):</b> '+
+ peers.map(d=>`${d.u} ${val(d)} <span style="color:#9ca3af">(${basis(d)}${d.vc?', incl VC':''}${d.den?'':', no FTE denom'})</span>`).join(' · ')+
+ `. <b>Exeter: 404 HC / 254.6 FTE.</b> Reporting basis and VC-inclusion vary by university, so treat cross-basis differences with care; ` +
+ `bars above are like-for-like within each basis group. Denominator = total staff FTE from each provider's own accounts (categories vary slightly). ` +
+ `Peers without a published staff-FTE denominator on the captured pages (Bristol, Leeds, York, Cardiff, Newcastle, Southampton, Warwick) are shown raw only. Indicative.`;
+})();
+
 // ---------- table ----------
 let h='<table><tr><th class="l">Year</th><th>£100k+ (headcount)</th><th>£100k+ (FTE)</th><th>£100k+ at 2019/20-equivalent line</th><th>Severance paid</th><th>Key management (incl. pension)</th></tr>';
 YEARS.forEach((d,i)=>{h+=`<tr><td class="l">${d.y}</td><td><b>${d.tot}</b></td><td>${d.fte.toFixed(1)}</td><td>${Math.round(real[i])}</td><td>${d.sev}</td><td>${d.kmp}</td></tr>`;});

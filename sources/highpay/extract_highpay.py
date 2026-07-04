@@ -22,7 +22,9 @@ from pypdf import PdfReader
 HERE = os.path.dirname(os.path.abspath(__file__))
 # keywords that flag the high-pay note (formats vary a lot across providers)
 KEYS = re.compile(r'100,000|higher[- ]paid|remuneration of (?:higher|staff|employees)'
-                  r'|fell within the following|basic salary.{0,40}band', re.I)
+                  r'|fell within the following|basic salary.{0,40}band'
+                  # also grab the staff-numbers note, for the per-1,000-staff denominator
+                  r'|average staff number|staff numbers by|full[- ]time equivalent staff number', re.I)
 # a salary band figure like 100,000 / 105,000 / £110,000 ... up to ~£300k
 BAND = re.compile(r'£?\s*[12][0-9]{2},000')
 
