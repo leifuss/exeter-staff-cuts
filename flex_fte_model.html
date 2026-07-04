@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flexible-working / 0.8 FTE lever</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--ex:#d97706;--exeter:#b45309;--bar:#9aa6b2;--ref:#2563eb;--save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px}
+h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 14px;max-width:860px;font-size:14px}
+.answer{background:#fff7ed;border:1px solid #f0d8b0;border-radius:10px;padding:15px 17px;margin:0 0 16px;font-size:15px}.answer b{color:var(--exeter)}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:12px;color:var(--mut);font-weight:600}
+.ctl select,.ctl input{font:inherit;font-size:13px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:#fff;width:160px}
+.ctl .hint{font-size:11px;color:#9ca3af;max-width:230px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:4px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .k{font-size:11.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.kpi .v{font-size:22px;font-weight:700;margin-top:3px}.kpi .s{font-size:11.5px;color:#9ca3af;margin-top:2px}
+.kpi.save .v{color:var(--save)}.kpi.cost .v{color:var(--cost)}.kpi.hi{border-color:#f0d8b0;background:#fffdf8}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.card h2{font-size:15px;margin:0 0 4px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
+svg{display:block;max-width:100%}.lgnd{display:flex;gap:8px 16px;flex-wrap:wrap;font-size:13px;color:var(--ink);margin-top:6px}
+.lg{display:inline-flex;align-items:center;gap:6px}.sw{width:22px;height:5px;border-radius:2px;display:inline-block}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}
+details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+.tip{position:fixed;pointer-events:none;background:#1d1d1b;color:#fff;font-size:12.5px;padding:5px 9px;border-radius:7px;opacity:0;transition:opacity .08s;z-index:9;white-space:nowrap}
+</style></head><body><div class="wrap">
+<h1>A voluntary lever: incentivised part-time (0.8 FTE), with the tax wedge doing the work</h1>
+<p class="sub">Academic pay is hard to cut directly. But a large share of every pound above the higher-rate threshold — and
+an even larger share above £100k — is lost to tax, so giving up a slice of <i>gross</i> salary costs far less in <i>take-home</i>
+than it saves the university (which also sheds employer NI and pension). This tool prices one idea: staff voluntarily move to
+part-time in exchange for <b>protected progression</b>. It works best for higher-paid professors, but can be offered to all on
+fairness grounds. <b>Illustrative and strictly voluntary</b> — it prices a mechanism, it does not propose that anyone be pushed part-time.</p>
+<div class="answer" id="answer"></div>
+<div class="controls" id="controls">
+ <div class="ctl"><label>Staff group</label><select id="grp">
+   <option value="prof" selected>Professor</option>
+   <option value="sl">Senior Lecturer / Associate Prof</option>
+   <option value="lect">Lecturer</option></select>
+   <span class="hint" id="grphint"></span></div>
+ <div class="ctl"><label>Current salary (1.0 FTE)</label><select id="sal"></select></div>
+ <div class="ctl"><label>Move to</label><select id="fte">
+   <option value="0.9">0.9 FTE</option><option value="0.8" selected>0.8 FTE</option><option value="0.7">0.7 FTE</option><option value="0.6">0.6 FTE</option></select></div>
+ <div class="ctl"><label>Protect increments up to</label><select id="cap"></select>
+   <span class="hint">Top of the current band/grade — increments stop here; crossing to the next stays on merit/promotion.</span></div>
+ <div class="ctl"><label>Prof merit award rate (counterfactual)</label><select id="aw">
+   <option value="0.3">30% of reviews succeed</option><option value="0.4" selected>40%</option><option value="0.5">50%</option><option value="1">100% (automatic)</option></select>
+   <span class="hint">Professors progress only through a discretionary <b>biennial</b> review — this is the share who get an increment. It sets how fast the "stays 1.0 FTE" counterfactual rises, so it drives the net cost of the guarantee. No effect for grades with automatic increments.</span></div>
+ <div class="ctl"><label>Children (income cliffs)</label><select id="kids">
+   <option value="0" selected>0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select>
+   <span class="hint" id="kidhint"></span></div>
+ <div class="ctl"><label>Staff taking it up</label><input id="take" type="number" value="100" min="1" max="1200" step="10"></div>
+ <div class="ctl"><label>USS member / employer %</label><input id="uss" type="text" value="6.1 / 14.5" style="width:110px"></div>
+ <div class="ctl"><label>Employer NI %  (over £5,000)</label><input id="erni" type="number" value="15" min="0" max="25" step="0.5" style="width:90px"></div>
+ <div class="ctl"><label>Childcare value / child / yr (profs)</label><input id="ccval" type="number" value="2000" min="0" max="15000" step="500" style="width:110px"></div>
+</div>
+<div class="kpis" id="kpis"></div>
+
+<div class="card"><h2 id="yoyh"></h2>
+ <p class="lead" id="yoylead"></p>
+ <svg id="yoy" viewBox="0 0 920 300" width="920" height="300"></svg>
+ <div class="lgnd"><span class="lg"><span class="sw" style="background:#2563eb"></span>Stays 1.0 FTE (counterfactual)</span>
+   <span class="lg"><span class="sw" style="background:#d97706"></span>Part-time + protected progression</span>
+   <span class="lg"><span class="sw" style="background:#15803d;opacity:.25"></span>Annual saving</span></div>
+ <div id="yoytbl"></div></div>
+
+<div class="card"><h2>How the take-home drop compares to the university saving</h2>
+ <p class="lead">For each rung in the group, how much <b>cash-in-hand</b> the person gives up (red) against how much the
+ <b>university saves all-in</b> (green) at the chosen FTE — the shorter the red relative to the green, the more efficient the trade.</p>
+ <svg id="eff" viewBox="0 0 920 330" width="920" height="330"></svg></div>
+
+<details open><summary>Is this worth offering to non-professorial staff?</summary><div class="small" style="margin-top:8px" id="nonprof"></div></details>
+<details><summary>Assumptions, tax model &amp; caveats</summary><div class="small" style="margin-top:8px" id="caveats"></div></details>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+const STAFF={
+ prof:{label:'Professor',lad:[78189,80529,82935,85424,87986,90628,93346,96146,99031,102000,105062,108214,111459],
+   defSal:105062,defCap:108214,cfMode:'merit',cliff:'childcare',
+   hint:'Exeter professorial rungs. Most £100k+ staff sit in the £105–108k bulge.',
+   carrot:'a guaranteed annual increment',
+   note:'Professors currently progress only through a slow biennial merit review (below inflation), so a guaranteed annual increment is a genuine, novel benefit — and at Band 1 it is roughly what peers get automatically.'},
+ sl:{label:'Senior Lecturer / Associate Professor',lad:[52539,54395,56921,59139,61391,63793,66537,69352],
+   defSal:61391,defCap:66537,cfMode:'auto',cliff:'cb',
+   hint:'Representative SL/AP points on the national spine (illustrative).',
+   carrot:'protected annual increments (incl. at the grade ceiling)',
+   note:'SL/AP staff already receive automatic annual increments within grade, so the only novel bit is protecting progression at the ceiling — the incentive here is mostly the flexibility itself.'},
+ lect:{label:'Lecturer',lad:[39412,40497,41671,42882,45163,47572,50116],
+   defSal:45163,defCap:50116,cfMode:'auto',cliff:'none',
+   hint:'Representative Lecturer points on the national spine (illustrative).',
+   carrot:'protected annual increments',
+   note:'Lecturers already receive automatic annual increments and sit below the tax cliffs, so this is the least efficient as a saving and the hardest to afford — offer it for fairness/flexibility, not for the money.'}};
+const $=id=>document.getElementById(id),gbp=n=>'£'+Math.round(n).toLocaleString();
+function G(){return STAFF[$('grp').value];}
+function ussRates(){const m=($('uss').value||'6.1 / 14.5').split('/');return{mem:(parseFloat(m[0])||6.1)/100,emp:(parseFloat(m[1])||14.5)/100};}
+function incomeTax(taxable){let pa=12570;if(taxable>100000)pa=Math.max(0,12570-(taxable-100000)/2);
+ const tx=Math.max(0,taxable-pa);let t=0;t+=Math.min(tx,37700)*0.20;
+ t+=Math.max(0,Math.min(tx-37700,(125140-pa)-37700))*0.40;t+=Math.max(0,tx-(125140-pa))*0.45;return t;}
+function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max(S-50270,0)*0.02;}
+function adj(S){return S-ussRates().mem*S;}
+function cash(S){return S-ussRates().mem*S-incomeTax(adj(S))-empNI(S);}
+function uni(S){const er=+$('erni').value/100;return S+Math.max(0,S-5000)*er+S*ussRates().emp;}
+// income-related cliffs reclaimed by dropping FTE
+function cliffReclaim(F,P){const kids=+$('kids').value;if(!kids)return 0;const c=G().cliff;
+ if(c==='childcare'){const val=+$('ccval').value;return (adj(F)>100000&&adj(P)<=100000)?kids*val:0;}
+ if(c==='cb'){const cb=1354.60+(kids-1)*897.00;const charge=A=>A<=60000?0:A>=80000?cb:cb*((A-60000)/20000);return charge(adj(F))-charge(adj(P));}
+ return 0;}
+function marginalZone(S){const a=adj(S);return a>125140?'45% band':a>100000?'~62% (allowance taper)':a>50270?'42% (40%+NI)':'32% (20%+NI)';}
+
+function draw(){
+ const g=G(), F=+$('sal').value, fte=+$('fte').value, cap=+$('cap').value, take=+$('take').value;
+ const P=F*fte, gd=F-P, cd=cash(F)-cash(P), us=uni(F)-uni(P), cc=cliffReclaim(F,P), effCd=cd-cc;
+ // typical saving NET of the guaranteed increments: mean annual saving over the 10-year path
+ const rows=pathRows(g,F,fte,cap), avgSave=rows.reduce((a,r)=>a+r.sav,0)/rows.length, incCost=us-avgSave;
+ $('answer').innerHTML=`A <b>${g.label.toLowerCase()}</b> on <b>${gbp(F)}</b> moving to <b>${fte} FTE</b> gives up <b>${gbp(gd)}</b> of gross salary — `+
+  `but only <b>${gbp(cd)}</b> of take-home${cc?` (<b>${gbp(effCd)}</b> after reclaiming ${gbp(cc)} of ${g.cliff==='cb'?'Child Benefit':'childcare support'})`:''}, `+
+  `because pay here is taxed at <b>${marginalZone(F)}</b>. In year 1 the university saves <b>${gbp(us)}/yr all-in</b> (salary + employer NI + employer USS); `+
+  `<b>after paying the guaranteed increments</b> the sustained saving averages <b>${gbp(avgSave)}/yr</b>. `+
+  `The person loses about <b>${(effCd/us).toFixed(2)}</b> of take-home for every £1 saved. Across <b>${take}</b> staff the sustained saving is `+
+  `<b>${gbp(avgSave*take)}/yr</b> — recurring, voluntary and with no severance.`;
+ const kpi=(k,v,s,cls)=>`<div class="kpi ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+ $('kpis').innerHTML=
+  kpi('Gross salary given up',gbp(gd),`${Math.round((1-fte)*100)}% of ${gbp(F)}`)+
+  kpi('Take-home drop',gbp(cd),cc?`${gbp(effCd)} after cliff reclaim`:`${Math.round(100*cd/gd)}% of the gross drop`,'cost')+
+  kpi('Uni saving — year 1',gbp(us),'FTE cut only, before increments','save')+
+  kpi('Net cost of the increments',incCost>50?gbp(incCost):'≈ none',incCost>50?'avg/yr — already netted below':'progression they’d get anyway','cost')+
+  kpi('Sustained saving / person',gbp(avgSave),'per yr, net of increments (10-yr avg)','save')+
+  kpi('Efficiency',`${(effCd/us).toFixed(2)}`,'take-home lost per £1 saved','hi')+
+  kpi(`Total sustained (${take})`,gbp(avgSave*take),'per yr, net of increments','save')+
+  kpi('Income cliff',cc?`Reclaims ${gbp(cc)}`:(g.cliff==='none'?'n/a below cliffs':(adj(F)>100000?'Above £100k':'Below £100k')),g.cliff==='cb'?'Child Benefit £60–80k':g.cliff==='childcare'?'childcare £100k':'—','hi');
+ drawYoY(g,F,fte,cap);drawEff(g,fte);texts(g);
+}
+function closest(lad,F){let b=0;for(let i=0;i<lad.length;i++)if(Math.abs(lad[i]-F)<Math.abs(lad[b]-F))b=i;return b;}
+function salAt(lad,f){f=Math.max(0,Math.min(f,lad.length-1));const i=Math.floor(f);return i>=lad.length-1?lad[lad.length-1]:lad[i]+(lad[i+1]-lad[i])*(f-i);}
+// Year-by-year path. The 'my' (part-time) line climbs a rung EVERY year (the guaranteed increments).
+// The counterfactual reflects each group's REAL progression: professors advance only via a discretionary
+// biennial review, so only the award-rate share get an increment (expected advance = awardRate rungs every
+// 2 years — modelled as a fractional expected rung); non-professorial grades advance automatically each year.
+// Each year's saving is therefore NET of the true cost of guaranteeing the increment.
+function pathRows(g,F,fte,cap){
+ const lad=g.lad,start=closest(lad,F),N=10,capIx=Math.max(closest(lad,cap),start),aw=+$('aw').value;
+ let rows=[],cum=0;
+ for(let t=0;t<N;t++){
+  const cfFrac=g.cfMode==='merit'?Math.min(start+aw*Math.floor(t/2),capIx):Math.min(start+t,capIx);
+  const myIx=Math.min(start+t,capIx);                       // guaranteed annual increment (certain) at reduced FTE
+  const cf=uni(salAt(lad,cfFrac)),my=uni(lad[myIx]*fte),sav=cf-my;cum+=sav;
+  rows.push({t,cf,my,sav,cum});
+ }
+ return rows;
+}
+function drawYoY(g,F,fte,cap){
+ const rows=pathRows(g,F,fte,cap),N=rows.length;
+ const W=920,H=300,L=64,R=20,T=16,B=42,maxV=Math.max(...rows.map(r=>r.cf))*1.05,minV=Math.min(...rows.map(r=>r.my))*0.92;
+ const xx=t=>L+t/(N-1)*(W-L-R),yy=v=>T+(1-(v-minV)/(maxV-minV))*(H-T-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+ for(let gd=0;gd<=4;gd++){const v=minV+(maxV-minV)*gd/4;s+=`<line x1="${L}" y1="${yy(v)}" x2="${W-R}" y2="${yy(v)}" stroke="#eee"/><text x="${L-8}" y="${yy(v)+4}" text-anchor="end" font-size="10.5" fill="#9ca3af">${gbp(v)}</text>`;}
+ let area=`M ${xx(0)} ${yy(rows[0].cf)}`;rows.forEach(r=>area+=` L ${xx(r.t)} ${yy(r.cf)}`);
+ for(let i=rows.length-1;i>=0;i--)area+=` L ${xx(rows[i].t)} ${yy(rows[i].my)}`;
+ s+=`<path d="${area} Z" fill="#15803d" opacity="0.14"/>`;
+ const line=(key,col,w)=>{let d=`M ${xx(0)} ${yy(rows[0][key])}`;rows.forEach(r=>d+=` L ${xx(r.t)} ${yy(r[key])}`);return `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}"/>`;};
+ s+=line('cf','#2563eb',2.4)+line('my','#d97706',3);
+ for(let t=0;t<N;t++)s+=`<text x="${xx(t)}" y="${H-B+16}" text-anchor="middle" font-size="10.5" fill="#9ca3af">Y${t}</text>`;
+ s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7280">years at reduced FTE</text>`;
+ s+=`<text x="${W-R}" y="${yy(rows[N-1].my)-8}" text-anchor="end" font-size="11" font-weight="600" fill="#15803d">cumulative saving ≈ ${gbp(rows[N-1].cum)} over ${N} yrs</text>`;
+ s+=`</svg>`;$('yoy').outerHTML=s.replace('<svg','<svg id="yoy"');
+ let h='<table><tr><th class="l">Year</th><th>Stays 1.0 FTE</th><th>Part-time + increment</th><th>Saving</th><th>Cumulative</th></tr>';
+ rows.forEach(r=>h+=`<tr><td class="l">Y${r.t}</td><td>${gbp(r.cf)}</td><td>${gbp(r.my)}</td><td style="color:#15803d">${gbp(r.sav)}</td><td>${gbp(r.cum)}</td></tr>`);
+ $('yoytbl').innerHTML=h+'</table>';
+}
+function drawEff(g,fte){
+ const lad=g.lad,W=920,H=Math.max(160,40+lad.length*36),L=118,R=150,T=14,B=30,rh=(H-T-B)/lad.length;
+ const maxV=Math.max(...lad.map(F=>uni(F)-uni(F*fte)))*1.08,xx=v=>L+v/maxV*(W-L-R);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<line x1="${L}" y1="${T}" x2="${L}" y2="${H-B}" stroke="#ccc"/>`;
+ lad.forEach((F,k)=>{const y=T+k*rh,bh=rh/2-2,cd=cash(F)-cash(F*fte),us=uni(F)-uni(F*fte);
+  s+=`<text x="${L-8}" y="${y+rh/2}" text-anchor="end" font-size="11.5" fill="#1d1d1b">${gbp(F)}</text>`;
+  s+=`<rect x="${L}" y="${y+1}" width="${Math.max(1,xx(us)-L)}" height="${bh}" rx="1.5" fill="#15803d" opacity="0.85"/>`;
+  s+=`<rect x="${L}" y="${y+bh+3}" width="${Math.max(1,xx(cd)-L)}" height="${bh}" rx="1.5" fill="#b91c1c" opacity="0.82"/>`;
+  s+=`<text x="${xx(us)+5}" y="${y+bh}" font-size="10.5" fill="#15803d">saves ${gbp(us)}</text>`;
+  s+=`<text x="${xx(cd)+5}" y="${y+2*bh+2}" font-size="10.5" fill="#b91c1c">−${gbp(cd)} take-home</text>`;});
+ s+=`<text x="${L}" y="${H-8}" font-size="10.5" fill="#6b7280">green = university all-in saving · red = take-home given up · ${fte} FTE</text>`;
+ s+=`</svg>`;$('eff').outerHTML=s.replace('<svg','<svg id="eff"');
+}
+function texts(g){
+ $('grphint').textContent=g.hint;
+ $('kidhint').textContent=g.cliff==='childcare'?'Tax-Free Childcare + free hours are lost above £100k adjusted income; part-time can reclaim them.':
+   g.cliff==='cb'?'Child Benefit is tapered away between £60k and £80k adjusted income; part-time can reclaim some.':'No income-related child cliffs bite in this range.';
+ $('yoyh').textContent=`Year on year: the university keeps saving, and progression is protected (${g.carrot})`;
+ $('yoylead').innerHTML=`All-in cost (salary + employer NI + employer USS) if the person <b>stays 1.0 FTE</b> on their normal progression (blue) vs moving to part-time with <b>${g.carrot}</b> (amber), capped at the band/grade top. The gap is the annual saving.`+
+   (g.cfMode==='merit'?` The blue line rises only at the <b>merit award rate</b> above (professors don't get automatic increments), so a guaranteed annual increment is genuinely faster progression — its cost is already netted into the saving.`:` These grades already get automatic annual increments, so the "guarantee" only protects the grade ceiling — it adds almost nothing.`);
+ $('nonprof').innerHTML=`<b>${g.label}:</b> ${g.note}<br><br>`+
+  `<b>Bottom line across groups.</b> The lever is most powerful for <b>professors</b> (efficiency ≈ 0.34–0.42 — they lose only ~40p of take-home per £1 the university saves — plus the £100k childcare/allowance cliff sits right in the bulge). For <b>Senior Lecturers / Associate Professors</b> it is weaker (≈ 0.42–0.52) but still real, and the Child Benefit taper (£60–80k) adds a smaller cliff bonus. For <b>Lecturers</b> it is weakest (≈ 0.52) and hardest to afford. So as a <i>savings</i> lever it is genuinely professor-shaped. But offering it <b>only</b> to the highest paid would be indefensible: as a <b>flexibility and fairness</b> measure it should be open to everyone who wants it, even though the financial return per head is smaller and take-up will concentrate among those seeking reduced hours anyway (caring responsibilities, phased retirement, wellbeing). The university still saves ≈1.3× the gross reduction whoever takes it, so even modest uptake among willing lower-paid staff is money — with the essential guardrail that it must be genuinely voluntary and never pressure on those who can least afford it.`;
+}
+function caveats(){
+ const cliffSal=Math.round(100000/(1-ussRates().mem));
+ $('caveats').innerHTML=
+ `• <b>Tax model:</b> England 2025-26. Income tax with the personal-allowance taper (£1 lost per £2 of adjusted income over £100,000 → ~60% band to £125,140, then 45%). Employee NI 8% (£12,570–£50,270) then 2%. USS treated as a <b>net-pay</b> scheme, so member contributions reduce taxable/adjusted income but not the NI base — which is why the £100k cliff falls at a <b>salary of ≈${gbp(cliffSal)}</b>. Scottish rates differ (not modelled).<br>`+
+ `• <b>University saving</b> = the FTE reduction in salary + employer NI (${$('erni').value}% over £5,000) + employer USS (${(ussRates().emp*100).toFixed(1)}%). All editable above.<br>`+
+ `• <b>Income cliffs:</b> Tax-Free Childcare (up to £2,000/child) + 15/30 free hours are withdrawn above £100,000 (professors); Child Benefit is tapered between £60,000 and £80,000 (senior non-professorial). Reclaim is applied only when part-time takes adjusted income below the relevant threshold.<br>`+
+ `• <b>Band/grade cap:</b> protected increments stop at the top of the current band; crossing to the next stays on merit/promotion — this bounds the long-run cost. Non-professorial grades already give automatic annual increments, so the "protection" only bites at the grade ceiling.<br>`+
+ `• <b>Counterfactual &amp; the cost of the increment:</b> the "stays 1.0 FTE" line reflects real progression — professors advance only through a <b>discretionary biennial review</b>, so only the <b>award-rate share</b> (set above, default 40%) get an increment; the expected advance is modelled as a fractional rung. Because that is far slower than a guaranteed annual increment, the guarantee is a genuine added cost, and the <b>sustained saving is net of it</b>. Raising the award rate makes the counterfactual rise faster and the guarantee cheaper; lowering it makes the guarantee dearer. Non-professorial grades already progress automatically, so there the guarantee costs almost nothing. Reduced-FTE pay at any rung is still below full-time pay at the starting rung, so it never costs more in year one.<br>`+
+ `• <b>Non-professorial ladders shown here are representative</b> spine points for illustration, not Exeter's exact grade boundaries.<br>`+
+ `• <b>What it is not:</b> part-time means a corresponding share less work delivered — it buys time back, it is not a free saving, and it must be entirely voluntary (monitor equalities effects on who takes it up). Pairing with <b>USS flexible (phased) retirement</b> can offset most of the take-home drop for those near retirement. Pension accrual scales with reduced salary. Indicative throughout — a mechanism, not a proposal about any individual.`;
+}
+function buildSalCap(){
+ const g=G();$('sal').innerHTML='';$('cap').innerHTML='';
+ g.lad.forEach(v=>{$('sal').insertAdjacentHTML('beforeend',`<option value="${v}"${v===g.defSal?' selected':''}>${gbp(v)}</option>`);
+   $('cap').insertAdjacentHTML('beforeend',`<option value="${v}"${v===g.defCap?' selected':''}>${gbp(v)}</option>`);});
+}
+$('grp').addEventListener('change',()=>{buildSalCap();draw();caveats();});
+['sal','fte','cap','aw','kids','take','uss','erni','ccval'].forEach(id=>{const el=$(id);if(el){el.addEventListener('change',()=>{draw();caveats();});el.addEventListener('input',()=>{draw();caveats();});}});
+buildSalCap();draw();caveats();
+</script>
+</body></html>
