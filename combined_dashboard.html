@@ -40,12 +40,12 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
   <button class="tab" data-f="payscale_dashboard.html">Grade structure &amp; cost</button>
   <button class="tab" data-f="career_cost_model.html">Career model</button>
   <button class="tab" data-f="professorial_model.html">Professorial</button>
+  <button class="tab" data-f="highpay.html">High pay</button>
+  <button class="tab" data-f="flex_fte_model.html">0.8 FTE lever</button>
   <button class="tab" data-f="all_in_model.html">All-in pay bill</button>
   <button class="tab" data-f="all_in_model.html#mix">Mix &amp; match</button>
   <button class="tab" data-f="transition_model.html">Transition</button>
   <button class="tab" data-f="monte_carlo.html">How sure can we be?</button>
-  <button class="tab" data-f="highpay.html">High pay</button>
-  <button class="tab" data-f="flex_fte_model.html">0.8 FTE lever</button>
   <button class="tab" data-f="all_in_model.html#sources">Data &amp; sources</button>
  </div>
 </header>
@@ -150,17 +150,17 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
 <script>
 const cards=[
  ['payscale_dashboard.html','1 · Grade structure &amp; cost','The three non-professorial grades laid out on the shared national spine, and a per-head cost comparison — where the structural differences start.'],
- ['career_cost_model.html','2 · Career model','One representative academic’s salary from age 28 to professor (fast/middle/slow promotion), for every structure — how short vs long grades play out over a career.'],
+ ['career_cost_model.html','2 · Career model','One representative academic\u2019s salary from age 28 to professor (fast/middle/slow promotion), for every structure — how short vs long grades play out over a career.'],
  ['professorial_model.html','3 · Professorial','The professoriate modelled separately (2-yearly discretionary increments).'],
- ['all_in_model.html','4 · All-in pay bill','The two layers combined: the whole academic pay bill for each structure on one fixed workforce, with a Summary. This is the headline comparison.'],
- ['all_in_model.html#mix','5 · Mix &amp; match','Exploratory: combine one university’s lower grades with another’s professoriate.'],
- ['transition_model.html','6 · Transition','How any change would phase in with no pay cuts — current staff grandfathered; structural savings build slowly.'],
- ['monte_carlo.html','7 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
- ['highpay.html','8 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
- ['flex_fte_model.html','9 · 0.8 FTE lever','A voluntary alternative: incentivise higher-paid professors to part-time with a guaranteed annual increment. Because £100k+ pay is heavily taxed, the take-home cost is far less than the university saves — recurring, and severance-free.'],
- ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university’s live page), plus the machine-readable data files and the GitHub repo.'],
+ ['highpay.html','4 · High pay','Five years of the accounts\u2019 \u00a3100k+ staff table: tripled since 2019/20 \u2014 how much is pay-award drift over a fixed line, and how much is real growth.'],
+ ['flex_fte_model.html','5 · 0.8 FTE lever','A voluntary alternative: incentivise higher-paid professors to part-time with a guaranteed annual increment. Because \u00a3100k+ pay is heavily taxed, the take-home cost is far less than the university saves — recurring, and severance-free.'],
+ ['all_in_model.html','6 · All-in pay bill','The two layers combined: the whole academic pay bill for each structure on one fixed workforce, with a Summary. This is the headline comparison.'],
+ ['all_in_model.html#mix','7 · Mix &amp; match','Exploratory: combine one university\u2019s lower grades with another\u2019s professoriate.'],
+ ['transition_model.html','8 · Transition','How any change would phase in with no pay cuts — current staff grandfathered; structural savings build slowly.'],
+ ['monte_carlo.html','9 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
+ ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university\u2019s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-02z'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-03a'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
