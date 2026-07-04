@@ -90,39 +90,44 @@ They rest on reasoned assumptions (promotion pace, contribution-point uptake, th
 professorial award rates, and an approximate salary-band→grade mapping) for which there is limited hard
 sector data. Use them as a **yardstick for the order of magnitude** and to test whether conclusions survive
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order
-effects. Professorial progression now uses each university's documented mechanisms (several peers give automatic annual
-increments; Exeter's biennial merit is among the slowest), which places Exeter mid-pack on the professoriate and shrinks the
-all-in gap. This mechanism data is a **draft** being validated against peers' £100k+ disclosures; a uniform biennial-merit
-baseline is retained in the code but no longer shown.
+effects. **The per-head professorial cost ranking has been retired** as unreliable: calibrated against Exeter's own accounts,
+the modelled progression assumption can put Exeter "below median" or "dearest" depending on an un-pin-downable rate (see
+`docs/deprecated/professorial-ranking.md`). The professoriate is now described by evidence-backed facts, not a modelled ranking
+(high floor; slower *documented* cadence; most £100k+ by headcount but upper-mid by FTE; growth mostly award-drift), with the one
+concrete professorial saving being the voluntary **0.8 FTE lever**.
 
 ## Headline (current data, E&R + teaching, middle assumptions)
-On these central assumptions Exeter's modelled all-in academic pay bill ≈ £106m sits **near the top** of the **fourteen
-English and Welsh Russell Group systems** (coverage is complete) — though **not clearly first** once each university's own
-**documented professorial progression rules** are applied (the site default). Exeter's *non-professorial* grades remain among
-the dearest in the set; its *professoriate*, on a like-for-like biennial-merit view, looked dearest too — but under the
-documented mechanisms (several peers award **automatic annual increments** where Exeter runs a slower biennial merit review)
-Exeter's professoriate ranks about **11th of 14**, which pulls the all-in gap down sharply. Holding the workforce fixed and
-changing only the structure, the modelled difference is — **vs the Russell Group median structure, the principal benchmark:
-≈ 24–39 average-salary-post equivalents across the fast→slow promotion assumptions (≈ £2.0m/yr in salary, ≈ £2.6m with
-on-costs)**. It is **convergence with the middle of the peer group, not a race to the bottom** (the floor is the nationally
-negotiated spine; about half the modelled peers already sit at or below the median). Secondary comparators: vs the mean
-≈ 20–34 posts (≈ £1.7m); vs the lowest full system (Southampton) ≈ 104–123 posts (≈ £7.4m). These are equivalences
-for scale (£ ÷ average salary), not predicted savings or job counts — provided only so the magnitudes can be compared with the
-**~150 full-time posts** the June 2026 consultation proposes to cut. Three qualifications travel with these numbers: a
+The robust, quantified finding is on the **non-professorial grades** (Lecturer / SL / AP): Exeter's structure is the
+**dearest of the fourteen** English and Welsh Russell Group systems, and realigning just those grades to the **Russell Group
+median structure** would save ≈ **£4.7m/yr in salary (≈£6m with on-costs; ~84 average-salary posts)**, recurring, with **no
+severance bill** — from lower entry points and longer lower grades, so it touches **no current member of staff** (it means
+paying *future* hires slightly less at given stages). It is **convergence with the middle of the peer group, not a race to the
+bottom**, and these are equivalences for scale (£ ÷ average salary), not predicted job counts — provided so the magnitude can be
+weighed against the **~150 full-time posts** the June 2026 consultation proposes to cut.
+
+For the **professoriate**, we make **no per-head cost ranking** (see the note below): the evidence supports a high floor, a
+slower *documented* progression, the most £100k+ staff per academic by headcount (upper-mid by FTE), and recent growth that is
+mostly national pay-award drift — but not a claim that it is dearer or cheaper than peers, and so no professorial structural
+saving. The one concrete professorial-side saving is the voluntary **0.8 FTE lever**. (An all-in modelled bill combining both
+layers is still on the All-in tab, but its professorial component inherits the ranking's unreliability — read it as indicative.) Three qualifications travel with these numbers: a
 structural change **phases in over roughly five years** (see the transition model); it saves mostly by **paying future hires
 less**, not by freeing cash this year; and the modelled population is **full-time staff in the main academic grades** —
 research-only, part-time and professional-services staff are not counted. Indicative.
 
-**Note on the professorial layer.** The headline is now smaller than earlier drafts because the professorial comparison uses
-each university's documented progression mechanism rather than a single uniform review. That mechanism data is **draft** and
-being validated against peers' own £100k+ staff disclosures (see the High pay tab); the more defensible, structural part of the
-gap is in the **non-professorial grades** (entry points and grade lengths), which are unaffected by this choice. Those two levers
-are **independent** — a university could adopt one without the other — and the overview chart now shows the non-professorial lever
-on its own: realigning just those grades to the RG median saves ≈ **£4.7m/yr salary (≈£6m with on-costs; ~84 average-salary
-posts)**, *larger* than the all-in figure because Exeter's professoriate already sits below the median and dilutes the combined
-number. A like-for-like
-"uniform biennial" professorial baseline — under which Exeter is the dearest system and the median gap is ≈ £6m/yr — is retained
-in the code but is no longer shown, pending that validation.
+**Note on the professorial layer.** We deliberately make **no per-head cost ranking** for the professoriate. The Professorial tab
+still *models* one, but calibrating that model against Exeter's own accounts showed it is unreliable: its progression assumption
+can place Exeter "below median" or "dearest" depending on a rate that a single year of accounts cannot pin down (the £100k+ data
+can't separate progression *speed* from the professoriate's *age*). The retired ranking and the reasons are documented in
+`docs/deprecated/professorial-ranking.md`. What we assert instead are four evidence-backed claims:
+1. **High floor, slower documented cadence** — Exeter's professorial entry (£78,189) is 3rd-highest of 14; its published
+   progression is biennial merit where several peers give automatic annual increments (a description of the rules, not a
+   measured rate).
+2. **Most £100k+ by headcount, upper-mid by FTE** — 162 per 1,000 academics (highest) vs 102 (4th of 9) on FTE; the headcount
+   lead is partly a part-time artefact (0.63 FTE/head).
+3. **Growth is ~70% pay-award drift** across a fixed £100k line (~30% real, concentrated in 2023/24).
+4. **Incentivised within-band part-time saves money** — a full-time £100k+ move to 0.8 FTE saves ~20% of a six-figure salary
+   for a fraction of the cost (~8:1); pure employer-side arithmetic, independent of 1–3. This is the professorial-side saving
+   the site leads with (the **0.8 FTE lever** tab).
 
 **Calibration:** with on-costs the modelled bill is ≈£137m — about 35% of the £396.6m total staff costs in Exeter's
 2024/25 Annual Report, with the other ~65% being exactly the groups the model excludes (professional services,
