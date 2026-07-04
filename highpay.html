@@ -37,8 +37,8 @@ question: <b>is the growth just pay awards pushing people over a fixed £100k li
 <div class="card"><h2>Where they sit — distribution along the income axis</h2>
  <p class="lead">The £100k+ population for one year as a histogram on a true <b>income axis</b>: every column is one £5k band,
  all columns the <b>same width</b> but placed at their actual salary — so where bands are empty the tail <b>spreads out to the
- right</b>. Nearly all the mass sits at the <b>bottom</b> (£100–110k), where the top of the professorial ladder crosses the line;
- the 2024/25 spike of <b>161</b> in the £105–110k band is that cohort pushed over by the 2024 award. The dashed green line is the
+ right</b>. Nearly all the mass sits at the <b>bottom</b> (£100–110k), where the £100k line cuts the professorial scale and the
+ professoriate is densest; the 2024/25 spike of <b>161</b> in the £105–110k band is that cohort, lifted across by the 2024 award. The dashed green line is the
  award-adjusted (2019/20-equivalent) threshold for that year. The y-axis is <b>fixed across years</b> so the growth is visible;
  toggle <b>headcount vs FTE</b> (many of these are part-time — on an FTE basis the £105–110k spike is much smaller).
  <b>▲ marks Exeter's professorial pay points (rungs)</b> at that year's rates: because staff can only sit <i>on</i> a rung and the
@@ -77,14 +77,15 @@ question: <b>is the growth just pay awards pushing people over a fixed £100k li
  for awards is still <b>real growth of roughly 30% in five years</b> in the £100k+ (2019/20 terms) population — over the same
  period in which two voluntary severance rounds removed ~700 posts and ~150 more are proposed for cuts. The high-pay
  population grew while the workforce shrank.</p>
- <p style="font-size:14px"><b>If progression is slow, why are so many at the top?</b> Because the £100k count is set by where
- the £100k line falls on the ladder, not by how fast people climb. Exeter's professorial ladder is <b>short and compressed</b>
- (13 rungs, ~£78k–£111k) with its <b>ceiling sitting just above £100k</b> — so the whole senior professoriate lands in the
- narrow £100–112k band, and a short ladder <b>tops people out</b> (fewer rungs to climb) where a long one (Southampton 36 rungs,
- Warwick 27) keeps them spread out below the top. Add a sizeable, long-serving professoriate <b>parked at the ceiling</b>, the
- 2024 award nudging a big cohort across the line, and heavy <b>part-time</b> working, and you get a large headcount at £100k+
- <i>without</i> fast progression. It's consistent with the FTE finding below: per unit of work Exeter's professoriate is <b>not</b>
- an outlier — the headcount bulge is about ladder shape and part-time, not unusually generous progression.</p>
+ <p style="font-size:14px"><b>If progression is slow, why are so many at the top?</b> Not because people climb fast — the count
+ is set by where the £100k line cuts the scale and how the professoriate is spread along it. Exeter's professorial scale runs
+ <b>SP54–SP71 (£78,189 to £129,211)</b>, so the £100k line falls around SP62–63: everyone from there up is £100k+. The population
+ is <b>densest just above the line</b> — roughly <b>36–37 FTE on each of SP63, 64 and 65</b> (≈£102k/£105k/£108k) — and thins out
+ higher, with a smaller secondary cluster around <b>£120–125k</b> (Band-3 salaries). So the "bulge" is really a plateau of senior
+ professors sitting where the threshold happens to fall, sliced unevenly by the £5k bins (the £105–110k bin catches two of those
+ plateau points — see the ▲ markers). A sizeable professoriate, the 2024 award nudging a cohort across the line, and heavy
+ <b>part-time</b> working do the rest. It's consistent with the FTE comparison below: per unit of work Exeter's professoriate is
+ <b>not</b> an outlier — the headcount picture is about the size of the professoriate and part-time, not fast progression.</p>
  <p style="font-size:14px"><b>Is Exeter an outlier?</b> The comparison above (all 13 English &amp; Welsh Russell Group peers,
  per 1,000 full-time academic staff) gives a careful answer: <b>on headcount, yes</b> — Exeter has clearly the most £100k+
  staff per academic. <b>On the fairer FTE basis, no</b> — it is upper-mid-pack (4th of 9), because an unusually large share of
@@ -189,10 +190,10 @@ function drawDist(yi){curYi=yi;const d=YEARS[yi],M=MET[metric],ymax=GMAX[metric]
   if(c>=ymax*0.05)s+=`<text x="${xc}" y="${y(c)-4}" text-anchor="middle" font-size="10" font-weight="600" fill="#1d1d1b">${M.fmt(c)}</text>`;}
  // Exeter professorial rungs above £100k, scaled to that year's rates: a £5k bin can span 1 OR 2 rungs (▲), which is
  // part of why some bins bulge — e.g. £105–110k holds two rungs while £100–105k holds one.
- const EXR=[102000,105062,108214,111459].map(r=>r*d.idx/YEARS[5].idx); // rungs at that year's rates (2024/25 = as published)
- const nrung=lo=>EXR.filter(r=>r>=lo*1000&&r<lo*1000+5000).length;
+ // Exeter professorial spine points SP63–71 (£102,000 … £129,211), scaled to that year's rates. Above SP71 the £100k+
+ // staff are non-professorial spot salaries (deans, directors, clinical), not on this scale.
+ const EXR=[102000,105062,108214,111459,114801,118248,121795,125448,129211].map(r=>r*d.idx/YEARS[5].idx);
  EXR.forEach(r=>{if(r<255000){const rx=x(r/1000);s+=`<path d="M ${rx} ${H-B+1.5} l -4.5 7 l 9 0 z" fill="#7c3aed"/>`;}});
- for(const lo in d.b){const nr=nrung(+lo);if(nr>=2){const xc=x(+lo+2.5);s+=`<text x="${xc}" y="${H-B+22}" text-anchor="middle" font-size="8.5" fill="#7c3aed">${nr} rungs</text>`;}}
  s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="#6b7280">salary band (£000s) — equal-width columns at their true income · <tspan fill="#7c3aed">▲ = Exeter professorial rung</tspan> · ${d.y} · ${M.fmt(M.tot(d))} £100k+ (${M.lab})</text>`;
  s+=`</svg>`;$('dist').outerHTML=s.replace('<svg','<svg id="dist"');
  document.querySelectorAll('#yrbtns .yrbtn').forEach((b,i)=>b.classList.toggle('on',i===yi));
