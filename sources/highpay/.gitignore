@@ -1,0 +1,3 @@
+# large source PDFs need not be committed — only the extracted tables matter
+*.pdf
+highpay_extract.txt
