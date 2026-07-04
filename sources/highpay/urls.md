@@ -49,6 +49,12 @@ each university's academic-staff FTE from the same accounts for the per-1,000 no
 | Durham | 175 | headcount basic | excl | 4,905 | 35.7 |
 | Sheffield | 156 | FTE basic | incl | 7,797 | 20.0 |
 
-**Finding:** normalised per 1,000 staff FTE, Exeter is **top of both basis groups** (headcount and FTE). To complete the
-normalisation for Bristol, Leeds, York, Cardiff, Newcastle, Southampton and Warwick, re-run `extract_highpay.py` (now also
-captures the staff-numbers note) and read their total-staff-FTE from `highpay_extract.txt`.
+**Finding (normalised per 1,000 full-time academic staff — HESA DT025 Table 17, a single consistent denominator for all 14):**
+- **Headcount basis:** Exeter is a clear outlier — **162 per 1,000**, next is Southampton 126, then ~75–108 for the rest.
+- **FTE basis (like-for-like):** Exeter is **4th of 9 (102 per 1,000)**, below Warwick 139, Leeds 120, Newcastle 111.
+- The gap between the two is because Exeter's £100k+ staff are unusually **part-time** (0.63 FTE per head), which inflates its
+  headcount figure. So: high, but not the extreme outlier the raw headcount suggests — and the part-time concentration is exactly
+  what makes the 0.8 FTE lever well-suited to Exeter.
+
+(Earlier drafts said "top of both groups" — that was on incomplete data, 4 FTE peers with accounts-based denominators; corrected
+here with the full HESA denominator set and all 13 peers.)
