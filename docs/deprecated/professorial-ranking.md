@@ -14,7 +14,7 @@ unsafe:
    professors ever reach £100k+, but ~40% actually do (≈179 FTE sit in the £102–129k scale range). So
    the default was clearly too slow — yet a single-year cross-section can't separate progression *speed*
    from the *age/tenure* of the professoriate, so we can't pin the true rate either.
-2. **Correcting Exeter alone is invalid.** Re-running Exeter with "automatic through Band 1" progression
+2. **Correcting Exeter alone is invalid.** Re-running Exeter with near-automatic progression into Band 2
    (and the full SP54–71 ladder, which the model had truncated at SP66/£111,459) moved its modelled
    per-head from ≈£82,540 to ≈£99–101k — i.e. from *10th of 13* to *dearest*. But the same correction
    almost certainly applies to peers, so re-ranking Exeter alone just flips the artefact.
