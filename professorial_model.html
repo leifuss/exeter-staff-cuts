@@ -19,6 +19,8 @@ table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
 th,td{border:1px solid var(--line);padding:6px 9px;text-align:right}th{background:#faf9f6}td.l,th.l{text-align:left}tr.ex td{background:#fff7ed;font-weight:600}
 details{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
 .lgnd{font-size:13px;color:var(--ink);gap:8px 16px}.lg{cursor:pointer;padding:2px 6px;border-radius:6px}.lg:hover{background:#f0efe9}.sw{width:22px;height:5px}
+.yrb{font:inherit;font-size:12.5px;padding:4px 10px;margin-right:5px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--mut);cursor:pointer}
+.yrb:hover{border-color:var(--exeter)}.yrb.on{background:var(--exeter);color:#fff;border-color:var(--exeter)}
 .tip{position:fixed;pointer-events:none;background:#1d1d1b;color:#fff;font-size:12.5px;padding:5px 9px;border-radius:7px;opacity:0;transition:opacity .08s;z-index:9;white-space:nowrap}
 </style></head><body><div class="wrap">
 <h1>Professorial pay — Russell Group comparators</h1>
@@ -56,6 +58,19 @@ is retained for exploration.</div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
 </div>
+<div class="card"><h2>Published professorial bands, on a money axis</h2>
+ <p class="lead">The simplest and most defensible comparison: each university's <b>published professorial bands</b> plotted
+ against <b>salary</b>, which means the same thing everywhere — no spine points, no assumptions about how fast anyone climbs.
+ (Spine points aren't comparable across institutions, and above the first band most of these are <b>spot salaries</b> anyway,
+ shown here with a hatched fill.) Bands often <b>overlap</b> within a university — Exeter's Band 2 starts below the top of
+ Band 1 — so each band is drawn on its own line. Dashed line = the £100,000 accounts threshold. Exeter in amber.</p>
+ <div style="margin-bottom:8px"><button class="yrb on" data-mode="inst">By institution</button>
+  <button class="yrb" data-mode="band">Line the bands up (Band 1 / 2 / 3)</button></div>
+ <svg id="bandchart" viewBox="0 0 920 520" width="920" height="520"></svg>
+ <div class="lgnd"><span class="lg"><span class="sw" style="background:#b45309;height:9px"></span>Exeter</span>
+  <span class="lg"><span class="sw" style="background:#0891b2;height:9px"></span>peer — incremental scale</span>
+  <span class="lg"><span class="sw" style="background:#0891b2;opacity:.42;height:9px"></span>peer — spot salaries</span></div>
+ <div class="small" id="bandnote" style="margin-top:8px"></div></div>
 <div class="card"><p class="lead">Average professorial cost per head, shown as the <b>local premium above the top of the national pay spine</b> (£71,566) — the part of professorial pay that is locally determined and actually varies. Exeter highlighted; the number on each bar is the actual average cost per head.</p>
  <svg id="bars" viewBox="0 0 920 300" width="920" height="300"></svg></div>
 <div class="card"><h2>Career trajectory — a professor progressing on schedule, age 48→67</h2>
@@ -206,4 +221,76 @@ $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baselin
  '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
  '• Award rate ~40% reported; start 48, retire 67, review every 2 yrs. Base salaries; excludes transition costs.';
 ['pm','p','oc','yr','cl'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',draw);});draw();
+
+// ---------- published professorial bands on a money axis ----------
+// Straight from each university's published scale. No progression modelling, no spine-point mapping.
+// t: 'inc' = incremental scale points, 'spot' = spot salaries, '?' = unclear/interpolated.
+const BANDS={
+ // Exeter Band 3 is SPOT SALARIES: published scale stops at £129,211 (SP71) but the 2024/25 accounts show
+ // 57.5 FTE between £130k and £155k, so the effective top is open-ended. Marked accordingly.
+ Exeter:[['Band 1',78189,93346,'inc'],['Band 2',87986,129211,'inc'],['Band 3',121795,null,'spot']],
+ Liverpool:[['Level 1 (+off-scale)',80526,99001,'inc'],['Level 2',99002,118208,'spot'],['Level 3',118209,145370,'spot'],['Level 4',145371,null,'spot']],
+ York:[['Band 1',78798,90434,'inc'],['Band 2',90434,116940,'spot'],['Band 3',113959,null,'spot']],
+ Southampton:[['L7 Band A',78052,110568,'inc'],['L7 Band B',112396,125396,'inc'],['L7 Band C',127967,151552,'inc']],
+ Cardiff:[['Band 1',77711,94729,'inc'],['Band 2',96622,115474,'inc'],['Band 3',117783,135297,'inc']],
+ Birmingham:[['Band 1',76107,92294,'inc'],['Band 2',85702,108807,'inc'],['Band 3',98887,null,'inc']],
+ Manchester:[['Grade 9E',75914,82933,'inc'],['9D',85417,105011,'inc'],['9C',108153,125349,'inc'],['9B',129105,154119,'inc'],['9A',158735,226237,'inc']],
+ Leeds:[['Zone 1',75912,96117,'inc'],['Zone 2',99000,111424,'inc'],['Zone 3',116998,142210,'inc']],
+ Bristol:[['Range 1',74828,80246,'inc'],['Range 2',82955,101918,'inc'],['Range 3',104627,137135,'inc']],
+ Warwick:[['FA9 — one continuous grade, no sub-bands',73794,null,'inc']],
+ Nottingham:[['L7 Band A',73713,85454,'inc'],['Band B',88018,102036,'inc'],['Band C',105098,125493,'inc'],['Band D',129257,null,'inc']],
+ Durham:[['Prof 1',73711,87840,'?'],['Prof 2',85515,106663,'?'],['Prof 3',100576,null,'?']],
+ Sheffield:[['Band I',71566,90603,'inc'],['Band II',80524,111391,'inc'],['Band III',98989,136956,'inc']],
+ Newcastle:[['IB Professor scale (bands not held)',74921,82282,'?']],
+};
+let bandMode='inst';
+function drawBands(){
+ const el=$('bandchart'); if(!el) return;
+ const XMIN=70000, XMAX=160000;
+ let groups;
+ if(bandMode==='inst'){
+   const order=Object.keys(BANDS).sort((a,b)=>BANDS[b][0][1]-BANDS[a][0][1]);
+   groups=order.map(u=>[u,BANDS[u].map(b=>({u,lab:b[0],lo:b[1],hi:b[2],t:b[3]}))]);
+ } else {
+   const NB=Math.max(...Object.values(BANDS).map(v=>v.length));
+   groups=[];
+   for(let n=0;n<Math.min(NB,4);n++){
+     const items=Object.keys(BANDS).filter(u=>BANDS[u].length>n&&BANDS[u].length>1)
+       .map(u=>{const b=BANDS[u][n];return{u,lab:u,lo:b[1],hi:b[2],t:b[3]};})
+       .sort((x,y)=>(y.hi||10**9)-(x.hi||10**9));
+     if(items.length) groups.push([`Band ${n+1}`,items]);
+   }
+ }
+ const rows=[]; groups.forEach(([g,items])=>items.forEach((it,i)=>rows.push(Object.assign({},it,{grp:g,first:i===0}))));
+ const W=920,L=112,R=104,T=28,B=42,rh=14,gap=bandMode==='inst'?10:20;
+ const H=T+B+rows.length*rh+groups.length*gap;
+ const x=v=>L+(Math.min(v,XMAX)-XMIN)/(XMAX-XMIN)*(W-L-R);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">`;
+ s+=`<defs><pattern id="hx" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#0891b2" opacity="0.16"/><line x1="0" y1="0" x2="0" y2="5" stroke="#0891b2" stroke-width="2.2" opacity="0.8"/></pattern>
+  <pattern id="hxE" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#b45309" opacity="0.16"/><line x1="0" y1="0" x2="0" y2="5" stroke="#b45309" stroke-width="2.2" opacity="0.85"/></pattern></defs>`;
+ for(let v=XMIN;v<=XMAX;v+=10000){const g=x(v);
+  s+=`<line x1="${g}" y1="${T-7}" x2="${g}" y2="${H-B+4}" stroke="${v%20000===0?'#e8e8e4':'#f4f4f1'}"/>`;
+  if(v%20000===0)s+=`<text x="${g}" y="${T-12}" text-anchor="middle" font-size="10.5" fill="#9ca3af">£${v/1000}k</text>`;}
+ s+=`<line x1="${x(100000)}" y1="${T-7}" x2="${x(100000)}" y2="${H-B+4}" stroke="#b91c1c" stroke-width="1.3" stroke-dasharray="5 4"/><text x="${x(100000)}" y="${H-B+17}" text-anchor="middle" font-size="10" fill="#b91c1c">£100k threshold</text>`;
+ let y=T, cur=null;
+ rows.forEach(r=>{
+  if(cur!==null&&r.grp!==cur) y+=gap;
+  if(cur!==r.grp&&bandMode==='band') s+=`<text x="0" y="${y+10}" font-size="12" font-weight="700" fill="#374151">${r.grp}</text>`;
+  cur=r.grp; const ex=r.u==='Exeter', open=(r.hi==null), over=(r.hi!=null&&r.hi>XMAX);
+  if(r.first||bandMode==='band') s+=`<text x="${L-9}" y="${y+10.5}" text-anchor="end" font-size="12.5" font-weight="${ex?700:600}" fill="${ex?'#b45309':'#1d1d1b'}">${bandMode==='band'?r.u:r.grp}</text>`;
+  const x0=x(r.lo), x1=open?x(XMAX)-14:x(r.hi), w=Math.max(2,x1-x0);
+  const solid=ex?'#b45309':'#0891b2';
+  const fill=r.t==='spot'?(ex?'url(#hxE)':'url(#hx)'):solid;
+  s+=`<rect x="${x0}" y="${y+2}" width="${w}" height="${rh-5}" rx="2" fill="${fill}" opacity="${r.t==='spot'?1:(ex?1:.82)}"${r.t==='?'?' stroke="'+solid+'" stroke-dasharray="3 2" stroke-width="1" fill-opacity="0.30"':''}/>`;
+  if(open||over) s+=`<path d="M ${x1+2} ${y+2} l 9 ${(rh-5)/2} l -9 ${(rh-5)/2} z" fill="${solid}" opacity="${ex?1:.82}"/>`;
+  const lab=(bandMode==='inst'?r.lab:'')+(r.t==='spot'?' · spot':'')+(open?' · open':(over?' → £'+Math.round(r.hi/1000)+'k':''));
+  if(lab.trim())s+=`<text x="${Math.min(x1+(open||over?14:5),W-R+2)}" y="${y+10.5}" font-size="9" fill="#6b7280">${lab}</text>`;
+  y+=rh;});
+ s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7280">professorial salary — published band minima and maxima, 2025-26 rates</text>`;
+ s+=`</svg>`; el.outerHTML=s.replace('<svg','<svg id="bandchart"');
+ document.querySelectorAll('.yrb').forEach(b=>b.classList.toggle('on',b.dataset.mode===bandMode));
+ $('bandnote').innerHTML=`<b>How well do the bands line up?</b> Use the toggle. The answer: <b>only the floor is comparable</b> &mdash; everything above it diverges so much that &lsquo;Band 2&rsquo; means quite different things at different universities.<br><br>&bull; <b>Band 1 minima cluster tightly</b>: £71,566&ndash;£80,526, a spread of just <b>£9.0k</b>. The sector broadly agrees what a newly-appointed professor is worth. Exeter (£78,189) sits near the top of that cluster, 3rd of 13.<br>&bull; <b>Every boundary above that scatters</b>: Band 1 <i>maxima</i> spread <b>£30.3k</b> (£80,246 Bristol &rarr; £110,568 Southampton); Band 2 minima spread <b>£31.9k</b>; Band 3 minima spread <b>£29.1k</b>. So the bands do <i>not</i> represent the same career stage or the same performance bar across institutions, and comparing &lsquo;Band 2 to Band 2&rsquo; is not meaningful.<br><br><b>Where Exeter genuinely stands out: Band 2.</b> It is the <b>widest of any Band 2</b> (£41,225, against a next-widest £30,867 at Sheffield and typically £13k&ndash;£23k) and it <b>reaches the highest of any Band 2</b> (£129,211, ahead of Southampton £125,396 and Liverpool £118,208). Read in terms of <i>gates</i> &mdash; if moving within a band is routine and crossing into the next needs a case &mdash; the pattern is:<br>&nbsp;&nbsp;&bull; With <b>no</b> band promotion, Exeter reaches £93,346 &mdash; mid-pack (5th of 13; Southampton reaches £110,568).<br>&nbsp;&nbsp;&bull; With <b>one</b> band promotion, Exeter reaches <b>£129,211 &mdash; the highest of the group</b>, against a median of about £111k and only £102k at Nottingham and Bristol.<br>So Exeter's structure lets a professor travel unusually far on a single promotion, because its Band 2 does the work most peers split between Bands 2 and 3. That is a structural feature of the scale, requiring no assumption about how fast anyone progresses &mdash; and it is a plausible explanation for the £100k+ concentration on the <b>High pay</b> tab.<br><br><b>Sources:</b> each university&rsquo;s published professorial scale (2025-26 / Aug 2025). <b>Caveats:</b> top bands are effectively open-ended almost everywhere (spot salaries), but that affects few people; Manchester&rsquo;s 9A runs to £226,237, clipped at £160k here; <b>Warwick</b> runs a single continuous FA9 grade with no sub-bands, so it appears only in the by-institution view; Durham publishes indicative bandings only and <b>Newcastle</b>&rsquo;s structure is unresolved (both dashed, excluded from rankings). Bath and Glasgow are outside the set.`;
+}
+document.querySelectorAll(".yrb").forEach(b=>b.addEventListener("click",()=>{bandMode=b.dataset.mode;drawBands();}));
+drawBands();
 </script></body></html>

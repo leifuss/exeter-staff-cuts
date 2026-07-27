@@ -65,7 +65,9 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
      Realigning to the <b>Russell Group median structure</b> would save roughly <b>£4.7m a year</b> (≈£6m with employer
      on-costs) — about <b>84 average-salary posts</b>, recurring, with <b>no severance bill</b>. It comes from lower entry points
      and longer lower grades, so it touches <b>no current member of staff</b> — mainly it means paying <i>future</i> hires
-     slightly less at given stages.</li>
+     slightly less at given stages. This part is now <b>checked against Exeter's real staff distribution</b> across the pay
+     spine: the model's average salary per grade matches reality to within <b>1.3%</b>, and the saving stays in the
+     <b>£4.7–4.9m</b> range under every assumption tested (we quote the low end).</li>
      <li><b>The professoriate</b> is harder to rank, and we <b>don't try to</b>. What the evidence supports: Exeter pays professors
      from a <b>high floor</b> (3rd-highest entry point of 14) on a <b>slower <i>documented</i> progression</b> than most peers
      (biennial merit vs automatic annual); it has the <b>most £100k+ staff per academic by headcount</b>, though only
@@ -103,6 +105,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
     <li>On that like-for-like test, Exeter's <b>all-in structure is the most expensive of all fourteen English and Welsh Russell Group systems</b> — but the gap is almost entirely in the <b>non-professorial grades</b>; on the professoriate, using each university's documented progression, Exeter is <b>around or below the median</b>. The <b>principal benchmark is the Russell Group median</b>; the cheapest system is shown too, but as a bound, not a proposal.</li>
     <li>The difference is <b>comparable in scale to the proposed ~150-post cuts</b> — but a structural change phases in over roughly five years and saves mostly by paying <i>future</i> staff less. It is not cash in the bank this year.</li>
     <li>The figures are a <b>minimum</b>: they cover only E&amp;R and teaching-only academics plus the professoriate. Research-only staff (~780 full-time) and professional-services staff — whose grade structures differ in the same way — are <b>not counted</b>, and would likely add to the saving.</li>
+    <li><b>Checked against reality.</b> Exeter's actual distribution of staff across the pay spine confirms the model's average salary per grade to within <b>1.3%</b>, and the headline saving holds at <b>£4.7–4.9m</b> across the assumptions tested. (One known flaw: the model assumes an even split of Senior Lecturers and Associate Professors where the real ratio is nearer 3:1 — that inflates the <i>absolute</i> bill by ~10% but barely moves the <i>difference</i> between structures.)</li>
     <li>This is a <b>comparison, not a costed alternative plan</b> — and not a claim that anyone is overpaid.</li>
    </ul></div>
 
@@ -163,7 +166,7 @@ const cards=[
  ['monte_carlo.html','9 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university\u2019s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-03i'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-03n'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));

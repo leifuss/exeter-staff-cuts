@@ -90,7 +90,17 @@ They rest on reasoned assumptions (promotion pace, contribution-point uptake, th
 professorial award rates, and an approximate salary-band→grade mapping) for which there is limited hard
 sector data. Use them as a **yardstick for the order of magnitude** and to test whether conclusions survive
 plausible changes in assumptions — not as precise accounting. Excludes transition/redundancy costs and second-order
-effects. **The per-head professorial cost ranking has been retired** as unreliable: calibrated against Exeter's own accounts,
+effects.
+
+**The non-professorial model has now been validated** against Exeter's actual distribution of staff across spine points
+(2023, `ExeterSPdist.csv`). Two results: (a) the modelled **mean salary per grade matches the real distribution to within
+1.3%** (Lecturer −0.0%, SL +1.1%, AP +1.3%), and the observed shape — progress up the normal points, then bunch at the
+ceiling / first contribution point — is the mechanism the model assumes; (b) the **headline saving is robust**, landing
+between **£4.7m and £4.9m/yr** across every combination of contribution-point and grade-mix assumption tested, with Exeter
+the dearest structure in all of them. Two calibration notes fall out: contribution-point uptake is **not uniform** (actual
+≈37% Lecturer, 13% SL, 10% AP vs the 30% assumed — the errors largely cancel), and the **50/50 SL:AP split is too
+AP-heavy** (actual ≈3:1), which is what inflates the absolute bill below. Published figures keep the 50/50 split, so the
+**£4.7m headline is the conservative end** of the validated range. **The per-head professorial cost ranking has been retired** as unreliable: calibrated against Exeter's own accounts,
 the modelled progression assumption can put Exeter "below median" or "dearest" depending on an un-pin-downable rate (see
 `docs/deprecated/professorial-ranking.md`). The professoriate is now described by evidence-backed facts, not a modelled ranking
 (high floor; slower *documented* cadence; most £100k+ by headcount but upper-mid by FTE; growth mostly award-drift), with the one
@@ -131,10 +141,14 @@ can't separate progression *speed* from the professoriate's *age*). The retired 
 
 **Calibration:** with on-costs the modelled bill is ≈£137m — about 35% of the £396.6m total staff costs in Exeter's
 2024/25 Annual Report, with the other ~65% being exactly the groups the model excludes (professional services,
-research-only, part-time, sub-Lecturer grades, non-salary staff costs). For scale, the structural difference vs the median
-(≈£2.0m/yr salary, ≈£2.6m with on-costs) is a fraction of Exeter's 2024/25 operating surplus (£8.2m, down from £22.5m — the
-operating line, not the headline surplus, which was distorted by a one-off pension provision release in the prior year); the
-difference vs the cheapest full system (≈£7m/yr) is of the same order as that surplus.
+research-only, part-time, sub-Lecturer grades, non-salary staff costs). **Read that £137m as an over-estimate of the
+modelled population's cost:** checked against the real spine-point distribution, the 50/50 SL:AP split inflates the
+*absolute* non-professorial bill by ≈**9.7%** (modelled mean £56,357/head vs actual £51,394). Correcting the mix to the
+observed ≈3:1 brings the modelled mean to within **0.6%** of actual — and *raises* the structural saving slightly
+(£4.74m → £4.88m), because the error is a level effect that largely cancels when comparing structures. For scale, the
+structural difference vs the median (≈£4.7–4.9m/yr salary, ≈£6m with on-costs) is comparable to Exeter's 2024/25 operating
+surplus (£8.2m, down from £22.5m — the operating line, not the headline surplus, which was distorted by a one-off pension
+provision release in the prior year).
 
 ## Which universities are included
 The active comparison is **Russell Group** universities in England and Wales on the national pay spine, with available data:
