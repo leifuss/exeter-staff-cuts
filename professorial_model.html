@@ -222,7 +222,9 @@ $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baselin
 // Straight from each university's published scale. No progression modelling, no spine-point mapping.
 // t: 'inc' = incremental scale points, 'spot' = spot salaries, '?' = unclear/interpolated.
 const BANDS={
- Exeter:[['Band 1',78189,93346,'inc'],['Band 2',87986,129211,'inc'],['Band 3',121795,129211,'spot']],
+ // Exeter Band 3 is SPOT SALARIES: published scale stops at £129,211 (SP71) but the 2024/25 accounts show
+ // 57.5 FTE between £130k and £155k, so the effective top is open-ended. Marked accordingly.
+ Exeter:[['Band 1',78189,93346,'inc'],['Band 2',87986,129211,'inc'],['Band 3',121795,null,'spot']],
  Liverpool:[['Level 1',80526,90606,'inc'],['L1 off-scale',90607,99001,'spot'],['Level 2',99002,118208,'spot'],['Level 3',118209,145370,'spot'],['Level 4',145371,null,'spot']],
  York:[['Band 1',78798,90434,'inc'],['Band 2',90434,116940,'spot'],['Band 3',113959,null,'spot']],
  Southampton:[['L7 Band A',78052,110568,'inc'],['L7 Band B',112396,125396,'inc'],['L7 Band C',127967,151552,'inc']],
@@ -231,10 +233,10 @@ const BANDS={
  Manchester:[['Grade 9E',75914,82933,'inc'],['9D',85417,105011,'inc'],['9C',108153,125349,'inc'],['9B',129105,154119,'inc'],['9A',158735,226237,'inc']],
  Leeds:[['Zone 1',75912,96117,'inc'],['Zone 2',99000,111424,'inc'],['Zone 3',116998,142210,'inc']],
  Bristol:[['Range 1',74828,80246,'inc'],['Range 2',82955,101918,'inc'],['Range 3',104627,137135,'inc']],
+ Warwick:[['FA9 (one continuous grade, merit)',73794,127840,'inc'],['FA9 beyond SP140',127841,null,'inc']],
+ Nottingham:[['L7 Band A',73713,85454,'inc'],['Band B',88018,102036,'inc'],['Band C',105098,125493,'inc'],['Band D',129257,null,'inc']],
  Durham:[['Prof 1',73711,87840,'?'],['Prof 2',85515,106663,'?'],['Prof 3',100576,null,'?']],
  Sheffield:[['Band I',71566,90603,'inc'],['Band II',80524,111391,'inc'],['Band III',98989,136956,'inc']],
- Warwick:[['scale range (bands not held)',73794,108924,'?']],
- Nottingham:[['scale range (bands not held)',73713,102036,'?']],
  Newcastle:[['IB Professor scale (bands not held)',74921,82282,'?']],
 };
 function drawBands(){
@@ -268,7 +270,7 @@ function drawBands(){
   y+=rh;});
  s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7280">professorial salary — published band minima and maxima, 2025-26 rates · ordered by band-1 floor</text>`;
  s+=`</svg>`; el.outerHTML=s.replace('<svg','<svg id="bandchart"');
- $('bandnote').innerHTML=`<b>The clearest finding on this page: Exeter&rsquo;s professorial scale is the most <u>compressed</u> in the group.</b> Its <b>floor is the 3rd highest of 11</b> (£78,189, behind only Liverpool and York) but its <b>ceiling is the lowest of all of them</b> (£129,211 &mdash; every other published scale tops higher, and four are open-ended). That gives Exeter the <b>narrowest published span, £51,022</b>, against £57.6k at Cardiff, £62.3k Bristol, £65.4k Sheffield, £66.3k Leeds and £73.5k Southampton. Two consequences follow directly: Exeter&rsquo;s <b>Band 2 has to be unusually wide</b> (£87,986&ndash;£129,211, swallowing the whole £100k threshold in one band where peers split that territory in two), and its <b>Band 3 adds no headroom at all</b> &mdash; it tops out at exactly the same £129,211 as Band 2, whereas every peer&rsquo;s top band extends well beyond its middle one. A high floor with a low ceiling is what packs professors into a narrow range &mdash; a structural explanation for the £100k+ bulge on the <b>High pay</b> tab that needs no assumption about progression speed.<br><br><b>Sources:</b> each university&rsquo;s own published professorial scale (2025-26 / Aug 2025). <b>Caveats:</b> Manchester&rsquo;s Grade 9A runs to £226,237 and is clipped here; bands marked &lsquo;no max&rsquo; are published open-ended, so those ceilings are floors on the truth; Durham publishes only indicative bandings (dashed); <b>Warwick, Nottingham and Newcastle</b> show the scale extent we hold, not confirmed bands (dashed), and are excluded from the rankings above &mdash; their band structures still need sourcing. Bath and Glasgow sit outside the comparison set.`;
+ $('bandnote').innerHTML=`<b>Correction to an earlier draft of this note:</b> it claimed Exeter had the lowest ceiling and the most compressed scale. That was wrong, and the error was mine &mdash; Exeter&rsquo;s <b>Band 3 is spot salaries</b>, so the published scale stopping at £129,211 (SP71) is not its effective top. Exeter&rsquo;s own 2024/25 accounts show <b>57.5 FTE paid between £130k and £155k</b>, far more than senior management alone (key management is 16 posts). Band 3 is therefore shown open-ended here.<br><br><b>What the chart does support.</b> (1) <b>Floors are comparable and Exeter&rsquo;s is high</b> &mdash; £78,189, 3rd of 13, behind only Liverpool (£80,526) and York (£78,798), against £71,566 at Sheffield and ~£73.7k at Durham, Nottingham and Warwick. (2) <b>Band architecture varies enormously</b>: Warwick runs a single continuous grade (FA9) with no sub-bands, Liverpool four spot-salary Levels, Manchester five zones reaching £226k; Exeter&rsquo;s <b>Band 2 is unusually wide</b> at £87,986&ndash;£129,211, swallowing the whole £100k threshold in one band where most peers split that territory. (3) <b>Ceilings are largely not comparable</b> &mdash; 7 of 13 top bands are open-ended (Exeter, Liverpool, York, Birmingham, Durham, Nottingham and Warwick, whose scale explicitly &lsquo;continues beyond spinal point 140&rsquo;), so a published maximum is a floor on the truth, not a ceiling. Any claim that one university&rsquo;s professorial pay tops out lower than another&rsquo;s cannot be made from published scales alone.<br><br><b>Sources:</b> each university&rsquo;s own published professorial scale (2025-26 / Aug 2025). <b>Caveats:</b> Manchester&rsquo;s 9A runs to £226,237 and is clipped at £160k here; Durham publishes only indicative bandings (dashed); <b>Newcastle</b> is the scale extent we hold, not confirmed bands (dashed), and is excluded from the rankings &mdash; its structure still needs sourcing. Bath and Glasgow sit outside the comparison set.`;
 }
 drawBands();
 </script></body></html>
