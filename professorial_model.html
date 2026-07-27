@@ -223,33 +223,52 @@ $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baselin
 // t: 'inc' = incremental scale points, 'spot' = spot salaries, '?' = unclear/interpolated.
 const BANDS={
  Exeter:[['Band 1',78189,93346,'inc'],['Band 2',87986,129211,'inc'],['Band 3',121795,129211,'spot']],
+ Liverpool:[['Level 1',80526,90606,'inc'],['L1 off-scale',90607,99001,'spot'],['Level 2',99002,118208,'spot'],['Level 3',118209,145370,'spot'],['Level 4',145371,null,'spot']],
+ York:[['Band 1',78798,90434,'inc'],['Band 2',90434,116940,'spot'],['Band 3',113959,null,'spot']],
+ Southampton:[['L7 Band A',78052,110568,'inc'],['L7 Band B',112396,125396,'inc'],['L7 Band C',127967,151552,'inc']],
+ Cardiff:[['Band 1',77711,94729,'inc'],['Band 2',96622,115474,'inc'],['Band 3',117783,135297,'inc']],
+ Birmingham:[['Band 1',76107,92294,'inc'],['Band 2',85702,108807,'inc'],['Band 3',98887,null,'inc']],
+ Manchester:[['Grade 9E',75914,82933,'inc'],['9D',85417,105011,'inc'],['9C',108153,125349,'inc'],['9B',129105,154119,'inc'],['9A',158735,226237,'inc']],
+ Leeds:[['Zone 1',75912,96117,'inc'],['Zone 2',99000,111424,'inc'],['Zone 3',116998,142210,'inc']],
+ Bristol:[['Range 1',74828,80246,'inc'],['Range 2',82955,101918,'inc'],['Range 3',104627,137135,'inc']],
+ Durham:[['Prof 1',73711,87840,'?'],['Prof 2',85515,106663,'?'],['Prof 3',100576,null,'?']],
+ Sheffield:[['Band I',71566,90603,'inc'],['Band II',80524,111391,'inc'],['Band III',98989,136956,'inc']],
+ Warwick:[['scale range (bands not held)',73794,108924,'?']],
+ Nottingham:[['scale range (bands not held)',73713,102036,'?']],
+ Newcastle:[['IB Professor scale (bands not held)',74921,82282,'?']],
 };
 function drawBands(){
  const el=$('bandchart'); if(!el) return;
- const rows=[]; Object.keys(BANDS).forEach(u=>BANDS[u].forEach((b,i)=>rows.push({u,lab:b[0],lo:b[1],hi:b[2],t:b[3],first:i===0})));
- if(!rows.length) return;
- const lo=Math.min(...rows.map(r=>r.lo)), hi=Math.max(...rows.map(r=>r.hi||r.lo));
- const XMIN=Math.floor(lo/10000)*10000, XMAX=Math.ceil(hi/10000)*10000;
- const W=920,L=104,R=76,T=26,B=40,rh=15,gap=9;
- const uni=Object.keys(BANDS); const H=T+B+rows.length*rh+uni.length*gap;
- const x=v=>L+(v-XMIN)/(XMAX-XMIN)*(W-L-R);
+ const XMIN=70000, XMAX=160000;                       // clip: Manchester 9A runs to £226k
+ const order=Object.keys(BANDS).sort((a,b)=>BANDS[a][0][1]-BANDS[b][0][1]).reverse();  // by floor, highest first
+ const rows=[]; order.forEach(u=>BANDS[u].forEach((b,i)=>rows.push({u,lab:b[0],lo:b[1],hi:b[2],t:b[3],first:i===0})));
+ const W=920,L=112,R=104,T=28,B=42,rh=14,gap=10;
+ const H=T+B+rows.length*rh+order.length*gap;
+ const x=v=>L+(Math.min(v,XMAX)-XMIN)/(XMAX-XMIN)*(W-L-R);
  let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">`;
- s+=`<defs><pattern id="hatch" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#0891b2" opacity="0.18"/><line x1="0" y1="0" x2="0" y2="5" stroke="#0891b2" stroke-width="2.2" opacity="0.75"/></pattern>
- <pattern id="hatchEx" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#b45309" opacity="0.18"/><line x1="0" y1="0" x2="0" y2="5" stroke="#b45309" stroke-width="2.2" opacity="0.8"/></pattern></defs>`;
- for(let v=XMIN;v<=XMAX;v+=10000){s+=`<line x1="${x(v)}" y1="${T-6}" x2="${x(v)}" y2="${H-B+4}" stroke="#eee"/><text x="${x(v)}" y="${T-11}" text-anchor="middle" font-size="10.5" fill="#9ca3af">£${v/1000}k</text>`;}
- if(100000>=XMIN&&100000<=XMAX){s+=`<line x1="${x(100000)}" y1="${T-6}" x2="${x(100000)}" y2="${H-B+4}" stroke="#b91c1c" stroke-width="1.3" stroke-dasharray="5 4"/><text x="${x(100000)}" y="${H-B+18}" text-anchor="middle" font-size="10" fill="#b91c1c">£100k</text>`;}
- let y=T; let cur=null;
+ s+=`<defs>
+  <pattern id="hx" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#0891b2" opacity="0.16"/><line x1="0" y1="0" x2="0" y2="5" stroke="#0891b2" stroke-width="2.2" opacity="0.8"/></pattern>
+  <pattern id="hxE" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#b45309" opacity="0.16"/><line x1="0" y1="0" x2="0" y2="5" stroke="#b45309" stroke-width="2.2" opacity="0.85"/></pattern></defs>`;
+ for(let v=XMIN;v<=XMAX;v+=10000){const g=x(v);
+  s+=`<line x1="${g}" y1="${T-7}" x2="${g}" y2="${H-B+4}" stroke="${v%20000===0?'#e8e8e4':'#f4f4f1'}"/>`;
+  if(v%20000===0)s+=`<text x="${g}" y="${T-12}" text-anchor="middle" font-size="10.5" fill="#9ca3af">£${v/1000}k</text>`;}
+ s+=`<line x1="${x(100000)}" y1="${T-7}" x2="${x(100000)}" y2="${H-B+4}" stroke="#b91c1c" stroke-width="1.3" stroke-dasharray="5 4"/><text x="${x(100000)}" y="${H-B+17}" text-anchor="middle" font-size="10" fill="#b91c1c">£100k threshold</text>`;
+ let y=T, cur=null;
  rows.forEach(r=>{
   if(cur!==null&&r.u!==cur) y+=gap;
-  cur=r.u; const ex=r.u==='Exeter';
-  if(r.first) s+=`<text x="${L-9}" y="${y+11}" text-anchor="end" font-size="12.5" font-weight="${ex?700:600}" fill="${ex?'#b45309':'#1d1d1b'}">${r.u}</text>`;
-  const w=Math.max(2,x(r.hi)-x(r.lo));
-  const fill=r.t==='spot'?(ex?'url(#hatchEx)':'url(#hatch)'):(ex?'#b45309':'#0891b2');
-  s+=`<rect x="${x(r.lo)}" y="${y+2}" width="${w}" height="${rh-5}" rx="2" fill="${fill}" opacity="${r.t==='spot'?1:(ex?1:.85)}"/>`;
-  s+=`<text x="${x(r.hi)+5}" y="${y+11}" font-size="9.5" fill="#6b7280">${r.lab}${r.t==='spot'?' (spot)':''}</text>`;
+  cur=r.u; const ex=r.u==='Exeter', open=(r.hi==null), over=(r.hi!=null&&r.hi>XMAX);
+  if(r.first) s+=`<text x="${L-9}" y="${y+10.5}" text-anchor="end" font-size="12.5" font-weight="${ex?700:600}" fill="${ex?'#b45309':'#1d1d1b'}">${r.u}</text>`;
+  const x0=x(r.lo), x1=open?x(XMAX)-14:x(r.hi), w=Math.max(2,x1-x0);
+  const solid=ex?'#b45309':'#0891b2';
+  const fill=r.t==='spot'?(ex?'url(#hxE)':'url(#hx)'):solid;
+  s+=`<rect x="${x0}" y="${y+2}" width="${w}" height="${rh-5}" rx="2" fill="${fill}" opacity="${r.t==='spot'?1:(ex?1:.82)}"${r.t==='?'?' stroke="'+solid+'" stroke-dasharray="3 2" stroke-width="1" fill-opacity="0.30"':''}/>`;
+  if(open||over) s+=`<path d="M ${x1+2} ${y+2} l 9 ${(rh-5)/2} l -9 ${(rh-5)/2} z" fill="${solid}" opacity="${ex?1:.82}"/>`;
+  const lab=r.lab+(r.t==='spot'?' · spot':'')+(open?' · no max':(over?' → £'+Math.round(r.hi/1000)+'k':''));
+  s+=`<text x="${Math.min(x1+(open||over?14:5),W-R+2)}" y="${y+10.5}" font-size="9" fill="#6b7280">${lab}</text>`;
   y+=rh;});
- s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7280">professorial salary — published band minima and maxima, 2025-26 rates</text>`;
+ s+=`<text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="#6b7280">professorial salary — published band minima and maxima, 2025-26 rates · ordered by band-1 floor</text>`;
  s+=`</svg>`; el.outerHTML=s.replace('<svg','<svg id="bandchart"');
+ $('bandnote').innerHTML=`<b>The clearest finding on this page: Exeter&rsquo;s professorial scale is the most <u>compressed</u> in the group.</b> Its <b>floor is the 3rd highest of 11</b> (£78,189, behind only Liverpool and York) but its <b>ceiling is the lowest of all of them</b> (£129,211 &mdash; every other published scale tops higher, and four are open-ended). That gives Exeter the <b>narrowest published span, £51,022</b>, against £57.6k at Cardiff, £62.3k Bristol, £65.4k Sheffield, £66.3k Leeds and £73.5k Southampton. Two consequences follow directly: Exeter&rsquo;s <b>Band 2 has to be unusually wide</b> (£87,986&ndash;£129,211, swallowing the whole £100k threshold in one band where peers split that territory in two), and its <b>Band 3 adds no headroom at all</b> &mdash; it tops out at exactly the same £129,211 as Band 2, whereas every peer&rsquo;s top band extends well beyond its middle one. A high floor with a low ceiling is what packs professors into a narrow range &mdash; a structural explanation for the £100k+ bulge on the <b>High pay</b> tab that needs no assumption about progression speed.<br><br><b>Sources:</b> each university&rsquo;s own published professorial scale (2025-26 / Aug 2025). <b>Caveats:</b> Manchester&rsquo;s Grade 9A runs to £226,237 and is clipped here; bands marked &lsquo;no max&rsquo; are published open-ended, so those ceilings are floors on the truth; Durham publishes only indicative bandings (dashed); <b>Warwick, Nottingham and Newcastle</b> show the scale extent we hold, not confirmed bands (dashed), and are excluded from the rankings above &mdash; their band structures still need sourcing. Bath and Glasgow sit outside the comparison set.`;
 }
 drawBands();
 </script></body></html>
