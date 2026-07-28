@@ -58,14 +58,15 @@ const TIERS=[{t:'1',key:'F',name:'Grade F \u2014 Lecturer',sub:'and Research Fel
              {t:'3',key:'H',name:'Grade H \u2014 Associate Professor',sub:'',T:8,cp:0.30}];
 function sal(u,p){const e=D.ext[u]; if(e&&e[p]!=null) return e[p]; return D.sal[p];}
 // site's EgNP: climb the normal points, then sit at the ceiling with `cp` chance of the first contribution point
-function yearSal(u,t,year,cp){const g=D.g[u][t],n=g.n,L=n.length,c=g.c;
+function yearSal(u,t,year,cp,off){const g=D.g[u][t],c=g.c;
+ const n=g.n.slice(Math.min(off||0,g.n.length-1)); const L=n.length;   // enter `off` points above the grade floor
  if(year<=L) return sal(u,n[year-1]);
  const ceil=sal(u,n[L-1]);
  return c.length? (1-cp)*ceil+cp*sal(u,c[0]) : ceil;}
 function oc(v){return $('oc').value==='1' ? v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v : v;}
-function grade(tier,cmp,N,T,cp){
+function grade(tier,cmp,N,T,cp,off){
  const ex=[],pe=[],diff=[];
- for(let y=1;y<=T;y++){const a=oc(yearSal('Exeter',tier,y,cp)), b=oc(yearSal(cmp,tier,y,cp));
+ for(let y=1;y<=T;y++){const a=oc(yearSal('Exeter',tier,y,cp,off)), b=oc(yearSal(cmp,tier,y,cp,off));
    ex.push(a); pe.push(b); diff.push(a-b);}
  const perYr=N/T;
  const sav=[]; let cum=0;
@@ -105,7 +106,7 @@ function savChart(r,T){
 }
 function runFor(cmp){let tot=0;
  TIERS.forEach(ti=>{const N=+$('n'+ti.key).value||0,T=+($('T'+ti.key)||{value:ti.T}).value||ti.T,cp=+($('cp'+ti.key)||{value:ti.cp}).value;
-  tot+=grade(ti.t,cmp,N,T,cp).run;});
+  tot+=grade(ti.t,cmp,N,T,cp,+($('of'+ti.key)||{value:0}).value).run;});
  return tot;}
 function medianRun(){const v=Object.keys(D.g).filter(u=>u!=='Exeter').map(runFor).sort((a,b)=>a-b);
  return v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2;}
@@ -113,19 +114,22 @@ function draw(){
  const cmp=$('cmp').value;
  let totRun=0,totAgg=0,totT=0,html='';
  TIERS.forEach(ti=>{
-  const N=+$('n'+ti.key).value||0, T=+$('T'+ti.key).value||ti.T, cp=+$('cp'+ti.key).value;
-  const r=grade(ti.t,cmp,N,T,cp);
+  const N=+$('n'+ti.key).value||0, T=+$('T'+ti.key).value||ti.T, cp=+$('cp'+ti.key).value, off=+$('of'+ti.key).value;
+  const r=grade(ti.t,cmp,N,T,cp,off);
   totRun+=r.run; totAgg+=r.agg; totT=Math.max(totT,T);
   html+=`<div class="col"><h2>${ti.name}</h2><div class="gsub">${ti.sub||'&nbsp;'}</div>
    <div class="cc">
     <div class="ctl"><label>Avg years in grade</label><input id="T${ti.key}" type="number" value="${T}" min="1" max="20" step="1"></div>
     <div class="ctl"><label>Chance of a discretionary point</label><select id="cp${ti.key}">${[0,.1,.2,.3,.4,.5,.6].map(v=>`<option value="${v}"${v===cp?' selected':''}>${Math.round(v*100)}%</option>`).join('')}</select></div>
+    <div class="ctl"><label>New appointees start</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
    </div>
    <div class="chartlab">Pay for one new appointee, by year in grade</div>${payChart(r,T,cmp)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#b45309"></span>Exeter</span><span class="lg"><span class="sw" style="background:#0891b2"></span>${cmp}</span></div>
    <div class="chartlab">Saving to the University, by year after the change</div>${savChart(r,T)}
    <table>
-    <tr><td>Gap on day one (entry point)</td><td>${gbp(r.entry)}</td></tr>
+    <tr><td>Year-1 salary &mdash; Exeter</td><td>${gbp(r.ex[0])}</td></tr>
+    <tr><td>Year-1 salary &mdash; ${cmp} (grade ${D.g[cmp][ti.t].lab})</td><td>${gbp(r.pe[0])}</td></tr>
+    <tr><td>Gap on day one</td><td>${gbp(r.entry)}</td></tr>
     <tr><td>Average gap per person per year</td><td>${gbp(r.meanGap)}</td></tr>
     <tr><td>${N.toLocaleString()} staff in grade &times; that gap</td><td>${m(r.run)}</td></tr>
     <tr class="big"><td><b>Full run-rate saving</b> (after ${T} yrs)</td><td>${m(r.run)}/yr</td></tr>
@@ -140,13 +144,25 @@ function draw(){
   +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure')
   +kpi('vs the median structure',m(medianRun())+'/yr','middle of all 13 comparators \u2014 the benchmark used across the site');
  ['cmp','oc','nF','nG','nH'].forEach(id=>{const e=$(id);if(e&&!e.dataset.b){e.dataset.b=1;e.addEventListener('change',draw);e.addEventListener('input',draw);}});
- TIERS.forEach(ti=>['T'+ti.key,'cp'+ti.key].forEach(id=>{const e=$(id);if(e){e.addEventListener('change',draw);e.addEventListener('input',draw);}}));
+ TIERS.forEach(ti=>['T'+ti.key,'cp'+ti.key,'of'+ti.key].forEach(id=>{const e=$(id);if(e){e.addEventListener('change',draw);e.addEventListener('input',draw);}}));
  $('cav').innerHTML=`&bull; <b>What is being compared.</b> Every university here is on the <b>same national pay spine</b> \u2014 a given spine point pays
   the same salary everywhere. What differs is the <b>structure</b>: which spine point the grade starts on, how many normal increments it contains,
   and what contribution points sit above the ceiling. Exeter&rsquo;s Lecturer grade starts at <b>spine point 34</b>; most comparators start lower.<br>
   &bull; <b>Who this applies to.</b> The saving is modelled on <b>new appointees only</b> \u2014 nobody currently in post is re-based, and no one takes
   a pay cut. That is why the saving <b>ramps up</b>: it builds as new appointments replace leavers, reaching the full run-rate after about one
   turnover cycle (the average time in grade). It is <b>not</b> cash available this year.<br>
+  &bull; <b>The biggest single uncertainty \u2014 where new appointees actually enter the grade.</b> The model assumes appointment at
+  the <b>bottom</b> of the grade unless you change the &lsquo;new appointees start&rsquo; control. That matters enormously, because
+  Exeter&rsquo;s Lecturer grade has only <b>3 normal points</b> (SP34\u201336) while several comparators have 7\u201311
+  (Nottingham SP27\u201337, Warwick SP27\u201336, Manchester SP29\u201336, Southampton SP28\u201335). Exeter&rsquo;s entry salary of
+  \u00a343,482 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
+  Manchester&rsquo;s. If those universities in practice appoint lecturers part-way up a long grade rather than at its floor \u2014
+  which is normal \u2014 the gap narrows sharply. On the median comparator the saving moves from <b>\u00a311.8m</b> (floor) to
+  <b>\u00a36.8m</b> (+2 points) to <b>\u00a32.3m</b> (+4 points). <b>Treat the floor-start figure as an upper bound</b> and settle
+  the real appointment practice before relying on any single number.<br>
+  &bull; <b>Validation is one-sided.</b> This model reproduces <b>Exeter&rsquo;s</b> actual mean salary per grade to within 1.3%,
+  checked against Exeter&rsquo;s own 2023 spine distribution. There is <b>no equivalent check on the comparators</b> \u2014 we do not
+  hold their staff distributions \u2014 so the Exeter side is evidence-based and the comparator side is a structural assumption.<br>
   &bull; <b>The pay model.</b> A new appointee climbs one normal increment a year to the top of the grade, then sits at the ceiling with the stated
   chance of holding a discretionary (contribution) point. This is the same model used across the rest of the site.<br>
   &bull; <b>How well it matches reality.</b> Checked against Exeter&rsquo;s <b>actual 2023 distribution of staff across spine points</b>, this model
@@ -165,7 +181,7 @@ function draw(){
  // seed per-column controls by rendering once with defaults
  window.__seed=true; 
  const c=document.createElement('div'); c.style.display='none'; document.body.appendChild(c);
- c.innerHTML=TIERS.map(ti=>`<input id="T${ti.key}" value="${ti.T}"><select id="cp${ti.key}"><option value="${ti.cp}" selected>x</option></select>`).join('');
+ c.innerHTML=TIERS.map(ti=>`<input id="T${ti.key}" value="${ti.T}"><select id="cp${ti.key}"><option value="${ti.cp}" selected>x</option></select><select id="of${ti.key}"><option value="0" selected>x</option></select>`).join('');
  draw();
  c.remove();
  // open on the comparator closest to the median structure (the site's principal benchmark)
