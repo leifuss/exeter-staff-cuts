@@ -9,7 +9,7 @@ h1{font-size:21px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 
 .controls{display:flex;flex-wrap:wrap;gap:12px 20px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:12px;align-items:flex-start}
 .ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:11.5px;color:var(--mut);font-weight:600}
 .ctl select,.ctl input{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
-.ctl input{width:88px}.ctl select{max-width:210px}
+.ctl input{width:88px}.ctl select{max-width:260px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .kpi.hero{border-color:#f0d8b0;background:#fffdf8}
@@ -160,6 +160,17 @@ function runFor(cmp){let tot=0;
   off=+($('of'+ti.key)||{value:0}).value;
   tot+=grade(ti.t,cmp,N,T,cp,off).run;});
  return tot;}
+// Order the comparator list by what each structure would actually save, biggest first,
+// and show the figure alongside — so the dropdown itself ranks the options.
+// Rebuilt on every draw because the savings move with staff numbers, cost basis and the
+// per-grade assumptions.
+function cmpList(){const sel=$('cmp'); if(!sel) return; const keep=sel.value;
+ const rows=Object.keys(D.g).filter(u=>u!=='Exeter').map(u=>({u,r:runFor(u)})).sort((a,b)=>b.r-a.r);
+ sel.innerHTML=rows.map(o=>`<option value="${o.u}"${o.u===keep?' selected':''}>${o.u} — ${m(o.r)}/yr</option>`).join('');
+ if(keep) sel.value=keep;
+ sel.previousElementSibling && (sel.previousElementSibling.title=
+  'Sorted by the full run-rate saving Exeter would make on that university’s grade structure, largest first, '+
+  'on the current staff numbers, cost basis and per-grade assumptions. The figure shown is that saving.');}
 function medianRun(){const v=Object.keys(D.g).filter(u=>u!=='Exeter').map(runFor).sort((a,b)=>a-b);
  return v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2;}
 function draw(){
@@ -200,8 +211,6 @@ function draw(){
     <tr${TT('Average of the year-by-year gaps over all '+T+' years in grade, on the '+(ocOn()?'total-cost':'salary-only')+' basis. Captures entry point, grade length and the contribution-point tail together.')}><td class="h">Average gap per person per year</td><td>${gbp(r.meanGap)}</td></tr>
     <tr class="big"${TT(N.toLocaleString()+' staff \u00d7 the average gap of '+gbp(r.meanGap)+'. The recurring annual saving once every post in the grade has turned over onto the new structure.')}><td class="h"><b>Full run-rate saving</b> (after ${T} yrs)</td><td>${m(r.run)}/yr</td></tr>
     <tr${TT('People, not post-years \u2014 the division by years is already done. Two routes to the same figure: (a) '+m(r.run)+'/yr \u00f7 '+gbp(cmpAvg)+' per post per year = '+(posts>=10?Math.round(posts):posts.toFixed(1))+'; (b) '+m(r.byYearCum[T-1])+' saved over '+T+' years \u00f7 ('+gbp(cmpAvg)+' \u00d7 '+T+' years) = the same. Costed at '+cmp+'\u2019s pay rates.')}><td class="h">&#8776; extra posts, each for the full ${T} yrs</td><td>${posts>=10?Math.round(posts):posts.toFixed(1)}</td></tr>
-    <tr${TT('The chart above: the year-1 gap of '+gbp(r.diff[0])+' \u00d7 '+N.toLocaleString()+' staff. Largest in year 1 because the entry-point gap is widest; it narrows as the two scales converge.')}><td class="h">Year-1 gap &times; ${N.toLocaleString()} staff</td><td>${m(r.byYear[0])}/yr</td></tr>
-    <tr${TT('The cumulative line on the chart. Assumes ALL '+N.toLocaleString()+' staff sit on the new structure from the start \u2014 i.e. existing staff re-based, not just new hires. An upper reading.')}><td class="h">Cumulative if <i>all</i> staff re-based</td><td>${m(r.byYearCum[T-1])}</td></tr>
     <tr${TT('Only those entering the grade \u2014 recruited or promoted in: '+N.toLocaleString()+'\u00f7'+T+' each year, so the saving ramps up as staff turn over. The realistic near-term figure and the site\u2019s standing position (nobody is re-based).')}><td class="h">Average per year, entrants only</td><td>${m(r.avg)}/yr</td></tr>
     <tr${TT('Entrants only (recruited or promoted in), accumulated over the '+T+'-year phase-in. Lower than the all-staff figure because savings build gradually.')}><td class="h">Cumulative, entrants only</td><td>${m(r.agg)}</td></tr>
    </table></div>`;
@@ -215,12 +224,11 @@ function draw(){
   'discounted using HESA research-only shares (F \u221250%, G \u221210%, H unchanged) so the headline reads as Exeter\u2019s own saving. '+
   'Full reasoning and its limits are in \u201cWhat this assumes\u201d at the foot of the page. Overwrite the fields to test any population.';
  ['lnF','lnG','lnH'].forEach(id=>$(id).title=staffTip);
+ cmpList();
  const kpi=(k,v,s,cls,t)=>`<div class="kpi ${cls||''}"${t?` title="${t}"`:''}><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
  $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once entrants have worked through','hero','Sum of the three grades\u2019 run-rate savings: staff in grade \u00d7 average pay gap, added up.')
   +kpi('\u2248 extra posts it could fund',(totPosts>=10?Math.round(totPosts):totPosts.toFixed(1))+' posts','people employed for the full period, at comparator pay rates','hero','PEOPLE, not post-years \u2014 each grade\u2019s annual saving \u00f7 the annual cost of one post at that grade on the comparator\u2019s scale, then added. Equivalently: total saved \u00f7 (annual post cost \u00d7 number of years). Assumes hiring roughly in proportion to the existing shape of the workforce.')
-  +kpi('Cumulative over the phase-in',m(totAgg),'total cash difference while it beds in','','Sum across the three grades of the cash accumulated over each grade\u2019s phase-in period.')
-  +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure','','Total cumulative saving divided by the length of the phase-in \u2014 lower than the run-rate because savings build as staff turn over.')
-  +kpi('vs the median structure',m(medianRun())+'/yr','middle of all 13 comparators \u2014 the benchmark used across the site','','The same run-rate calculation run against every one of the 13 comparators; this is the middle value.');
+  +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure','','Total cumulative saving divided by the length of the phase-in \u2014 lower than the run-rate because savings build as staff turn over.');
  const popN=(+$('nF').value||0)+(+$('nG').value||0)+(+$('nH').value||0), popX=popN/1155,
   s1=Math.round(84*popX), s3=Math.round(totPosts);   // s3 is the figure actually shown above
  $('reconcile').innerHTML='<b>Why this page\u2019s post count differs from the \u201c~84 posts\u201d on the Overview.</b> Both are right; they answer '+
