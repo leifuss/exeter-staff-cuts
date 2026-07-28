@@ -231,21 +231,17 @@ function draw(){
  $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once entrants have worked through','hero','Sum of the three grades\u2019 run-rate savings: staff in grade \u00d7 average pay gap, added up.')
   +kpi('\u2248 extra posts it could fund',(totPosts>=10?Math.round(totPosts):totPosts.toFixed(1))+' posts','people employed for the full period, at comparator pay rates','hero','PEOPLE, not post-years \u2014 each grade\u2019s annual saving \u00f7 the annual cost of one post at that grade on the comparator\u2019s scale, then added. Equivalently: total saved \u00f7 (annual post cost \u00d7 number of years). Assumes hiring roughly in proportion to the existing shape of the workforce.')
   +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure','','Total cumulative saving divided by the length of the phase-in \u2014 lower than the run-rate because savings build as staff turn over.');
- const popN=(+$('nF').value||0)+(+$('nG').value||0)+(+$('nH').value||0), popX=popN/1155,
-  s1=Math.round(84*popX), s3=Math.round(totPosts);   // s3 is the figure actually shown above
- $('reconcile').innerHTML='<b>Why this page\u2019s post count differs from the \u201c~84 posts\u201d on the Overview.</b> Both are right; they answer '+
-  'slightly different questions, and the gap is entirely explained by three choices: '+
-  '<b>(1) population</b> \u2014 this page counts <b>everyone on grades F/G/H</b> ('+popN.toLocaleString()+' on the current settings, '+
-  'including research and professional-services staff on the same grades) because a grade-structure change applies to all of them, where '+
-  'the Overview counts <b>academic staff only</b> (1,155). That alone multiplies the count by <b>'+popX.toFixed(2)+'\u00d7</b> '+
-  '(84 \u2192 '+s1+'). '+
-  '<b>(2) cost basis</b> \u2014 including on-costs is close to neutral here, because it scales the saving <i>and</i> the cost of a post '+
-  'by about the same 28%. '+
-  '<b>(3) what a post costs</b> \u2014 this page divides by the <b>comparator\u2019s</b> average cost (\u00a361.0k), since new staff would be '+
-  'hired onto the reformed structure; the Overview divides by <b>Exeter\u2019s</b> current average (\u00a372.5k all-in). Dividing by the cheaper '+
-  'figure raises the count by a further <b>~1.19\u00d7</b>, landing on the <b>'+s3+'</b> shown above. '+
-  'If you want the number that is directly comparable with the Overview, set <i>Cost basis</i> to \u201cSalary only\u201d and read the run-rate '+
-  'against academic-only staff numbers.';
+ const popN=(+$('nF').value||0)+(+$('nG').value||0)+(+$('nH').value||0);
+ $('reconcile').innerHTML='<b>This page and the Overview now agree.</b> Both price the same population \u2014 the '+
+  '<b>'+popN.toLocaleString()+'</b> staff on grades F/G/H from Exeter\u2019s own 2023 spine distribution, discounted for '+
+  'grant-funded posts \u2014 and both count posts the same way: each grade\u2019s saving divided by what one post at that grade '+
+  'costs on the <b>comparator\u2019s</b> scale, since a post created under the new structure would be paid on it. '+
+  'Against the median structure that is <b>\u00a37.7m/yr</b> salary-only (<b>\u00a310.1m</b> with on-costs) and about '+
+  '<b>164</b> posts. '+
+  '<b>Older tabs will not match.</b> The <i>Grade structure &amp; cost</i>, <i>Career model</i>, <i>All-in pay bill</i>, '+
+  '<i>Transition</i> and <i>How sure can we be?</i> tabs still price <b>HESA full-time academic staff only</b> (1,155 in these '+
+  'grades), which leaves out the professional-services and part-time staff sitting on the very same grades. Their <b>structural '+
+  'comparison and ranking are unaffected</b>, but their <b>totals are roughly half</b> those here. Each carries a note saying so.';
  ['cmp','oc','sc','nF','nG','nH'].forEach(id=>{const e=$(id);if(e&&!e.dataset.b){e.dataset.b=1;e.addEventListener('change',draw);e.addEventListener('input',draw);}});
  TIERS.forEach(ti=>['T'+ti.key,'cp'+ti.key,'of'+ti.key].forEach(id=>{const e=$(id);if(e){e.addEventListener('change',draw);e.addEventListener('input',draw);}}));
  $('cav').innerHTML=`&bull; <b>What is being compared.</b> Every university here is on the <b>same national pay spine</b> \u2014 a given spine point pays
@@ -255,17 +251,18 @@ function draw(){
   &bull; <b>Two readings of the same gap \u2014 don\u2019t mix them up.</b> The <b>chart</b> shows the pay gap in each year of the grade
   multiplied by <b>every member of staff at that grade</b>, so it answers &lsquo;what would the structure be worth if the whole grade
   sat on it?&rsquo; It is largest in year 1 (the entry-point gap is widest) and <b>tapers as the two scales converge</b>. That is an
-  <b>upper reading</b>: it assumes existing staff are re-based. The <b>run-rate and phase-in figures</b> in the table below assume
-  <b>entrants only</b> (recruited or promoted in) \u2014 nobody re-based, savings building as staff move through the grades \u2014 which is this site\u2019s standing
-  position and the more defensible one. Both are in the table, labelled.<br>
+  <b>upper reading</b>, kept in the chart because the tapering shape is what shows the two scales converging. Every <b>figure in the
+  table</b> below it \u2014 and every headline figure \u2014 assumes <b>entrants only</b> (recruited or promoted in): nobody re-based, savings
+  building as staff move through the grades. That is this site\u2019s standing position and the more defensible one, which is why the
+  all-staff readings were removed from the table.<br>
   &bull; <b>The biggest single uncertainty \u2014 where new appointees actually enter the grade.</b> The model assumes appointment at
   the <b>bottom</b> of the grade unless you change the &lsquo;entrants start at&rsquo; control. That matters enormously, because
   Exeter&rsquo;s Lecturer grade has only <b>3 normal points</b> (SP34\u201336) while several comparators have 7\u201311
   (Nottingham SP27\u201337, Warwick SP27\u201336, Manchester SP29\u201336, Southampton SP28\u201335). Exeter&rsquo;s entry salary of
   \u00a343,482 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
   Manchester&rsquo;s. If those universities in practice appoint lecturers part-way up a long grade rather than at its floor \u2014
-  which is normal \u2014 the gap narrows sharply. On the median comparator the saving moves from <b>\u00a311.8m</b> (floor) to
-  <b>\u00a36.8m</b> (+2 points) to <b>\u00a32.3m</b> (+4 points). <b>Treat the floor-start figure as an upper bound</b> and settle
+  which is normal \u2014 the gap narrows sharply. On the median comparator the saving moves from <b>\u00a37.7m</b> (floor) to <b>\u00a36.2m</b> (+1) to
+  <b>\u00a34.7m</b> (+2 points) to <b>\u00a32.1m</b> (+4 points), salary-only. <b>Treat the floor-start figure as an upper bound</b> and settle
   the real appointment practice before relying on any single number.<br>
   &bull; <b>Validation is one-sided.</b> This model reproduces <b>Exeter&rsquo;s</b> actual mean salary per grade to within 1.3%,
   checked against Exeter&rsquo;s own 2023 spine distribution. There is <b>no equivalent check on the comparators</b> \u2014 we do not
@@ -289,7 +286,7 @@ function draw(){
   (some research-only posts are core-funded, and teaching-and-research staff often have grant-funded fractions running the other way),
   Table 17 counts <b>full-time staff only</b>, and its salary bands do not line up with grade boundaries. The reliable fix is for HR to
   substitute the actual University-funded headcount in the fields above &mdash; every figure on the page then follows.<br>
-  &bull; <b>On-costs</b> add employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%).<br>
+  &bull; <b>Cost basis.</b> The page defaults to <b>salary only</b>, so every figure reads across directly to the published pay scales. Switching to <b>&lsquo;+ employer on-costs&rsquo;</b> adds employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%) &mdash; about <b>+28%</b> &mdash; which is what a post actually costs the University, and the basis a budget conversation needs. It raises the median saving from <b>\u00a37.7m</b> to <b>\u00a310.1m</b>; the <i>post count</i> barely moves, because it scales the saving and the cost of a post alike.<br>
   &bull; <b>What this is not.</b> Not a claim that anyone is overpaid, and not a costed proposal \u2014 it prices one structural option so it can be
   weighed against the alternatives. Transition and recruitment effects are not modelled: paying new staff less at a given stage is a
   <b>recruitment trade-off</b>, not a free saving.`;
