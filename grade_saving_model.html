@@ -29,6 +29,9 @@ details{margin-top:14px;background:var(--panel);border:1px solid var(--line);bor
 summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
 .lgnd{display:flex;gap:14px;font-size:11.5px;color:var(--mut);margin-top:3px}
 .lg{display:inline-flex;align-items:center;gap:5px}.sw{width:16px;height:4px;border-radius:2px;display:inline-block}
+/* mark every figure that carries a hover explainer, so people know to look */
+.kpi[title]{cursor:help}
+.kpi[title] .k::after,td.h::after{content:"\00a0\24D8";color:#9ca3af;font-weight:400;font-size:11.5px}
 </style></head><body><div class="wrap">
 <h1>Where the saving comes from &mdash; grade by grade</h1>
 <p class="sub">One grade at a time. All universities sit on the <b>same national pay spine</b>, so a given spine point pays the
@@ -48,15 +51,16 @@ and what sits above its ceiling. This is deliberately simplified; it is here to 
 </div>
 <div class="controls" id="topctl">
  <div class="ctl"><label>Compare Exeter with</label><select id="cmp"></select></div>
- <div class="ctl"><label>Staff in grade F</label><input id="nF" type="number" value="1518" min="0" step="10"></div>
- <div class="ctl"><label>Staff in grade G</label><input id="nG" type="number" value="964" min="0" step="10"></div>
+ <div class="ctl"><label>Staff in grade F</label><input id="nF" type="number" value="759" min="0" step="10"></div>
+ <div class="ctl"><label>Staff in grade G</label><input id="nG" type="number" value="868" min="0" step="10"></div>
  <div class="ctl"><label>Staff in grade H</label><input id="nH" type="number" value="307" min="0" step="10"></div>
  <div class="ctl"><label>Savings scale</label><select id="sc">
    <option value="fix" selected>Fixed across comparators</option><option value="fit">Fit to this comparator</option></select></div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
- <div class="ctl"><label>&nbsp;</label><span class="small" style="max-width:230px">Staff numbers are Exeter&rsquo;s actual 2023 distribution across these spine points. They include <b>externally funded research fellows</b>, whose pay is met by grants &mdash; savings there accrue to funders, not to Exeter. HESA suggests this is a <b>grade F</b> issue mainly (see caveats). Overwrite the fields to test any population.</span></div>
+ <div class="ctl"><label>&nbsp;</label><span class="small" style="max-width:230px">Exeter&rsquo;s 2023 spine distribution gives F&nbsp;1,518 &middot; G&nbsp;964 &middot; H&nbsp;307, but those include <b>grant-funded research staff</b>, whose pay comes from funders rather than Exeter. The defaults here are <b>discounted using HESA</b> (F &minus;50%, G &minus;10%, H unchanged) so the headline is Exeter&rsquo;s <i>own</i> saving. See the caveats; overwrite the fields to test any population.</span></div>
 </div>
 <div class="small" id="basisnote" style="margin:-4px 0 8px"></div>
+<div class="small" style="margin:-4px 0 9px">Figures marked &#9432; have a hover explainer &mdash; point at the label to see how they are worked out.</div>
 <div class="kpis" id="tot"></div>
 <div class="cols" id="cols"></div>
 <div class="small" id="reconcile" style="margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px"></div>
@@ -137,10 +141,14 @@ function savChart(r,T,N,fx){
 // One savings scale shared by all three columns so the grades are directly comparable.
 // 'fix'  -> spans every comparator as well, so the axis never moves.
 // 'fit'  -> spans only the comparator currently selected.
+// The axis starts at 0. The ceiling is shared; the floor only drops below 0 if the
+// comparator on screen is genuinely dearer than Exeter somewhere (so nothing is clipped).
 function savRange(rows,acrossComparators,cmp){let mx=0,mn=0;
  const unis=acrossComparators?Object.keys(D.g).filter(u=>u!=='Exeter'):[cmp];
  unis.forEach(u=>rows.forEach(o=>{const g=grade(o.ti.t,u,o.N,o.T,o.cp,o.off);
-  mx=Math.max(mx,...g.byYearCum,...g.byYear); mn=Math.min(mn,...g.byYearCum,...g.byYear);}));
+  mx=Math.max(mx,...g.byYearCum,...g.byYear);}));
+ rows.forEach(o=>{const g=grade(o.ti.t,cmp,o.N,o.T,o.cp,o.off);
+  mn=Math.min(mn,...g.byYearCum,...g.byYear);});
  return [mn,mx];}
 function runFor(cmp){let tot=0;
  TIERS.forEach(ti=>{const N=+$('n'+ti.key).value||0,
@@ -202,16 +210,19 @@ function draw(){
   +kpi('Cumulative over the phase-in',m(totAgg),'total cash difference while it beds in','','Sum across the three grades of the cash accumulated over each grade\u2019s phase-in period.')
   +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure','','Total cumulative saving divided by the length of the phase-in \u2014 lower than the run-rate because savings build as staff turn over.')
   +kpi('vs the median structure',m(medianRun())+'/yr','middle of all 13 comparators \u2014 the benchmark used across the site','','The same run-rate calculation run against every one of the 13 comparators; this is the middle value.');
- $('reconcile').innerHTML='<b>Why this page\u2019s post count is larger than the \u201c~84 posts\u201d on the Overview.</b> Both are right; they answer '+
+ const popN=(+$('nF').value||0)+(+$('nG').value||0)+(+$('nH').value||0), popX=popN/1155,
+  s1=Math.round(84*popX), s3=Math.round(totPosts);   // s3 is the figure actually shown above
+ $('reconcile').innerHTML='<b>Why this page\u2019s post count differs from the \u201c~84 posts\u201d on the Overview.</b> Both are right; they answer '+
   'slightly different questions, and the gap is entirely explained by three choices: '+
-  '<b>(1) population</b> \u2014 this page counts <b>everyone on grades F/G/H</b> (2,789, including Research Fellows and professional-services '+
-  'staff on the same grades) because a grade-structure change applies to all of them, where the Overview counts <b>academic staff only</b> '+
-  '(1,155). That alone multiplies the count by <b>2.4\u00d7</b> (84 \u2192 209). '+
+  '<b>(1) population</b> \u2014 this page counts <b>everyone on grades F/G/H</b> ('+popN.toLocaleString()+' on the current settings, '+
+  'including research and professional-services staff on the same grades) because a grade-structure change applies to all of them, where '+
+  'the Overview counts <b>academic staff only</b> (1,155). That alone multiplies the count by <b>'+popX.toFixed(2)+'\u00d7</b> '+
+  '(84 \u2192 '+s1+'). '+
   '<b>(2) cost basis</b> \u2014 including on-costs is close to neutral here, because it scales the saving <i>and</i> the cost of a post '+
-  'by about the same 28% (209 \u2192 211). '+
+  'by about the same 28%. '+
   '<b>(3) what a post costs</b> \u2014 this page divides by the <b>comparator\u2019s</b> average cost (\u00a361.0k), since new staff would be '+
   'hired onto the reformed structure; the Overview divides by <b>Exeter\u2019s</b> current average (\u00a372.5k all-in). Dividing by the cheaper '+
-  'figure raises the count by <b>1.19\u00d7</b> (211 \u2192 251). '+
+  'figure raises the count by a further <b>~1.19\u00d7</b>, landing on the <b>'+s3+'</b> shown above. '+
   'If you want the number that is directly comparable with the Overview, set <i>Cost basis</i> to \u201cSalary only\u201d and read the run-rate '+
   'against academic-only staff numbers.';
  ['cmp','oc','sc','nF','nG','nH'].forEach(id=>{const e=$(id);if(e&&!e.dataset.b){e.dataset.b=1;e.addEventListener('change',draw);e.addEventListener('input',draw);}});
@@ -243,15 +254,20 @@ function draw(){
   &bull; <b>How well it matches reality.</b> Checked against Exeter&rsquo;s <b>actual 2023 distribution of staff across spine points</b>, this model
   reproduces the real average salary per grade to within <b>1.3%</b> (Lecturer \u22120.0%, SL +1.1%, AP +1.3%). Observed contribution-point occupancy
   is roughly <b>37% / 13% / 10%</b> for F / G / H \u2014 the controls default to 30%, so those can be dialled in.<br>
-  &bull; <b>Staff numbers</b> are Exeter&rsquo;s 2023 headcount on those spine points (F 34\u201338, G 39\u201347, H 48\u201351) and include Research
-  Fellows and professional-services staff on the same grades \u2014 a grade-structure change would apply to them too. Editable above.<br>
-  &bull; <b>Externally funded posts are not a saving to the University.</b> Grant-funded research fellows are included in the headline numbers
-  because they sit on the same grades, but their pay is recovered from funders, so a lower structure reduces the <i>grant</i> cost, not
-  Exeter\u2019s. HESA (DT025 Table 17, 2024/25, full-time academic staff) shows how far that reaches: of Exeter\u2019s 2,490 full-time academics,
-  <b>780 are research-only</b>, but they are concentrated at the bottom of the range \u2014 <b>79%</b> of staff paid \u00a329.7\u201339.1k are
-  research-only, falling to <b>53%</b> at \u00a339.1\u201352.2k, <b>10%</b> at \u00a352.2\u201369.8k and <b>2%</b> above \u00a369.8k. So the exposure sits
-  almost entirely in <b>grade F</b> (\u00a343.5\u201353.3k); grades G and H are largely unaffected. Research-only is a proxy, not a funding split, so
-  the reliable fix is for HR to substitute the University-funded headcount in the fields above.<br>
+  &bull; <b>Staff numbers &mdash; and why the defaults are lower than the raw distribution.</b> Exeter&rsquo;s 2023 headcount on these spine
+  points (F 34&ndash;38, G 39&ndash;47, H 48&ndash;51) is <b>F 1,518 &middot; G 964 &middot; H 307</b>. But those totals include
+  <b>grant-funded research staff</b>, whose salaries are recovered from funders: a lower structure reduces the <i>grant</i> cost, not
+  Exeter&rsquo;s, so counting them would overstate the University&rsquo;s own saving.
+  HESA (DT025 Table 17, 2024/25, full-time academic staff) shows where that exposure sits. Of Exeter&rsquo;s 2,490 full-time academics,
+  <b>780 are research-only</b> &mdash; and they cluster at the bottom of the pay range: <b>79%</b> of staff paid &pound;29.7&ndash;39.1k are
+  research-only, falling to <b>53%</b> at &pound;39.1&ndash;52.2k, <b>10%</b> at &pound;52.2&ndash;69.8k and <b>2%</b> above &pound;69.8k.
+  Grade F (&pound;43.5&ndash;53.3k) sits in the 53% band, grade G (&pound;51.8&ndash;67.5k) mostly in the 10% band, and grade H
+  (&pound;65.8&ndash;82.9k) above both. The defaults therefore discount <b>F by 50%</b> (&rarr;&nbsp;759) and <b>G by 10%</b>
+  (&rarr;&nbsp;868) and leave <b>H unchanged</b>, so the headline reads as a saving to Exeter rather than to research councils.
+  This is a deliberately cautious adjustment, not a measurement: &ldquo;research-only&rdquo; is a proxy for &ldquo;externally funded&rdquo;
+  (some research-only posts are core-funded, and teaching-and-research staff often have grant-funded fractions running the other way),
+  Table 17 counts <b>full-time staff only</b>, and its salary bands do not line up with grade boundaries. The reliable fix is for HR to
+  substitute the actual University-funded headcount in the fields above &mdash; every figure on the page then follows.<br>
   &bull; <b>On-costs</b> add employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%).<br>
   &bull; <b>What this is not.</b> Not a claim that anyone is overpaid, and not a costed proposal \u2014 it prices one structural option so it can be
   weighed against the alternatives. Transition and recruitment effects are not modelled: paying new staff less at a given stage is a
