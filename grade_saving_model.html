@@ -31,7 +31,11 @@ summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
 .lg{display:inline-flex;align-items:center;gap:5px}.sw{width:16px;height:4px;border-radius:2px;display:inline-block}
 /* mark every figure that carries a hover explainer, so people know to look */
 .kpi[title]{cursor:help}
-.kpi[title] .k::after,td.h::after{content:"\00a0\24D8";color:#9ca3af;font-weight:400;font-size:11.5px}
+.kpi[title] .k::after,td.h::after,.ctl label[title]::after,summary[title]::after{content:"\00a0\24D8";color:#9ca3af;font-weight:400;font-size:11.5px}
+.ctl label[title],summary[title]{cursor:help}
+#kpibox{margin-top:0;margin-bottom:12px}
+details.colset{margin:0 0 9px;padding:5px 9px;background:#faf9f6}
+details.colset summary{font-size:11.5px;color:var(--mut);font-weight:600}
 </style></head><body><div class="wrap">
 <h1>Where the saving comes from &mdash; grade by grade</h1>
 <p class="sub">One grade at a time. All universities sit on the <b>same national pay spine</b>, so a given spine point pays the
@@ -49,19 +53,17 @@ and what sits above its ceiling. This is deliberately simplified; it is here to 
  keeps their salary and their increments. That is why the saving <b>builds gradually</b>, at roughly the rate staff move through
  the grades, rather than arriving in year one.</div>
 </div>
+<div class="small" style="margin:0 0 7px">Figures and labels marked &#9432; carry a hover explainer &mdash; point at them to see how they are worked out.</div>
 <div class="controls" id="topctl">
  <div class="ctl"><label>Compare Exeter with</label><select id="cmp"></select></div>
- <div class="ctl"><label>Staff in grade F</label><input id="nF" type="number" value="759" min="0" step="10"></div>
- <div class="ctl"><label>Staff in grade G</label><input id="nG" type="number" value="868" min="0" step="10"></div>
- <div class="ctl"><label>Staff in grade H</label><input id="nH" type="number" value="307" min="0" step="10"></div>
- <div class="ctl"><label>Savings scale</label><select id="sc">
+ <div class="ctl"><label id="lnF">Staff in grade F</label><input id="nF" type="number" value="759" min="0" step="10"></div>
+ <div class="ctl"><label id="lnG">Staff in grade G</label><input id="nG" type="number" value="868" min="0" step="10"></div>
+ <div class="ctl"><label id="lnH">Staff in grade H</label><input id="nH" type="number" value="307" min="0" step="10"></div>
+ <div class="ctl"><label title="Fixed: the savings charts use one scale for all three grades and every comparator, so nothing moves when you switch comparator. Fit: the same scale across the three grades, but sized to the comparator on screen — better resolution, less comparable.">Savings scale</label><select id="sc">
    <option value="fix" selected>Fixed across comparators</option><option value="fit">Fit to this comparator</option></select></div>
- <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
- <div class="ctl"><label>&nbsp;</label><span class="small" style="max-width:230px">Exeter&rsquo;s 2023 spine distribution gives F&nbsp;1,518 &middot; G&nbsp;964 &middot; H&nbsp;307, but those include <b>grant-funded research staff</b>, whose pay comes from funders rather than Exeter. The defaults here are <b>discounted using HESA</b> (F &minus;50%, G &minus;10%, H unchanged) so the headline is Exeter&rsquo;s <i>own</i> saving. See the caveats; overwrite the fields to test any population.</span></div>
+ <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
 </div>
-<div class="small" id="basisnote" style="margin:-4px 0 8px"></div>
-<div class="small" style="margin:-4px 0 9px">Figures marked &#9432; have a hover explainer &mdash; point at the label to see how they are worked out.</div>
-<div class="kpis" id="tot"></div>
+<details id="kpibox" open><summary>Headline figures &mdash; all three grades combined</summary><div class="kpis" id="tot" style="margin:10px 0 0"></div></details>
 <div class="cols" id="cols"></div>
 <div class="small" id="reconcile" style="margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px"></div>
 <details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
@@ -71,9 +73,10 @@ const D={"sal":{"27":35608,"28":36636,"29":37694,"30":38784,"31":39906,"32":4106
 const $=id=>document.getElementById(id);
 const gbp=n=>'\u00a3'+Math.round(n).toLocaleString();
 const m=n=>{const a=Math.abs(n);const sg=n<0?'\u2212':'';return sg+'\u00a3'+(a>=1e6?(a/1e6).toFixed(2)+'m':a>=1000?Math.round(a/1000)+'k':Math.round(a));};
-const TIERS=[{t:'1',key:'F',name:'Grade F \u2014 Lecturer',sub:'and Research Fellow',T:5,cp:0.30},
-             {t:'2',key:'G',name:'Grade G \u2014 Senior Lecturer',sub:'and Senior Research Fellow',T:7,cp:0.30},
+const TIERS=[{t:'1',key:'F',name:'Grade F \u2014 Lecturer',sub:'',T:5,cp:0.30},
+             {t:'2',key:'G',name:'Grade G \u2014 Senior Lecturer',sub:'',T:7,cp:0.30},
              {t:'3',key:'H',name:'Grade H \u2014 Associate Professor',sub:'',T:8,cp:0.30}];
+const OPEN={F:false,G:false,H:false};   // per-grade assumption panes start closed
 function sal(u,p){const e=D.ext[u]; if(e&&e[p]!=null) return e[p]; return D.sal[p];}
 // site's EgNP: climb the normal points, then sit at the ceiling with `cp` chance of the first contribution point
 function yearSal(u,t,year,cp,off){const g=D.g[u][t],c=g.c;
@@ -170,6 +173,8 @@ function draw(){
  // fixed, round window so the columns are directly comparable; widened only if a line would fall outside it
  const win=ocOn()?[50000,100000]:[40000,80000];
  const dom=[Math.min(win[0],Math.min(...allv)), Math.max(win[1],Math.max(...allv))];
+ // draw() rebuilds the columns from scratch, so remember which assumption panes were open
+ document.querySelectorAll('.col details.colset').forEach((d,i)=>OPEN[TIERS[i].key]=d.open);
  let totRun=0,totAgg=0,totT=0,totPosts=0,html='';
  R.forEach(o=>{
   const {ti,N,T,cp,off,r}=o;
@@ -177,12 +182,13 @@ function draw(){
   const cmpAvg=r.pe.reduce((a,b)=>a+b,0)/T;          // avg cost of one post on the comparator scale (fix 5)
   const posts=cmpAvg>0?r.run/cmpAvg:0; totPosts+=posts;
   const TT=(t)=>` title="${t}"`; const W1=ocOn()?'cost':'salary';
-  html+=`<div class="col"><h2>${ti.name}</h2><div class="gsub">${ti.sub||'&nbsp;'}</div>
-   <div class="cc">
-    <div class="ctl"><label>Avg years in grade</label><input id="T${ti.key}" type="number" value="${T}" min="1" max="20" step="1"></div>
-    <div class="ctl"><label>Chance of a discretionary point</label><select id="cp${ti.key}">${[0,.1,.2,.3,.4,.5,.6].map(v=>`<option value="${v}"${v===cp?' selected':''}>${Math.round(v*100)}%</option>`).join('')}</select></div>
-    <div class="ctl"><label>Entrants start at</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
-   </div>
+  html+=`<div class="col"><h2>${ti.name}</h2>
+   <details class="colset"${OPEN[ti.key]?' open':''}><summary>Assumptions for this grade</summary>
+   <div class="cc" style="margin-top:8px">
+    <div class="ctl"><label title="How long the average person spends in this grade before promotion or leaving. It sets both how far along the pay scale the comparison runs and how fast the workforce turns over onto the new structure.">Avg years in grade</label><input id="T${ti.key}" type="number" value="${T}" min="1" max="20" step="1"></div>
+    <div class="ctl"><label title="Once someone reaches the top normal point of the grade, the chance in any year that they are awarded a discretionary (contribution) point above the ceiling. Exeter's observed occupancy is roughly 37% at F, 13% at G and 10% at H.">Chance of a discretionary point</label><select id="cp${ti.key}">${[0,.1,.2,.3,.4,.5,.6].map(v=>`<option value="${v}"${v===cp?' selected':''}>${Math.round(v*100)}%</option>`).join('')}</select></div>
+    <div class="ctl"><label title="Where a new entrant is appointed within the grade. Applied to Exeter and the comparator alike, so it tests the assumption rather than tilting the comparison. Starting people higher up narrows the gap and lowers the saving.">Entrants start at</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
+   </div></details>
    <div class="chartlab">${ocOn()?'Cost to the University of one entrant (pay + on-costs)':'Pay for one entrant'}, by year in grade &mdash; recruited or promoted in</div>${payChart(r,T,cmp,dom)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#b45309"></span>Exeter</span><span class="lg"><span class="sw" style="background:#0891b2"></span>${cmp}</span></div>
    <div class="chartlab">Saving to the University &mdash; based on ${N.toLocaleString()} staff at this grade</div>${savChart(r,T,N,SR)}
@@ -201,9 +207,14 @@ function draw(){
    </table></div>`;
  });
  $('cols').innerHTML=html;
- $('basisnote').innerHTML=ocOn()
-  ? 'Showing <b>total cost to the University</b> \u2014 salary plus employer NI, pension and levy (about +28%). Exeter\u2019s grade F starts at <b>SP34, a salary of \u00a343,482</b>, which costs \u00a355,777 all-in. Switch <i>Cost basis</i> to \u201cSalary only\u201d for headline salaries.'
-  : 'Showing <b>salary only</b> \u2014 no employer NI, pension or levy. Exeter\u2019s grade F starts at <b>SP34, \u00a343,482</b>.';
+ $('loc').title=ocOn()
+  ? 'Showing TOTAL COST TO THE UNIVERSITY \u2014 salary plus employer NI, pension and the apprenticeship levy (about +28%). Exeter\u2019s grade F starts at SP34, a salary of \u00a343,482, which costs \u00a355,777 all-in. Switch to \u201cSalary only\u201d for headline salaries.'
+  : 'Showing SALARY ONLY \u2014 no employer NI, pension or levy. Exeter\u2019s grade F starts at SP34, \u00a343,482. Switch to \u201c+ employer on-costs\u201d for what the post actually costs the University (about +28%).';
+ const staffTip='Exeter\u2019s 2023 spine distribution gives F 1,518 \u00b7 G 964 \u00b7 H 307, but those totals include grant-funded research staff, '+
+  'whose pay comes from funders rather than from Exeter \u2014 a lower structure would save the grant, not the University. The defaults here are '+
+  'discounted using HESA research-only shares (F \u221250%, G \u221210%, H unchanged) so the headline reads as Exeter\u2019s own saving. '+
+  'Full reasoning and its limits are in \u201cWhat this assumes\u201d at the foot of the page. Overwrite the fields to test any population.';
+ ['lnF','lnG','lnH'].forEach(id=>$(id).title=staffTip);
  const kpi=(k,v,s,cls,t)=>`<div class="kpi ${cls||''}"${t?` title="${t}"`:''}><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
  $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once entrants have worked through','hero','Sum of the three grades\u2019 run-rate savings: staff in grade \u00d7 average pay gap, added up.')
   +kpi('\u2248 extra posts it could fund',(totPosts>=10?Math.round(totPosts):totPosts.toFixed(1))+' posts','people employed for the full period, at comparator pay rates','hero','PEOPLE, not post-years \u2014 each grade\u2019s annual saving \u00f7 the annual cost of one post at that grade on the comparator\u2019s scale, then added. Equivalently: total saved \u00f7 (annual post cost \u00d7 number of years). Assumes hiring roughly in proportion to the existing shape of the workforce.')
