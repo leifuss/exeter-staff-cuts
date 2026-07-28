@@ -54,7 +54,7 @@ and what sits above its ceiling. This is deliberately simplified; it is here to 
  <div class="ctl"><label>Savings scale</label><select id="sc">
    <option value="fix" selected>Fixed across comparators</option><option value="fit">Fit to this comparator</option></select></div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
- <div class="ctl"><label>&nbsp;</label><span class="small" style="max-width:230px">Staff numbers are Exeter&rsquo;s actual 2023 distribution across these spine points. They include <b>externally funded research fellows</b>, whose pay is met by grants rather than by the University &mdash; savings on those posts accrue to funders, not to Exeter. Overwrite these fields with grant-funded staff excluded to see the University&rsquo;s own saving.</span></div>
+ <div class="ctl"><label>&nbsp;</label><span class="small" style="max-width:230px">Staff numbers are Exeter&rsquo;s actual 2023 distribution across these spine points. They include <b>externally funded research fellows</b>, whose pay is met by grants &mdash; savings there accrue to funders, not to Exeter. HESA suggests this is a <b>grade F</b> issue mainly (see caveats). Overwrite the fields to test any population.</span></div>
 </div>
 <div class="small" id="basisnote" style="margin:-4px 0 8px"></div>
 <div class="kpis" id="tot"></div>
@@ -247,8 +247,11 @@ function draw(){
   Fellows and professional-services staff on the same grades \u2014 a grade-structure change would apply to them too. Editable above.<br>
   &bull; <b>Externally funded posts are not a saving to the University.</b> Grant-funded research fellows are included in the headline numbers
   because they sit on the same grades, but their pay is recovered from funders, so a lower structure reduces the <i>grant</i> cost, not
-  Exeter\u2019s. There is no clean split available here, so the honest treatment is to let HR substitute the University-funded headcount in the
-  fields above; the per-year and per-post figures then read as Exeter\u2019s own saving.<br>
+  Exeter\u2019s. HESA (DT025 Table 17, 2024/25, full-time academic staff) shows how far that reaches: of Exeter\u2019s 2,490 full-time academics,
+  <b>780 are research-only</b>, but they are concentrated at the bottom of the range \u2014 <b>79%</b> of staff paid \u00a329.7\u201339.1k are
+  research-only, falling to <b>53%</b> at \u00a339.1\u201352.2k, <b>10%</b> at \u00a352.2\u201369.8k and <b>2%</b> above \u00a369.8k. So the exposure sits
+  almost entirely in <b>grade F</b> (\u00a343.5\u201353.3k); grades G and H are largely unaffected. Research-only is a proxy, not a funding split, so
+  the reliable fix is for HR to substitute the University-funded headcount in the fields above.<br>
   &bull; <b>On-costs</b> add employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%).<br>
   &bull; <b>What this is not.</b> Not a claim that anyone is overpaid, and not a costed proposal \u2014 it prices one structural option so it can be
   weighed against the alternatives. Transition and recruitment effects are not modelled: paying new staff less at a given stage is a
