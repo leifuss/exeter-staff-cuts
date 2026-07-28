@@ -136,7 +136,9 @@ function draw(){
   const N=+$('n'+ti.key).value||0, T=+$('T'+ti.key).value||ti.T, cp=+$('cp'+ti.key).value, off=+$('of'+ti.key).value;
   return {ti,N,T,cp,off,r:grade(ti.t,cmp,N,T,cp,off)};});
  const allv=R.flatMap(o=>o.r.ex.concat(o.r.pe));
- const dom=[Math.min(...allv)*0.985, Math.max(...allv)*1.015];
+ // fixed, round window so the columns are directly comparable; widened only if a line would fall outside it
+ const win=ocOn()?[50000,100000]:[40000,80000];
+ const dom=[Math.min(win[0],Math.min(...allv)), Math.max(win[1],Math.max(...allv))];
  let totRun=0,totAgg=0,totT=0,totPosts=0,html='';
  R.forEach(o=>{
   const {ti,N,T,cp,off,r}=o;
