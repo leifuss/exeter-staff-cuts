@@ -31,11 +31,21 @@ summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
 .lg{display:inline-flex;align-items:center;gap:5px}.sw{width:16px;height:4px;border-radius:2px;display:inline-block}
 </style></head><body><div class="wrap">
 <h1>Where the saving comes from &mdash; grade by grade</h1>
-<p class="sub">One grade at a time. For each of Exeter&rsquo;s three main academic grades, this shows what a <b>newly appointed</b>
-member of staff is paid in each year they spend in that grade, at <b>Exeter</b> and at a <b>comparator university</b> &mdash; and what the
-difference is worth once new appointments have worked through. Every assumption is editable. All universities sit on the
-<b>same national pay spine</b>, so a given spine point pays the same everywhere: only the <i>structure</i> differs &mdash; where the grade
-starts, how many increments it has, and what sits above its ceiling.</p>
+<p class="sub">One grade at a time. All universities sit on the <b>same national pay spine</b>, so a given spine point pays the
+same salary everywhere. Only the <b>structure</b> differs &mdash; which point a grade starts on, how many increments it contains,
+and what sits above its ceiling. This is deliberately simplified; it is here to make two principles concrete.</p>
+<div class="answer">
+ <b>1. Exeter&rsquo;s structure is expensive &mdash; and it is mostly about where each grade <i>starts</i>.</b>
+ Exeter&rsquo;s Lecturer grade begins at <b>spine point 34 (&pound;43,482)</b>, the joint-highest in the Russell Group; most
+ comparators begin between SP27 and SP32. The same pattern repeats at Senior Lecturer and Associate Professor. Because Exeter&rsquo;s
+ grades are also <b>short</b> (Lecturer has just 3 normal increments), staff reach the ceiling quickly and sit there. The columns
+ below show that gap opening on day one and what it is worth across the workforce.
+ <div style="margin-top:9px"><b>2. Nothing here re-bases anyone. The change bites only at the <i>transition between grades</i>.</b>
+ No current member of staff moves down a point and nobody&rsquo;s pay is cut. A different structure applies only when someone
+ <b>enters a grade</b> &mdash; whether recruited from outside or <b>promoted in from the grade below</b>. Everyone already in post
+ keeps their salary and their increments. That is why the saving <b>builds gradually</b>, at roughly the rate staff move through
+ the grades, rather than arriving in year one.</div>
+</div>
 <div class="controls" id="topctl">
  <div class="ctl"><label>Compare Exeter with</label><select id="cmp"></select></div>
  <div class="ctl"><label>Staff in grade F</label><input id="nF" type="number" value="1518" min="0" step="10"></div>
@@ -153,9 +163,9 @@ function draw(){
    <div class="cc">
     <div class="ctl"><label>Avg years in grade</label><input id="T${ti.key}" type="number" value="${T}" min="1" max="20" step="1"></div>
     <div class="ctl"><label>Chance of a discretionary point</label><select id="cp${ti.key}">${[0,.1,.2,.3,.4,.5,.6].map(v=>`<option value="${v}"${v===cp?' selected':''}>${Math.round(v*100)}%</option>`).join('')}</select></div>
-    <div class="ctl"><label>New appointees start</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
+    <div class="ctl"><label>Entrants start at</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
    </div>
-   <div class="chartlab">${ocOn()?'Cost to the University of one new appointee (pay + on-costs)':'Pay for one new appointee'}, by year in grade</div>${payChart(r,T,cmp,dom)}
+   <div class="chartlab">${ocOn()?'Cost to the University of one entrant (pay + on-costs)':'Pay for one entrant'}, by year in grade &mdash; recruited or promoted in</div>${payChart(r,T,cmp,dom)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#b45309"></span>Exeter</span><span class="lg"><span class="sw" style="background:#0891b2"></span>${cmp}</span></div>
    <div class="chartlab">Saving to the University &mdash; based on ${N.toLocaleString()} staff at this grade</div>${savChart(r,T,N)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#15803d;opacity:.8"></span>gap &times; ${N.toLocaleString()} staff (left)</span><span class="lg"><span class="sw" style="background:#14532d"></span>cumulative (right)</span></div>
@@ -168,8 +178,8 @@ function draw(){
     <tr${TT('People, not post-years \u2014 the division by years is already done. Two routes to the same figure: (a) '+m(r.run)+'/yr \u00f7 '+gbp(cmpAvg)+' per post per year = '+(posts>=10?Math.round(posts):posts.toFixed(1))+'; (b) '+m(r.byYearCum[T-1])+' saved over '+T+' years \u00f7 ('+gbp(cmpAvg)+' \u00d7 '+T+' years) = the same. Costed at '+cmp+'\u2019s pay rates.')}><td class="h">&#8776; extra posts, each for the full ${T} yrs</td><td>${posts>=10?Math.round(posts):posts.toFixed(1)}</td></tr>
     <tr${TT('The chart above: the year-1 gap of '+gbp(r.diff[0])+' \u00d7 '+N.toLocaleString()+' staff. Largest in year 1 because the entry-point gap is widest; it narrows as the two scales converge.')}><td class="h">Year-1 gap &times; ${N.toLocaleString()} staff</td><td>${m(r.byYear[0])}/yr</td></tr>
     <tr${TT('The cumulative line on the chart. Assumes ALL '+N.toLocaleString()+' staff sit on the new structure from the start \u2014 i.e. existing staff re-based, not just new hires. An upper reading.')}><td class="h">Cumulative if <i>all</i> staff re-based</td><td>${m(r.byYearCum[T-1])}</td></tr>
-    <tr${TT('New appointees only: '+N.toLocaleString()+'\u00f7'+T+' hired each year, so the saving ramps up as staff turn over. The realistic near-term figure and the site\u2019s standing position (nobody is re-based).')}><td class="h">Average per year, new hires only</td><td>${m(r.avg)}/yr</td></tr>
-    <tr${TT('New appointees only, accumulated over the '+T+'-year phase-in. Lower than the all-staff figure because savings build gradually.')}><td class="h">Cumulative, new hires only</td><td>${m(r.agg)}</td></tr>
+    <tr${TT('Only those entering the grade \u2014 recruited or promoted in: '+N.toLocaleString()+'\u00f7'+T+' each year, so the saving ramps up as staff turn over. The realistic near-term figure and the site\u2019s standing position (nobody is re-based).')}><td class="h">Average per year, entrants only</td><td>${m(r.avg)}/yr</td></tr>
+    <tr${TT('Entrants only (recruited or promoted in), accumulated over the '+T+'-year phase-in. Lower than the all-staff figure because savings build gradually.')}><td class="h">Cumulative, entrants only</td><td>${m(r.agg)}</td></tr>
    </table></div>`;
  });
  $('cols').innerHTML=html;
@@ -177,7 +187,7 @@ function draw(){
   ? 'Showing <b>total cost to the University</b> \u2014 salary plus employer NI, pension and levy (about +28%). Exeter\u2019s grade F starts at <b>SP34, a salary of \u00a343,482</b>, which costs \u00a355,777 all-in. Switch <i>Cost basis</i> to \u201cSalary only\u201d for headline salaries.'
   : 'Showing <b>salary only</b> \u2014 no employer NI, pension or levy. Exeter\u2019s grade F starts at <b>SP34, \u00a343,482</b>.';
  const kpi=(k,v,s,cls,t)=>`<div class="kpi ${cls||''}"${t?` title="${t}"`:''}><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
- $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once new appointments have worked through','hero','Sum of the three grades\u2019 run-rate savings: staff in grade \u00d7 average pay gap, added up.')
+ $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once entrants have worked through','hero','Sum of the three grades\u2019 run-rate savings: staff in grade \u00d7 average pay gap, added up.')
   +kpi('\u2248 extra posts it could fund',(totPosts>=10?Math.round(totPosts):totPosts.toFixed(1))+' posts','people employed for the full period, at comparator pay rates','hero','PEOPLE, not post-years \u2014 each grade\u2019s annual saving \u00f7 the annual cost of one post at that grade on the comparator\u2019s scale, then added. Equivalently: total saved \u00f7 (annual post cost \u00d7 number of years). Assumes hiring roughly in proportion to the existing shape of the workforce.')
   +kpi('Cumulative over the phase-in',m(totAgg),'total cash difference while it beds in','','Sum across the three grades of the cash accumulated over each grade\u2019s phase-in period.')
   +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure','','Total cumulative saving divided by the length of the phase-in \u2014 lower than the run-rate because savings build as staff turn over.')
@@ -187,17 +197,15 @@ function draw(){
  $('cav').innerHTML=`&bull; <b>What is being compared.</b> Every university here is on the <b>same national pay spine</b> \u2014 a given spine point pays
   the same salary everywhere. What differs is the <b>structure</b>: which spine point the grade starts on, how many normal increments it contains,
   and what contribution points sit above the ceiling. Exeter&rsquo;s Lecturer grade starts at <b>spine point 34</b>; most comparators start lower.<br>
-  &bull; <b>Who this applies to.</b> The saving is modelled on <b>new appointees only</b> \u2014 nobody currently in post is re-based, and no one takes
-  a pay cut. That is why the saving <b>ramps up</b>: it builds as new appointments replace leavers, reaching the full run-rate after about one
-  turnover cycle (the average time in grade). It is <b>not</b> cash available this year.<br>
+  &bull; <b>Who this applies to.</b> Only people <b>entering a grade</b> \u2014 recruited externally <i>or promoted in from the grade below</i>. Nobody currently in post is re-based and no one takes a pay cut, so the saving <b>builds gradually</b> at the rate staff move through the grades, reaching the full run-rate after about one turnover cycle (the average time in grade). Counting promotions as well as external hires is why that cycle is shorter than recruitment alone would suggest. It is <b>not</b> cash available this year.<br>
   &bull; <b>Two readings of the same gap \u2014 don\u2019t mix them up.</b> The <b>chart</b> shows the pay gap in each year of the grade
   multiplied by <b>every member of staff at that grade</b>, so it answers &lsquo;what would the structure be worth if the whole grade
   sat on it?&rsquo; It is largest in year 1 (the entry-point gap is widest) and <b>tapers as the two scales converge</b>. That is an
   <b>upper reading</b>: it assumes existing staff are re-based. The <b>run-rate and phase-in figures</b> in the table below assume
-  <b>new appointees only</b> \u2014 nobody re-based, savings building as staff turn over \u2014 which is this site\u2019s standing
+  <b>entrants only</b> (recruited or promoted in) \u2014 nobody re-based, savings building as staff move through the grades \u2014 which is this site\u2019s standing
   position and the more defensible one. Both are in the table, labelled.<br>
   &bull; <b>The biggest single uncertainty \u2014 where new appointees actually enter the grade.</b> The model assumes appointment at
-  the <b>bottom</b> of the grade unless you change the &lsquo;new appointees start&rsquo; control. That matters enormously, because
+  the <b>bottom</b> of the grade unless you change the &lsquo;entrants start at&rsquo; control. That matters enormously, because
   Exeter&rsquo;s Lecturer grade has only <b>3 normal points</b> (SP34\u201336) while several comparators have 7\u201311
   (Nottingham SP27\u201337, Warwick SP27\u201336, Manchester SP29\u201336, Southampton SP28\u201335). Exeter&rsquo;s entry salary of
   \u00a343,482 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
