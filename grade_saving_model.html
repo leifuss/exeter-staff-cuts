@@ -23,7 +23,7 @@ h1{font-size:21px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 
 .chartlab{font-size:11.5px;font-weight:600;color:#374151;margin:9px 0 2px}
 svg{display:block;max-width:100%;height:auto}
 table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:7px}
-td{border-top:1px solid var(--line);padding:4px 2px}td:last-child{text-align:right;font-weight:600}
+td{border-top:1px solid var(--line);padding:4px 2px}td.h{border-bottom:1px dotted #c9c9c4;cursor:help}tr[title]:hover{background:#faf9f6}td:last-child{text-align:right;font-weight:600}
 tr.big td{font-size:13.5px;color:var(--save)}
 details{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}
 summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
@@ -41,7 +41,7 @@ starts, how many increments it has, and what sits above its ceiling.</p>
  <div class="ctl"><label>Staff in grade F</label><input id="nF" type="number" value="1518" min="0" step="10"></div>
  <div class="ctl"><label>Staff in grade G</label><input id="nG" type="number" value="964" min="0" step="10"></div>
  <div class="ctl"><label>Staff in grade H</label><input id="nH" type="number" value="307" min="0" step="10"></div>
- <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ employer on-costs</option></select></div>
+ <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
  <div class="ctl"><label>&nbsp;</label><span class="small" style="max-width:230px">Staff numbers are Exeter&rsquo;s actual 2023 distribution across these spine points. Overwrite them to test any population.</span></div>
 </div>
 <div class="kpis" id="tot"></div>
@@ -75,27 +75,29 @@ function grade(tier,cmp,N,T,cp,off){
  return {ex,pe,diff,sav,run,agg:cum,avg:cum/T,entry:diff[0],meanGap:diff.reduce((a,b)=>a+b,0)/T};
 }
 function stepPath(v,x,y){let d='';v.forEach((s,i)=>{const x0=x(i),x1=x(i+1);d+=(i?` L ${x0} ${y(s)}`:`M ${x0} ${y(s)}`)+` L ${x1} ${y(s)}`;});return d;}
-function payChart(r,T,cmp){
- const W=330,H=170,L=44,R=8,Tp=10,B=24;
- const lo=Math.min(...r.pe,...r.ex)*0.985, hi=Math.max(...r.ex,...r.pe)*1.015;
+function payChart(r,T,cmp,dom){
+ const W=330,H=170,L=48,R=8,Tp=10,B=24;
+ const lo=dom?dom[0]:Math.min(...r.pe,...r.ex)*0.985, hi=dom?dom[1]:Math.max(...r.ex,...r.pe)*1.015;
  const x=i=>L+i/T*(W-L-R), y=v=>Tp+(1-(v-lo)/(hi-lo))*(H-Tp-B);
  let s=`<svg viewBox="0 0 ${W} ${H}">`;
  for(let k=0;k<=3;k++){const v=lo+(hi-lo)*k/3;s+=`<line x1="${L}" y1="${y(v)}" x2="${W-R}" y2="${y(v)}" stroke="#eee"/><text x="${L-5}" y="${y(v)+3.5}" text-anchor="end" font-size="9" fill="#9ca3af">${gbp(v)}</text>`;}
  s+=`<path d="${stepPath(r.pe,x,y)}" fill="none" stroke="#0891b2" stroke-width="2.4"/>`;
  s+=`<path d="${stepPath(r.ex,x,y)}" fill="none" stroke="#b45309" stroke-width="2.8"/>`;
+ s+=`<text x="${x(0)+3}" y="${y(r.ex[0])-5}" font-size="9" font-weight="600" fill="#b45309">${gbp(r.ex[0])}</text>`;
+ s+=`<text x="${x(0)+3}" y="${y(r.pe[0])+11}" font-size="9" font-weight="600" fill="#0891b2">${gbp(r.pe[0])}</text>`;
  for(let i=0;i<T;i++)if(T<=9||i%2===0)s+=`<text x="${(x(i)+x(i+1))/2}" y="${H-B+13}" text-anchor="middle" font-size="9" fill="#9ca3af">${i+1}</text>`;
  s+=`<text x="${(L+W-R)/2}" y="${H-2}" text-anchor="middle" font-size="9.5" fill="#6b7280">year in grade</text>`;
  return s+`</svg>`;
 }
 function savChart(r,T){
- const W=330,H=150,L=52,R=8,Tp=12,B=24;
- const vals=r.sav.concat([r.run,0]);
- let hi=Math.max(...vals), lo=Math.min(...vals);
- const pad=(hi-lo)*0.12||1; hi+=pad; lo-=pad; if(lo>0)lo=0; if(hi<0)hi=0;
+ const W=330,H=150,L=52,R=8,Tp=14,B=24;
+ const vals=r.sav.concat([r.run]);
+ let hi=Math.max(0,...vals), lo=Math.min(0,...vals);      // axis always anchored at zero
+ hi=hi>0?hi*1.16:0; lo=lo<0?lo*1.16:0; if(hi===lo)hi=1;
  const x=i=>L+i/T*(W-L-R), y=v=>Tp+(1-(v-lo)/(hi-lo))*(H-Tp-B), bw=(W-L-R)/T-3;
  let s=`<svg viewBox="0 0 ${W} ${H}">`;
  for(let k=0;k<=2;k++){const v=lo+(hi-lo)*k/2;s+=`<line x1="${L}" y1="${y(v)}" x2="${W-R}" y2="${y(v)}" stroke="#eee"/><text x="${L-5}" y="${y(v)+3.5}" text-anchor="end" font-size="9" fill="#9ca3af">${m(v)}</text>`;}
- s+=`<line x1="${L}" y1="${y(0)}" x2="${W-R}" y2="${y(0)}" stroke="#ccc"/>`;
+ s+=`<line x1="${L}" y1="${y(0)}" x2="${W-R}" y2="${y(0)}" stroke="#bbb"/>`;
  r.sav.forEach((v,i)=>{const y0=y(0),y1=y(v);
   s+=`<rect x="${x(i)+1.5}" y="${Math.min(y0,y1)}" width="${bw}" height="${Math.max(1,Math.abs(y1-y0))}" rx="1.5" fill="${v<0?'#b91c1c':'#15803d'}" opacity="0.82"/>`;});
  s+=`<line x1="${L}" y1="${y(r.run)}" x2="${W-R}" y2="${y(r.run)}" stroke="${r.run<0?'#b91c1c':'#15803d'}" stroke-width="1.3" stroke-dasharray="4 3"/>`;
@@ -105,44 +107,56 @@ function savChart(r,T){
  return s+`</svg>`;
 }
 function runFor(cmp){let tot=0;
- TIERS.forEach(ti=>{const N=+$('n'+ti.key).value||0,T=+($('T'+ti.key)||{value:ti.T}).value||ti.T,cp=+($('cp'+ti.key)||{value:ti.cp}).value;
-  tot+=grade(ti.t,cmp,N,T,cp,+($('of'+ti.key)||{value:0}).value).run;});
+ TIERS.forEach(ti=>{const N=+$('n'+ti.key).value||0,
+  T=+($('T'+ti.key)||{value:ti.T}).value||ti.T,
+  cp=+($('cp'+ti.key)||{value:ti.cp}).value,
+  off=+($('of'+ti.key)||{value:0}).value;
+  tot+=grade(ti.t,cmp,N,T,cp,off).run;});
  return tot;}
 function medianRun(){const v=Object.keys(D.g).filter(u=>u!=='Exeter').map(runFor).sort((a,b)=>a-b);
  return v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2;}
 function draw(){
  const cmp=$('cmp').value;
- let totRun=0,totAgg=0,totT=0,html='';
- TIERS.forEach(ti=>{
+ // pass 1: compute every grade first, so the pay charts can share one y-axis (fix 2)
+ const R=TIERS.map(ti=>{
   const N=+$('n'+ti.key).value||0, T=+$('T'+ti.key).value||ti.T, cp=+$('cp'+ti.key).value, off=+$('of'+ti.key).value;
-  const r=grade(ti.t,cmp,N,T,cp,off);
+  return {ti,N,T,cp,off,r:grade(ti.t,cmp,N,T,cp,off)};});
+ const allv=R.flatMap(o=>o.r.ex.concat(o.r.pe));
+ const dom=[Math.min(...allv)*0.985, Math.max(...allv)*1.015];
+ let totRun=0,totAgg=0,totT=0,totPosts=0,html='';
+ R.forEach(o=>{
+  const {ti,N,T,cp,off,r}=o;
   totRun+=r.run; totAgg+=r.agg; totT=Math.max(totT,T);
+  const cmpAvg=r.pe.reduce((a,b)=>a+b,0)/T;          // avg cost of one post on the comparator scale (fix 5)
+  const posts=cmpAvg>0?r.run/cmpAvg:0; totPosts+=posts;
+  const TT=(t)=>` title="${t}"`;
   html+=`<div class="col"><h2>${ti.name}</h2><div class="gsub">${ti.sub||'&nbsp;'}</div>
    <div class="cc">
     <div class="ctl"><label>Avg years in grade</label><input id="T${ti.key}" type="number" value="${T}" min="1" max="20" step="1"></div>
     <div class="ctl"><label>Chance of a discretionary point</label><select id="cp${ti.key}">${[0,.1,.2,.3,.4,.5,.6].map(v=>`<option value="${v}"${v===cp?' selected':''}>${Math.round(v*100)}%</option>`).join('')}</select></div>
     <div class="ctl"><label>New appointees start</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
    </div>
-   <div class="chartlab">Pay for one new appointee, by year in grade</div>${payChart(r,T,cmp)}
+   <div class="chartlab">Pay for one new appointee, by year in grade</div>${payChart(r,T,cmp,dom)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#b45309"></span>Exeter</span><span class="lg"><span class="sw" style="background:#0891b2"></span>${cmp}</span></div>
    <div class="chartlab">Saving to the University, by year after the change</div>${savChart(r,T)}
    <table>
-    <tr><td>Year-1 salary &mdash; Exeter</td><td>${gbp(r.ex[0])}</td></tr>
-    <tr><td>Year-1 salary &mdash; ${cmp} (grade ${D.g[cmp][ti.t].lab})</td><td>${gbp(r.pe[0])}</td></tr>
-    <tr><td>Gap on day one</td><td>${gbp(r.entry)}</td></tr>
-    <tr><td>Average gap per person per year</td><td>${gbp(r.meanGap)}</td></tr>
-    <tr><td>${N.toLocaleString()} staff in grade &times; that gap</td><td>${m(r.run)}</td></tr>
-    <tr class="big"><td><b>Full run-rate saving</b> (after ${T} yrs)</td><td>${m(r.run)}/yr</td></tr>
-    <tr><td>Average per year over the ${T} yrs</td><td>${m(r.avg)}/yr</td></tr>
-    <tr><td>Cumulative over the ${T} yrs</td><td>${m(r.agg)}</td></tr>
+    <tr${TT('Exeter\'s salary in the first year of the grade, at the chosen entry point and cost basis.')}><td class="h">Year-1 salary &mdash; Exeter</td><td>${gbp(r.ex[0])}</td></tr>
+    <tr${TT(cmp+'\'s salary in the first year of its equivalent grade ('+D.g[cmp][ti.t].lab+'), same entry point and cost basis.')}><td class="h">Year-1 &mdash; ${cmp} (grade ${D.g[cmp][ti.t].lab})</td><td>${gbp(r.pe[0])}</td></tr>
+    <tr${TT('Exeter year-1 salary minus '+cmp+' year-1 salary. This is the entry-point effect on its own.')}><td class="h">Gap on day one</td><td>${gbp(r.entry)}</td></tr>
+    <tr${TT('Average of the year-by-year gaps over all '+T+' years in grade. Captures entry point, grade length and the contribution-point tail together.')}><td class="h">Average gap per person per year</td><td>${gbp(r.meanGap)}</td></tr>
+    <tr class="big"${TT(N.toLocaleString()+' staff \u00d7 the average gap of '+gbp(r.meanGap)+'. The recurring annual saving once every post in the grade has turned over onto the new structure.')}><td class="h"><b>Full run-rate saving</b> (after ${T} yrs)</td><td>${m(r.run)}/yr</td></tr>
+    <tr${TT('Run-rate saving \u00f7 the average cost of one post on '+cmp+'\'s scale ('+gbp(cmpAvg)+'). What the saving could fund at this grade.')}><td class="h">&#8776; extra posts it could fund</td><td>${posts>=10?Math.round(posts):posts.toFixed(1)}</td></tr>
+    <tr${TT('Savings ramp up as new appointments replace leavers: '+N.toLocaleString()+'\u00f7'+T+' hired each year. This is the mean over the '+T+'-year phase-in, i.e. the realistic near-term figure.')}><td class="h">Average per year over the ${T} yrs</td><td>${m(r.avg)}/yr</td></tr>
+    <tr${TT('Total cash difference accumulated across the whole '+T+'-year phase-in.')}><td class="h">Cumulative over the ${T} yrs</td><td>${m(r.agg)}</td></tr>
    </table></div>`;
  });
  $('cols').innerHTML=html;
- const kpi=(k,v,s,cls)=>`<div class="kpi ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
- $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once new appointments have worked through','hero')
-  +kpi('Cumulative over the phase-in',m(totAgg),'total cash difference while it beds in')
-  +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure')
-  +kpi('vs the median structure',m(medianRun())+'/yr','middle of all 13 comparators \u2014 the benchmark used across the site');
+ const kpi=(k,v,s,cls,t)=>`<div class="kpi ${cls||''}"${t?` title="${t}"`:''}><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+ $('tot').innerHTML=kpi('Full run-rate saving',m(totRun)+'/yr','all three grades, once new appointments have worked through','hero','Sum of the three grades\u2019 run-rate savings: staff in grade \u00d7 average pay gap, added up.')
+  +kpi('\u2248 extra posts it could fund',(totPosts>=10?Math.round(totPosts):totPosts.toFixed(1))+' posts','across all three grades, at comparator pay rates','hero','Each grade\u2019s saving divided by the average cost of a post at that grade on the comparator\u2019s scale, then added. Assumes hiring roughly in proportion to the existing shape of the workforce.')
+  +kpi('Cumulative over the phase-in',m(totAgg),'total cash difference while it beds in','','Sum across the three grades of the cash accumulated over each grade\u2019s phase-in period.')
+  +kpi('Average per year, phase-in',m(totAgg/totT)+'/yr','the realistic near-term figure','','Total cumulative saving divided by the length of the phase-in \u2014 lower than the run-rate because savings build as staff turn over.')
+  +kpi('vs the median structure',m(medianRun())+'/yr','middle of all 13 comparators \u2014 the benchmark used across the site','','The same run-rate calculation run against every one of the 13 comparators; this is the middle value.');
  ['cmp','oc','nF','nG','nH'].forEach(id=>{const e=$(id);if(e&&!e.dataset.b){e.dataset.b=1;e.addEventListener('change',draw);e.addEventListener('input',draw);}});
  TIERS.forEach(ti=>['T'+ti.key,'cp'+ti.key,'of'+ti.key].forEach(id=>{const e=$(id);if(e){e.addEventListener('change',draw);e.addEventListener('input',draw);}}));
  $('cav').innerHTML=`&bull; <b>What is being compared.</b> Every university here is on the <b>same national pay spine</b> \u2014 a given spine point pays
