@@ -181,8 +181,10 @@ function draw(){
   return {ti,N,T,cp,off,r:grade(ti.t,cmp,N,T,cp,off)};});
  const SR=savRange(R,$('sc').value==='fix',cmp);      // shared savings axis for all three columns
  const allv=R.flatMap(o=>o.r.ex.concat(o.r.pe));
- // fixed, round window so the columns are directly comparable; widened only if a line would fall outside it
- const win=ocOn()?[50000,100000]:[40000,80000];
+ // Fixed, round window so the columns are directly comparable and the Exeter line never appears
+ // to move when you switch comparator. The floor sits below the cheapest entry point anywhere in
+ // the data (Nottingham grade F, £35,608 / £45,540 all-in), so it never moves and never clips.
+ const win=ocOn()?[45000,100000]:[35000,80000];
  const dom=[Math.min(win[0],Math.min(...allv)), Math.max(win[1],Math.max(...allv))];
  // draw() rebuilds the columns from scratch, so remember which assumption panes were open
  document.querySelectorAll('.col details.colset').forEach((d,i)=>OPEN[TIERS[i].key]=d.open);
