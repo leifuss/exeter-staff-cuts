@@ -122,9 +122,12 @@ const PRESET={Nottingham:{F:[27,11,2],G:[36,9,4],H:[45,8,4]},Warwick:{F:[27,7,0]
  Sheffield:{F:[30,8,3],G:[38,7,4],H:[46,5,5]},Leeds:{F:[32,7,2],G:[40,6,3],H:[46,7,4]}};
 
 const BK=['F','G','H','P1','P2'];
+// role nouns, so a posts count reads as the kind of post the money would actually buy
+const ROLE={F:'lecturers',G:'senior lecturers',H:'associate professors',P1:'Band 1 professors',P2:'Band 2 professors'};
 const P0=27,P1=71;                                    // spine range drawn (SP27 lets Nottingham-style floors be modelled)
 const $=id=>document.getElementById(id);
 const gbp=n=>'£'+Math.round(n).toLocaleString();
+const pn=v=>{const a=Math.abs(v);return (v<0?'\u2212':'')+(a>=10?Math.round(a).toLocaleString():a.toFixed(1));};
 const m=n=>{const a=Math.abs(n);const sg=n<0?'−':'';return sg+'£'+(a>=1e6?(a/1e6).toFixed(2)+'m':a>=1000?Math.round(a/1000)+'k':Math.round(a));};
 // ONE salary accessor: Exeter's local overrides (incl. the sub-ceiling SP48) shadow the national spine.
 function sal(p){const e=D.ext[p]; return e!=null?e:D.nat[p];}
@@ -190,7 +193,7 @@ function remap(entry,q,curL){
 
 function cost(st,rule){
  const rC=roster({bands:D.cur},rule), rM=roster(st,rule);
- const byBand={};let cur=0,neu=0,fte=0,entrySav=0,entryFte=0;
+ const byBand={};let cur=0,neu=0,fte=0,posts=0,entrySav=0,entryFte=0;
  BK.forEach(b=>{
   const dc=dcFor(b), cl=curPts(b).n.length, qM=pts(st,b);
   let c=0,n=0,ft=0;
@@ -201,9 +204,10 @@ function cost(st,rule){
    // exact decomposition: how much of the saving comes from staff sitting on a band FLOOR (idx 0),
    // i.e. the people the years-in-band proxy calls year-zero entrants. SP34 alone holds 622 FTE.
    if(e.idx===0){entrySav+=w*(a-z); entryFte+=w;}});
-  byBand[b]={fte:ft,cur:c,neu:n,sav:c-n,meanCur:ft?c/ft:0,meanNeu:ft?n/ft:0};
-  cur+=c;neu+=n;fte+=ft;});
- return {byBand,cur,neu,sav:cur-neu,fte,entrySav,entryFte,orphan:rM.orphan,rawFte:rC.fte};}
+  const mn=ft?n/ft:0;
+  byBand[b]={fte:ft,cur:c,neu:n,sav:c-n,meanCur:ft?c/ft:0,meanNeu:mn,posts:mn?(c-n)/mn:0};
+  cur+=c;neu+=n;fte+=ft;posts+=byBand[b].posts;});
+ return {byBand,cur,neu,sav:cur-neu,fte,posts,entrySav,entryFte,orphan:rM.orphan,rawFte:rC.fte};}
 
 function validate(st){
  const w=[],rule=st.ov;
@@ -293,13 +297,14 @@ function render(light){
  const kpi=(k,v,s,cls,t)=>'<div class="kpi '+(cls||'')+'"'+(t?' title="'+t+'"':'')+'><div class="k">'+k+'</div><div class="v'+(v.indexOf('−')===0?' neg':'')+'">'+v+'</div><div class="s">'+s+'</div></div>';
  const p3=(+$('p3f').value||0)*((+$('p3a').value||0)-(+$('p3b').value||0));
  const p3oc=ocOn()?p3*1.2895:p3;
+ const p3mean=(+$('p3b').value||0)*(ocOn()?1.2895:1), p3p=p3mean?p3oc/p3mean:0;
  $('p3out').textContent=m(p3oc); $('p3out').style.color=p3>=0?'var(--save)':'var(--cost)';
- const posts=C.neu>0? C.sav/(C.neu/C.fte) : 0;
+ const posts=C.posts;   // summed from the per-band counts, so the hero equals the table's total row
  $('tot').innerHTML=
    kpi('Saving on the spine',m(C.sav)+'/yr',(C.sav>=0?'':'this would cost more — ')+(hi-lo>1000?'±'+m((hi-lo)/2)+' across overlap rules':'steady state, all staff'),'hero',
      'Exeter’s actual bill for these staff minus what the same staff would cost on the structure you have built, holding each person’s years-in-band fixed. A STEADY STATE: the long-run ceiling once the whole workforce sits on the new structure, not cash next year.')
-  +kpi('≈ posts it could fund',(Math.abs(posts)>=10?Math.round(posts):posts.toFixed(1))+' posts','at the modelled average cost','hero',
-     'The saving divided by the modelled average cost of one post. An equivalence for scale, NOT predicted job retention.')
+  +kpi('≈ posts it could fund',pn(posts)+' posts','summed from each grade below','hero',
+     'Each band’s saving divided by what one post at THAT band costs on the structure you have built, then added up — so it assumes recruitment in the shape of where the saving arose, rather than at a workforce-average cost. The band-by-band table shows the split by role. An equivalence for scale, NOT predicted job retention: a saving does not save a named post.')
   +kpi('Modelled bill',m(C.neu)+'/yr',C.fte.toFixed(0)+' FTE on the new structure','',
      'What today’s staff would cost on the structure you have built, on the '+(ocOn()?'total-cost':'salary-only')+' basis'+($('dc').value==='1'?', after the grant-funded discount.':'.'))
   +kpi('of which, from floor staff',m(C.entrySav)+'/yr',(C.sav?Math.round(100*C.entrySav/C.sav):0)+'% of it, from '+C.entryFte.toFixed(0)+' FTE','',
@@ -337,16 +342,20 @@ function render(light){
   const x=S.bands[el.dataset.b];push();x[el.dataset.k]=Math.max(0,+el.value||0);
   if(x.nN+x.nC<1)x.nN=1; if(x.floor<P0)x.floor=P0; render();}));
  // band table
- let tb='<table><tr><th>Band</th><th>FTE</th><th>Current mean</th><th>Modelled mean</th><th>Change</th><th>Saving / yr</th></tr>';
+ const pc=v=>'<td style="color:'+(v>=0?'#15803d':'#b91c1c')+'">'+pn(v)+'</td>';
+ let tb='<table><tr><th>Band</th><th>FTE</th><th>Current mean</th><th>Modelled mean</th><th>Change</th><th>Saving / yr</th>'
+  +'<th>&#8776; posts it could fund <span style="text-transform:none;font-weight:400">(at this grade&rsquo;s new cost)</span></th></tr>';
  BK.forEach(b=>{const r=C.byBand[b];
   tb+='<tr><td>'+D.cur[b].lab+'</td><td>'+r.fte.toFixed(1)+'</td><td>'+gbp(r.meanCur)+'</td><td>'+gbp(r.meanNeu)+'</td>'
    +'<td style="color:'+(r.meanNeu<=r.meanCur?'#15803d':'#b91c1c')+'">'+(r.meanCur?((r.meanNeu-r.meanCur)/r.meanCur*100).toFixed(1):'0')+'%</td>'
-   +'<td style="color:'+(r.sav>=0?'#15803d':'#b91c1c')+'">'+m(r.sav)+'</td></tr>';});
+   +'<td style="color:'+(r.sav>=0?'#15803d':'#b91c1c')+'">'+m(r.sav)+'</td>'
+   +'<td style="color:'+(r.posts>=0?'#15803d':'#b91c1c')+'">'+pn(r.posts)+' <span style="color:#9ca3af;font-weight:400">'+ROLE[b]+'</span></td></tr>';});
  tb+='<tr class="tot"><td>All five bands</td><td>'+C.fte.toFixed(1)+'</td><td>'+gbp(C.fte?C.cur/C.fte:0)+'</td><td>'+gbp(C.fte?C.neu/C.fte:0)+'</td>'
-  +'<td>'+(C.cur?((C.neu-C.cur)/C.cur*100).toFixed(1):'0')+'%</td><td style="color:'+(C.sav>=0?'#15803d':'#b91c1c')+'">'+m(C.sav)+'</td></tr>';
+  +'<td>'+(C.cur?((C.neu-C.cur)/C.cur*100).toFixed(1):'0')+'%</td><td style="color:'+(C.sav>=0?'#15803d':'#b91c1c')+'">'+m(C.sav)+'</td>'+pc(C.posts)+'</tr>';
  tb+='<tr><td>Professorial Band 3 <span style="color:#9ca3af">(your input)</span></td><td>'+(+$('p3f').value||0)+'</td><td>'+gbp(+$('p3a').value||0)+'</td><td>'+gbp(+$('p3b').value||0)+'</td><td></td>'
-  +'<td style="color:'+(p3>=0?'#15803d':'#b91c1c')+'">'+m(p3oc)+'</td></tr>';
- tb+='<tr class="tot"><td>Including Band 3</td><td colspan="4"></td><td style="color:'+((C.sav+p3oc)>=0?'#15803d':'#b91c1c')+'">'+m(C.sav+p3oc)+'</td></tr></table>';
+  +'<td style="color:'+(p3>=0?'#15803d':'#b91c1c')+'">'+m(p3oc)+'</td>'
+  +'<td style="color:'+(p3>=0?'#15803d':'#b91c1c')+'">'+pn(p3p)+' <span style="color:#9ca3af;font-weight:400">Band 3 professors</span></td></tr>';
+ tb+='<tr class="tot"><td>Including Band 3</td><td colspan="4"></td><td style="color:'+((C.sav+p3oc)>=0?'#15803d':'#b91c1c')+'">'+m(C.sav+p3oc)+'</td>'+pc(C.posts+p3p)+'</tr></table>';
  $('tbl').innerHTML=tb;
  const el=$('spine'); if(el)el.outerHTML=drawSpine().replace('<svg ','<svg id="spine" '); attach();
  $('loc').title=ocOn()?'Showing TOTAL COST TO THE UNIVERSITY — salary plus employer NI, pension and levy (about +28%). Note the baseline tie-out is quoted on the salary-only basis.'
@@ -393,6 +402,7 @@ function readHash(){const h=location.hash.slice(1); if(!h)return false;
   '<b>622 FTE, about a fifth of the whole workforce</b>. The model treats all of them as year-zero entrants, so lowering grade F&rsquo;s floor '+
   're-bases every one of them at once. That is why the headline strip reports how much of the saving comes from <b>band floors alone</b>: '+
   'if that share is large, the answer is resting on this one assumption. Sanity-check it before quoting the total.<br>'+
+  '&bull; <b>Posts it could fund.</b> Each band&rsquo;s saving divided by what one post at <b>that band</b> costs on the structure you have built, so the count is in the currency of the grade the money came from &mdash; lecturers for grade F, senior lecturers for grade G, and so on. The headline is the sum of those, which assumes recruitment in the shape of where the saving arose rather than at a workforce-average cost. It is an <b>equivalence for scale, not predicted job retention</b>: a structural saving does not save a named post, and a band that costs <i>more</i> under your structure shows a negative count.<br>'+
   '&bull; <b>Overlaps.</b> Exeter&rsquo;s bands overlap, so SP40–41, 48–49, 54–56, 58–60 and 69–71 are each claimed twice. '+
   'The allocation rule changes which band those staff re-map through; shares always sum to 1, so the baseline is unaffected. The headline '+
   'carries the <b>swing across all four rules</b> rather than hiding it in a dropdown.<br>'+
