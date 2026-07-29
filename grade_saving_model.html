@@ -88,9 +88,9 @@ function entryPt(u,t,off){const n=D.g[u][t].n;return n[Math.min(off||0,n.length-
 function rawSal(u,t,off){return sal(u,entryPt(u,t,off));}
 function ocOn(){return $('oc').value==='1';}
 function oc(v){return $('oc').value==='1' ? v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v : v;}
-function grade(tier,cmp,N,T,cp,off){
+function grade(tier,cmp,N,T,cp,offEx,offCm){
  const ex=[],pe=[],diff=[];
- for(let y=1;y<=T;y++){const a=oc(yearSal('Exeter',tier,y,cp,off)), b=oc(yearSal(cmp,tier,y,cp,off));
+ for(let y=1;y<=T;y++){const a=oc(yearSal('Exeter',tier,y,cp,offEx)), b=oc(yearSal(cmp,tier,y,cp,offCm));
    ex.push(a); pe.push(b); diff.push(a-b);}
  const perYr=N/T;
  const byYear=diff.map(d=>d*N), byYearCum=[]; let c2=0;
@@ -148,17 +148,17 @@ function savChart(r,T,N,fx){
 // comparator on screen is genuinely dearer than Exeter somewhere (so nothing is clipped).
 function savRange(rows,acrossComparators,cmp){let mx=0,mn=0;
  const unis=acrossComparators?Object.keys(D.g).filter(u=>u!=='Exeter'):[cmp];
- unis.forEach(u=>rows.forEach(o=>{const g=grade(o.ti.t,u,o.N,o.T,o.cp,o.off);
+ unis.forEach(u=>rows.forEach(o=>{const g=grade(o.ti.t,u,o.N,o.T,o.cp,o.offEx,o.offCm);
   mx=Math.max(mx,...g.byYearCum,...g.byYear);}));
- rows.forEach(o=>{const g=grade(o.ti.t,cmp,o.N,o.T,o.cp,o.off);
+ rows.forEach(o=>{const g=grade(o.ti.t,cmp,o.N,o.T,o.cp,o.offEx,o.offCm);
   mn=Math.min(mn,...g.byYearCum,...g.byYear);});
  return [mn,mx];}
 function runFor(cmp){let tot=0;
  TIERS.forEach(ti=>{const N=+$('n'+ti.key).value||0,
   T=+($('T'+ti.key)||{value:ti.T}).value||ti.T,
   cp=+($('cp'+ti.key)||{value:ti.cp}).value,
-  off=+($('of'+ti.key)||{value:0}).value;
-  tot+=grade(ti.t,cmp,N,T,cp,off).run;});
+  offEx=+($('ox'+ti.key)||{value:0}).value, offCm=+($('of'+ti.key)||{value:0}).value;
+  tot+=grade(ti.t,cmp,N,T,cp,offEx,offCm).run;});
  return tot;}
 // Order the comparator list by what each structure would actually save, biggest first,
 // and show the figure alongside — so the dropdown itself ranks the options.
@@ -177,8 +177,9 @@ function draw(){
  const cmp=$('cmp').value;
  // pass 1: compute every grade first, so the pay charts can share one y-axis (fix 2)
  const R=TIERS.map(ti=>{
-  const N=+$('n'+ti.key).value||0, T=+$('T'+ti.key).value||ti.T, cp=+$('cp'+ti.key).value, off=+$('of'+ti.key).value;
-  return {ti,N,T,cp,off,r:grade(ti.t,cmp,N,T,cp,off)};});
+  const N=+$('n'+ti.key).value||0, T=+$('T'+ti.key).value||ti.T, cp=+$('cp'+ti.key).value,
+   offEx=+$('ox'+ti.key).value, offCm=+$('of'+ti.key).value;
+  return {ti,N,T,cp,offEx,offCm,r:grade(ti.t,cmp,N,T,cp,offEx,offCm)};});
  const SR=savRange(R,$('sc').value==='fix',cmp);      // shared savings axis for all three columns
  const allv=R.flatMap(o=>o.r.ex.concat(o.r.pe));
  // Fixed, round window so the columns are directly comparable and the Exeter line never appears
@@ -190,7 +191,7 @@ function draw(){
  document.querySelectorAll('.col details.colset').forEach((d,i)=>OPEN[TIERS[i].key]=d.open);
  let totRun=0,totAgg=0,totT=0,totPosts=0,html='';
  R.forEach(o=>{
-  const {ti,N,T,cp,off,r}=o;
+  const {ti,N,T,cp,offEx,offCm,r}=o;
   totRun+=r.run; totAgg+=r.agg; totT=Math.max(totT,T);
   const cmpAvg=r.pe.reduce((a,b)=>a+b,0)/T;          // avg cost of one post on the comparator scale (fix 5)
   const posts=cmpAvg>0?r.run/cmpAvg:0; totPosts+=posts;
@@ -200,16 +201,17 @@ function draw(){
    <div class="cc" style="margin-top:8px">
     <div class="ctl"><label title="How long the average person spends in this grade before promotion or leaving. It sets both how far along the pay scale the comparison runs and how fast the workforce turns over onto the new structure.">Avg years in grade</label><input id="T${ti.key}" type="number" value="${T}" min="1" max="20" step="1"></div>
     <div class="ctl"><label title="Once someone reaches the top normal point of the grade, the chance in any year that they are awarded a discretionary (contribution) point above the ceiling. Exeter's observed occupancy is roughly 37% at F, 13% at G and 10% at H.">Chance of a discretionary point</label><select id="cp${ti.key}">${[0,.1,.2,.3,.4,.5,.6].map(v=>`<option value="${v}"${v===cp?' selected':''}>${Math.round(v*100)}%</option>`).join('')}</select></div>
-    <div class="ctl"><label title="Where a new entrant is appointed within the grade. Applied to Exeter and the comparator alike, so it tests the assumption rather than tilting the comparison. Starting people higher up narrows the gap and lowers the saving.">Entrants start at</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===off?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
+    <div class="ctl"><label title="Where a new Exeter appointee starts within the grade. Exeter's grades are short (Lecturer has only 3 normal points), so there is little room to appoint above the floor.">Exeter entrants start at</label><select id="ox${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===offEx?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
+    <div class="ctl"><label title="Where the comparator appoints within its own grade. This is the single biggest uncertainty on the page: several peers have long grades (Nottingham 11 normal points, Warwick 10) and if they appoint part-way up rather than at the floor, the gap narrows sharply. Set independently of Exeter so you can test each side on its own.">${cmp} entrants start at</label><select id="of${ti.key}">${[0,1,2,3,4].map(v=>`<option value="${v}"${v===offCm?' selected':''}>${v?'+'+v+' point'+(v>1?'s':'')+' up':'at grade floor'}</option>`).join('')}</select></div>
    </div></details>
    <div class="chartlab">${ocOn()?'Cost to the University of one entrant (pay + on-costs)':'Pay for one entrant'}, by year in grade &mdash; recruited or promoted in</div>${payChart(r,T,cmp,dom)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#b45309"></span>Exeter</span><span class="lg"><span class="sw" style="background:#0891b2"></span>${cmp}</span></div>
    <div class="chartlab">Saving to the University &mdash; based on ${N.toLocaleString()} staff at this grade</div>${savChart(r,T,N,SR)}
    <div class="lgnd"><span class="lg"><span class="sw" style="background:#15803d;opacity:.8"></span>gap &times; ${N.toLocaleString()} staff, that year</span><span class="lg"><span class="sw" style="background:#14532d"></span>cumulative</span><span class="lg" style="color:#9ca3af">${$('sc').value==='fix'?'same scale across all grades &amp; comparators':'same scale across grades, fitted to this comparator'}</span></div>
    <table>
-    <tr${TT('Exeter grade '+D.g.Exeter[ti.t].lab+', spine point '+entryPt('Exeter',ti.t,off)+'. Salary '+gbp(rawSal('Exeter',ti.t,off))+(ocOn()?'; '+gbp(r.ex[0])+' including employer on-costs.':'.'))}><td class="h">Year-1 ${W1} &mdash; Exeter (SP${entryPt('Exeter',ti.t,off)})</td><td>${gbp(r.ex[0])}</td></tr>
-    <tr${TT(cmp+' grade '+D.g[cmp][ti.t].lab+', spine point '+entryPt(cmp,ti.t,off)+'. Salary '+gbp(rawSal(cmp,ti.t,off))+(ocOn()?'; '+gbp(r.pe[0])+' including employer on-costs.':'.'))}><td class="h">Year-1 ${W1} &mdash; ${cmp} (SP${entryPt(cmp,ti.t,off)})</td><td>${gbp(r.pe[0])}</td></tr>
-    <tr${TT('Exeter year-1 figure minus '+cmp+'\u2019s. On salary alone the gap is '+gbp(rawSal('Exeter',ti.t,off)-rawSal(cmp,ti.t,off))+'. This is the entry-point effect on its own.')}><td class="h">Gap on day one</td><td>${gbp(r.entry)}</td></tr>
+    <tr${TT('Exeter grade '+D.g.Exeter[ti.t].lab+', spine point '+entryPt('Exeter',ti.t,offEx)+'. Salary '+gbp(rawSal('Exeter',ti.t,offEx))+(ocOn()?'; '+gbp(r.ex[0])+' including employer on-costs.':'.'))}><td class="h">Year-1 ${W1} &mdash; Exeter (SP${entryPt('Exeter',ti.t,offEx)})</td><td>${gbp(r.ex[0])}</td></tr>
+    <tr${TT(cmp+' grade '+D.g[cmp][ti.t].lab+', spine point '+entryPt(cmp,ti.t,offCm)+'. Salary '+gbp(rawSal(cmp,ti.t,offCm))+(ocOn()?'; '+gbp(r.pe[0])+' including employer on-costs.':'.'))}><td class="h">Year-1 ${W1} &mdash; ${cmp} (SP${entryPt(cmp,ti.t,offCm)})</td><td>${gbp(r.pe[0])}</td></tr>
+    <tr${TT('Exeter year-1 figure minus '+cmp+'\u2019s. On salary alone the gap is '+gbp(rawSal('Exeter',ti.t,offEx)-rawSal(cmp,ti.t,offCm))+'. This is the entry-point effect on its own.')}><td class="h">Gap on day one</td><td>${gbp(r.entry)}</td></tr>
     <tr${TT('Average of the year-by-year gaps over all '+T+' years in grade, on the '+(ocOn()?'total-cost':'salary-only')+' basis. Captures entry point, grade length and the contribution-point tail together.')}><td class="h">Average gap per person per year</td><td>${gbp(r.meanGap)}</td></tr>
     <tr class="big"${TT(N.toLocaleString()+' staff \u00d7 the average gap of '+gbp(r.meanGap)+'. The recurring annual saving once every post in the grade has turned over onto the new structure.')}><td class="h"><b>Full run-rate saving</b> (after ${T} yrs)</td><td>${m(r.run)}/yr</td></tr>
     <tr${TT('People, not post-years \u2014 the division by years is already done. Two routes to the same figure: (a) '+m(r.run)+'/yr \u00f7 '+gbp(cmpAvg)+' per post per year = '+(posts>=10?Math.round(posts):posts.toFixed(1))+'; (b) '+m(r.byYearCum[T-1])+' saved over '+T+' years \u00f7 ('+gbp(cmpAvg)+' \u00d7 '+T+' years) = the same. Costed at '+cmp+'\u2019s pay rates.')}><td class="h">&#8776; extra posts at this grade, each for the full ${T} yrs</td><td>${posts>=10?Math.round(posts):posts.toFixed(1)}</td></tr>
@@ -243,7 +245,7 @@ function draw(){
   'grades), which leaves out the professional-services and part-time staff sitting on the very same grades. Their <b>structural '+
   'comparison and ranking are unaffected</b>, but their <b>totals are roughly half</b> those here. Each carries a note saying so.';
  ['cmp','oc','sc','nF','nG','nH'].forEach(id=>{const e=$(id);if(e&&!e.dataset.b){e.dataset.b=1;e.addEventListener('change',draw);e.addEventListener('input',draw);}});
- TIERS.forEach(ti=>['T'+ti.key,'cp'+ti.key,'of'+ti.key].forEach(id=>{const e=$(id);if(e){e.addEventListener('change',draw);e.addEventListener('input',draw);}}));
+ TIERS.forEach(ti=>['T'+ti.key,'cp'+ti.key,'of'+ti.key,'ox'+ti.key].forEach(id=>{const e=$(id);if(e){e.addEventListener('change',draw);e.addEventListener('input',draw);}}));
  $('cav').innerHTML=`&bull; <b>What is being compared.</b> Every university here is on the <b>same national pay spine</b> \u2014 a given spine point pays
   the same salary everywhere. What differs is the <b>structure</b>: which spine point the grade starts on, how many normal increments it contains,
   and what contribution points sit above the ceiling. Exeter&rsquo;s Lecturer grade starts at <b>spine point 34</b>; most comparators start lower.<br>
@@ -256,13 +258,15 @@ function draw(){
   building as staff move through the grades. That is this site\u2019s standing position and the more defensible one, which is why the
   all-staff readings were removed from the table.<br>
   &bull; <b>The biggest single uncertainty \u2014 where new appointees actually enter the grade.</b> The model assumes appointment at
-  the <b>bottom</b> of the grade unless you change the &lsquo;entrants start at&rsquo; control. That matters enormously, because
+  the <b>bottom</b> of each grade unless you change the &lsquo;entrants start at&rsquo; controls, which are set <b>separately for
+  Exeter and the comparator</b> so each side can be tested on its own. That matters enormously, because
   Exeter&rsquo;s Lecturer grade has only <b>3 normal points</b> (SP34\u201336) while several comparators have 7\u201311
   (Nottingham SP27\u201337, Warwick SP27\u201336, Manchester SP29\u201336, Southampton SP28\u201335). Exeter&rsquo;s entry salary of
   \u00a343,482 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
   Manchester&rsquo;s. If those universities in practice appoint lecturers part-way up a long grade rather than at its floor \u2014
-  which is normal \u2014 the gap narrows sharply. On the median comparator the saving moves from <b>\u00a37.7m</b> (floor) to <b>\u00a36.2m</b> (+1) to
-  <b>\u00a34.7m</b> (+2 points) to <b>\u00a32.1m</b> (+4 points), salary-only. <b>Treat the floor-start figure as an upper bound</b> and settle
+  which is normal \u2014 the gap narrows sharply. Moving <b>only the comparator</b> up its grade, with Exeter left at its floor, the median saving falls from <b>\u00a37.7m</b> to
+  <b>\u00a34.7m</b> (+1), <b>\u00a32.2m</b> (+2) and to roughly <b>zero at +3</b>, salary-only \u2014 so this assumption alone can account for the
+  entire headline. Moving Exeter up instead <i>raises</i> the saving (its grades are short, so there is little room to do so). <b>Treat the floor-start figure as an upper bound</b> and settle
   the real appointment practice before relying on any single number.<br>
   &bull; <b>Validation is one-sided.</b> This model reproduces <b>Exeter&rsquo;s</b> actual mean salary per grade to within 1.3%,
   checked against Exeter&rsquo;s own 2023 spine distribution. There is <b>no equivalent check on the comparators</b> \u2014 we do not
@@ -297,7 +301,7 @@ function draw(){
  // seed per-column controls by rendering once with defaults
  window.__seed=true; 
  const c=document.createElement('div'); c.style.display='none'; document.body.appendChild(c);
- c.innerHTML=TIERS.map(ti=>`<input id="T${ti.key}" value="${ti.T}"><select id="cp${ti.key}"><option value="${ti.cp}" selected>x</option></select><select id="of${ti.key}"><option value="0" selected>x</option></select>`).join('');
+ c.innerHTML=TIERS.map(ti=>`<input id="T${ti.key}" value="${ti.T}"><select id="cp${ti.key}"><option value="${ti.cp}" selected>x</option></select><select id="of${ti.key}"><option value="0" selected>x</option></select><select id="ox${ti.key}"><option value="0" selected>x</option></select>`).join('');
  draw();
  c.remove();
  // open on the comparator closest to the median structure (the site's principal benchmark)
