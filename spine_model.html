@@ -1,0 +1,416 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modelling — redesign Exeter's own pay spine</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--exeter:#b45309;--save:#15803d;--cost:#b91c1c;
+ --t1:#0891b2;--t2:#0e7490;--t3:#155e75;--t4:#b45309;--t5:#92400e;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 18px 70px}
+h1{font-size:21px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 12px;max-width:940px;font-size:14px}
+.answer{background:#fff;border:1px solid var(--line);border-left:5px solid var(--exeter);border-radius:9px;padding:12px 15px;margin:0 0 12px;font-size:14px}
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:12px;align-items:flex-start}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:11.5px;color:var(--mut);font-weight:600}
+.ctl select,.ctl input,.ctl button{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.ctl input{width:96px}.ctl button{cursor:pointer;font-weight:600}
+.ctl button:hover{border-color:var(--exeter);color:var(--exeter)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi.hero{border-color:#f0d8b0;background:#fffdf8}
+.kpi .k{font-size:11px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.kpi .v{font-size:25px;font-weight:700;margin-top:2px;color:var(--save)}
+.kpi .v.neg{color:var(--cost)}
+.kpi .s{font-size:11.5px;color:#9ca3af;margin-top:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:12px;overflow-x:auto}
+svg{display:block;max-width:100%;height:auto;touch-action:none}
+.bandctl{display:grid;grid-template-columns:190px repeat(3,auto) 1fr;gap:7px 12px;align-items:center;font-size:12.5px}
+.bandctl .bl{font-weight:600}
+.bandctl input{width:62px;font:inherit;font-size:12.5px;padding:3px 6px;border:1px solid var(--line);border-radius:6px;text-align:right}
+.bandctl .hd{font-size:10.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.bandctl .rng{color:var(--mut);font-size:11.5px}
+table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:4px}
+td,th{border-top:1px solid var(--line);padding:4px 3px;text-align:right}
+th{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.02em;border-top:0;font-weight:600}
+td:first-child,th:first-child{text-align:left}
+td.h{border-bottom:1px dotted #c9c9c4;cursor:help}
+tr.tot td{font-weight:700;border-top:2px solid #c9c9c4}
+.warn{background:#fff4ed;border:1px solid #f0b98a;border-left:5px solid #c2410c;border-radius:9px;padding:10px 14px;margin:0 0 12px;font-size:13px}
+.warn b{color:#c2410c}
+.ok{background:#f1faf6;border:1px solid #cfe9df;border-left:5px solid var(--save);border-radius:9px;padding:9px 14px;margin:0 0 12px;font-size:12.5px}
+details{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+.lgnd{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-top:5px}
+.lg{display:inline-flex;align-items:center;gap:5px}.sw{width:16px;height:10px;border-radius:2px;display:inline-block}
+.kpi[title]{cursor:help}
+.kpi[title] .k::after,td.h::after,.ctl label[title]::after,summary[title]::after,.bandctl .hd[title]::after{content:"\00a0\24D8";color:#9ca3af;font-weight:400;font-size:11.5px}
+.ctl label[title],summary[title],.bandctl .hd[title]{cursor:help}
+</style></head><body><div class="wrap">
+<h1>Modelling &mdash; redesign Exeter&rsquo;s own pay spine</h1>
+<p class="sub">Every other tab asks how Exeter compares with <i>another</i> university. This one asks the next question:
+<b>what should Exeter&rsquo;s spine look like instead?</b> Move the bands, and see what today&rsquo;s workforce would cost.
+Figures and labels marked &#9432; carry a hover explainer.</p>
+
+<div class="answer">
+ <b>What this does.</b> It takes Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine &mdash; every spine point
+ from SP34 to SP71, 3,160 FTE &mdash; and re-prices it on whatever structure you build. The starting point reproduces Exeter&rsquo;s
+ actual pay bill <b>to the pound</b>, with no modelling assumptions at all, so the baseline is not in dispute.
+ <div style="margin-top:8px"><b>What it is not.</b> This is a <b>steady state</b>: what today&rsquo;s workforce would cost if it had
+ <i>always</i> been on the structure you build. It is therefore a <b>long-run ceiling</b>, not achievable savings, and it is not a
+ transition plan &mdash; nobody&rsquo;s pay can lawfully be cut, so a real change would bite only on new entrants and promotions
+ (see the <b>Where the saving comes from</b> and <b>Transition</b> tabs). Read the assumptions at the foot before quoting anything.</div>
+</div>
+
+<div class="controls">
+ <div class="ctl"><label id="lov">Overlapping points count towards</label><select id="ov">
+  <option value="normal" selected>the band where it&rsquo;s a normal point</option>
+  <option value="lower">the lower band</option><option value="upper">the upper band</option>
+  <option value="split">split evenly</option></select></div>
+ <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0" selected>Salary only</option><option value="1">+ employer on-costs</option></select></div>
+ <div class="ctl"><label id="ldc">Grant-funded posts</label><select id="dc"><option value="0" selected>Count all staff (gross)</option><option value="1">Discount F &minus;50%, G &minus;10%</option></select></div>
+ <div class="ctl"><label>Start from</label><select id="preset"></select></div>
+ <div class="ctl"><label>&nbsp;</label><button id="reset">Reset to current</button></div>
+ <div class="ctl"><label>&nbsp;</label><button id="undo">Undo</button></div>
+</div>
+
+<div id="warnbox"></div>
+<div class="kpis" id="tot" style="margin-bottom:12px"></div>
+<div class="ok" id="tieout"></div>
+
+<div class="card">
+ <div style="font-size:12.5px;font-weight:600;color:#374151;margin-bottom:2px">Exeter&rsquo;s bands on the national spine &mdash; drag an edge, or use the steppers below</div>
+ <div id="spinewrap"><svg id="spine"></svg></div>
+ <div class="lgnd">
+  <span class="lg"><span class="sw" style="background:var(--t1)"></span>normal increment</span>
+  <span class="lg"><span class="sw" style="background:var(--t1);opacity:.3;border:1px dashed var(--t1)"></span>discretionary / contribution point</span>
+  <span class="lg"><span class="sw" style="background:none;border:1.5px dashed #6b7280"></span>Exeter&rsquo;s current structure</span>
+  <span class="lg"><span class="sw" style="background:#c9c9c4"></span>staff actually at each point (2023 FTE)</span>
+ </div>
+</div>
+
+<div class="card">
+ <div class="bandctl" id="bandctl"></div>
+</div>
+
+<div class="card">
+ <div style="font-size:12.5px;font-weight:600;color:#374151;margin-bottom:4px">Band by band</div>
+ <div id="tbl"></div>
+</div>
+
+<div class="card" style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
+ <div style="flex:1;min-width:260px">
+  <div style="font-size:12.5px;font-weight:600;color:#374151">Professorial Band 3 &mdash; spot salaries</div>
+  <p class="small" style="margin:3px 0 0">Band 3 has <b>no published increments</b> and the scale is open-ended above &pound;129,211,
+  so it cannot be modelled as spine points. The 2024/25 accounts show <b>57.5 FTE between &pound;130k and &pound;155k</b>, and those
+  staff are <i>not</i> in the spine distribution above. Both figures here are <b>your inputs, not evidence</b>, and they sit outside
+  the exact baseline.</p>
+ </div>
+ <div class="ctl"><label>Band 3 FTE</label><input id="p3f" type="number" value="57.5" min="0" step="0.5"></div>
+ <div class="ctl"><label>Current average</label><input id="p3a" type="number" value="140000" min="0" step="1000"></div>
+ <div class="ctl"><label>Modelled average</label><input id="p3b" type="number" value="140000" min="0" step="1000"></div>
+ <div class="ctl"><label>Band 3 saving</label><div id="p3out" style="font-size:19px;font-weight:700;color:var(--save);padding-top:3px">&pound;0</div></div>
+</div>
+
+<details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
+</div>
+<script>
+const D={nat:{"27":35608,"28":36636,"29":37694,"30":38784,"31":39906,"32":41064,"33":42254,"34":43482,"35":44746,"36":46049,"37":47389,"38":48822,"39":50253,"40":51753,"41":53301,"42":54893,"43":56535,"44":58225,"45":59966,"46":61759,"47":63606,"48":65509,"49":67468,"50":69488,"51":71566,"52":73710,"53":75917,"54":78179,"55":80529,"56":82935,"57":85424,"58":87986},
+ ext:{"48":65827,"52":73710,"53":75917,"54":78189,"55":80529,"56":82935,"59":90628,"60":93346,"61":96146,"62":99031,"63":102000,"64":105062,"65":108214,"66":111459,"67":114801,"68":118248,"69":121795,"70":125448,"71":129211},
+ dist:{"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},
+ cur:{"F":{"floor":34,"nN":3,"nC":5,"lab":"F — Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G — Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H — Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5}}};
+// Comparator lower-grade structures (F/G/H equivalents), for the "start from" presets.
+const PRESET={Nottingham:{F:[27,11,2],G:[36,9,4],H:[45,8,4]},Warwick:{F:[27,7,0],G:[37,7,0],H:[44,7,0]},
+ Southampton:{F:[28,8,5],G:[36,9,5],H:[45,9,0]},Manchester:{F:[29,8,3],G:[37,8,3],H:[45,7,3]},
+ Sheffield:{F:[30,8,3],G:[38,7,4],H:[46,5,5]},Leeds:{F:[32,7,2],G:[40,6,3],H:[46,7,4]}};
+
+const BK=['F','G','H','P1','P2'];
+const P0=27,P1=71;                                    // spine range drawn (SP27 lets Nottingham-style floors be modelled)
+const $=id=>document.getElementById(id);
+const gbp=n=>'£'+Math.round(n).toLocaleString();
+const m=n=>{const a=Math.abs(n);const sg=n<0?'−':'';return sg+'£'+(a>=1e6?(a/1e6).toFixed(2)+'m':a>=1000?Math.round(a/1000)+'k':Math.round(a));};
+// ONE salary accessor: Exeter's local overrides (incl. the sub-ceiling SP48) shadow the national spine.
+function sal(p){const e=D.ext[p]; return e!=null?e:D.nat[p];}
+function ocOn(){return $('oc').value==='1';}
+function oc(v){return ocOn()? v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v : v;}
+// Grant-funded discount, matching the "Where the saving comes from" tab so the two can be reconciled.
+function dcFor(b){return ($('dc').value==='1') ? (b==='F'?0.5:b==='G'?0.9:1) : 1;}
+
+let S=null, HIST=[];
+function fresh(){const o={bands:{},ov:'normal'};BK.forEach(b=>o.bands[b]={floor:D.cur[b].floor,nN:D.cur[b].nN,nC:D.cur[b].nC});return o;}
+function pts(st,b){const x=st.bands[b],n=[],c=[];
+ for(let i=0;i<x.nN;i++){const p=x.floor+i; if(p<=P1)n.push(p);}
+ for(let i=0;i<x.nC;i++){const p=x.floor+x.nN+i; if(p<=P1)c.push(p);}
+ return {n,c};}
+function curPts(b){return pts({bands:D.cur},b);}
+
+// Which bands claim each spine point, and with what weight. Shares always sum to 1 for a claimed
+// point, under every rule, so the baseline bill is identical however overlaps are allocated.
+function shares(st,rule){
+ const claim={};
+ BK.forEach(b=>{const q=pts(st,b);q.n.forEach(p=>{(claim[p]=claim[p]||[]).push({b,kind:'n'});});
+                             q.c.forEach(p=>{(claim[p]=claim[p]||[]).push({b,kind:'c'});});});
+ const out={};
+ for(const p in claim){const cs=claim[p];out[p]={};
+  let pick=cs;
+  if(cs.length>1&&rule!=='split'){
+   if(rule==='normal'){const nm=cs.filter(c=>c.kind==='n'); if(nm.length)pick=nm;}
+   else if(rule==='lower')pick=[cs[0]];
+   else if(rule==='upper')pick=[cs[cs.length-1]];
+   if(pick.length>1&&rule==='normal')pick=[pick[0]];   // still tied (two normals) -> lower band
+  }
+  pick.forEach(c=>out[p][c.b]=(out[p][c.b]||0)+1/pick.length);}
+ return out;}
+
+// Per band, the ordered roster of positions: normal points ascending, then discretionary ascending.
+// idx doubles as the years-in-band proxy (see caveats).
+function roster(st,rule){
+ const sh=shares(st,rule),out={},orphan=[];let tot=0;
+ BK.forEach(b=>out[b]=[]);
+ BK.forEach(b=>{const q=pts(st,b);
+  [...q.n.map(p=>[p,'n']),...q.c.map(p=>[p,'c'])].forEach(([p,kind],i)=>{
+   const w=(sh[p]&&sh[p][b])||0, fte=(D.dist[p]||0)*w;
+   out[b].push({p,kind,idx:i,fte});});});
+ // any populated point no band claims would silently vanish -> reassign to the nearest claiming band
+ for(const p in D.dist){ if(!sh[p]){
+  let best=null,bd=1e9;
+  BK.forEach(b=>{const q=pts(st,b);[...q.n,...q.c].forEach(x=>{const d=Math.abs(x-p);if(d<bd){bd=d;best=b;}});});
+  if(best){const q=pts(st,best),all=[...q.n,...q.c];
+   let bi=0,bb=1e9;all.forEach((x,i)=>{const d=Math.abs(x-p);if(d<bb){bb=d;bi=i;}});
+   out[best].push({p:+p,kind:'orphan',idx:bi,fte:D.dist[p]});}
+  orphan.push({p:+p,fte:D.dist[p],to:best});}}
+ BK.forEach(b=>out[b].forEach(e=>tot+=e.fte));
+ return {byBand:out,orphan,fte:tot};}
+
+// THE core mapping. Someone with `idx` years in the band keeps that tenure and re-counts increments
+// from the new floor. Holders of a discretionary point take the corresponding new one.
+function remap(entry,q,curL){
+ const NL=q.n.length;
+ if(!NL) return q.c.length? q.c[Math.min(entry.idx,q.c.length-1)] : null;
+ if(entry.idx<curL) return q.n[Math.min(entry.idx,NL-1)];
+ const d=entry.idx-curL;
+ return q.c.length? q.c[Math.min(d,q.c.length-1)] : q.n[NL-1];}
+
+function cost(st,rule){
+ const rC=roster({bands:D.cur},rule), rM=roster(st,rule);
+ const byBand={};let cur=0,neu=0,fte=0,entrySav=0,entryFte=0;
+ BK.forEach(b=>{
+  const dc=dcFor(b), cl=curPts(b).n.length, qM=pts(st,b);
+  let c=0,n=0,ft=0;
+  rC.byBand[b].forEach(e=>{
+   const w=e.fte*dc; ft+=w;
+   const a=oc(sal(e.p)); c+=w*a;
+   const pm=remap(e,qM,cl); const z=pm!=null?oc(sal(pm)):0; n+=w*z;
+   // exact decomposition: how much of the saving comes from staff sitting on a band FLOOR (idx 0),
+   // i.e. the people the years-in-band proxy calls year-zero entrants. SP34 alone holds 622 FTE.
+   if(e.idx===0){entrySav+=w*(a-z); entryFte+=w;}});
+  byBand[b]={fte:ft,cur:c,neu:n,sav:c-n,meanCur:ft?c/ft:0,meanNeu:ft?n/ft:0};
+  cur+=c;neu+=n;fte+=ft;});
+ return {byBand,cur,neu,sav:cur-neu,fte,entrySav,entryFte,orphan:rM.orphan,rawFte:rC.fte};}
+
+function validate(st){
+ const w=[],rule=st.ov;
+ BK.forEach(b=>{const x=st.bands[b],q=pts(st,b);
+  if(!q.n.length)w.push('<b>'+D.cur[b].lab+'</b> has no normal increments — nobody can progress within it.');
+  if(x.floor+x.nN+x.nC-1>P1)w.push('<b>'+D.cur[b].lab+'</b> extends past SP'+P1+', the top of the published Exeter scale — the points beyond it are ignored.');});
+ for(let i=1;i<BK.length;i++){const a=st.bands[BK[i-1]],b=st.bands[BK[i]];
+  if(b.floor<a.floor)w.push('<b>'+D.cur[BK[i]].lab+'</b> now starts below <b>'+D.cur[BK[i-1]].lab+'</b>.');}
+ const r=roster(st,rule);
+ if(r.orphan.length){const f=r.orphan.reduce((a,o)=>a+o.fte,0);
+  w.push('<b>'+f.toFixed(1)+' FTE</b> sit on points no band now claims (SP'+r.orphan.map(o=>o.p).join(', SP')+
+   ') — reassigned to the nearest band so the saving is not overstated.');}
+ return w;}
+
+/* ---------- chart ---------- */
+function drawSpine(){
+ const Lm=118,Rm=118,Tm=46,rowH=26,gap=13,W=1160,plotW=W-Lm-Rm,cw=plotW/(P1-P0+1);
+ const hist=34, H=Tm+BK.length*(rowH+gap)+hist+30;
+ const x=p=>Lm+(p-P0)*cw;
+ const cs=getComputedStyle(document.documentElement);
+ const tc=t=>cs.getPropertyValue('--t'+t).trim()||'#0891b2';
+ let s='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
+ // spine axis
+ for(let p=P0;p<=P1;p++){const gx=x(p);
+  if(p%2===1)s+='<line x1="'+gx+'" y1="'+(Tm-14)+'" x2="'+gx+'" y2="'+(Tm+BK.length*(rowH+gap))+'" stroke="#eeeee9" stroke-width="1"/>';
+  if(p%2===1)s+='<text x="'+(gx+cw/2)+'" y="'+(Tm-18)+'" text-anchor="middle" font-size="9" fill="#b6b6b0">'+p+'</text>';}
+ [30,34,40,46,52,58,64,71].forEach(p=>{s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-4)+'" text-anchor="middle" font-size="9" fill="#9ca3af">'+(sal(p)>=1000?'£'+Math.round(sal(p)/1000)+'k':'')+'</text>';});
+ s+='<line x1="'+x(52)+'" y1="'+(Tm-14)+'" x2="'+x(52)+'" y2="'+(Tm+BK.length*(rowH+gap))+'" stroke="#d4a259" stroke-width="1.2" stroke-dasharray="4 3"/>';
+ s+='<text x="'+(x(52)+3)+'" y="'+(Tm-26)+'" font-size="9.5" fill="#b45309">national ceiling (SP52)</text>';
+ const p100=63; s+='<line x1="'+x(p100)+'" y1="'+(Tm-14)+'" x2="'+x(p100)+'" y2="'+(Tm+BK.length*(rowH+gap))+'" stroke="#e0a0a0" stroke-width="1.2" stroke-dasharray="4 3"/>';
+ s+='<text x="'+(x(p100)+3)+'" y="'+(Tm-26)+'" font-size="9.5" fill="#b91c1c">£100k</text>';
+ // staff density histogram (drawn at the bottom, so the SP34 pile is visible against the bands)
+ const dmax=Math.max(...Object.values(D.dist)), by=Tm+BK.length*(rowH+gap)+hist;
+ for(let p=P0;p<=P1;p++){const f=D.dist[p]||0; if(!f)continue; const h=Math.max(1,f/dmax*hist);
+  s+='<rect x="'+(x(p)+1)+'" y="'+(by-h)+'" width="'+(cw-2)+'" height="'+h+'" fill="#c9c9c4" data-dp="'+p+'"><title>SP'+p+' — '+f+' FTE at '+gbp(sal(p))+'</title></rect>';}
+ s+='<text x="'+(Lm-8)+'" y="'+(by-2)+'" text-anchor="end" font-size="10" fill="#9ca3af">staff (FTE)</text>';
+ s+='<text x="'+(x(34)+cw/2)+'" y="'+(by-hist-3)+'" text-anchor="middle" font-size="9" fill="#6b7280">622</text>';
+ const C=cost(S,S.ov);
+ BK.forEach((b,i)=>{const y=Tm+i*(rowH+gap),col=tc(D.cur[b].t),q=pts(S,b),cq=curPts(b);
+  s+='<text x="'+(Lm-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-size="11.5" font-weight="600" fill="#1d1d1b">'+D.cur[b].lab.replace(/ — .*/,'')+'</text>';
+  s+='<text x="'+(Lm-8)+'" y="'+(y+rowH/2+15)+'" text-anchor="end" font-size="9" fill="#9ca3af">'+D.cur[b].lab.replace(/^.*— /,'').replace('Professorial Band','Band')+'</text>';
+  // current structure: dashed hollow outline on the same row
+  if(cq.n.length||cq.c.length){const a=[...cq.n,...cq.c];
+   s+='<rect x="'+x(a[0])+'" y="'+(y-3)+'" width="'+((a[a.length-1]-a[0]+1)*cw)+'" height="'+(rowH+6)+'" rx="4" fill="none" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="4 3"/>';}
+  // modelled: normal block then discretionary block
+  if(q.n.length)s+='<rect class="hit" data-b="'+b+'" x="'+(x(q.n[0])+1)+'" y="'+y+'" width="'+((q.n[q.n.length-1]-q.n[0]+1)*cw-2)+'" height="'+rowH+'" rx="3" fill="'+col+'"/>';
+  if(q.c.length)s+='<rect class="hit" data-b="'+b+'" x="'+(x(q.c[0])+1)+'" y="'+y+'" width="'+((q.c[q.c.length-1]-q.c[0]+1)*cw-2)+'" height="'+rowH+'" rx="3" fill="'+col+'" fill-opacity="0.30" stroke="'+col+'" stroke-dasharray="2 2"/>';
+  // drag handles: floor, normal ceiling, discretionary ceiling
+  const hs=[['floor',q.n.length?q.n[0]:q.c[0],0],['nN',q.n.length?q.n[q.n.length-1]:null,1],['nC',q.c.length?q.c[q.c.length-1]:null,1]];
+  hs.forEach(([kind,p,side])=>{if(p==null)return;const hx=side?x(p)+cw:x(p);
+   s+='<rect class="grab" data-b="'+b+'" data-k="'+kind+'" x="'+(hx-5)+'" y="'+(y-2)+'" width="10" height="'+(rowH+4)+'" fill="'+col+'" fill-opacity="0" style="cursor:ew-resize"/>';
+   s+='<line x1="'+hx+'" y1="'+(y-2)+'" x2="'+hx+'" y2="'+(y+rowH+2)+'" stroke="#fff" stroke-width="1.4" opacity=".85" pointer-events="none"/>';});
+  // per-band saving at the right end of its own row
+  const sv=C.byBand[b].sav;
+  s+='<text x="'+(W-Rm+10)+'" y="'+(y+rowH/2+4)+'" font-size="11.5" font-weight="700" fill="'+(sv>=0?'#15803d':'#b91c1c')+'">'+(sv>=0?m(sv):m(sv)+' more')+'</text>';});
+ return s+'</svg>';}
+
+// Pointer handlers live on the WRAPPER, not the <svg>: render() replaces the svg node wholesale, which
+// would otherwise destroy the element holding pointer capture and kill the drag after one frame.
+let drag=null;
+function ptOf(clientX){const svg=$('spine'); if(!svg)return P0;
+ const r=svg.getBoundingClientRect(), Lm=118,Rm=118,W=1160,plotW=W-Lm-Rm,cw=plotW/(P1-P0+1);
+ const vx=(clientX-r.left)/r.width*W;                       // scale to viewBox units, not offsetX
+ return Math.max(P0,Math.min(P1,Math.round((vx-Lm)/cw)+P0));}
+function attach(){
+ const wrap=$('spinewrap'); if(!wrap||wrap.dataset.b)return; wrap.dataset.b=1;
+ wrap.addEventListener('pointerdown',e=>{const g=e.target.closest&&e.target.closest('.grab'); if(!g)return;
+  drag={b:g.dataset.b,k:g.dataset.k}; push(); e.preventDefault();});
+ window.addEventListener('pointermove',e=>{if(!drag)return;
+  const p=ptOf(e.clientX),x=S.bands[drag.b];
+  if(drag.k==='floor'){const top=x.floor+x.nN+x.nC-1; x.floor=Math.max(P0,Math.min(p,top));}
+  else if(drag.k==='nN'){x.nN=Math.max(0,Math.min(P1-x.floor+1,p-x.floor+1));}
+  else {const tot=Math.max(x.nN,Math.min(P1-x.floor+1,p-x.floor+1)); x.nC=tot-x.nN;}
+  if(x.nN+x.nC<1)x.nN=1;
+  render(true);});
+ const end=()=>{if(drag){drag=null;render();}};
+ window.addEventListener('pointerup',end); window.addEventListener('pointercancel',end);}
+
+/* ---------- render ---------- */
+function push(){HIST.push(JSON.stringify(S)); if(HIST.length>20)HIST.shift();}
+function render(light){
+ S.ov=$('ov').value;
+ const C=cost(S,S.ov);
+ // overlap-rule sensitivity: the swing across all four allocation rules
+ const alt=['normal','lower','upper','split'].map(r=>cost(S,r).sav);
+ const lo=Math.min(...alt),hi=Math.max(...alt);
+ const kpi=(k,v,s,cls,t)=>'<div class="kpi '+(cls||'')+'"'+(t?' title="'+t+'"':'')+'><div class="k">'+k+'</div><div class="v'+(v.indexOf('−')===0?' neg':'')+'">'+v+'</div><div class="s">'+s+'</div></div>';
+ const p3=(+$('p3f').value||0)*((+$('p3a').value||0)-(+$('p3b').value||0));
+ const p3oc=ocOn()?p3*1.2895:p3;
+ $('p3out').textContent=m(p3oc); $('p3out').style.color=p3>=0?'var(--save)':'var(--cost)';
+ const posts=C.neu>0? C.sav/(C.neu/C.fte) : 0;
+ $('tot').innerHTML=
+   kpi('Saving on the spine',m(C.sav)+'/yr',(C.sav>=0?'':'this would cost more — ')+(hi-lo>1000?'±'+m((hi-lo)/2)+' across overlap rules':'steady state, all staff'),'hero',
+     'Exeter’s actual bill for these staff minus what the same staff would cost on the structure you have built, holding each person’s years-in-band fixed. A STEADY STATE: the long-run ceiling once the whole workforce sits on the new structure, not cash next year.')
+  +kpi('≈ posts it could fund',(Math.abs(posts)>=10?Math.round(posts):posts.toFixed(1))+' posts','at the modelled average cost','hero',
+     'The saving divided by the modelled average cost of one post. An equivalence for scale, NOT predicted job retention.')
+  +kpi('Modelled bill',m(C.neu)+'/yr',C.fte.toFixed(0)+' FTE on the new structure','',
+     'What today’s staff would cost on the structure you have built, on the '+(ocOn()?'total-cost':'salary-only')+' basis'+($('dc').value==='1'?', after the grant-funded discount.':'.'))
+  +kpi('of which, from floor staff',m(C.entrySav)+'/yr',(C.sav?Math.round(100*C.entrySav/C.sav):0)+'% of it, from '+C.entryFte.toFixed(0)+' FTE','',
+     'Of the total saving, the part contributed by staff sitting on a band FLOOR — the people the model treats as year-zero entrants. SP34 alone holds 622 FTE, about a fifth of the workforce, so if this share is large the answer is resting on the model’s weakest assumption. An exact split of the total, not a separate scenario.')
+  +kpi('Current bill',m(C.cur)+'/yr','Exeter’s actual 2023 distribution','',
+     'Sum over every spine point of (FTE at that point × its salary). On the salary-only basis with no discount this is Exeter’s real pay bill for these staff, with no modelling assumptions at all.');
+ const w=validate(S);
+ $('warnbox').innerHTML=w.length?'<div class="warn"><b>Check these:</b><ul style="margin:5px 0 0;padding-left:19px">'+w.map(t=>'<li>'+t+'</li>').join('')+'</ul></div>':'';
+ // computed self-check, not hard-coded: fails loudly if the model breaks
+ const base=Object.keys(D.dist).reduce((a,p)=>a+D.dist[p]*sal(p),0);
+ const rawF=Object.keys(D.dist).reduce((a,p)=>a+D.dist[p],0);
+ const gross=cost({bands:D.cur,ov:S.ov},S.ov);
+ const tied=Math.abs(gross.cur-(ocOn()||$('dc').value==='1'?gross.cur:base))<1;
+ $('tieout').innerHTML='<b>Self-check.</b> Exeter&rsquo;s actual 2023 pay bill for these staff is <b>'+gbp(base)+
+  '</b> across <b>'+rawF.toFixed(1)+' FTE</b> (SP34&ndash;71, salary only). The model&rsquo;s unedited baseline reproduces '+
+  (ocOn()||$('dc').value==='1'?'this on the salary-only, no-discount basis':'<b>'+gbp(gross.cur)+'</b> — '+(tied?'an exact match':'a MISMATCH, which is a bug'))+
+  ', and all '+C.fte.toFixed(1)+' FTE are assigned to a band.';
+ if(light){const el=$('spine'); if(el)el.outerHTML=drawSpine().replace('<svg ','<svg id="spine" ');
+  $('bandctl').querySelectorAll('input').forEach(i=>{i.value=S.bands[i.dataset.b][i.dataset.k];});
+  return;}
+ // band steppers
+ let bc='<div class="hd">Band</div><div class="hd" title="The spine point a new entrant starts on. This is the single biggest lever on the total.">Starts at SP</div>'+
+  '<div class="hd" title="Normal increments — climbed one a year until the ceiling. More increments means a longer climb, so staff sit lower for longer.">Normal pts</div>'+
+  '<div class="hd" title="Discretionary or contribution points above the ceiling, reached by award rather than by time served.">Discretionary</div><div class="hd">Range</div>';
+ BK.forEach(b=>{const x=S.bands[b],q=pts(S,b),a=[...q.n,...q.c],cq=curPts(b),ca=[...cq.n,...cq.c];
+  const same=x.floor===D.cur[b].floor&&x.nN===D.cur[b].nN&&x.nC===D.cur[b].nC;
+  bc+='<div class="bl">'+D.cur[b].lab+'</div>'
+   +'<div><input type="number" data-b="'+b+'" data-k="floor" value="'+x.floor+'" min="'+P0+'" max="'+P1+'" step="1"></div>'
+   +'<div><input type="number" data-b="'+b+'" data-k="nN" value="'+x.nN+'" min="0" max="30" step="1"></div>'
+   +'<div><input type="number" data-b="'+b+'" data-k="nC" value="'+x.nC+'" min="0" max="30" step="1"></div>'
+   +'<div class="rng">'+(a.length?'SP'+a[0]+'–'+a[a.length-1]+' · '+gbp(sal(a[0]))+'–'+gbp(sal(a[a.length-1]))
+      +(same?'':' <span style="color:#9ca3af">(was SP'+ca[0]+'–'+ca[ca.length-1]+', '+gbp(sal(ca[0]))+'–'+gbp(sal(ca[ca.length-1]))+')</span>'):'—')+'</div>';});
+ $('bandctl').innerHTML=bc;
+ $('bandctl').querySelectorAll('input').forEach(el=>el.addEventListener('input',()=>{
+  const x=S.bands[el.dataset.b];push();x[el.dataset.k]=Math.max(0,+el.value||0);
+  if(x.nN+x.nC<1)x.nN=1; if(x.floor<P0)x.floor=P0; render();}));
+ // band table
+ let tb='<table><tr><th>Band</th><th>FTE</th><th>Current mean</th><th>Modelled mean</th><th>Change</th><th>Saving / yr</th></tr>';
+ BK.forEach(b=>{const r=C.byBand[b];
+  tb+='<tr><td>'+D.cur[b].lab+'</td><td>'+r.fte.toFixed(1)+'</td><td>'+gbp(r.meanCur)+'</td><td>'+gbp(r.meanNeu)+'</td>'
+   +'<td style="color:'+(r.meanNeu<=r.meanCur?'#15803d':'#b91c1c')+'">'+(r.meanCur?((r.meanNeu-r.meanCur)/r.meanCur*100).toFixed(1):'0')+'%</td>'
+   +'<td style="color:'+(r.sav>=0?'#15803d':'#b91c1c')+'">'+m(r.sav)+'</td></tr>';});
+ tb+='<tr class="tot"><td>All five bands</td><td>'+C.fte.toFixed(1)+'</td><td>'+gbp(C.fte?C.cur/C.fte:0)+'</td><td>'+gbp(C.fte?C.neu/C.fte:0)+'</td>'
+  +'<td>'+(C.cur?((C.neu-C.cur)/C.cur*100).toFixed(1):'0')+'%</td><td style="color:'+(C.sav>=0?'#15803d':'#b91c1c')+'">'+m(C.sav)+'</td></tr>';
+ tb+='<tr><td>Professorial Band 3 <span style="color:#9ca3af">(your input)</span></td><td>'+(+$('p3f').value||0)+'</td><td>'+gbp(+$('p3a').value||0)+'</td><td>'+gbp(+$('p3b').value||0)+'</td><td></td>'
+  +'<td style="color:'+(p3>=0?'#15803d':'#b91c1c')+'">'+m(p3oc)+'</td></tr>';
+ tb+='<tr class="tot"><td>Including Band 3</td><td colspan="4"></td><td style="color:'+((C.sav+p3oc)>=0?'#15803d':'#b91c1c')+'">'+m(C.sav+p3oc)+'</td></tr></table>';
+ $('tbl').innerHTML=tb;
+ const el=$('spine'); if(el)el.outerHTML=drawSpine().replace('<svg ','<svg id="spine" '); attach();
+ $('loc').title=ocOn()?'Showing TOTAL COST TO THE UNIVERSITY — salary plus employer NI, pension and levy (about +28%). Note the baseline tie-out is quoted on the salary-only basis.'
+  :'Showing SALARY ONLY — no employer NI, pension or levy. This is the basis on which the baseline reproduces Exeter’s actual pay bill exactly.';
+ $('lov').title='Bands overlap, so some spine points are claimed twice (SP40–41, 48–49, 54–56, 58–60, 69–71). This decides which band those staff count towards. Shares always sum to 1, so the BASELINE is identical under every rule — only the re-mapping differs. The headline shows the swing across all four rules.';
+ $('ldc').title='The spine distribution counts everyone on these grades, including grant-funded research staff whose pay is met by funders. Discounting F by 50% and G by 10% (HESA research-only shares) makes this page comparable with the “Where the saving comes from” tab, which applies the same discount.';
+ writeHash();}
+
+/* ---------- presets, hash, wiring ---------- */
+function writeHash(){try{location.replace('#'+BK.map(b=>b+'='+[S.bands[b].floor,S.bands[b].nN,S.bands[b].nC].join(',')).join(';')+'&ov='+S.ov);}catch(e){}}
+function readHash(){const h=location.hash.slice(1); if(!h)return false;
+ const o=fresh();let any=false;
+ h.split('&').forEach(part=>{if(part.indexOf('ov=')===0){o.ov=part.slice(3);return;}
+  part.split(';').forEach(seg=>{const[k,v]=seg.split('=');if(!v||!o.bands[k])return;
+   const[f,n,c]=v.split(',').map(Number); if([f,n,c].some(isNaN))return;
+   o.bands[k]={floor:f,nN:n,nC:c};any=true;});});
+ if(any){S=o; if($('ov'))$('ov').value=o.ov;} return any;}
+(function(){
+ $('preset').innerHTML='<option value="">Exeter as it is</option>'+Object.keys(PRESET).map(u=>'<option value="'+u+'">'+u+'&rsquo;s lower grades</option>').join('');
+ S=fresh(); readHash();
+ ['ov','oc','dc'].forEach(id=>$(id).addEventListener('change',()=>render()));
+ ['p3f','p3a','p3b'].forEach(id=>$(id).addEventListener('input',()=>render()));
+ $('reset').addEventListener('click',()=>{push();S=fresh();$('preset').value='';render();});
+ $('undo').addEventListener('click',()=>{const h=HIST.pop(); if(h){S=JSON.parse(h);$('ov').value=S.ov||'normal';render();}});
+ $('preset').addEventListener('change',()=>{const u=$('preset').value; push();
+  if(!u){S=fresh();}else{const p=PRESET[u];['F','G','H'].forEach(b=>{S.bands[b]={floor:p[b][0],nN:p[b][1],nC:p[b][2]};});}
+  render();});
+ $('cav').innerHTML=
+  '&bull; <b>What the number means.</b> What today&rsquo;s workforce <i>would cost if it had always been</i> on the structure you have built '+
+  '— a counterfactual steady state, conditional on the current spread of career stages. It is the <b>long-run ceiling</b>, reached only '+
+  'after a full turnover cycle, and it is <b>not cash available in any year</b>.<br>'+
+  '&bull; <b>It implicitly re-prices real people, which a real change could not do.</b> Nobody&rsquo;s pay can lawfully be cut, so an actual '+
+  'restructure bites only on new entrants and on staff promoted into a grade. For that (much smaller, much more defensible) figure, use the '+
+  '<b>Where the saving comes from</b> tab; for how it phases in, the <b>Transition</b> tab. Deleting a discretionary point that people '+
+  'currently occupy is a pay cut for those individuals, not a structural saving.<br>'+
+  '&bull; <b>The baseline is exact; the re-mapping is not.</b> The current bill is simply Σ (FTE at each point × that point&rsquo;s salary) '+
+  'and involves no assumptions. To price an edited structure the model holds each person&rsquo;s <b>years in band</b> fixed and re-counts '+
+  'their increments from the new floor — so both a lower entry point <i>and</i> a longer grade show up as savings.<br>'+
+  '&bull; <b>Years in band is a proxy, not an observation.</b> Position within a band is treated as years served, which assumes everyone '+
+  'entered at the floor and climbed one point a year: no appointment above the floor, no starting-salary negotiation, no part-time slowing, '+
+  'no legacy of earlier structures. It is reasonable where increments are automatic and <b>weakest for professorial merit progression</b>, '+
+  'where position reflects award history rather than time served.<br>'+
+  '&bull; <b>SP34 dominates the answer.</b> A single spine point — SP34, &pound;43,482, Exeter&rsquo;s Lecturer floor — holds '+
+  '<b>622 FTE, about a fifth of the whole workforce</b>. The model treats all of them as year-zero entrants, so lowering grade F&rsquo;s floor '+
+  're-bases every one of them at once. That is why the headline strip reports how much of the saving comes from <b>band floors alone</b>: '+
+  'if that share is large, the answer is resting on this one assumption. Sanity-check it before quoting the total.<br>'+
+  '&bull; <b>Overlaps.</b> Exeter&rsquo;s bands overlap, so SP40–41, 48–49, 54–56, 58–60 and 69–71 are each claimed twice. '+
+  'The allocation rule changes which band those staff re-map through; shares always sum to 1, so the baseline is unaffected. The headline '+
+  'carries the <b>swing across all four rules</b> rather than hiding it in a dropdown.<br>'+
+  '&bull; <b>FTE, not headcount.</b> The distribution is 2023 FTE priced on 2025-26 salaries — no pay award, no drift, no change in the '+
+  'shape of the workforce. On-costs are linear above &pound;5,000 so applying them to means is exact for salaries, but FTE weighting makes the '+
+  'NI and pension thresholds approximate.<br>'+
+  '&bull; <b>Who is counted, and a difference from the other tabs.</b> All 3,160 FTE on SP34–71, including professional-services and '+
+  'part-time staff on these grades — and, unless you switch the discount on, <b>grant-funded research staff whose pay is met by funders</b>. '+
+  'Gross figures therefore include savings that would accrue to research councils rather than to Exeter. The <b>Where the saving comes from</b> '+
+  'tab discounts grade F by 50% and G by 10% for exactly this reason; the toggle above applies the same discount so the two can be compared.<br>'+
+  '&bull; <b>Professorial Band 3</b> has no published increments and the scale is open-ended above &pound;129,211 (the accounts show 57.5 FTE '+
+  'at &pound;130–155k, who are not in the spine distribution at all). Its figures are your inputs and sit outside the exact baseline.<br>'+
+  '&bull; <b>Not modelled at all:</b> recruitment and retention effects, market rates in competitive disciplines, equal-pay and '+
+  'grade-compression consequences, pension impacts, and whether any of this is contractually or industrially feasible. A structure that '+
+  'prices well here could still be unworkable.<br>'+
+  '&bull; <b>Not a claim that anyone is overpaid.</b> Every university sits on the same national spine, so a given point pays the same '+
+  'everywhere; only the design of the bands differs.';
+ render();
+})();
+</script>
+</body></html>
