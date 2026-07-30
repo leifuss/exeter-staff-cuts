@@ -17,6 +17,12 @@ h1{font-size:22px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 
 .rtbar input[type=range]{width:150px;vertical-align:middle;accent-color:#b45309}
 .rtbar .rtv{font-weight:700;color:#b45309;min-width:64px;display:inline-block}
 .rtbar .rthint{font-size:11px;color:#9ca3af;flex:1;min-width:220px}
+#insight table{margin:8px 0 4px}#insight td,#insight th{padding:3px 6px}
+#insight .g1{background:#f1faf6}#insight .g2{background:#fffbeb}#insight .g3{background:#fdf2f2}
+#insight h3{font-size:13px;margin:14px 0 2px;color:#374151}
+#insight .warnbox{background:#fdf2f2;border:1px solid #e8bcbc;border-left:5px solid #b91c1c;border-radius:8px;padding:9px 13px;margin-top:12px;font-size:12.5px}
+#insight .warnbox b{color:#b91c1c}
+
 
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
 .card h2{font-size:15px;margin:0 0 4px}.card p.lead{color:var(--mut);font-size:13px;margin:0 0 8px}
@@ -96,6 +102,8 @@ is retained for exploration.</div>
  </div>
  <svg id="traj" viewBox="0 0 920 300" width="920" height="300"></svg>
  <div class="lgnd" id="trajlegend"></div></div>
+<div class="card"><h2>What the trajectories tell us &mdash; and what they cannot</h2>
+ <div id="insight"></div></div>
 <div class="card"><h2>What Exeter would save by adopting each structure (510 professors)</h2><div id="tbl"></div></div>
 <div class="card"><h2>What the accounts corroborate</h2>
 <p style="font-size:14px">Exeter's 2024/25 Annual Report reports <b>404 staff earning £100,000 or more</b> (basic pay,
@@ -241,6 +249,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
   h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
    `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td>${(function(){const ca=crossAge100k(d.i,yr,p);return ca?('age '+ca):'\u2014';})()}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
  h+='</table>';$('tbl').innerHTML=h;
+ drawInsight();
 }
 $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit throughout; the rest are <b>automatic at the bottom then annual merit</b> — the automatic zone varies: Newcastle just SP53→54 (1 step), Manchester SP53–56, Liverpool SP55–59 (to £99k), Sheffield the introductory zone (SP2–5), York to Band-1 top (SP6), Leeds SP4–SP8, Nottingham Band 1 (SP1–6), Cardiff SP2–12. This view models each university\'s <b>own documented rules</b>, which puts Exeter mid-pack rather than at the top — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and some automatic/merit thresholds are estimated. There is <b>no expectation that a professor reaches the top of the ladder</b> — typically the top of Band 1 and some way into Band 2 — so modelling merit at the normal award rate (rather than assuming full traversal) is deliberate; the excluded Band-3 zones (Prof 3/4 spot salaries) are genuinely harder to reach and sit outside these ladders. A like-for-like "uniform biennial" baseline (every professoriate on the same review) is retained in the code but no longer shown.<br>'+
  '• <b>Calibration against the accounts — the slow-progression default is falsified for Exeter.</b> Exeter\'s 2024/25 accounts (High pay tab) show ~<b>179 FTE of professors sitting in the £102–129k range</b> — a plateau in the lower-middle of <b>Band 2</b> (Exeter\'s Band 1 tops at £93,346, below £100k; Band 2 runs £96,146–£129,211). Under the biennial-merit assumption used here, almost <b>none</b> (~0%) would reach there in a career; the accounts say ~40% do. So Exeter professors in fact reach <b>well into Band 2</b> (≈£102–108k) readily, with merit gating biting only at the top of Band 2 and into Band 3. Correcting Exeter to that (and extending its ladder to the true SP71/£129k top, which this model truncated at SP66/£111k) lifts its modelled per-head from ≈£82.5k to ≈£99–101k — from "10th of 13" to the <b>dearest</b>. <b>The important caveat:</b> the same correction very likely applies to peers (their documented models probably also understate how far professors climb), so it is <i>not</i> valid to re-rank Exeter alone. The <b>fair, already-consistent read is the empirical High-pay comparison</b>, where Exeter is <b>upper-mid (4th of 9 on £100k+ FTE per academic)</b> — i.e. the professoriate is <b>not below the median</b> as this documented model implies; that conclusion was an artefact of the too-slow default.<br>'+
@@ -282,6 +291,101 @@ const BANDS={
  Newcastle:[['IB Professor scale (bands not held)',74921,82282,'?']],
 };
 let bandMode='inst';
+// ---------------------------------------------------------------------------
+// "What the trajectories tell us" panel. Everything here is recomputed from the
+// live award rate and the selected real-terms rate, so it can never drift out of
+// step with the chart above it.
+// ---------------------------------------------------------------------------
+function drawInsight(){
+ const el=$('insight'); if(!el)return;
+ const aw=+$('p').value, d=(rtD()||1)/100, chosen=rtD()>0;
+ const stats=Object.keys(LAD).map(i=>{
+  const lad=LAD[i],pr=PROG[i]||[],rg=trajRungs(i,aw),nom=rg.map(x=>lad[x]);
+  const real=nom.map((v,t)=>v*Math.pow(1-d,t));
+  let sp=[];for(let k=1;k<lad.length;k++)sp.push(lad[k]/lad[k-1]-1);
+  const auto=pr.filter(x=>x==='a').length, biennial=pr.length&&pr.every(x=>x==='m2');
+  return {i,floor:nom[0],y19:nom[19],real19:real[19],rungs:lad.length,steps:rg[19],
+   topped:rg[19]===lad.length-1, auto, biennial,
+   mech:biennial?'biennial merit throughout':(auto?auto+' automatic, then annual merit':'annual merit throughout'),
+   step:sp.reduce((a,b)=>a+b,0)/sp.length,
+   real:Math.pow(real[19]/real[0],1/19)-1};});
+ const ord=n=>n+((n%100>=11&&n%100<=13)?'th':(['th','st','nd','rd'][n%10]||'th'));
+ const rk=k=>{const t=[...stats].sort((a,b)=>b[k]-a[k]);const o={};t.forEach((x,n)=>o[x.i]=n+1);return o;};
+ const R0=rk('floor'),R19=rk('y19'),N=stats.length;
+ stats.sort((a,b)=>b.real-a.real);
+ const grp=v=>v>0.25?1:(v>-0.10?2:3);
+ let h='<p class="lead" style="margin-top:0">Read at the <b>'+(100*d).toFixed(2)+'%/yr</b> real-terms rate'+
+  (chosen?' you have selected':' (the illustrative default — set one on the chart above to change it)')+
+  ', and a <b>'+Math.round(aw*100)+'%</b> merit award rate, the structures fall into three groups. '+
+  'The grouping is not a property of the institutions, though: at <b>0%</b> every structure gains ground and at '+
+  '<b>2%</b> every one loses it. What is robust is the <b>ordering</b>, and the mechanism that produces it.</p>';
+ h+='<table><tr><th class="l">Structure</th><th>Floor</th><th>Rank at 48</th><th>After 20 yrs</th><th>Rank at 68</th>'+
+  '<th>Real /yr</th><th>Steps taken</th><th>&#37; per step</th><th class="l">Documented mechanism</th></tr>';
+ stats.forEach(o=>{const g=grp(o.real*100), mv=R0[o.i]-R19[o.i];
+  h+='<tr class="g'+g+(o.i==='Exeter'?' ex':'')+'"><td class="l">'+(o.i==='Exeter'?'<b>Exeter</b>':o.i)+'</td>'+
+   '<td>'+gbp(o.floor)+'</td><td>'+R0[o.i]+'</td><td>'+gbp(o.y19)+'</td>'+
+   '<td>'+R19[o.i]+(mv?' <span style="color:'+(mv>0?'#15803d':'#b91c1c')+'">('+(mv>0?'+':'')+mv+')</span>':'')+'</td>'+
+   '<td class="'+(o.real>=0?'save':'cost')+'">'+(o.real>=0?'+':'−')+Math.abs(o.real*100).toFixed(2)+'%</td>'+
+   '<td>'+o.steps+' of '+(o.rungs-1)+(o.topped?' <span style="color:#b91c1c">(tops out)</span>':'')+'</td>'+
+   '<td>'+(o.step*100).toFixed(2)+'</td><td class="l" style="color:#6b7280">'+o.mech+'</td></tr>';});
+ h+='</table>';
+ h+='<h3>One identity, two levers, three ways to fail</h3><p class="lead">Nominal growth is simply '+
+  '<b>(steps per year) &times; (&#37; per step)</b>. Cadence sets the first term: an <b>automatic</b> zone gives one step a '+
+  'year guaranteed; <b>annual</b> merit at a '+Math.round(aw*100)+'&#37; award rate gives about '+aw.toFixed(1)+'; '+
+  '<b>biennial</b> merit gives about half that. So a structure can fail in three distinct ways, and the decliners each fail '+
+  'differently: <b>Exeter on cadence</b> (biennial review), <b>Warwick on step size</b> (1.5&#37; rungs despite annual review), '+
+  '<b>Newcastle and Liverpool on ladder length</b> (they reach the top and stop). Southampton fails on cadence <i>and</i> step '+
+  'size, which is why it is worst. Every structure in the top group has an automatic zone; none of the bottom four does.</p>';
+ // the crossover
+ const ex=stats.find(o=>o.i==='Exeter');
+ h+='<h3>Exeter starts high and finishes low</h3><p class="lead">Exeter’s professorial floor of <b>'+gbp(ex.floor)+
+  '</b> is <b>'+ord(R0.Exeter)+' of '+N+'</b> at appointment, but after twenty years its modelled salary of <b>'+gbp(ex.y19)+
+  '</b> ranks <b>'+ord(R19.Exeter)+' of '+N+'</b> \u2014 a fall of '+(R19.Exeter-R0.Exeter)+' places, the second largest in the group '+
+  'after Southampton. Nottingham runs the other way, from '+ord(R0.Nottingham)+' to '+ord(R19.Nottingham)+'. The two levers are '+
+  '<b>separable</b>, and Exeter has chosen to spend on the first: pay well on appointment, commit to little thereafter.</p>';
+ // cost of the alternatives, on Exeter's own ladder
+ const L=LAD.Exeter.length-1, oldP=PROG.Exeter, oldL=LAD.Exeter, exPh=perHead('Exeter',aw,+$('yr').value,false);
+ const trial=(prog,ladder)=>{PROG.Exeter=prog; if(ladder)LAD.Exeter=ladder;
+  const rg=trajRungs('Exeter',aw),nom=rg.map(x=>LAD.Exeter[x]),r0=nom[0],r19=nom[19]*Math.pow(1-d,19);
+  const o={ph:perHead('Exeter',aw,+$('yr').value,false),real:Math.pow(r19/r0,1/19)-1,floor:r0};
+  PROG.Exeter=oldP; LAD.Exeter=oldL; return o;};
+ const sc=[['Exeter as it is',trial(Array(L).fill('m2'))],
+   ['Birmingham-style: annual merit review',trial(Array(L).fill('m1'))],
+   ['Nottingham-style: 5 automatic, then annual merit',trial([...Array(5).fill('a'),...Array(Math.max(0,L-5)).fill('m1')])],
+   ['Cardiff-style: 10 automatic, then annual merit',trial([...Array(10).fill('a'),...Array(Math.max(0,L-10)).fill('m1')])]];
+ h+='<h3>What each alternative would cost</h3><p class="lead">Each mechanism applied to Exeter’s <i>own</i> ladder, '+
+  'across '+COUNT+' professors, at the current award rate:</p>';
+ h+='<table><tr><th class="l">Mechanism on Exeter’s ladder</th><th>Real /yr</th><th>&pound;/head</th><th>Change in the bill</th></tr>';
+ sc.forEach(([n,o],k)=>{const dp=o.ph-sc[0][1].ph;
+  h+='<tr'+(k===0?' class="ex"':'')+'><td class="l">'+n+'</td><td class="'+(o.real>=0?'save':'cost')+'">'+
+   (o.real>=0?'+':'−')+Math.abs(o.real*100).toFixed(2)+'%</td><td>'+gbp(o.ph)+'</td><td class="'+(dp>0?'cost':'')+'">'+
+   (k===0?'—':'+£'+(dp*COUNT/1e6).toFixed(2)+'m/yr')+'</td></tr>';});
+ h+='</table>';
+ // cost-neutral floor with annual merit
+ let lo=55000,hi=LAD.Exeter[0];
+ for(let k=0;k<36;k++){const mid=(lo+hi)/2,lad=oldL.map(v=>v*mid/oldL[0]);
+  if(trial(Array(L).fill('m1'),lad).ph>exPh)hi=mid;else lo=mid;}
+ const nf=(lo+hi)/2, neu=trial(Array(L).fill('m1'),oldL.map(v=>v*nf/oldL[0]));
+ h+='<p class="lead" style="background:#f1faf6;border:1px solid #cfe9df;border-left:5px solid #15803d;border-radius:8px;padding:9px 13px">'+
+  '<b>The two levers trade off, and that is the useful part.</b> There is no version of this in which real pay is held flat '+
+  '<i>and</i> money is saved — that much is arithmetic. But because the entry point and the progression rule are separable, '+
+  'moving Exeter to <b>annual merit review</b> while lowering the professorial floor from <b>'+gbp(oldL[0])+'</b> to about '+
+  '<b>'+gbp(nf)+'</b> (−'+(100*(1-nf/oldL[0])).toFixed(0)+'&#37;) is <b>cost-neutral</b> at '+gbp(neu.ph)+'/head, and holds real pay '+
+  'roughly <b>flat</b> instead of eroding it. That floor would place Exeter near the bottom of the group, so it is a real '+
+  'choice — less on appointment, more over a career — not a free lunch. It is also the <b>same pattern as the '+
+  'non-professorial finding</b>: high entry points paired with short or slow progression.</p>';
+ h+='<div class="warnbox"><b>What this cannot establish.</b> Two limits, and the second is the serious one. '+
+  '<b>(1)</b> The grouping depends entirely on the real-terms rate chosen; only the ordering and the mechanism behind it are robust. '+
+  '<b>(2)</b> These are <b>modelled</b> trajectories from published rules, not observed pay. Exeter’s own line is the least '+
+  'trustworthy on the chart: the biennial-merit assumption is <b>falsified by Exeter’s accounts</b>, which show roughly 40&#37; of '+
+  'professors reaching &pound;100k+ where this model predicts almost none — so the real-terms erosion shown for Exeter is very '+
+  'likely overstated, and the same correction probably applies to peers, which is why it is not valid to re-rank Exeter alone. '+
+  'The &pound; figures above therefore show the <b>shape of the trade-off, not a costed proposal</b>. '+
+  '<b>Settling it would need each institution’s distribution of professors across its own spine points</b> — who is actually '+
+  'standing on which rung. We hold that for Exeter (2023) and for no one else, so the &ldquo;starts high, finishes low&rdquo; '+
+  'pattern is a property of the published <i>rules</i>, and cannot yet be confirmed as a property of the <i>pay</i>.</div>';
+ el.innerHTML=h;
+}
 function drawBands(){
  const el=$('bandchart'); if(!el) return;
  const XMIN=70000, XMAX=160000;
