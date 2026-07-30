@@ -66,12 +66,24 @@ In the combined dashboard, **Mix & match** and **Sources** are top-level tabs (d
 **Non-professorial grades (the headline).** Staff numbers come from Exeter's **own 2023 distribution across the pay
 spine** (`ExeterSPdist.csv`), summed over SP34–38 (F), SP39–47 (G) and SP48–51 (H): **1,518 / 964 / 307**. This counts
 everyone on those grades — including professional-services and part-time staff — because a grade-structure change applies
-to all of them. Those totals also include **grant-funded research staff**, whose pay is recovered from funders, so the
-published defaults **discount grade F by 50% and grade G by 10%** (grade H unchanged), giving **759 / 868 / 307 = 1,934**.
-The discount follows HESA DT025 Table 17 by academic employment function: of Exeter's 2,490 full-time academics, 780 are
-research-only, and they cluster at the bottom of the pay range — 79% of staff paid £29.7–39.1k, 53% at £39.1–52.2k, 10% at
-£52.2–69.8k and 2% above £69.8k. Research-only is a proxy for externally funded, not a funding split, so the numbers are
-editable on the *Where the saving comes from* tab; substituting HR's University-funded headcount is the reliable fix.
+to all of them. Those totals also include **research-only staff**, whose pay is recovered from grant funders, so the
+published defaults **discount grade F by 26%, G by 13% and H by 8%**, giving **1,122 / 838 / 284 = 2,243**.
+
+Those percentages come from HESA DT025 Table 17 (2024/25), which reports Exeter's research-only staff by salary band:
+**465** earning £39.1–52.2k, **80** at £52.2–69.8k, **10** above £69.8k. Allocating those **headcounts** across the spine
+points in each band, pro rata to the staff actually sitting there, gives **26%** at SP34–40, **8%** at SP41–50 and **2.5%**
+at SP51–71 — **555 FTE, 17.6%** of this population.
+
+> **Correction (July 2026).** An earlier version discounted using HESA's research-only *share of academics* (53% of the
+> £39.1–52.2k band, 10% of £52.2–69.8k), applied as F −50% and G −10%. That was the wrong statistic: it applies an
+> academics-only ratio to a population that also contains **professional-services staff, who are never research-only**, and
+> removed about **336 FTE too many** (891 against the 555 the headcounts imply). Correcting it raises grade F's count and
+> lowers G's and H's, and lifted the headline from £7.7m to £9.4m/yr. Applied on the Overview, *Where the saving comes from*
+> and *Modelling* tabs, each of which documents it.
+
+Remaining limits: HESA counts full-time staff only, its year is 2024/25 against a 2023 distribution, research-only is a
+proxy for externally funded, and the share is applied evenly across each grade. The numbers are editable on the
+*Where the saving comes from* and *Modelling* tabs; substituting HR's University-funded headcount is the reliable fix.
 
 *(The previous basis was HESA's 1,155 full-time E&R + teaching-only academics. It was replaced because it excluded the
 professional-services and part-time staff sitting on the very same grades — the change roughly doubles the population and
@@ -121,7 +133,7 @@ concrete professorial saving being the voluntary **0.8 FTE lever**.
 ## Headline (current data, E&R + teaching, middle assumptions)
 The robust, quantified finding is on the **non-professorial grades** (Lecturer / SL / AP): Exeter's structure is the
 **dearest of the fourteen** English and Welsh Russell Group systems, and realigning just those grades to the **Russell Group
-median structure** would save ≈ **£7.7m/yr in salary (≈£10.1m with on-costs; ~164 posts at comparator pay rates)**, recurring, with **no
+median structure** would save ≈ **£9.4m/yr in salary (≈£12.2m with on-costs; ~206 posts at comparator pay rates)**, recurring, with **no
 severance bill** — from lower entry points and longer lower grades, so it touches **no current member of staff** (it means
 paying *future* hires slightly less at given stages). It is **convergence with the middle of the peer group, not a race to the
 bottom**, and these are equivalences for scale (each grade's saving ÷ what one post at that grade costs on the comparator's scale), not predicted job counts — provided so the magnitude can be
@@ -158,7 +170,7 @@ modelled population's cost:** checked against the real spine-point distribution,
 *absolute* non-professorial bill by ≈**9.7%** (modelled mean £56,357/head vs actual £51,394). Correcting the mix to the
 observed ≈3:1 brings the modelled mean to within **0.6%** of actual — and *raises* the structural saving slightly
 (£4.74m → £4.88m), because the error is a level effect that largely cancels when comparing structures. For scale, the
-structural difference vs the median (≈£7.7m/yr salary, ≈£10.1m with on-costs) is comparable to Exeter's 2024/25 operating
+structural difference vs the median (≈£9.4m/yr salary, ≈£12.2m with on-costs) is comparable to Exeter's 2024/25 operating
 surplus (£8.2m, down from £22.5m — the operating line, not the headline surplus, which was distorted by a one-off pension
 provision release in the prior year).
 

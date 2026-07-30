@@ -53,12 +53,13 @@ and what sits above its ceiling. This is deliberately simplified; it is here to 
  keeps their salary and their increments. That is why the saving <b>builds gradually</b>, at roughly the rate staff move through
  the grades, rather than arriving in year one.</div>
 </div>
+<div style="background:#fffbeb;border:1px solid #e6d08a;border-left:5px solid #b45309;border-radius:9px;padding:10px 14px;margin:0 0 12px;font-size:13px"><b style="color:#b45309">Corrected, July 2026 &mdash; research-only staff.</b> These grades include <b>research-only staff whose pay is met by grant funders</b>, so a cheaper structure would reduce the <i>funder&rsquo;s</i> bill rather than Exeter&rsquo;s. An earlier version discounted them using HESA&rsquo;s research-only <b>share of academics</b> (grade F &minus;50%, G &minus;10%). That was the wrong statistic: it applies an academics-only ratio to a population that also contains <b>professional-services staff, who are never research-only</b>, and so removed about <b>336 FTE too many</b>. The figures now use HESA&rsquo;s research-only <b>headcounts</b> spread across the spine by salary &mdash; 555 FTE, 17.6% of this population &mdash; which raises grade F&rsquo;s count and lowers G&rsquo;s and H&rsquo;s. <b>Savings quoted here are therefore higher than before.</b> Full derivation in the assumptions below.</div>
 <div class="small" style="margin:0 0 7px">Figures and labels marked &#9432; carry a hover explainer &mdash; point at them to see how they are worked out.</div>
 <div class="controls" id="topctl">
  <div class="ctl"><label>Compare Exeter with</label><select id="cmp"></select></div>
- <div class="ctl"><label id="lnF">Staff in grade F</label><input id="nF" type="number" value="759" min="0" step="10"></div>
- <div class="ctl"><label id="lnG">Staff in grade G</label><input id="nG" type="number" value="868" min="0" step="10"></div>
- <div class="ctl"><label id="lnH">Staff in grade H</label><input id="nH" type="number" value="307" min="0" step="10"></div>
+ <div class="ctl"><label id="lnF">Staff in grade F</label><input id="nF" type="number" value="1122" min="0" step="10"></div>
+ <div class="ctl"><label id="lnG">Staff in grade G</label><input id="nG" type="number" value="838" min="0" step="10"></div>
+ <div class="ctl"><label id="lnH">Staff in grade H</label><input id="nH" type="number" value="284" min="0" step="10"></div>
  <div class="ctl"><label title="Fixed: the savings charts use one scale for all three grades and every comparator, so nothing moves when you switch comparator. Fit: the same scale across the three grades, but sized to the comparator on screen — better resolution, less comparable.">Savings scale</label><select id="sc">
    <option value="fix" selected>Fixed across comparators</option><option value="fit">Fit to this comparator</option></select></div>
  <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0" selected>Salary only</option><option value="1">+ employer on-costs</option></select></div>
@@ -223,10 +224,14 @@ function draw(){
  $('loc').title=ocOn()
   ? 'Showing TOTAL COST TO THE UNIVERSITY \u2014 salary plus employer NI, pension and the apprenticeship levy (about +28%). Exeter\u2019s grade F starts at SP34, a salary of \u00a343,482, which costs \u00a355,777 all-in. Switch to \u201cSalary only\u201d for headline salaries.'
   : 'Showing SALARY ONLY \u2014 no employer NI, pension or levy. Exeter\u2019s grade F starts at SP34, \u00a343,482. Switch to \u201c+ employer on-costs\u201d for what the post actually costs the University (about +28%).';
- const staffTip='Exeter\u2019s 2023 spine distribution gives F 1,518 \u00b7 G 964 \u00b7 H 307, but those totals include grant-funded research staff, '+
-  'whose pay comes from funders rather than from Exeter \u2014 a lower structure would save the grant, not the University. The defaults here are '+
-  'discounted using HESA research-only shares (F \u221250%, G \u221210%, H unchanged) so the headline reads as Exeter\u2019s own saving. '+
-  'Full reasoning and its limits are in \u201cWhat this assumes\u201d at the foot of the page. Overwrite the fields to test any population.';
+ const staffTip='Exeter\u2019s 2023 spine distribution gives F 1,518 \u00b7 G 964 \u00b7 H 307 on these spine points, '+
+  'but those totals include research-only staff whose pay is recovered from grant funders \u2014 for them a cheaper structure saves the '+
+  'grant, not the University. The defaults remove them using HESA research-only HEADCOUNTS spread across the spine by salary: '+
+  'F \u221226% (\u2192 1,122), G \u221213% (\u2192 838), H \u22128% (\u2192 284), 2,243 in total. '+
+  'An earlier version used HESA\u2019s research-only SHARE OF ACADEMICS (53%/10%), which wrongly applied an academics-only ratio to a '+
+  'population containing professional-services staff and removed about 336 FTE too many. Overwrite the fields with HR\u2019s '+
+  'University-funded headcount and none of this reasoning is needed.';
+
  ['lnF','lnG','lnH'].forEach(id=>$(id).title=staffTip);
  cmpList();
  const kpi=(k,v,s,cls,t)=>`<div class="kpi ${cls||''}"${t?` title="${t}"`:''}><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
@@ -238,8 +243,8 @@ function draw(){
   '<b>'+popN.toLocaleString()+'</b> staff on grades F/G/H from Exeter\u2019s own 2023 spine distribution, discounted for '+
   'grant-funded posts \u2014 and both count posts the same way: each grade\u2019s saving divided by what one post at that grade '+
   'costs on the <b>comparator\u2019s</b> scale, since a post created under the new structure would be paid on it. '+
-  'Against the median structure that is <b>\u00a37.7m/yr</b> salary-only (<b>\u00a310.1m</b> with on-costs) and about '+
-  '<b>164</b> posts. '+
+  'Against the median structure that is <b>\u00a39.4m/yr</b> salary-only (<b>\u00a312.2m</b> with on-costs) and about '+
+  '<b>206</b> posts. '+
   '<b>Older tabs will not match.</b> The <i>Grade structure &amp; cost</i>, <i>Career model</i>, <i>All-in pay bill</i>, '+
   '<i>Transition</i> and <i>How sure can we be?</i> tabs still price <b>HESA full-time academic staff only</b> (1,155 in these '+
   'grades), which leaves out the professional-services and part-time staff sitting on the very same grades. Their <b>structural '+
@@ -264,8 +269,8 @@ function draw(){
   (Nottingham SP27\u201337, Warwick SP27\u201336, Manchester SP29\u201336, Southampton SP28\u201335). Exeter&rsquo;s entry salary of
   \u00a343,482 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
   Manchester&rsquo;s. If those universities in practice appoint lecturers part-way up a long grade rather than at its floor \u2014
-  which is normal \u2014 the gap narrows sharply. Moving <b>only the comparator</b> up its grade, with Exeter left at its floor, the median saving falls from <b>\u00a37.7m</b> to
-  <b>\u00a34.7m</b> (+1), <b>\u00a32.2m</b> (+2) and to roughly <b>zero at +3</b>, salary-only \u2014 so this assumption alone can account for the
+  which is normal \u2014 the gap narrows sharply. Moving <b>only the comparator</b> up its grade, with Exeter left at its floor, the median saving falls from <b>\u00a39.4m</b> to
+  <b>\u00a35.8m</b> (+1), <b>\u00a32.7m</b> (+2) and to roughly <b>zero at +3</b>, salary-only \u2014 so this assumption alone can account for the
   entire headline. Moving Exeter up instead <i>raises</i> the saving (its grades are short, so there is little room to do so). <b>Treat the floor-start figure as an upper bound</b> and settle
   the real appointment practice before relying on any single number.<br>
   &bull; <b>Validation is one-sided.</b> This model reproduces <b>Exeter&rsquo;s</b> actual mean salary per grade to within 1.3%,
@@ -277,20 +282,24 @@ function draw(){
   reproduces the real average salary per grade to within <b>1.3%</b> (Lecturer \u22120.0%, SL +1.1%, AP +1.3%). Observed contribution-point occupancy
   is roughly <b>37% / 13% / 10%</b> for F / G / H \u2014 the controls default to 30%, so those can be dialled in.<br>
   &bull; <b>Staff numbers &mdash; and why the defaults are lower than the raw distribution.</b> Exeter&rsquo;s 2023 headcount on these spine
-  points (F 34&ndash;38, G 39&ndash;47, H 48&ndash;51) is <b>F 1,518 &middot; G 964 &middot; H 307</b>. But those totals include
-  <b>grant-funded research staff</b>, whose salaries are recovered from funders: a lower structure reduces the <i>grant</i> cost, not
-  Exeter&rsquo;s, so counting them would overstate the University&rsquo;s own saving.
-  HESA (DT025 Table 17, 2024/25, full-time academic staff) shows where that exposure sits. Of Exeter&rsquo;s 2,490 full-time academics,
-  <b>780 are research-only</b> &mdash; and they cluster at the bottom of the pay range: <b>79%</b> of staff paid &pound;29.7&ndash;39.1k are
-  research-only, falling to <b>53%</b> at &pound;39.1&ndash;52.2k, <b>10%</b> at &pound;52.2&ndash;69.8k and <b>2%</b> above &pound;69.8k.
-  Grade F (&pound;43.5&ndash;53.3k) sits in the 53% band, grade G (&pound;51.8&ndash;67.5k) mostly in the 10% band, and grade H
-  (&pound;65.8&ndash;82.9k) above both. The defaults therefore discount <b>F by 50%</b> (&rarr;&nbsp;759) and <b>G by 10%</b>
-  (&rarr;&nbsp;868) and leave <b>H unchanged</b>, so the headline reads as a saving to Exeter rather than to research councils.
-  This is a deliberately cautious adjustment, not a measurement: &ldquo;research-only&rdquo; is a proxy for &ldquo;externally funded&rdquo;
-  (some research-only posts are core-funded, and teaching-and-research staff often have grant-funded fractions running the other way),
-  Table 17 counts <b>full-time staff only</b>, and its salary bands do not line up with grade boundaries. The reliable fix is for HR to
-  substitute the actual University-funded headcount in the fields above &mdash; every figure on the page then follows.<br>
-  &bull; <b>Cost basis.</b> The page defaults to <b>salary only</b>, so every figure reads across directly to the published pay scales. Switching to <b>&lsquo;+ employer on-costs&rsquo;</b> adds employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%) &mdash; about <b>+28%</b> &mdash; which is what a post actually costs the University, and the basis a budget conversation needs. It raises the median saving from <b>\u00a37.7m</b> to <b>\u00a310.1m</b>; the <i>post count</i> barely moves, because it scales the saving and the cost of a post alike.<br>
+  points (F 34&ndash;38, G 39&ndash;47, H 48&ndash;51) is <b>F 1,518 &middot; G 964 &middot; H 307</b>. Those totals include
+  <b>research-only staff</b>, whose salaries are recovered from funders: a lower structure reduces the <i>grant</i> cost, not Exeter&rsquo;s,
+  so counting them would overstate the University&rsquo;s own saving. The defaults therefore remove them, giving
+  <b>F 1,122 &middot; G 838 &middot; H 284 = 2,243</b>.<br>
+  &bull; <b>How that discount is derived &mdash; and a correction made in July 2026.</b> HESA (DT025 Table 17, 2024/25) reports Exeter&rsquo;s
+  research-only staff by salary band: <b>465</b> earning &pound;39.1&ndash;52.2k, <b>80</b> at &pound;52.2&ndash;69.8k and <b>10</b> above
+  &pound;69.8k. Allocating those <b>headcounts</b> across the spine points in each band, pro rata to the staff actually sitting there, gives
+  <b>26%</b> at SP34&ndash;40, <b>8%</b> at SP41&ndash;50 and <b>2.5%</b> at SP51&ndash;71 &mdash; <b>555 FTE, 17.6%</b> of the population,
+  averaging F 26%, G 13%, H 8% over these grades.
+  An earlier version instead used HESA&rsquo;s research-only <i>share of academics</i> (53% of the &pound;39.1&ndash;52.2k band, 10% of
+  &pound;52.2&ndash;69.8k), applied as F &minus;50% and G &minus;10%. That was <b>wrong</b>: it applies an academics-only ratio to a
+  population that also contains <b>professional-services staff, who are never research-only</b>, and removed about <b>336 FTE too many</b>.
+  Correcting it <i>raises</i> grade F&rsquo;s count and lowers G&rsquo;s and H&rsquo;s, and raises the headline saving.
+  Remaining limits: HESA counts <b>full-time staff only</b>, its year is 2024/25 against a 2023 distribution, research-only is a proxy for
+  externally funded (some research-only posts are core-funded, and teaching-and-research staff often carry grant-funded fractions the other
+  way), and the share is applied evenly across each grade. The reliable fix is for HR to substitute the actual University-funded headcount
+  in the fields above.<br>
+  &bull; <b>Cost basis.</b> The page defaults to <b>salary only</b>, so every figure reads across directly to the published pay scales. Switching to <b>&lsquo;+ employer on-costs&rsquo;</b> adds employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%) &mdash; about <b>+28%</b> &mdash; which is what a post actually costs the University, and the basis a budget conversation needs. It raises the median saving from <b>\u00a39.4m</b> to <b>\u00a312.2m</b>; the <i>post count</i> barely moves, because it scales the saving and the cost of a post alike.<br>
   &bull; <b>What this is not.</b> Not a claim that anyone is overpaid, and not a costed proposal \u2014 it prices one structural option so it can be
   weighed against the alternatives. Transition and recruitment effects are not modelled: paying new staff less at a given stage is a
   <b>recruitment trade-off</b>, not a free saving.`;
