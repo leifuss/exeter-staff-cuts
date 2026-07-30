@@ -57,6 +57,16 @@ is retained for exploration.</div>
    <span class="hint">Per-head cost = the average salary across a steady-state professoriate (an even mix of career stages
    from appointment to this length). A longer career gives long, finely-stepped ladders (Warwick, Southampton) time
    to climb, so it neutralises the bias that made them look artificially cheap over a fixed short window.</span></div>
+ <div class="ctl"><label>Show pay in</label><select id="rt">
+   <option value="0" selected>Cash terms (as paid)</option>
+   <option value="1.787">Real terms &mdash; awards trail CPIH by 1.79%/yr (measured 2020&ndash;25)</option>
+   <option value="1">Real terms &mdash; 1%/yr</option>
+   <option value="2.5">Real terms &mdash; 2.5%/yr</option>
+   <option value="3">Real terms &mdash; 3%/yr</option></select>
+   <span class="hint">Restates the trajectory in <b>&pound; of the year the professorship starts</b>. The measured rate is the
+   gap between the negotiated JNCHES award and CPIH over 2020/21&ndash;2024/25 (see caveats). Affects the
+   <b>trajectory chart only</b>; the &pound;100k threshold is a cash figure so it is hidden in real terms, and the
+   per-head cost figures, the bar chart and the band chart stay in cash terms.</span></div>
  <div class="ctl"><label>Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1">+ on-costs</option></select></div>
  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option><option value="2027">2026-27 (+2%)</option></select></div>
 </div>
@@ -149,8 +159,13 @@ function trajRungs(inst,p){const L=LAD[inst].length,tr=mode()==='doc'?PROG[inst]
    acc+=inc;while(acc>=1&&rung<L-1){rung++;acc-=1;}}
   out.push(rung);}
  return out;}
-function trajSalary(inst,yr,p){const f=yr==2027?1.02:1,lad=LAD[inst];return trajRungs(inst,p).map(r=>lad[r]*f);}
-function crossAge100k(inst,yr,p){const pts=trajSalary(inst,yr,p);for(let t=0;t<pts.length;t++)if(pts[t]>=100000)return 48+t;return null;}
+// Real-terms deflator: the negotiated award has trailed CPIH, so a rung buys less each year. Measured gap
+// 2020/21-2024/25 (sources/pay_awards.csv): geometric mean -1.787%/yr. Year 0 is the anchor.
+function rtF(){const d=+(($('rt')||{}).value||0)||0; return 1-d/100;}
+function trajSalary(inst,yr,p){const f=yr==2027?1.02:1,lad=LAD[inst],rf=rtF();
+ return trajRungs(inst,p).map((r,t)=>lad[r]*f*Math.pow(rf,t));}
+// deliberately NOT deflated: the £100k threshold is a cash figure from the accounts
+function crossAge100k(inst,yr,p){const f=yr==2027?1.02:1,lad=LAD[inst],pts=trajRungs(inst,p).map(r=>lad[r]*f);for(let t=0;t<pts.length;t++)if(pts[t]>=100000)return 48+t;return null;}
 function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  const rows=ALL.map(i=>({i,ph:perHead(i,p,yr,oc)})).sort((a,b)=>b.ph-a.ph);
  const exph=rows.find(r=>r.i==='Exeter').ph,exbill=exph*COUNT;
@@ -176,19 +191,22 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  // trajectory — deterministic on-schedule staircase, so annual vs biennial cadence is visible
  const W2=920,H2=300,L2=64,R2=20,T2=12,B2=38;const ages=[...Array(20).keys()];
  const series=ALL.map(i=>({i,pts:trajSalary(i,yr,p)})).sort((a,b)=>b.pts[19]-a.pts[19]);
- const allv=[].concat(...series.map(s=>s.pts)),ymin=Math.min(...allv)*0.98,ymax=Math.max(...allv,100000)*1.02;
+ const real=rtF()!==1;
+ const allv=[].concat(...series.map(s=>s.pts)),ymin=Math.min(...allv)*0.98,
+   ymax=(real?Math.max(...allv):Math.max(...allv,100000))*1.02;
  const xx=t=>L2+t/19*(W2-L2-R2),YY=v=>T2+(ymax-v)/(ymax-ymin)*(H2-T2-B2);
  const stepPath=pts=>{let d='M'+xx(0)+' '+YY(pts[0]);for(let t=1;t<pts.length;t++)d+=' L'+xx(t)+' '+YY(pts[t-1])+' L'+xx(t)+' '+YY(pts[t]);return d;};
  let s2=`<svg viewBox="0 0 ${W2} ${H2}" xmlns="http://www.w3.org/2000/svg">`;
  for(let g=0;g<=4;g++){const v=ymin+(ymax-ymin)*g/4;s2+=`<line x1="${L2}" y1="${YY(v)}" x2="${W2-R2}" y2="${YY(v)}" stroke="#eee"/><text x="${L2-8}" y="${YY(v)+4}" text-anchor="end" fill="#9ca3af" font-size="11">${gbp(v)}</text>`;}
- if(100000>=ymin&&100000<=ymax){s2+=`<line x1="${L2}" y1="${YY(100000)}" x2="${W2-R2}" y2="${YY(100000)}" stroke="#b91c1c" stroke-width="1.3" stroke-dasharray="6 4"/><text x="${W2-R2}" y="${YY(100000)-4}" text-anchor="end" font-size="10.5" fill="#b91c1c">£100,000 — accounts high-pay threshold</text>`;}
+ if(!real&&100000>=ymin&&100000<=ymax){s2+=`<line x1="${L2}" y1="${YY(100000)}" x2="${W2-R2}" y2="${YY(100000)}" stroke="#b91c1c" stroke-width="1.3" stroke-dasharray="6 4"/><text x="${W2-R2}" y="${YY(100000)-4}" text-anchor="end" font-size="10.5" fill="#b91c1c">£100,000 — accounts high-pay threshold</text>`;}
+ if(real)s2+=`<text x="${L2}" y="${T2+10}" font-size="11" font-weight="600" fill="#b45309">real terms — £ of the starting year, awards trailing CPIH by ${(100*(1-rtF())).toFixed(2)}%/yr · the £100,000 line is a cash threshold, so it is hidden here</text>`;
  for(let t=0;t<20;t+=2)s2+=`<text x="${xx(t)}" y="${H2-B2+14}" text-anchor="middle" fill="#9ca3af" font-size="11">${48+t}</text>`;
  s2+=`<text x="${(L2+W2-R2)/2}" y="${H2-6}" text-anchor="middle" fill="#6b7280" font-size="11">age</text>`;
  series.forEach(se=>{const col=COLORS[se.i]||'#999',ex=se.i==='Exeter';const dp=stepPath(se.pts);
    s2+=`<path class="trline" data-inst="${se.i}" d="${dp}" fill="none" stroke="${col}" stroke-width="${ex?3.4:1.6}" opacity="${ex?1:.8}"/>`;
    s2+=`<path class="trhit" data-inst="${se.i}" d="${dp}" fill="none" stroke="rgba(0,0,0,0)" stroke-width="13" style="pointer-events:stroke;cursor:pointer"/>`;});
  // dot on the £100k line marking the age each first crosses it
- series.forEach(se=>{const ca=crossAge100k(se.i,yr,p);if(ca==null)return;
+ if(!real)series.forEach(se=>{const ca=crossAge100k(se.i,yr,p);if(ca==null)return;
    s2+=`<circle class="trdot" data-inst="${se.i}" cx="${xx(ca-48)}" cy="${YY(100000)}" r="3.6" fill="${COLORS[se.i]||'#999'}" stroke="#fff" stroke-width="1.1"/>`;});
  s2+=`</svg>`;$('traj').outerHTML=s2.replace('<svg','<svg id="traj"');
  $('trajlegend').innerHTML=ALL.map(i=>`<span class="lg" data-inst="${i}"><span class="sw" style="background:${COLORS[i]||'#999'};height:${i==='Exeter'?6:4}px"></span>${i==='Exeter'?'<b>Exeter</b>':i}</span>`).join('');
@@ -207,14 +225,15 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
    el.addEventListener('mouseenter',()=>hilite(el.dataset.inst));
    el.addEventListener('mouseleave',()=>hilite(null));});
  // table
- let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th><th>Reaches £100k</th><th>Documented progression</th><th>Scale year</th></tr>';
+ let h='<table><tr><th class="l">Structure</th><th>£/head</th><th>Bill (510)</th><th>Exeter saves /yr</th>'+(real?'':'<th>Reaches £100k</th>')+'<th>Documented progression</th><th>Scale year</th></tr>';
  rows.forEach(d=>{const bill=d.ph*COUNT,save=exbill-bill,cls=save>0?'save':(save<0?'cost':'');
   h+=`<tr class="${d.i==='Exeter'?'ex':''}"><td class="l">${d.i}</td><td>${gbp(d.ph)}</td><td>${gbp(bill)}</td>`+
-   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td><td>${(function(){const ca=crossAge100k(d.i,yr,p);return ca?('age '+ca):'—';})()}</td><td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
+   `<td class="${cls}">${d.i==='Exeter'?'—':(save>=0?gbp(save):'−'+gbp(-save))}</td>${real?'':`<td>${(function(){const ca=crossAge100k(d.i,yr,p);return ca?('age '+ca):'\u2014';})()}</td>`}<td style="text-align:left;color:#6b7280">${MECH[d.i]||'—'}</td><td style="text-align:left;color:#9ca3af">${META[d.i].y}${META[d.i].note?' · '+META[d.i].note:''}</td></tr>`;});
  h+='</table>';$('tbl').innerHTML=h;
 }
 $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baseline hides that.</b> Exeter and Southampton run <b>biennial merit reviews</b> (the slowest mechanism in the set); Bristol and Warwick annual merit throughout; the rest are <b>automatic at the bottom then annual merit</b> — the automatic zone varies: Newcastle just SP53→54 (1 step), Manchester SP53–56, Liverpool SP55–59 (to £99k), Sheffield the introductory zone (SP2–5), York to Band-1 top (SP6), Leeds SP4–SP8, Nottingham Band 1 (SP1–6), Cardiff SP2–12. This view models each university\'s <b>own documented rules</b>, which puts Exeter mid-pack rather than at the top — but it is a <b>draft</b>: automatic increments are modelled as certain, the same award rate is applied to annual and biennial reviews, and some automatic/merit thresholds are estimated. There is <b>no expectation that a professor reaches the top of the ladder</b> — typically the top of Band 1 and some way into Band 2 — so modelling merit at the normal award rate (rather than assuming full traversal) is deliberate; the excluded Band-3 zones (Prof 3/4 spot salaries) are genuinely harder to reach and sit outside these ladders. A like-for-like "uniform biennial" baseline (every professoriate on the same review) is retained in the code but no longer shown.<br>'+
  '• <b>Calibration against the accounts — the slow-progression default is falsified for Exeter.</b> Exeter\'s 2024/25 accounts (High pay tab) show ~<b>179 FTE of professors sitting in the £102–129k range</b> — a plateau in the lower-middle of <b>Band 2</b> (Exeter\'s Band 1 tops at £93,346, below £100k; Band 2 runs £96,146–£129,211). Under the biennial-merit assumption used here, almost <b>none</b> (~0%) would reach there in a career; the accounts say ~40% do. So Exeter professors in fact reach <b>well into Band 2</b> (≈£102–108k) readily, with merit gating biting only at the top of Band 2 and into Band 3. Correcting Exeter to that (and extending its ladder to the true SP71/£129k top, which this model truncated at SP66/£111k) lifts its modelled per-head from ≈£82.5k to ≈£99–101k — from "10th of 13" to the <b>dearest</b>. <b>The important caveat:</b> the same correction very likely applies to peers (their documented models probably also understate how far professors climb), so it is <i>not</i> valid to re-rank Exeter alone. The <b>fair, already-consistent read is the empirical High-pay comparison</b>, where Exeter is <b>upper-mid (4th of 9 on £100k+ FTE per academic)</b> — i.e. the professoriate is <b>not below the median</b> as this documented model implies; that conclusion was an artefact of the too-slow default.<br>'+
+ '• <b>Real terms.</b> The negotiated JNCHES award has generally trailed inflation, so the same rung buys less each year — which bites hardest on a <b>biennial merit</b> structure like Exeter’s, where a professor can go two years with no increment at all. Setting &ldquo;Show pay in&rdquo; to real terms restates the trajectory in <b>£ of the year the professorship starts</b>. The <b>measured</b> option uses the five years we can evidence, comparing each award with the CPIH 12-month rate to the August it took effect (<code>sources/pay_awards.csv</code>): 2020/21 0% vs 0.5%, 2021/22 +1.5% vs 3.0%, 2022/23 +3% and +2% (≈5.06%) vs 8.6%, 2023/24 +3% vs 6.3%, 2024/25 +2.5% vs 3.1%. Compounded that is <b>−1.79%/yr</b>, or −8.6% over the five years; across a 20-year professorial career about <b>−30%</b>. On this default an Exeter professor appointed at £78,189 reaches £87,986 in cash after 20 years but only <b>£62,463</b> in the money of the year they started. Three limits. These are the awards applied at <b>£100k-level spine points</b> — the right series for the professoriate, but it <b>overstates erosion lower down the spine</b>, where several settlements paid more. It rests on <b>five years, two of them the 2022–23 inflation spike</b>, which dominates the average (the yearly gap ranged −0.5 to −3.5 points) — the smaller rates are there to test that. And it is <b>backwards-looking</b>: applying it forwards assumes that relationship continues, which is an assumption, not a forecast. CPIH is used because it is the ONS’s designated National Statistic and lead measure. The <b>£100,000 line and the crossing ages are hidden in real terms</b>, because that threshold is a cash figure from the accounts. The <b>per-head cost figures, the bar chart and the band chart stay in cash terms</b>: the first two average across career stages rather than following one person through time, and published bands have no year dimension.<br>'+
  '• <b>Scottish universities (Edinburgh, Glasgow, Aberdeen) are excluded from the analysis</b> (different student-funding model); their data is retained in the files. UCL/London, Oxford, Cambridge and NI institutions excluded by design; York/others omitted for lack of data.<br>'+
  '• <b>York</b>: Band 1 has <b>automatic annual increments</b> (unlike the discretionary reviews modelled here), so the model likely <i>understates</i> York\'s professorial cost; Band 2 has no published rungs — interpolated between its min/max. <b>Manchester</b> is modelled on Grade 9 zones 9E+9D (SP53–64); zones 9C–9A (up to £226k) are excluded as Band-3 analogues.<br>'+
  '• <b>Newcastle</b> is modelled on its published IB Professor scale (spine 53–57) — a short ladder that may understate professorial pay if a professorial zone exists above it.<br>'+
@@ -222,7 +241,7 @@ $('caveats').innerHTML='• <b>Progression mechanisms differ — and the baselin
   '• Two bands modelled as one climbing ladder; Band 3 excluded. Weighted by Exeter\'s 510 professors on every structure.<br>'+
  '• <b>Granularity caveat:</b> an "increment" is one step on each institution\'s own ladder, so finely-stepped scales (e.g. Southampton) show slower £ growth per award than coarse ones — a real structural feature, but worth noting.<br>'+
  '• Award rate ~40% reported; start 48, retire 67, review every 2 yrs. Base salaries; excludes transition costs.';
-['pm','p','oc','yr','cl'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',draw);});draw();
+['pm','p','oc','yr','cl','rt'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',draw);});draw();
 
 // ---------- published professorial bands on a money axis ----------
 // Straight from each university's published scale. No progression modelling, no spine-point mapping.

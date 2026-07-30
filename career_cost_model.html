@@ -61,6 +61,15 @@ reaches Professor at 48, matching the sector average. Professorial pay itself is
    <option value="1">Salary + employer on-costs</option></select></div>
  <div class="ctl"><label>Pay year</label><select id="yr"><option value="2026">2025-26</option>
    <option value="2027">2026-27 (+2%)</option></select></div>
+ <div class="ctl"><label>Show pay in</label><select id="rt">
+   <option value="0" selected>Cash terms (as paid)</option>
+   <option value="1.787">Real terms &mdash; awards trail CPIH by 1.79%/yr (measured 2020&ndash;25)</option>
+   <option value="1">Real terms &mdash; 1%/yr</option>
+   <option value="2.5">Real terms &mdash; 2.5%/yr</option>
+   <option value="3">Real terms &mdash; 3%/yr</option></select>
+   <span class="hint">Real terms restates every year in <b>&pound; of the year the career starts</b>. The measured rate is the
+   gap between the negotiated JNCHES award and CPIH inflation over 2020/21&ndash;2024/25 (see assumptions).
+   Trajectory and cumulative-earnings tabs only; the cost tab stays in cash terms.</span></div>
  <div class="ctl"><label>Workforce (cost tab)</label><select id="pop">
    <option value="er">E&amp;R (Education &amp; Research) only (750)</option><option value="ere" selected>E&amp;R + Education-only (1,155)</option></select>
    <span class="hint">Affects the cost tab; trajectory is one representative person.</span></div>
@@ -100,7 +109,21 @@ actual HESA grade mix (E&amp;R; SL/AP split 50/50).<br>
 single softest input (no sector data) — refine when Exeter's own data is available.<br>
 • Salaries = verified 2025-26 national spine (+2% optional). On-costs: NI 15% above £5,000, USS 14.5%,
 levy 0.5%. Excludes professorial pay, London weighting (none in the included universities), transition costs.<br>
-• Sector evidence puts L→SL at ~5–7 yrs and Prof at ~48; upper transitions are weakly evidenced.</div></details>
+• Sector evidence puts L→SL at ~5–7 yrs and Prof at ~48; upper transitions are weakly evidenced.<br>
+• <b>Real terms.</b> The negotiated JNCHES award has generally trailed inflation, so the same spine point buys
+less each year and a career with few increments can lose ground even while the cash figure rises. Setting
+&ldquo;Show pay in&rdquo; to real terms restates every year in <b>£ of the year the career starts</b>, compounding the
+chosen gap. The <b>measured</b> option uses the five years we can evidence, comparing each award with the CPIH
+12-month rate to the August it took effect (<code>sources/pay_awards.csv</code>): 2020/21 0% vs 0.5%, 2021/22 +1.5%
+vs 3.0%, 2022/23 +3% and +2% (≈5.06%) vs 8.6%, 2023/24 +3% vs 6.3%, 2024/25 +2.5% vs 3.1%. Compounded that is
+<b>−1.79%/yr</b>, or −8.6% over the five years; over a 20-year career it comes to about <b>−30%</b>.
+Three limits. Those awards are the ones applied at <b>£100k-level spine points</b>, and several settlements paid
+<i>more</i> at the bottom of the spine — so −1.79% <b>overstates the erosion for Lecturer-level pay</b>, and the
+smaller rates are there for that reason. It rests on <b>five years, two of them the 2022–23 inflation spike</b>,
+which dominates the average (the yearly gap ranged −0.5 to −3.5 points). And it is <b>backwards-looking</b>: applying
+it forwards assumes the last five years' relationship continues, which is an assumption, not a forecast.
+CPIH is used because it is the ONS's designated National Statistic and lead measure. The <b>cost tab is unaffected</b>,
+because its per-head figures average across career stages rather than following one person through time.</div></details>
 </div>
 <div class="tip" id="tip"></div>
 <script>
@@ -125,13 +148,17 @@ function Egrade(info,T,cp,yr,inst){const R=info.n,L=R.length,c=info.c,cp1=c.leng
 function perHead(inst,pace,cp,yr,oc){const T=TEN[pace],w=curWF(),N=w[1]+w[2]+w[3];
  let v=(w[1]*Egrade(struct[inst][1],T[1],cp,yr,inst)+w[2]*Egrade(struct[inst][2],T[2],cp,yr,inst)+w[3]*Egrade(struct[inst][3],T[3],cp,yr,inst))/N;
  return oc?oncost(v):v;}
+// Real-terms deflator. The negotiated award has trailed CPIH, so a spine point buys less each year.
+// Measured gap 2020/21-2024/25 (see sources/pay_awards.csv): geometric mean -1.787%/yr, -8.62% over the
+// five years. `rtF()` returns the per-year factor; year 0 is the anchor, so the first year is unchanged.
+function rtF(){const d=+($('rt')||{value:0}).value||0; return 1-d/100;}
 // representative (expected) trajectory: array of {age,year,sal,grade}; ceiling years blend in the CP share
-function traj(inst,pace,cp,yr){const T=TEN[pace];const pts=[];let yr0=0;
+function traj(inst,pace,cp,yr){const T=TEN[pace];const pts=[];let yr0=0;const rf=rtF();
  [1,2,3].forEach(t=>{const info=struct[inst][t],R=info.n,L=R.length,cp1=info.c.length?salx(inst,info.c[0],yr):null;
    for(let k=1;k<=T[t];k++){let v;
      if(k<=L)v=salx(inst,R[k-1],yr);
      else{const ceil=salx(inst,R[L-1],yr);v=cp1!=null?(1-cp)*ceil+cp*cp1:ceil;}
-     pts.push({year:yr0,age:28+yr0,sal:v,grade:t});yr0++;}});
+     pts.push({year:yr0,age:28+yr0,sal:v*Math.pow(rf,yr0),grade:t});yr0++;}});
  return pts;}
 function cumEarn(inst,pace,cp,yr){return traj(inst,pace,cp,yr).reduce((a,p)=>a+p.sal,0);}
 // tabs
@@ -157,6 +184,7 @@ function drawTraj(){const pace=$('pace').value,cp=+$('cp').value,yr=+$('yr').val
  // x ticks (age)
  for(let yy=0;yy<tot;yy+=2){s+=`<text x="${x(yy)}" y="${H-B+13}" text-anchor="middle" fill="#9ca3af" font-size="11">${28+yy}</text>`;}
  s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" fill="#6b7280" font-size="11">age</text>`;
+ if(rtF()!==1)s+=`<text x="${L}" y="${Tm-4}" fill="#b45309" font-size="11" font-weight="600">real terms &mdash; \u00a3 of the starting year, awards trailing CPIH by ${(100*(1-rtF())).toFixed(2)}%/yr</text>`;
  series.forEach(se=>{const c=col(se.i),ex=se.i==='Exeter';
    let dpath=se.pts.map((p,k)=>(k?'L':'M')+x(p.year)+' '+Y(p.sal)).join(' ');
    s+=`<path d="${dpath}" fill="none" stroke="${c}" stroke-width="${ex?3.4:1.5}" opacity="${ex?1:.7}"/>`;
@@ -216,6 +244,6 @@ function drawCost(){const pace=$('pace').value,cp=+$('cp').value,oc=$('oc').valu
  h+='</table>';$('savetable').innerHTML=h;
 }
 function redraw(){drawTraj();drawCum();drawCost();}
-['pace','cp','oc','yr','pop'].forEach(id=>$(id).addEventListener('change',redraw));
+['pace','cp','oc','yr','pop','rt'].forEach(id=>{const e=$(id);if(e)e.addEventListener('change',redraw);});
 redraw();
 </script></body></html>
