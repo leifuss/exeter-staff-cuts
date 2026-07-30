@@ -22,7 +22,8 @@ h1{font-size:21px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 
 .kpi .s{font-size:11.5px;color:#9ca3af;margin-top:2px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:12px;overflow-x:auto}
 svg{display:block;max-width:100%;height:auto;touch-action:none}
-.bandctl{display:grid;grid-template-columns:190px repeat(3,auto) 1fr;gap:7px 12px;align-items:center;font-size:12.5px}
+.bandctl{display:grid;grid-template-columns:186px repeat(4,auto) 1fr;gap:7px 12px;align-items:center;font-size:12.5px}
+.bandctl input:disabled{background:#f4f4f1;color:#b6b6b0}
 .bandctl .bl{font-weight:600}
 .bandctl input{width:62px;font:inherit;font-size:12.5px;padding:3px 6px;border:1px solid var(--line);border-radius:6px;text-align:right}
 .bandctl .hd{font-size:10.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.02em}
@@ -65,7 +66,7 @@ Figures and labels marked &#9432; carry a hover explainer.</p>
   <option value="lower">the lower band</option><option value="upper">the upper band</option>
   <option value="split">split evenly</option></select></div>
  <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0" selected>Salary only</option><option value="1">+ employer on-costs</option></select></div>
- <div class="ctl"><label id="ldc">Grant-funded posts</label><select id="dc"><option value="0" selected>Count all staff (gross)</option><option value="1">Discount F &minus;50%, G &minus;10%</option></select></div>
+ <div class="ctl"><label id="ldc">Research-only (grant-funded) staff</label><select id="dc"><option value="0" selected>Count all staff (gross)</option><option value="1">Exclude, by the % set per band below</option></select></div>
  <div class="ctl"><label>Start from</label><select id="preset"></select></div>
  <div class="ctl"><label>&nbsp;</label><button id="reset">Reset to current</button></div>
  <div class="ctl"><label>&nbsp;</label><button id="undo">Undo</button></div>
@@ -136,10 +137,19 @@ function sal(p){const e=D.ext[p]; return e!=null?e:D.nat[p];}
 function ocOn(){return $('oc').value==='1';}
 function oc(v){return ocOn()? v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v : v;}
 // Grant-funded discount, matching the "Where the saving comes from" tab so the two can be reconciled.
-function dcFor(b){return ($('dc').value==='1') ? (b==='F'?0.5:b==='G'?0.9:1) : 1;}
+function dcFor(b){if($('dc').value!=='1')return 1;
+ const pct=(S&&S.ro&&S.ro[b]!=null)?S.ro[b]:(RO0[b]||0);
+ return Math.max(0,1-pct/100);}
 
+// Research-only share per band. Derived by allocating HESA's research-only HEADCOUNTS (465 in the
+// £39.1-52.2k band, 80 in £52.2-69.8k, 10 above) across the spine points in each salary band pro rata
+// to the FTE sitting there — 555 FTE in total, 17.6% of the SP34-71 population. NOT the share of
+// research-only among academics (53%/10%/2%), which would wrongly apply an academics-only ratio to a
+// population that also contains professional-services staff, over-discounting by ~336 FTE.
+const RO0={F:26,G:12,H:7,P1:2,P2:2};
 let S=null, HIST=[];
-function fresh(){const o={bands:{},ov:'normal'};BK.forEach(b=>o.bands[b]={floor:D.cur[b].floor,nN:D.cur[b].nN,nC:D.cur[b].nC});return o;}
+function fresh(){const o={bands:{},ov:'normal',ro:Object.assign({},RO0)};
+ BK.forEach(b=>o.bands[b]={floor:D.cur[b].floor,nN:D.cur[b].nN,nC:D.cur[b].nC});return o;}
 function pts(st,b){const x=st.bands[b];
  if(x.pts) return {n:x.pts.n.slice(),c:x.pts.c.slice()};      // explicit list (a preset with gaps)
  const n=[],c=[];
@@ -337,19 +347,24 @@ function render(light){
   $('bandctl').querySelectorAll('input').forEach(i=>{i.value=S.bands[i.dataset.b][i.dataset.k];});
   return;}
  // band steppers
+ const roOn=$('dc').value==='1';
  let bc='<div class="hd">Band</div><div class="hd" title="The spine point a new entrant starts on. This is the single biggest lever on the total.">Starts at SP</div>'+
   '<div class="hd" title="Normal increments — climbed one a year until the ceiling. More increments means a longer climb, so staff sit lower for longer.">Normal pts</div>'+
-  '<div class="hd" title="Discretionary or contribution points above the ceiling, reached by award rather than by time served.">Discretionary</div><div class="hd">Range</div>';
+  '<div class="hd" title="Discretionary or contribution points above the ceiling, reached by award rather than by time served.">Discretionary</div>'+
+  '<div class="hd" title="The share of this band\u2019s staff who are research-only, i.e. grant-funded. Their pay is recovered from funders, so a cheaper structure reduces the FUNDER\u2019S bill rather than Exeter\u2019s, and they should come out of a saving quoted to the University. Defaults are derived from HESA research-only headcounts allocated across the spine by salary \u2014 555 FTE, 17.6% of this population. Applied evenly across the band. Only takes effect when the control above is set to exclude them.">% research-only</div><div class="hd">Range</div>';
  BK.forEach(b=>{const x=S.bands[b],q=pts(S,b),a=[...q.n,...q.c],cq=curPts(b),ca=[...cq.n,...cq.c];
   const same=x.floor===D.cur[b].floor&&x.nN===D.cur[b].nN&&x.nC===D.cur[b].nC;
   bc+='<div class="bl">'+D.cur[b].lab+'</div>'
    +'<div><input type="number" data-b="'+b+'" data-k="floor" value="'+x.floor+'" min="'+P0+'" max="'+P1+'" step="1"></div>'
    +'<div><input type="number" data-b="'+b+'" data-k="nN" value="'+x.nN+'" min="0" max="30" step="1"></div>'
    +'<div><input type="number" data-b="'+b+'" data-k="nC" value="'+x.nC+'" min="0" max="30" step="1"></div>'
+   +'<div><input type="number" data-ro="'+b+'" value="'+(S.ro[b]!=null?S.ro[b]:0)+'" min="0" max="100" step="1"'+(roOn?'':' disabled')+'></div>'
    +'<div class="rng">'+(a.length?'SP'+a[0]+'–'+a[a.length-1]+(gapped(b)?' <span style="color:#c2410c" title="This grade has gaps in it — the spine points are not consecutive. The steppers show the first point and the counts; touching any of them will close the gaps.">(with gaps)</span>':'')+' · '+gbp(sal(a[0]))+'–'+gbp(sal(a[a.length-1]))
       +(same?'':' <span style="color:#9ca3af">(was SP'+ca[0]+'–'+ca[ca.length-1]+', '+gbp(sal(ca[0]))+'–'+gbp(sal(ca[ca.length-1]))+')</span>'):'—')+'</div>';});
  $('bandctl').innerHTML=bc;
- $('bandctl').querySelectorAll('input').forEach(el=>el.addEventListener('input',()=>{
+ $('bandctl').querySelectorAll('input[data-ro]').forEach(el=>el.addEventListener('input',()=>{
+  push(); S.ro[el.dataset.ro]=Math.max(0,Math.min(100,+el.value||0)); render();}));
+ $('bandctl').querySelectorAll('input[data-b]').forEach(el=>el.addEventListener('input',()=>{
   push(); solidify(el.dataset.b); const x=S.bands[el.dataset.b]; x[el.dataset.k]=Math.max(0,+el.value||0);
   if(x.nN+x.nC<1)x.nN=1; if(x.floor<P0)x.floor=P0; render();}));
  // band table
@@ -372,7 +387,11 @@ function render(light){
  $('loc').title=ocOn()?'Showing TOTAL COST TO THE UNIVERSITY — salary plus employer NI, pension and levy (about +28%). Note the baseline tie-out is quoted on the salary-only basis.'
   :'Showing SALARY ONLY — no employer NI, pension or levy. This is the basis on which the baseline reproduces Exeter’s actual pay bill exactly.';
  $('lov').title='Bands overlap, so some spine points are claimed twice (SP40–41, 48–49, 54–56, 58–60, 69–71). This decides which band those staff count towards. Shares always sum to 1, so the BASELINE is identical under every rule — only the re-mapping differs. The headline shows the swing across all four rules.';
- $('ldc').title='The spine distribution counts everyone on these grades, including grant-funded research staff whose pay is met by funders. Discounting F by 50% and G by 10% (HESA research-only shares) makes this page comparable with the “Where the saving comes from” tab, which applies the same discount.';
+ $('ldc').title='The spine distribution counts EVERYONE on these grades, including research-only staff whose pay is '+
+  'recovered from grant funders — for them a cheaper structure reduces the funder\u2019s bill, not Exeter\u2019s. Switching this on removes '+
+  'them, band by band, at the percentages set in the table below, so the saving reads as a saving to the University\u2019s own budget. '+
+  'The defaults come from HESA research-only HEADCOUNTS spread across the spine by salary (555 FTE, 17.6% of this population), not from the '+
+  'share of research-only among academics — see the assumptions panel for why that distinction matters.';
  writeHash();}
 
 /* ---------- presets, hash, wiring ---------- */
@@ -430,9 +449,21 @@ function readHash(){const h=location.hash.slice(1); if(!h)return false;
   'shape of the workforce. On-costs are linear above &pound;5,000 so applying them to means is exact for salaries, but FTE weighting makes the '+
   'NI and pension thresholds approximate.<br>'+
   '&bull; <b>Who is counted, and a difference from the other tabs.</b> All 3,160 FTE on SP34–71, including professional-services and '+
-  'part-time staff on these grades — and, unless you switch the discount on, <b>grant-funded research staff whose pay is met by funders</b>. '+
-  'Gross figures therefore include savings that would accrue to research councils rather than to Exeter. The <b>Where the saving comes from</b> '+
-  'tab discounts grade F by 50% and G by 10% for exactly this reason; the toggle above applies the same discount so the two can be compared.<br>'+
+  'part-time staff on these grades. Gross figures therefore include <b>research-only staff whose pay is recovered from grant funders</b>, '+
+  'for whom a cheaper structure reduces the <i>funder&rsquo;s</i> bill rather than Exeter&rsquo;s. Switching the control above to exclude them '+
+  'removes them band by band at the percentages in the table, giving a saving to the University&rsquo;s own budget.<br>'+
+  '&bull; <b>How the research-only percentages are derived &mdash; and a correction.</b> HESA (DT025 Table 17, 2024/25) reports Exeter&rsquo;s '+
+  'research-only staff by salary band: <b>465</b> earning &pound;39.1&ndash;52.2k, <b>80</b> at &pound;52.2&ndash;69.8k and <b>10</b> above '+
+  '&pound;69.8k. Allocating those <b>headcounts</b> across the spine points in each salary band, pro rata to the FTE sitting there, gives '+
+  '<b>26%</b> at SP34&ndash;40, <b>8%</b> at SP41&ndash;50 and <b>2.5%</b> at SP51&ndash;71 &mdash; <b>555 FTE, 17.6%</b> of this population. '+
+  'The band defaults (F 26%, G 12%, H 7%, professorial 2%) are those figures averaged over each band. '+
+  'It is tempting instead to use HESA&rsquo;s research-only <i>share of academics</i> (79% / 53% / 10% / 2% by salary band), and an earlier '+
+  'version of this site did. That is <b>wrong here</b>: it applies an academics-only ratio to a population that also contains '+
+  '<b>professional-services staff, who are never research-only</b>, and so over-discounts &mdash; by about <b>336 FTE</b> at grades F and G. '+
+  'Remaining limits: HESA counts <b>full-time staff only</b>, its year is 2024/25 against a 2023 distribution, research-only is a proxy for '+
+  'externally funded (some research-only posts are core-funded, and teaching-and-research staff often carry grant-funded fractions the other '+
+  'way), and the share is applied <b>evenly across each band</b> rather than tapering within it. If HR can supply the University-funded '+
+  'headcount directly, type the implied percentages in and none of this reasoning is needed.<br>'+
   '&bull; <b>Professorial Band 3</b> has no published increments and the scale is open-ended above &pound;129,211 (the accounts show 57.5 FTE '+
   'at &pound;130–155k, who are not in the spine distribution at all). Its figures are your inputs and sit outside the exact baseline.<br>'+
   '&bull; <b>Not modelled at all:</b> recruitment and retention effects, market rates in competitive disciplines, equal-pay and '+
