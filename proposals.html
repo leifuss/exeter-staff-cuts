@@ -68,10 +68,25 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
  <div class="lgnd" id="structlgnd"></div>
  <div id="detail" style="margin-top:10px"></div></div>
 
+<div class="card"><h2>Change in the annual pay bill, against Exeter&rsquo;s current structure</h2><div id="bars"></div>
+ <div class="lgnd" id="barlgnd"></div></div>
+
 <div class="card"><h2>One representative career, age 28 to 68, under each model</h2>
  <p class="small" style="margin:0 0 6px">A single academic climbing one point a year: <b>5 years</b> in grade F, <b>7</b> in G,
  <b>8</b> in H, then <b>20</b> as a professor. Dashed verticals mark promotions. This is the same person under six different
  structures &mdash; it shows what each proposal does to a career, which the annual totals below cannot.</p>
+ <div class="rtbar" style="background:#f7f7f5;border-color:var(--line)">
+  <span class="rtlab" style="color:#374151">Years in each grade</span>
+  <span>F <input id="yF" type="number" value="5" min="1" max="25" step="1" style="width:52px"></span>
+  <span>G <input id="yG" type="number" value="7" min="1" max="25" step="1" style="width:52px"></span>
+  <span>H <input id="yH" type="number" value="8" min="1" max="25" step="1" style="width:52px"></span>
+  <span>Professor <input id="yP" type="number" value="20" min="1" max="35" step="1" style="width:52px"></span>
+  <span class="rtlab" style="color:#374151;margin-left:8px">Merit award rate</span>
+  <select id="aw"><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option></select>
+  <span class="rthint">Professorial progression is <b>merit-based, not annual</b>: Exeter reviews <b>biennially</b>, so at a
+  40&#37; award rate a step takes about five years. Sheffield and Manchester give three automatic steps then annual merit.
+  Above each grade&rsquo;s normal points, pay is the expected value of holding a contribution point (30&#37;).</span>
+ </div>
  <div class="rtbar">
   <span class="rtlab">Real terms</span>
   <input id="rtr" type="range" min="0" max="3" step="0.01" value="1.79"><span id="rtv" class="rtv">&minus;1.79&#37;/yr</span>
@@ -81,9 +96,6 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
  </div>
  <div id="careerchart"></div>
  <div class="lgnd" id="careerlgnd"></div></div>
-
-<div class="card"><h2>Change in the annual pay bill, against Exeter&rsquo;s current structure</h2><div id="bars"></div>
- <div class="lgnd" id="barlgnd"></div></div>
 
 <div class="card"><h2>Disaggregated by grade and management</h2><div id="tbl"></div></div>
 <details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
@@ -139,8 +151,8 @@ const MODELS=[
   f:()=>viaBands(shifted(2)), cut:()=>(+$('c3').value||0)/100},
  {id:'m4',  n:'4 · Grades down 3 + exec cut', s:'the same at 3 points',
   f:()=>viaBands(shifted(3)), cut:()=>(+$('c4').value||0)/100},
- {id:'man', n:'5 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0},
- {id:'she', n:'6 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0}];
+ {id:'she', n:'5 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0},
+ {id:'man', n:'6 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0}];
 function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
  BK.forEach(b=>{const dc=dcFor(b);let c=0,f=0;
   ROST[b].forEach(e=>{const w=e.fte*dc; f+=w; c+=w*oc(fn(b,e));});
@@ -154,7 +166,7 @@ function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
 // so both charts can be driven off one description of each model.
 // ---------------------------------------------------------------------------
 const BCOL={F:'#0891b2',G:'#0e7490',H:'#155e75',P1:'#b45309',P2:'#92400e'};
-const MCOL={now:'#b45309',tu:'#7c3aed',m3:'#15803d',m4:'#166534',man:'#0891b2',she:'#0e7490'};
+const MCOL={now:'#b45309',tu:'#7c3aed',m3:'#15803d',m4:'#166534',she:'#0891b2',man:'#0e7490'};
 const nearestSP=v=>{let best=27,bd=1e9;for(let p=27;p<=71;p++){const d=Math.abs(sal(p)-v);if(d<bd){bd=d;best=p;}}return best;};
 // per-band spine-point ranges implied by each model (comparator professorial mapped to the nearest point)
 function bandsOf(id){
@@ -172,7 +184,7 @@ function ranges(bands){const o={};BK.forEach(b=>{const q=ptsOf(bands,b),a=[...q.
 function drawStruct(){
  const P0=27,P1x=71,W=1180,Lm=210,Rm=20,Tm=42,rowH=26,gap=14;
  const plotW=W-Lm-Rm,cw=plotW/(P1x-P0+1),x=p=>Lm+(p-P0)*cw;
- const H=Tm+MODELS.length*(rowH+gap)+18;
+ const hist=34, bottom=Tm+MODELS.length*(rowH+gap)-gap+10, H=bottom+hist+22;
  let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
  for(let p=P0;p<=P1x;p++){if(p%2===1){s+='<line x1="'+x(p)+'" y1="'+(Tm-12)+'" x2="'+x(p)+'" y2="'+(Tm+MODELS.length*(rowH+gap)-gap)+'" stroke="#f0efe9"/>';
   s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-16)+'" text-anchor="middle" font-size="9" fill="#b6b6b0">'+p+'</text>';}}
@@ -185,55 +197,95 @@ function drawStruct(){
   BK.forEach(b=>{const r=bs[b];if(!r)return;
    s+='<rect x="'+(x(r[0])+1)+'" y="'+y+'" width="'+Math.max(2,(r[1]-r[0]+1)*cw-2)+'" height="'+rowH+'" rx="3" fill="'+BCOL[b]+'" opacity="'+(i===0?1:.88)+'"><title>'+md.n+' \u2014 '+LABEL[b]+': SP'+r[0]+'\u2013'+r[1]+' ('+gbp(sal(r[0]))+'\u2013'+gbp(sal(r[1]))+')</title></rect>';
    if((r[1]-r[0]+1)*cw>26)s+='<text x="'+(x(r[0])+((r[1]-r[0]+1)*cw)/2)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="#fff">'+b+'</text>';});});
+ // where the staff actually are: FTE at each spine point, on the same scale
+ const dmax=Math.max(...Object.values(D.dist)), by=bottom+hist;
+ for(let p=P0;p<=P1x;p++){const f=D.dist[p]||0; if(!f)continue;
+  const hh=Math.max(1,f/dmax*hist);
+  s+='<rect x="'+(x(p)+1)+'" y="'+(by-hh)+'" width="'+Math.max(1,cw-2)+'" height="'+hh+'" fill="#c9c9c4"><title>SP'+p+' \u2014 '+f+' FTE at '+gbp(sal(p))+'</title></rect>';}
+ s+='<text x="'+(Lm-10)+'" y="'+(by-2)+'" text-anchor="end" font-size="10.5" fill="#9ca3af">staff (FTE)</text>';
+ s+='<text x="'+(x(34)+cw/2)+'" y="'+(by-hist-3)+'" text-anchor="middle" font-size="9" fill="#6b7280">622</text>';
  s+='</svg>';
  $('structchart').innerHTML=s;
  $('structlgnd').innerHTML=BK.map(b=>'<span class="lg"><span class="sw" style="background:'+BCOL[b]+'"></span>'+LABEL[b]+'</span>').join('')+
   '<span class="lg"><span class="sw" style="background:none;border:1.5px dashed #9ca3af"></span>Exeter today</span>'+
+  '<span class="lg"><span class="sw" style="background:#c9c9c4"></span>staff at each point (2023 FTE)</span>'+
   '<span class="lg" style="color:#9ca3af">Manchester and Sheffield publish professorial pay as a money ladder, not spine points \u2014 shown at the nearest equivalent point</span>';
 }
-// ---- representative career: 5 yrs F, 7 G, 8 H, 20 professorial, one point a year ----
-const SPAN=[['F',5],['G',7],['H',8],['PROF',20]];
-function careerOf(id){
- const out=[];
- const listFor=b=>{
-  if(id==='man'||id==='she'){const C=D.cmp[id==='man'?'Manchester':'Sheffield'],t={F:'1',G:'2',H:'3'};
-   if(b==='PROF')return C.lad.slice();
-   const g=C.g[t[b]];return [...g.n,...g.c].map(sal);}
-  const bands=id==='m3'?shifted(2):(id==='m4'?shifted(3):D.cur);
-  if(b==='PROF'){
-   if(id==='tu'){const v=[...new Set([...Object.values(D.tu.P1||{}),...Object.values(D.tu.P2||{})])].sort((a,b)=>a-b);return v.map(sal);}
-   const q1=ptsOf(bands,'P1'),q2=ptsOf(bands,'P2');
-   return [...new Set([...q1.n,...q1.c,...q2.n,...q2.c])].sort((a,b)=>a-b).map(sal);}
-  if(id==='tu'){const mp=D.tu[b];const v=[...new Set(Object.values(mp))].sort((a,b)=>a-b);return v.map(sal);}
-  const q=ptsOf(bands,b);return [...q.n,...q.c].map(sal);};
- SPAN.forEach(([b,T])=>{const L=listFor(b);
-  for(let k=0;k<T;k++)out.push(L[Math.min(k,L.length-1)]);});
+// ---- representative career ----
+// Two engines, matching the rest of the site. Non-professorial: the site's EgNP — climb the normal
+// points one a year, then sit at the ceiling holding a contribution point with probability CP.
+// Professorial: the Markov forward simulation from the Professorial tab — merit progression is NOT
+// annual. Exeter reviews BIENNIALLY, so at a 40% award rate a step takes about five years.
+const CP=0.30;
+const PROG={she:[...Array(3).fill('a'),...Array(12).fill('m1')],
+            man:[...Array(3).fill('a'),...Array(8).fill('m1')]};
+function yrs(){const g=id=>Math.max(1,+($(id)||{}).value||1);
+ return [['F',g('yF')],['G',g('yG')],['H',g('yH')],['PROF',g('yP')]];}
+function awRate(){return +(($('aw')||{}).value||0.4)||0.4;}
+// each model's lists: normal points, contribution points (as £), and the professorial ladder
+function listsFor(id,b){
+ if(id==='man'||id==='she'){const C=D.cmp[id==='man'?'Manchester':'Sheffield'],t={F:'1',G:'2',H:'3'};
+  if(b==='PROF')return {lad:C.lad.slice(),prog:PROG[id]};
+  const g=C.g[t[b]];return {n:g.n.map(sal),c:g.c.map(sal)};}
+ const bands=id==='m3'?shifted(2):(id==='m4'?shifted(3):D.cur);
+ if(b==='PROF'){
+  let pts;
+  if(id==='tu')pts=[...new Set([...Object.values(D.tu.P1||{}),...Object.values(D.tu.P2||{})])].sort((a,b)=>a-b);
+  else{const q1=ptsOf(bands,'P1'),q2=ptsOf(bands,'P2');
+       pts=[...new Set([...q1.n,...q1.c,...q2.n,...q2.c])].sort((a,b)=>a-b);}
+  const lad=pts.map(sal);
+  return {lad,prog:Array(Math.max(0,lad.length-1)).fill('m2')};}   // Exeter: biennial merit throughout
+ if(id==='tu'){const mp=D.tu[b],v=[...new Set(Object.values(mp))].sort((a,b)=>a-b);
+  // the claim assimilates points; the grade keeps its own normal/contribution split by position
+  const L=ptsOf(D.cur,b).n.length;
+  return {n:v.slice(0,L).map(sal),c:v.slice(L).map(sal)};}
+ const q=ptsOf(bands,b);return {n:q.n.map(sal),c:q.c.map(sal)};}
+// expected professorial salary year by year: probability vector over rungs, top rung absorbing
+function profSeries(lad,prog,aw,T){const L=lad.length,out=[];let p=new Array(L).fill(0);p[0]=1;
+ for(let t=0;t<T;t++){out.push(p.reduce((a,pr,i)=>a+pr*lad[i],0));
+  const q=new Array(L).fill(0);
+  for(let k=0;k<L;k++){if(!p[k])continue;
+   if(k===L-1){q[k]+=p[k];continue;}
+   const mch=prog[k]||'m1', pr=mch==='a'?1:(mch==='m1'?aw:(t%2===1?aw:0));
+   q[k+1]+=p[k]*pr;q[k]+=p[k]*(1-pr);}
+  p=q;}
+ return out;}
+function careerOf(id){const out=[],aw=awRate();
+ yrs().forEach(([b,T])=>{const L=listsFor(id,b);
+  if(b==='PROF'){profSeries(L.lad,L.prog,aw,T).forEach(v=>out.push(v));return;}
+  const NL=L.n.length, ceil=L.n[NL-1], c1=L.c.length?L.c[0]:null;
+  for(let k=1;k<=T;k++) out.push(k<=NL ? L.n[k-1] : (c1!=null?(1-CP)*ceil+CP*c1:ceil));});
  return out;}
 function drawCareer(){
- const d=(+$('rtr').value||0)/100, rf=1-d;
+ const d=(+$('rtr').value||0)/100, rf=1-d, SP=yrs();
  const series=MODELS.map(md=>({md,pts:careerOf(md.id).map((v,t)=>v*Math.pow(rf,t))}));
- const W=1180,L=76,R=150,T=14,B=40,H=340;
- const tot=SPAN.reduce((a,x)=>a+x[1],0);
+ const W=1180,L=76,R=150,T=14,B=42,H=340;
+ const tot=SP.reduce((a,x)=>a+x[1],0);
  const all=[].concat(...series.map(s=>s.pts));
  const ymin=Math.min(...all)*0.96,ymax=Math.max(...all)*1.04;
- const x=t=>L+t/(tot-1)*(W-L-R), Y=v=>T+(ymax-v)/(ymax-ymin)*(H-T-B);
+ const x=t=>L+t/Math.max(1,tot-1)*(W-L-R), Y=v=>T+(ymax-v)/(ymax-ymin)*(H-T-B);
  let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
  for(let g=0;g<=4;g++){const v=ymin+(ymax-ymin)*g/4;
   s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="#eee"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="11" fill="#9ca3af">'+gbp(v)+'</text>';}
- let acc=0;SPAN.slice(0,3).forEach(([b,T2])=>{acc+=T2;
+ let acc=0;SP.slice(0,3).forEach(([b,T2],k)=>{acc+=T2; if(acc>=tot)return;
   s+='<line x1="'+x(acc)+'" y1="'+T+'" x2="'+x(acc)+'" y2="'+(H-B)+'" stroke="#e0c060" stroke-dasharray="4 3"/>'+
-     '<text x="'+x(acc)+'" y="'+(H-B+26)+'" text-anchor="middle" font-size="10.5" fill="#b08900">\u2192 '+(b==='H'?'Professor':SPAN[SPAN.findIndex(z=>z[0]===b)+1][0])+'</text>';});
- for(let t=0;t<tot;t+=4)s+='<text x="'+x(t)+'" y="'+(H-B+13)+'" text-anchor="middle" font-size="11" fill="#9ca3af">'+(28+t)+'</text>';
+     '<text x="'+x(acc)+'" y="'+(H-B+26)+'" text-anchor="middle" font-size="10.5" fill="#b08900">→ '+(k===2?'Professor':SP[k+1][0])+'</text>';});
+ const step=tot>28?4:2;
+ for(let t=0;t<tot;t+=step)s+='<text x="'+x(t)+'" y="'+(H-B+13)+'" text-anchor="middle" font-size="11" fill="#9ca3af">'+(28+t)+'</text>';
  s+='<text x="'+((L+W-R)/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="11" fill="#6b7280">age</text>';
  series.forEach(se=>{const ex=se.md.id==='now';
-  let dpath='M'+x(0)+' '+Y(se.pts[0]);
-  for(let t=1;t<se.pts.length;t++)dpath+=' L'+x(t)+' '+Y(se.pts[t-1])+' L'+x(t)+' '+Y(se.pts[t]);
-  s+='<path d="'+dpath+'" fill="none" stroke="'+MCOL[se.md.id]+'" stroke-width="'+(ex?3.2:1.7)+'" opacity="'+(ex?1:.85)+'"/>';
-  s+='<text x="'+(W-R+6)+'" y="'+(Y(se.pts[se.pts.length-1])+4)+'" font-size="11" font-weight="'+(ex?700:500)+'" fill="'+MCOL[se.md.id]+'">'+gbp(se.pts[se.pts.length-1])+'</text>';});
+  let dp='M'+x(0)+' '+Y(se.pts[0]);
+  for(let t=1;t<se.pts.length;t++)dp+=' L'+x(t)+' '+Y(se.pts[t-1])+' L'+x(t)+' '+Y(se.pts[t]);
+  s+='<path d="'+dp+'" fill="none" stroke="'+MCOL[se.md.id]+'" stroke-width="'+(ex?3.2:1.7)+'" opacity="'+(ex?1:.85)+'"/>';});
+ // end labels, nudged apart so close finishes stay legible
+ const ends=series.map(se=>({se,v:se.pts[se.pts.length-1],y:Y(se.pts[se.pts.length-1])})).sort((a,b)=>a.y-b.y);
+ for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<13) ends[i].y=ends[i-1].y+13;
+ ends.forEach(o=>{const ex=o.se.md.id==='now';
+  s+='<text x="'+(W-R+6)+'" y="'+(o.y+4)+'" font-size="11" font-weight="'+(ex?700:500)+'" fill="'+MCOL[o.se.md.id]+'">'+gbp(o.v)+'</text>';});
  s+='</svg>';
  $('careerchart').innerHTML=s;
  $('careerlgnd').innerHTML=MODELS.map(md=>'<span class="lg"><span class="sw" style="background:'+MCOL[md.id]+';height:'+(md.id==='now'?6:4)+'px"></span>'+(md.id==='now'?'<b>'+md.n+'</b>':md.n)+'</span>').join('')+
-  (d>0?'<span class="lg" style="color:#b45309">real terms \u2014 \u00a3 of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'\u0025/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
+  (d>0?'<span class="lg" style="color:#b45309">real terms — £ of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'%/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
 }
 function draw(){
  const base=cost(MODELS[0]), res=MODELS.map(md=>({md,r:cost(md)}));
@@ -271,6 +323,11 @@ function draw(){
   s+='<line x1="'+gx+'" y1="'+(T-6)+'" x2="'+gx+'" y2="'+(T+res.length*rowH-8)+'" stroke="#f0efe9"/>'+
      '<text x="'+gx+'" y="'+(T-10)+'" text-anchor="middle" font-size="9.5" fill="#b6b6b0">'+(sg<0?'\u2212':'+')+m(v).replace('\u2212','')+'</text>';});}
  s+='<line x1="'+x0+'" y1="'+(T-6)+'" x2="'+x0+'" y2="'+(T+res.length*rowH-8)+'" stroke="#b45309" stroke-width="1.4"/>';
+ // group the rows: the baseline, the three proposals, then the two comparator structures
+ [[1,'proposals'],[4,'comparator structures']].forEach(([r,cap])=>{const gy=T+r*rowH-5;
+  s+='<line x1="'+(L-96)+'" y1="'+gy+'" x2="'+(W-R+40)+'" y2="'+gy+'" stroke="#d9d9d4" stroke-width="1"/>'+
+     '<text x="'+(L-96)+'" y="'+(gy+11)+'" font-size="9.5" font-weight="600" fill="#b6b6b0" letter-spacing="0.04em">'+cap.toUpperCase()+'</text>';});
+ s+='<text x="'+(L-96)+'" y="'+(T+11)+'" font-size="9.5" font-weight="600" fill="#b6b6b0" letter-spacing="0.04em">BASELINE</text>';
  res.forEach((x,i)=>{const y=T+i*rowH+4,d=x.r.tot-base.tot;
   s+='<text x="'+(L-10)+'" y="'+(y+15)+'" text-anchor="end" font-size="12.5" font-weight="'+(i?400:700)+'" fill="#1d1d1b">'+x.md.n+'</text>';
   if(!i){s+='<text x="'+(x0+6)+'" y="'+(y+15)+'" font-size="12" fill="#9ca3af">baseline \u2014 '+m(base.tot)+'/yr</text>';return;}
@@ -299,7 +356,7 @@ function draw(){
  BK.forEach(b=>{const mp=D.tu[b];const ks=mp?Object.keys(mp).map(Number).sort((a,b)=>a-b):[];
   dh+='<td>'+(ks.length?('SP'+ks[0]+'→'+mp[ks[0]]+' … SP'+ks[ks.length-1]+'→'+mp[ks[ks.length-1]]):'—')+'</td>';});
  dh+='</tr>';
- [['Manchester',MODELS[4]],['Sheffield',MODELS[5]]].forEach(([u,md])=>{
+ [['Sheffield',MODELS[4]],['Manchester',MODELS[5]]].forEach(([u,md])=>{
   const C=D.cmp[u],t={F:'1',G:'2',H:'3'};
   dh+='<tr><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
   ['F','G','H'].forEach(b=>{const g=C.g[t[b]],a=[...g.n,...g.c];dh+='<td>SP'+a[0]+'–'+a[a.length-1]+'</td>';});
@@ -356,7 +413,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['change','input'].forEach(v=>$('rtr').addEventListener(v,()=>{rtSync();drawCareer();}));
+['rtr','yF','yG','yH','yP','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
 rtSync();
 draw();
 </script>
