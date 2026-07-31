@@ -80,7 +80,7 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
   <span>F <input id="yF" type="number" value="5" min="1" max="25" step="1" style="width:52px"></span>
   <span>G <input id="yG" type="number" value="7" min="1" max="25" step="1" style="width:52px"></span>
   <span>H <input id="yH" type="number" value="8" min="1" max="25" step="1" style="width:52px"></span>
-  <span>Professor <input id="yP" type="number" value="20" min="1" max="35" step="1" style="width:52px"></span>
+  <span style="color:#6b7280">Professor <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
   <span class="rtlab" style="color:#374151;margin-left:8px">Merit award rate</span>
   <select id="aw"><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option></select>
   <span class="rthint">Professorial progression is <b>merit-based, not annual</b>: Exeter reviews <b>biennially</b>, so at a
@@ -166,7 +166,8 @@ function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
 // so both charts can be driven off one description of each model.
 // ---------------------------------------------------------------------------
 const BCOL={F:'#0891b2',G:'#0e7490',H:'#155e75',P1:'#b45309',P2:'#92400e'};
-const MCOL={now:'#b45309',tu:'#7c3aed',m3:'#15803d',m4:'#166534',she:'#0891b2',man:'#0e7490'};
+const MCOL={now:'#b45309',tu:'#7c3aed',m3:'#15803d',m4:'#84cc16',she:'#0891b2',man:'#1e40af'};
+const DASH={she:'7 4',man:'2 3'};   // comparators drawn broken, so proposals stand out
 const nearestSP=v=>{let best=27,bd=1e9;for(let p=27;p<=71;p++){const d=Math.abs(sal(p)-v);if(d<bd){bd=d;best=p;}}return best;};
 // per-band spine-point ranges implied by each model (comparator professorial mapped to the nearest point)
 function bandsOf(id){
@@ -192,11 +193,21 @@ function drawStruct(){
  const base=bandsOf('now');
  MODELS.forEach((md,i)=>{const y=Tm+i*(rowH+gap),bs=bandsOf(md.id);
   s+='<text x="'+(Lm-10)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-size="12" font-weight="'+(i===0?700:600)+'" fill="#1d1d1b">'+md.n+'</text>';
-  BK.forEach(b=>{const r=base[b];
+  if(i)BK.forEach(b=>{const r=base[b];
    s+='<rect x="'+x(r[0])+'" y="'+(y-2)+'" width="'+((r[1]-r[0]+1)*cw)+'" height="'+(rowH+4)+'" rx="3" fill="none" stroke="#c9c9c4" stroke-width="1" stroke-dasharray="3 3"/>';});
-  BK.forEach(b=>{const r=bs[b];if(!r)return;
-   s+='<rect x="'+(x(r[0])+1)+'" y="'+y+'" width="'+Math.max(2,(r[1]-r[0]+1)*cw-2)+'" height="'+rowH+'" rx="3" fill="'+BCOL[b]+'" opacity="'+(i===0?1:.88)+'"><title>'+md.n+' \u2014 '+LABEL[b]+': SP'+r[0]+'\u2013'+r[1]+' ('+gbp(sal(r[0]))+'\u2013'+gbp(sal(r[1]))+')</title></rect>';
-   if((r[1]-r[0]+1)*cw>26)s+='<text x="'+(x(r[0])+((r[1]-r[0]+1)*cw)/2)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="#fff">'+b+'</text>';});});
+  // one cell per spine point, coloured by the HIGHEST band that claims it, so overlapping
+  // grades never blend into a third colour; runs of the same band are merged into one block
+  const own={};BK.forEach(b=>{const r=bs[b];if(!r)return;for(let q=r[0];q<=r[1];q++)own[q]=b;});
+  let run=null;
+  const flush=()=>{if(!run)return;const w=(run.b1-run.b0+1)*cw;
+   s+='<rect x="'+(x(run.b0)+0.5)+'" y="'+y+'" width="'+Math.max(2,w-1)+'" height="'+rowH+'" rx="2" fill="'+BCOL[run.b]+'">'+
+      '<title>'+md.n+' \u2014 '+LABEL[run.b]+': SP'+run.b0+'\u2013'+run.b1+' ('+gbp(sal(run.b0))+'\u2013'+gbp(sal(run.b1))+')</title></rect>';
+   if(w>24)s+='<text x="'+(x(run.b0)+w/2)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="#fff">'+run.b+'</text>';
+   run=null;};
+  for(let q=P0;q<=P1x;q++){const b=own[q];
+   if(!b){flush();continue;}
+   if(run&&run.b===b)run.b1=q; else {flush();run={b,b0:q,b1:q};}}
+  flush();});
  // where the staff actually are: FTE at each spine point, on the same scale
  const dmax=Math.max(...Object.values(D.dist)), by=bottom+hist;
  for(let p=P0;p<=P1x;p++){const f=D.dist[p]||0; if(!f)continue;
@@ -219,8 +230,11 @@ function drawStruct(){
 const CP=0.30;
 const PROG={she:[...Array(3).fill('a'),...Array(12).fill('m1')],
             man:[...Array(3).fill('a'),...Array(8).fill('m1')]};
+const AGE0=28, AGE1=67, TOTY=AGE1-AGE0+1;          // the career always runs 28 -> 67
 function yrs(){const g=id=>Math.max(1,+($(id)||{}).value||1);
- return [['F',g('yF')],['G',g('yG')],['H',g('yH')],['PROF',g('yP')]];}
+ const f=g('yF'),gg=g('yG'),h=g('yH'), pr=Math.max(1,TOTY-f-gg-h);
+ if($('yPout'))$('yPout').textContent=pr;
+ return [['F',f],['G',gg],['H',h],['PROF',pr]];}
 function awRate(){return +(($('aw')||{}).value||0.4)||0.4;}
 // each model's lists: normal points, contribution points (as £), and the professorial ladder
 function listsFor(id,b){
@@ -271,12 +285,12 @@ function drawCareer(){
   s+='<line x1="'+x(acc)+'" y1="'+T+'" x2="'+x(acc)+'" y2="'+(H-B)+'" stroke="#e0c060" stroke-dasharray="4 3"/>'+
      '<text x="'+x(acc)+'" y="'+(H-B+26)+'" text-anchor="middle" font-size="10.5" fill="#b08900">→ '+(k===2?'Professor':SP[k+1][0])+'</text>';});
  const step=tot>28?4:2;
- for(let t=0;t<tot;t+=step)s+='<text x="'+x(t)+'" y="'+(H-B+13)+'" text-anchor="middle" font-size="11" fill="#9ca3af">'+(28+t)+'</text>';
+ for(let t=0;t<tot;t+=step)s+='<text x="'+x(t)+'" y="'+(H-B+13)+'" text-anchor="middle" font-size="11" fill="#9ca3af">'+(AGE0+t)+'</text>';
  s+='<text x="'+((L+W-R)/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="11" fill="#6b7280">age</text>';
  series.forEach(se=>{const ex=se.md.id==='now';
   let dp='M'+x(0)+' '+Y(se.pts[0]);
   for(let t=1;t<se.pts.length;t++)dp+=' L'+x(t)+' '+Y(se.pts[t-1])+' L'+x(t)+' '+Y(se.pts[t]);
-  s+='<path d="'+dp+'" fill="none" stroke="'+MCOL[se.md.id]+'" stroke-width="'+(ex?3.2:1.7)+'" opacity="'+(ex?1:.85)+'"/>';});
+  s+='<path d="'+dp+'" fill="none" stroke="'+MCOL[se.md.id]+'" stroke-width="'+(ex?3.2:1.9)+'" opacity="'+(ex?1:.9)+'"'+(DASH[se.md.id]?' stroke-dasharray="'+DASH[se.md.id]+'"':'')+'/>';});
  // end labels, nudged apart so close finishes stay legible
  const ends=series.map(se=>({se,v:se.pts[se.pts.length-1],y:Y(se.pts[se.pts.length-1])})).sort((a,b)=>a.y-b.y);
  for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<13) ends[i].y=ends[i-1].y+13;
@@ -284,7 +298,7 @@ function drawCareer(){
   s+='<text x="'+(W-R+6)+'" y="'+(o.y+4)+'" font-size="11" font-weight="'+(ex?700:500)+'" fill="'+MCOL[o.se.md.id]+'">'+gbp(o.v)+'</text>';});
  s+='</svg>';
  $('careerchart').innerHTML=s;
- $('careerlgnd').innerHTML=MODELS.map(md=>'<span class="lg"><span class="sw" style="background:'+MCOL[md.id]+';height:'+(md.id==='now'?6:4)+'px"></span>'+(md.id==='now'?'<b>'+md.n+'</b>':md.n)+'</span>').join('')+
+ $('careerlgnd').innerHTML=MODELS.map(md=>'<span class="lg"><span class="sw" style="'+(DASH[md.id]?'background:none;border-top:3px dashed '+MCOL[md.id]:'background:'+MCOL[md.id])+';height:'+(md.id==='now'?6:4)+'px"></span>'+(md.id==='now'?'<b>'+md.n+'</b>':md.n)+'</span>').join('')+
   (d>0?'<span class="lg" style="color:#b45309">real terms — £ of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'%/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
 }
 function draw(){
@@ -348,20 +362,15 @@ function draw(){
   '<span class="lg" style="color:#9ca3af">bar length = total change; segments = where it comes from. Left of the line is cheaper than today, right is dearer.</span>';
  // ---- per-model detail ----
  let dh='<table><tr><th>Model</th><th class="l">What it changes</th><th>Grade F</th><th>Grade G</th><th>Grade H</th><th>Prof 1</th><th>Prof 2</th></tr>';
- const rng=(bands,b)=>{const q=ptsOf(bands,b),a=[...q.n,...q.c];return 'SP'+a[0]+'–'+a[a.length-1];};
- [[MODELS[0],D.cur],[MODELS[2],shifted(2)],[MODELS[3],shifted(3)]].forEach(([md,bands])=>{
-  dh+='<tr><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
-  BK.forEach(b=>dh+='<td>'+rng(bands,b)+'</td>');dh+='</tr>';});
- dh+='<tr><td>'+MODELS[1].n+'</td><td style="text-align:left;color:#6b7280">'+MODELS[1].s+'</td>';
- BK.forEach(b=>{const mp=D.tu[b];const ks=mp?Object.keys(mp).map(Number).sort((a,b)=>a-b):[];
-  dh+='<td>'+(ks.length?('SP'+ks[0]+'→'+mp[ks[0]]+' … SP'+ks[ks.length-1]+'→'+mp[ks[ks.length-1]]):'—')+'</td>';});
- dh+='</tr>';
- [['Sheffield',MODELS[4]],['Manchester',MODELS[5]]].forEach(([u,md])=>{
-  const C=D.cmp[u],t={F:'1',G:'2',H:'3'};
-  dh+='<tr><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
-  ['F','G','H'].forEach(b=>{const g=C.g[t[b]],a=[...g.n,...g.c];dh+='<td>SP'+a[0]+'–'+a[a.length-1]+'</td>';});
-  dh+='<td colspan="2">ladder of '+C.lad.length+' rungs, '+gbp(C.lad[0])+'–'+gbp(C.lad[C.lad.length-1])+'</td></tr>';});
- dh+='</table>';
+ MODELS.forEach(md=>{const bs=bandsOf(md.id);
+  dh+='<tr'+(md.id==='now'?' class="ex"':'')+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
+  BK.forEach(b=>{const r=bs[b];
+   dh+='<td>'+(r?('SP'+r[0]+'\u2013'+r[1]+(md.id==='man'||md.id==='she'?((b==='P1'||b==='P2')?'*':''):'')):'\u2014')+'</td>';});
+  dh+='</tr>';});
+ dh+='</table><p class="small" style="margin:5px 0 0">* Sheffield and Manchester publish professorial pay as a money ladder rather than spine points '+
+  '(Sheffield '+gbp(D.cmp.Sheffield.lad[0])+'\u2013'+gbp(D.cmp.Sheffield.lad[D.cmp.Sheffield.lad.length-1])+', '+
+  'Manchester '+gbp(D.cmp.Manchester.lad[0])+'\u2013'+gbp(D.cmp.Manchester.lad[D.cmp.Manchester.lad.length-1])+'); '+
+  'shown here at the nearest equivalent spine point.</p>';
  $('detail').innerHTML=dh;
  drawStruct(); drawCareer();
  // ---- warnings / framing ----
@@ -413,7 +422,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['rtr','yF','yG','yH','yP','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+['rtr','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
 rtSync();
 draw();
 </script>
