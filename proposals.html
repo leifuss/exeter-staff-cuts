@@ -44,7 +44,9 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
 <div class="answer">
  <b>How this is priced.</b> Each model is applied to Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine,
  and every model is expressed as a <b>map from each current spine point to a new one</b> &mdash; which is exactly how the
- 2022 union claim itself is written. The baseline reproduces Exeter&rsquo;s actual pay bill to the pound, and because
+ 2022 union claim itself is written. Switch to <i>salary only</i> and <i>count all staff</i> and the baseline reproduces
+ Exeter&rsquo;s <b>actual pay bill to the pound</b> (&pound;177,464,944 across 3,159.8 FTE); the defaults above add employer
+ on-costs and remove grant-funded research staff, so the figures read as a cost to the University. Because
  nothing here depends on modelling how fast people are promoted, the <b>professorial figures carry none of the
  progression uncertainty</b> that led us to retire the professorial cost ranking elsewhere on this site.
  <div style="margin-top:8px"><b>What it is not.</b> A <b>steady state</b>: what today&rsquo;s workforce would cost had it
@@ -53,8 +55,8 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
 </div>
 
 <div class="controls">
- <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0" selected>Salary only</option><option value="1">+ employer on-costs</option></select></div>
- <div class="ctl"><label id="ldc">Research-only (grant-funded) staff</label><select id="dc"><option value="0" selected>Count all staff (gross)</option><option value="1">Exclude (F &minus;26&#37;, G &minus;13&#37;, H &minus;8&#37;)</option></select></div>
+ <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
+ <div class="ctl"><label id="ldc">Research-only (grant-funded) staff</label><select id="dc"><option value="0">Count all staff (gross)</option><option value="1" selected>Exclude (F &minus;26&#37;, G &minus;13&#37;, H &minus;8&#37;)</option></select></div>
  <div class="ctl"><label id="lkmp">Management pay bill</label><input id="kmp" type="number" value="3848000" min="0" step="10000"></div>
  <div class="ctl"><label>Cut in model 3</label><input id="c3" type="number" value="6" min="0" max="100" step="1"></div>
  <div class="ctl"><label>Cut in model 4</label><input id="c4" type="number" value="9" min="0" max="100" step="1"></div>
@@ -154,12 +156,13 @@ const MODELS=[
  {id:'she', n:'5 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0},
  {id:'man', n:'6 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0}];
 function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
+ const fteBy={};
  BK.forEach(b=>{const dc=dcFor(b);let c=0,f=0;
   ROST[b].forEach(e=>{const w=e.fte*dc; f+=w; c+=w*oc(fn(b,e));});
-  by[b]=c; tot+=c; fte+=f;});
+  by[b]=c; fteBy[b]=f; tot+=c; fte+=f;});
  const mg=(+$('kmp').value||0)*(1-model.cut());
  by.MGMT=mg; tot+=mg;
- return {by,tot,fte};}
+ return {by,tot,fte,fteBy};}
 // ---------------------------------------------------------------------------
 // Structure and career charts. Every model resolves to a per-band point list
 // (spine points for Exeter-derived models, a money ladder for the comparators),
@@ -304,6 +307,11 @@ function drawCareer(){
 function draw(){
  const base=cost(MODELS[0]), res=MODELS.map(md=>({md,r:cost(md)}));
  const rows=[...BK,'MGMT'];
+ // posts each model could fund: per band, its saving divided by what one post at THAT band costs
+ // under the model, then added up — the same method as the Modelling tab.
+ const postsOf=r=>BK.reduce((a,b)=>{const mean=r.fteBy[b]?r.by[b]/r.fteBy[b]:0;
+  return a+(mean?(base.by[b]-r.by[b])/mean:0);},0);
+ const pn=v=>{const a=Math.abs(v);return (v<0?'\u2212':'')+(a>=10?Math.round(a).toLocaleString():a.toFixed(1));};
  // ---- table ----
  let h='<table><tr><th>Grade</th><th>Staff (FTE)</th><th>Exeter now</th>';
  res.slice(1).forEach(x=>h+='<th>'+x.md.n.replace(/^\d+ · /,'')+'</th>');
@@ -321,6 +329,10 @@ function draw(){
  h+='</tr><tr class="tot"><td>as a share of the bill</td><td></td><td>—</td>';
  res.slice(1).forEach(x=>{const d=(x.r.tot-base.tot)/base.tot*100;
   h+='<td class="'+(d<0?'save':'cost')+'">'+(d<0?'':'+')+d.toFixed(1)+'&#37;</td>';});
+ h+='</tr><tr class="tot"><td class="h" title="Each grade\u2019s saving divided by what one post at THAT grade costs under the model, then added up \u2014 the same method as the Modelling tab. Management is excluded, since an executive post is not an academic one. An equivalence for scale, NOT predicted job retention: a negative figure means the model costs the equivalent of that many posts.">'+
+  '\u2248 posts it could fund</td><td></td><td>—</td>';
+ res.slice(1).forEach(x=>{const v=postsOf(x.r);
+  h+='<td class="'+(v>0?'save':'cost')+'">'+pn(v)+'</td>';});
  h+='</tr></table>';
  $('tbl').innerHTML=h;
  // ---- bar chart, stacked by where the money comes from ----
