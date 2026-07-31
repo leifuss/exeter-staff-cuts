@@ -110,8 +110,8 @@ another's professoriate — is now its own top-level tab.)</p>
  Flagged as a likely <b>additional</b> saving, deliberately left out of the headline figures.</p>
  <p style="font-size:14px"><b>A rough bound on its size:</b> of Exeter's 780 full-time research-only staff (HESA 2024/25),
  545 sit in the Lecturer and Senior-Lecturer salary bands that this model <i>can</i> price. Running just those 545 through the
- same structural comparison gives roughly <b>£2m/yr vs the mean of the modelled systems and £4m/yr vs the cheapest</b>
- (salary only; ~£3–5m with on-costs) — on top of the headline. The remaining 230 sit on the research grade below Lecturer,
+ same structural comparison gives roughly <b>£2.3m/yr vs the mean of the modelled systems and £8.4m/yr vs the cheapest</b>
+ (salary only; £3.0m and £10.9m with on-costs) — on top of the headline. The remaining 230 sit on the research grade below Lecturer,
  for which peers' scales are not yet collected. Because external funders pay most research salaries, only part of this would
  land on Exeter's core budget — treat it as scale, not a forecast.</p></div>
  <div class="card"><h2>Does the model add up? (calibration)</h2>
@@ -121,13 +121,13 @@ another's professoriate — is now its own top-level tab.)</p>
  grades plus the professoriate, excluding part-time staff, research-only staff and non-academic staff — so the modelled figure
  should come to <i>well under</i> the accounts' total, with the gap explained by those exclusions.
  </p>
- <p style="font-size:14px">On the central assumptions the modelled bill is <b>≈£106m in salary</b>, or <b>≈£137m including
+ <p style="font-size:14px">On the central assumptions the modelled bill is <b>≈£108.5m in salary</b>, or <b>≈£139.8m including
  employer on-costs</b> — about <b>35% of the £396.6m total staff costs</b> in the University's 2024/25 Annual Report
  (year to 31 July 2025). The remaining ~65% is exactly what the model deliberately leaves out: professional-services
  staff, research-only staff, part-time staff, the grades below Lecturer, and non-salary staff costs such as severance.
  That proportion is the right size for the population modelled — the model passes the check. The accounts' activity
- split (Note 9) tightens it further: staff costs in <b>academic colleges were £186.4m</b>, so the modelled ≈£137m is
- about <b>73% of the academic-colleges pay bill</b>, with the residual being part-time staff, the grades below Lecturer
+ split (Note 9) tightens it further: staff costs in <b>academic colleges were £186.4m</b>, so the modelled ≈£139.8m is
+ about <b>75% of the academic-colleges pay bill</b> (a 2026-27 pay bill against a 2024/25 accounts figure, so read the ratio as indicative), with the residual being part-time staff, the grades below Lecturer
  and college-based professional staff; externally-funded research staff sit mostly in the separate £61.1m
  research-grants line, which is why the model's research-only exclusion barely touches the academic-colleges figure. The accounts also name the
  drivers of staff-cost growth — the national pay award, the <b>employer NI increase</b> and living-wage adoption — which
@@ -160,7 +160,7 @@ other half of the picture.</p></div>
  <div class="small">
   <div style="padding:2px 0"><a href="grades.json" target="_blank">grades.json</a> &mdash; each institution's grade structure (normal + contribution points)</div>
   <div style="padding:2px 0"><a href="grades.csv" target="_blank">grades.csv</a> &mdash; the same, as CSV</div>
-  <div style="padding:2px 0"><a href="national_spine.csv" target="_blank">national_spine.csv</a> &mdash; the UCU/UCEA national spine (2025-26, +2% provisional)</div>
+  <div style="padding:2px 0"><a href="national_spine.csv" target="_blank">national_spine.csv</a> &mdash; the UCU/UCEA national spine (2026-27)</div>
   <div style="padding:2px 0"><a href="cost_model_results.csv" target="_blank">cost_model_results.csv</a> &mdash; non-professorial cost results across scenarios</div>
   <div style="padding:2px 0"><a href="sources/annualreport2024-2025.pdf" target="_blank">annualreport2024-2025.pdf</a> &mdash; University of Exeter Annual Report and Financial Statements 2024/25 (used for calibration and scale context)</div>
   <div style="padding:5px 0"><a href="https://github.com/leifuss/exeter-staff-cuts" target="_blank"><b>Full project &amp; data on GitHub &#8599;</b></a></div>
@@ -171,7 +171,7 @@ other half of the picture.</p></div>
  universities replace these documents each year, so the snapshot is what the figures are built on.</p>
  <h2 style="margin-top:10px">Non-professorial &amp; spine documents</h2><div id="src_np" class="small"></div>
  <h2 style="margin-top:12px">Professorial documents</h2><div id="src_pr" class="small"></div>
- <p class="small" style="margin-top:10px"><b>Excluded by design:</b> Oxford, Cambridge, London institutions (incl. UCL), and Northern Ireland — distinct labour markets / cost bases; <b>Scottish universities (Edinburgh, Glasgow, Aberdeen)</b> — different student-funding model (their data is retained in the files but kept out of the comparison). Some other Russell Group universities are omitted because pay data was not available. Sheffield uses its current (Aug 2025) grade and professorial scales. <b>Durham's professoriate is excluded</b> (it publishes only indicative bands with no scale of spot salaries actually awarded, so it can't be priced reliably; nothing suggests it pays professors less) — Durham appears as a non-professorial structure only (†). Liverpool professorial uses its Level 1 scale plus off-scale range (Levels 2–4 spot salaries excluded). National spine 2025-26 verified across 8+ institutions.</p></div>
+ <p class="small" style="margin-top:10px"><b>Excluded by design:</b> Oxford, Cambridge, London institutions (incl. UCL), and Northern Ireland — distinct labour markets / cost bases; <b>Scottish universities (Edinburgh, Glasgow, Aberdeen)</b> — different student-funding model (their data is retained in the files but kept out of the comparison). Some other Russell Group universities are omitted because pay data was not available. Sheffield uses its current (Aug 2025) grade and professorial scales. <b>Durham's professoriate is excluded</b> (it publishes only indicative bands with no scale of spot salaries actually awarded, so it can't be priced reliably; nothing suggests it pays professors less) — Durham appears as a non-professorial structure only (†). Liverpool professorial uses its Level 1 scale plus off-scale range (Levels 2–4 spot salaries excluded). National spine 2026-27 verified across 8+ institutions.</p></div>
 </div>
 <details><summary>Assumptions &amp; caveats</summary><div class="small" style="margin-top:8px" id="caveats"></div></details>
 </div>
@@ -316,12 +316,12 @@ const SRCURL={
  edinburgh:'https://human-resources.ed.ac.uk/pay-reward/pay/pay-scales',
  glasgow:'https://www.gla.ac.uk/myglasgow/pod/all/pay/paygrading/salaryscales/',
  aberdeen:'https://www.abdn.ac.uk/staffnet/working-here/payroll-information/'};
-const UCEA_URL='https://www.ucea.ac.uk/our-work/collective-pay-negotiations-landing/2025-26-new-jnches-pay-round/';
+const UCEA_URL='https://www.ucea.ac.uk/our-work/collective-pay-negotiations-landing/2026-27-nj-pay-round/';
 function srcUrlFor(fn){const f=fn.toLowerCase();for(const k in SRCURL){if(f.startsWith(k))return SRCURL[k];}return null;}
 function renderSources(){if(srcDone)return;srcDone=true;const S2=D.sources;
  const li=a=>a.map(x=>{const u=srcUrlFor(x.f);
    return `<div style="padding:2px 0"><a href="${x.rel}" target="_blank">${x.f}</a>${u?` &middot; <a href="${u}" target="_blank">original ↗</a>`:''}</div>`;}).join('');
- $('src_np').innerHTML=`<div style="padding:2px 0">National single pay spine &mdash; <a href="${UCEA_URL}" target="_blank">UCEA, 2025-26 New JNCHES pay round ↗</a></div>`+li(S2.np);
+ $('src_np').innerHTML=`<div style="padding:2px 0">National single pay spine &mdash; <a href="${UCEA_URL}" target="_blank">UCEA, 2026-27 New JNCHES pay round ↗</a></div>`+li(S2.np);
  $('src_pr').innerHTML=li(S2.pr);}
 function redraw(){drawMatched();drawMix();drawSummary();renderSources();}
 $('npsel').innerHTML=NPALL.map(i=>`<option ${i=='Nottingham'?'selected':''}>${i}</option>`).join('');

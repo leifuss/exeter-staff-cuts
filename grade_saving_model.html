@@ -43,7 +43,7 @@ same salary everywhere. Only the <b>structure</b> differs &mdash; which point a 
 and what sits above its ceiling. This is deliberately simplified; it is here to make two principles concrete.</p>
 <div class="answer">
  <b>1. Exeter&rsquo;s structure is expensive &mdash; and it is mostly about where each grade <i>starts</i>.</b>
- Exeter&rsquo;s Lecturer grade begins at <b>spine point 34 (&pound;43,482)</b>, the joint-highest in the Russell Group; most
+ Exeter&rsquo;s Lecturer grade begins at <b>spine point 34 (&pound;44,352)</b>, the joint-highest in the Russell Group; most
  comparators begin between SP27 and SP32. The same pattern repeats at Senior Lecturer and Associate Professor. Because Exeter&rsquo;s
  grades are also <b>short</b> (Lecturer has just 3 normal increments), staff reach the ceiling quickly and sit there. The columns
  below show that gap opening on day one and what it is worth across the workforce.
@@ -185,7 +185,7 @@ function draw(){
  const allv=R.flatMap(o=>o.r.ex.concat(o.r.pe));
  // Fixed, round window so the columns are directly comparable and the Exeter line never appears
  // to move when you switch comparator. The floor sits below the cheapest entry point anywhere in
- // the data (Nottingham grade F, £35,608 / £45,540 all-in), so it never moves and never clips.
+ // the data (Nottingham grade F, £36,320 / £46,466 all-in), so it never moves and never clips.
  const win=ocOn()?[45000,100000]:[35000,80000];
  const dom=[Math.min(win[0],Math.min(...allv)), Math.max(win[1],Math.max(...allv))];
  // draw() rebuilds the columns from scratch, so remember which assumption panes were open
@@ -222,8 +222,8 @@ function draw(){
  });
  $('cols').innerHTML=html;
  $('loc').title=ocOn()
-  ? 'Showing TOTAL COST TO THE UNIVERSITY \u2014 salary plus employer NI, pension and the apprenticeship levy (about +28%). Exeter\u2019s grade F starts at SP34, a salary of \u00a343,482, which costs \u00a355,777 all-in. Switch to \u201cSalary only\u201d for headline salaries.'
-  : 'Showing SALARY ONLY \u2014 no employer NI, pension or levy. Exeter\u2019s grade F starts at SP34, \u00a343,482. Switch to \u201c+ employer on-costs\u201d for what the post actually costs the University (about +28%).';
+  ? 'Showing TOTAL COST TO THE UNIVERSITY \u2014 salary plus employer NI, pension and the apprenticeship levy (about +28%). Exeter\u2019s grade F starts at SP34, a salary of \u00a344,352, which costs \u00a356,908 all-in. Switch to \u201cSalary only\u201d for headline salaries.'
+  : 'Showing SALARY ONLY \u2014 no employer NI, pension or levy. Exeter\u2019s grade F starts at SP34, \u00a344,352. Switch to \u201c+ employer on-costs\u201d for what the post actually costs the University (about +28%).';
  const staffTip='Exeter\u2019s 2023 spine distribution gives F 1,518 \u00b7 G 964 \u00b7 H 307 on these spine points, '+
   'but those totals include research-only staff whose pay is recovered from grant funders \u2014 for them a cheaper structure saves the '+
   'grant, not the University. The defaults remove them using HESA research-only HEADCOUNTS spread across the spine by salary: '+
@@ -243,7 +243,7 @@ function draw(){
   '<b>'+popN.toLocaleString()+'</b> staff on grades F/G/H from Exeter\u2019s own 2023 spine distribution, discounted for '+
   'grant-funded posts \u2014 and both count posts the same way: each grade\u2019s saving divided by what one post at that grade '+
   'costs on the <b>comparator\u2019s</b> scale, since a post created under the new structure would be paid on it. '+
-  'Against the median structure that is <b>\u00a39.4m/yr</b> salary-only (<b>\u00a312.2m</b> with on-costs) and about '+
+  'Against the median structure that is <b>\u00a39.56m/yr</b> salary-only (<b>\u00a312.43m</b> with on-costs) and about '+
   '<b>206</b> posts. '+
   '<b>Older tabs will not match.</b> The <i>Grade structure &amp; cost</i>, <i>Career model</i>, <i>All-in pay bill</i>, '+
   '<i>Transition</i> and <i>How sure can we be?</i> tabs still price <b>HESA full-time academic staff only</b> (1,155 in these '+
@@ -267,11 +267,11 @@ function draw(){
   Exeter and the comparator</b> so each side can be tested on its own. That matters enormously, because
   Exeter&rsquo;s Lecturer grade has only <b>3 normal points</b> (SP34\u201336) while several comparators have 7\u201311
   (Nottingham SP27\u201337, Warwick SP27\u201336, Manchester SP29\u201336, Southampton SP28\u201335). Exeter&rsquo;s entry salary of
-  \u00a343,482 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
+  \u00a344,352 is the <i>floor</i> of its own grade but sits <b>8 points up</b> Nottingham&rsquo;s grade, 5 up Warwick&rsquo;s and 6 up
   Manchester&rsquo;s. If those universities in practice appoint lecturers part-way up a long grade rather than at its floor \u2014
-  which is normal \u2014 the gap narrows sharply. Moving <b>only the comparator</b> up its grade, with Exeter left at its floor, the median saving falls from <b>\u00a39.4m</b> to
-  <b>\u00a35.8m</b> (+1), <b>\u00a32.7m</b> (+2) and to roughly <b>zero at +3</b>, salary-only \u2014 so this assumption alone can account for the
-  entire headline. Moving Exeter up instead <i>raises</i> the saving (its grades are short, so there is little room to do so). <b>Treat the floor-start figure as an upper bound</b> and settle
+  which is normal \u2014 the gap narrows sharply. Moving <b>only the comparator</b> up its grade, with Exeter left at its floor, the median saving falls from <b>\u00a39.56m</b> to
+  <b>\u00a37.64m</b> (+1), <b>\u00a35.56m</b> (+2) and <b>\u00a33.29m</b> (+3), salary-only \u2014 so this assumption alone moves roughly
+  two-thirds of the headline, though it does not erase it. Moving Exeter up instead <i>raises</i> the saving (its grades are short, so there is little room to do so). <b>Treat the floor-start figure as an upper bound</b> and settle
   the real appointment practice before relying on any single number.<br>
   &bull; <b>Validation is one-sided.</b> This model reproduces <b>Exeter&rsquo;s</b> actual mean salary per grade to within 1.3%,
   checked against Exeter&rsquo;s own 2023 spine distribution. There is <b>no equivalent check on the comparators</b> \u2014 we do not
@@ -299,7 +299,7 @@ function draw(){
   externally funded (some research-only posts are core-funded, and teaching-and-research staff often carry grant-funded fractions the other
   way), and the share is applied evenly across each grade. The reliable fix is for HR to substitute the actual University-funded headcount
   in the fields above.<br>
-  &bull; <b>Cost basis.</b> The page defaults to <b>salary only</b>, so every figure reads across directly to the published pay scales. Switching to <b>&lsquo;+ employer on-costs&rsquo;</b> adds employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%) &mdash; about <b>+28%</b> &mdash; which is what a post actually costs the University, and the basis a budget conversation needs. It raises the median saving from <b>\u00a39.4m</b> to <b>\u00a312.2m</b>; the <i>post count</i> barely moves, because it scales the saving and the cost of a post alike.<br>
+  &bull; <b>Cost basis.</b> The page defaults to <b>salary only</b>, so every figure reads across directly to the published pay scales. Switching to <b>&lsquo;+ employer on-costs&rsquo;</b> adds employer NI (15% above \u00a35,000), employer pension (14.5%) and the apprenticeship levy (0.5%) &mdash; about <b>+28%</b> &mdash; which is what a post actually costs the University, and the basis a budget conversation needs. It raises the median saving from <b>\u00a39.56m</b> to <b>\u00a312.43m</b>; the <i>post count</i> barely moves, because it scales the saving and the cost of a post alike.<br>
   &bull; <b>What this is not.</b> Not a claim that anyone is overpaid, and not a costed proposal \u2014 it prices one structural option so it can be
   weighed against the alternatives. Transition and recruitment effects are not modelled: paying new staff less at a given stage is a
   <b>recruitment trade-off</b>, not a free saving.`;

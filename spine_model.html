@@ -52,8 +52,9 @@ Figures and labels marked &#9432; carry a hover explainer.</p>
 
 <div class="answer">
  <b>What this does.</b> It takes Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine &mdash; every spine point
- from SP34 to SP71, 3,160 FTE &mdash; and re-prices it on whatever structure you build. The starting point reproduces Exeter&rsquo;s
- actual pay bill <b>to the pound</b>, with no modelling assumptions at all, so the baseline is not in dispute.
+ from SP34 to SP71, 3,160 FTE &mdash; and re-prices it on whatever structure you build. The starting point is that real
+ distribution priced on the <b>2026-27</b> scales; on 2025-26 scales the same calculation reproduces Exeter&rsquo;s actual pay
+ bill <b>to the pound</b>. Either way the baseline carries no modelling assumptions at all, so it is not in dispute.
  <div style="margin-top:8px"><b>What it is not.</b> This is a <b>steady state</b>: what today&rsquo;s workforce would cost if it had
  <i>always</i> been on the structure you build. It is therefore a <b>long-run ceiling</b>, not achievable savings, and it is not a
  transition plan &mdash; nobody&rsquo;s pay can lawfully be cut, so a real change would bite only on new entrants and promotions
@@ -100,7 +101,7 @@ Figures and labels marked &#9432; carry a hover explainer.</p>
 <div class="card" style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">
  <div style="flex:1;min-width:260px">
   <div style="font-size:12.5px;font-weight:600;color:#374151">Professorial Band 3 &mdash; spot salaries</div>
-  <p class="small" style="margin:3px 0 0">Band 3 has <b>no published increments</b> and the scale is open-ended above &pound;129,211,
+  <p class="small" style="margin:3px 0 0">Band 3 has <b>no published increments</b> and the scale is open-ended above &pound;131,795,
   so it cannot be modelled as spine points. The 2024/25 accounts show <b>57.5 FTE between &pound;130k and &pound;155k</b>, and those
   staff are <i>not</i> in the spine distribution above. Both figures here are <b>your inputs, not evidence</b>, and they sit outside
   the exact baseline.</p>
@@ -340,7 +341,7 @@ function render(light){
  const rawF=Object.keys(D.dist).reduce((a,p)=>a+D.dist[p],0);
  const gross=cost({bands:D.cur,ov:S.ov},S.ov);
  const tied=Math.abs(gross.cur-(ocOn()||$('dc').value==='1'?gross.cur:base))<1;
- $('tieout').innerHTML='<b>Self-check.</b> Exeter&rsquo;s actual 2023 pay bill for these staff is <b>'+gbp(base)+
+ $('tieout').innerHTML='<b>Self-check.</b> Exeter&rsquo;s 2023 distribution priced on 2026-27 scales is <b>'+gbp(base)+
   '</b> across <b>'+rawF.toFixed(1)+' FTE</b> (SP34&ndash;71, salary only). The model&rsquo;s unedited baseline reproduces '+
   (ocOn()||$('dc').value==='1'?'this on the salary-only, no-discount basis':'<b>'+gbp(gross.cur)+'</b> — '+(tied?'an exact match':'a MISMATCH, which is a bug'))+
   ', and all '+C.fte.toFixed(1)+' FTE are assigned to a band.';
@@ -386,7 +387,7 @@ function render(light){
  $('tbl').innerHTML=tb;
  const el=$('spine'); if(el)el.outerHTML=drawSpine().replace('<svg ','<svg id="spine" '); attach();
  $('loc').title=ocOn()?'Showing TOTAL COST TO THE UNIVERSITY — salary plus employer NI, pension and levy (about +28%). Note the baseline tie-out is quoted on the salary-only basis.'
-  :'Showing SALARY ONLY — no employer NI, pension or levy. This is the basis on which the baseline reproduces Exeter’s actual pay bill exactly.';
+  :'Showing SALARY ONLY — no employer NI, pension or levy. This is the basis on which the baseline reproduces Exeter’s actual pay bill exactly, once the 2026-27 award is taken back out.';
  $('lov').title='Bands overlap, so some spine points are claimed twice (SP40–41, 48–49, 54–56, 58–60, 69–71). This decides which band those staff count towards. Shares always sum to 1, so the BASELINE is identical under every rule — only the re-mapping differs. The headline shows the swing across all four rules.';
  $('ldc').title='The spine distribution counts EVERYONE on these grades, including research-only staff whose pay is '+
   'recovered from grant funders — for them a cheaper structure reduces the funder\u2019s bill, not Exeter\u2019s. Switching this on removes '+
@@ -437,7 +438,7 @@ function readHash(){const h=location.hash.slice(1); if(!h)return false;
   'entered at the floor and climbed one point a year: no appointment above the floor, no starting-salary negotiation, no part-time slowing, '+
   'no legacy of earlier structures. It is reasonable where increments are automatic and <b>weakest for professorial merit progression</b>, '+
   'where position reflects award history rather than time served.<br>'+
-  '&bull; <b>SP34 dominates the answer.</b> A single spine point — SP34, &pound;43,482, Exeter&rsquo;s Lecturer floor — holds '+
+  '&bull; <b>SP34 dominates the answer.</b> A single spine point — SP34, &pound;44,352, Exeter&rsquo;s Lecturer floor — holds '+
   '<b>622 FTE, about a fifth of the whole workforce</b>. The model treats all of them as year-zero entrants, so lowering grade F&rsquo;s floor '+
   're-bases every one of them at once. That is why the headline strip reports how much of the saving comes from <b>band floors alone</b>: '+
   'if that share is large, the answer is resting on this one assumption. Sanity-check it before quoting the total.<br>'+
@@ -446,7 +447,7 @@ function readHash(){const h=location.hash.slice(1); if(!h)return false;
   '&bull; <b>Overlaps.</b> Exeter&rsquo;s bands overlap, so SP40–41, 48–49, 54–56, 58–60 and 69–71 are each claimed twice. '+
   'The allocation rule changes which band those staff re-map through; shares always sum to 1, so the baseline is unaffected. The headline '+
   'carries the <b>swing across all four rules</b> rather than hiding it in a dropdown.<br>'+
-  '&bull; <b>FTE, not headcount.</b> The distribution is 2023 FTE priced on 2025-26 salaries — no pay award, no drift, no change in the '+
+  '&bull; <b>FTE, not headcount.</b> The distribution is 2023 FTE priced on 2026-27 salaries — no pay award, no drift, no change in the '+
   'shape of the workforce. On-costs are linear above &pound;5,000 so applying them to means is exact for salaries, but FTE weighting makes the '+
   'NI and pension thresholds approximate.<br>'+
   '&bull; <b>Who is counted, and a difference from the other tabs.</b> All 3,160 FTE on SP34–71, including professional-services and '+
@@ -465,7 +466,7 @@ function readHash(){const h=location.hash.slice(1); if(!h)return false;
   'externally funded (some research-only posts are core-funded, and teaching-and-research staff often carry grant-funded fractions the other '+
   'way), and the share is applied <b>evenly across each band</b> rather than tapering within it. If HR can supply the University-funded '+
   'headcount directly, type the implied percentages in and none of this reasoning is needed.<br>'+
-  '&bull; <b>Professorial Band 3</b> has no published increments and the scale is open-ended above &pound;129,211 (the accounts show 57.5 FTE '+
+  '&bull; <b>Professorial Band 3</b> has no published increments and the scale is open-ended above &pound;131,795 (the accounts show 57.5 FTE '+
   'at &pound;130–155k, who are not in the spine distribution at all). Its figures are your inputs and sit outside the exact baseline.<br>'+
   '&bull; <b>Not modelled at all:</b> recruitment and retention effects, market rates in competitive disciplines, equal-pay and '+
   'grade-compression consequences, pension impacts, and whether any of this is contractually or industrially feasible. A structure that '+
