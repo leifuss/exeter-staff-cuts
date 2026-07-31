@@ -33,6 +33,8 @@ td.h{border-bottom:1px dotted #c9c9c4;cursor:help}
 .rtbar input[type=range]{width:170px;vertical-align:middle;accent-color:#b45309}
 .rtbar .rtv{font-weight:700;color:#b45309;min-width:76px;display:inline-block}
 .rtbar .rthint{font-size:11px;color:#9ca3af;flex:1;min-width:260px}
+tr.prop td{background:#f6f2fb}
+td.prop,th.prop{background:#f6f2fb}
 td.h::after,.ctl label[title]::after,summary[title]::after{content:"\00a0\24D8";color:#9ca3af;font-weight:400;font-size:11.5px}
 .ctl label[title],summary[title]{cursor:help}
 </style></head><body><div class="wrap">
@@ -85,8 +87,9 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
   <span style="color:#6b7280">Professor <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
   <span class="rtlab" style="color:#374151;margin-left:8px">Merit award rate</span>
   <select id="aw"><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option></select>
-  <span class="rthint">Professorial progression is <b>merit-based, not annual</b>: Exeter reviews <b>biennially</b>, so at a
-  40&#37; award rate a step takes about five years. Sheffield and Manchester give three automatic steps then annual merit.
+  <span class="rthint">Professorial progression is <b>merit-based</b>. Exeter reviews <b>biennially</b>, so at a 40&#37; award
+  rate a step takes about five years; <b>proposals 3 and 4 move to annual review</b>, halving that. Sheffield and Manchester
+  give three automatic steps then annual merit.
   Above each grade&rsquo;s normal points, pay is the expected value of holding a contribution point (30&#37;).</span>
  </div>
  <div class="rtbar">
@@ -99,7 +102,8 @@ two of these models <b>cost more</b> and two are, in plain terms, <b>pay cuts</b
  <div id="careerchart"></div>
  <div class="lgnd" id="careerlgnd"></div></div>
 
-<div class="card"><h2>Disaggregated by grade and management</h2><div id="tbl"></div></div>
+<div class="card"><h2>Disaggregated by grade and management</h2><div id="tbl"></div>
+ <div class="warn" id="cadnote" style="margin:12px 0 0"></div></div>
 <details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
 </div>
 <script>
@@ -149,9 +153,9 @@ const MODELS=[
  {id:'now', n:'1 · Exeter, as it is', s:'baseline', f:()=>((b,e)=>sal(e.p)), cut:()=>0},
  {id:'tu',  n:'2 · 2022 union claim', s:'lifts staff up the spine', cut:()=>0,
   f:()=>((b,e)=>sal((D.tu[b]&&D.tu[b][e.p])||e.p))},
- {id:'m3',  n:'3 · Grades down 2 + exec cut', s:'F/G/H normal +2 at the bottom; professorial bands −2',
+ {id:'m3',  n:'3 · Grades down 2 + exec cut', s:'F/G/H normal +2 at the bottom; professorial bands −2, reviewed annually',
   f:()=>viaBands(shifted(2)), cut:()=>(+$('c3').value||0)/100},
- {id:'m4',  n:'4 · Grades down 3 + exec cut', s:'the same at 3 points',
+ {id:'m4',  n:'4 · Grades down 3 + exec cut', s:'the same at 3 points, reviewed annually',
   f:()=>viaBands(shifted(3)), cut:()=>(+$('c4').value||0)/100},
  {id:'she', n:'5 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0},
  {id:'man', n:'6 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0}];
@@ -263,7 +267,9 @@ function listsFor(id,b){
   else{const q1=ptsOf(bands,'P1'),q2=ptsOf(bands,'P2');
        pts=[...new Set([...q1.n,...q1.c,...q2.n,...q2.c])].sort((a,b)=>a-b);}
   const lad=pts.map(sal);
-  return {lad,prog:Array(Math.max(0,lad.length-1)).fill('m2')};}   // Exeter: biennial merit throughout
+  // Exeter reviews biennially; proposals 3 and 4 move professorial review to ANNUAL merit
+  const cad=(id==='m3'||id==='m4')?'m1':'m2';
+  return {lad,prog:Array(Math.max(0,lad.length-1)).fill(cad)};}
  if(id==='tu'){const mp=D.tu[b],v=[...new Set(Object.values(mp))].sort((a,b)=>a-b);
   // the claim assimilates points; the grade keeps its own normal/contribution split by position
   const L=ptsOf(D.cur,b).n.length;
@@ -326,26 +332,47 @@ function draw(){
  const pn=v=>{const a=Math.abs(v);return (v<0?'\u2212':'')+(a>=10?Math.round(a).toLocaleString():a.toFixed(1));};
  // ---- table ----
  let h='<table><tr><th>Grade</th><th>Staff (FTE)</th><th>Exeter now</th>';
- res.slice(1).forEach(x=>h+='<th>'+x.md.n.replace(/^\d+ · /,'')+'</th>');
+ res.slice(1).forEach(x=>h+='<th'+(['tu','m3','m4'].indexOf(x.md.id)>=0?' class="prop"':'')+'>'+x.md.n.replace(/^\d+ · /,'')+'</th>');
  h+='</tr>';
  rows.forEach(b=>{const isM=b==='MGMT';
   h+='<tr'+(isM?' class="mgmt"':'')+'><td>'+(isM?'Management (key management personnel)':LABEL[b])+'</td>'+
    '<td>'+(isM?D.kmp[D.kmp.length-1][2]+' posts':ROST[b].reduce((a,e)=>a+e.fte*dcFor(b),0).toFixed(1))+'</td>'+
    '<td>'+m(base.by[b])+'</td>';
-  res.slice(1).forEach(x=>{const d=x.r.by[b]-base.by[b];
-   h+='<td class="'+(d<0?'save':(d>0?'cost':''))+'">'+(Math.abs(d)<1?'—':(d<0?'':'+')+m(d))+'</td>';});
+  res.slice(1).forEach(x=>{const d=x.r.by[b]-base.by[b],pc=['tu','m3','m4'].indexOf(x.md.id)>=0?' prop':'';
+   h+='<td class="'+(d<0?'save':(d>0?'cost':''))+pc+'">'+(Math.abs(d)<1?'—':(d<0?'':'+')+m(d))+'</td>';});
   h+='</tr>';});
  h+='<tr class="tot"><td>Total annual pay bill</td><td>'+base.fte.toFixed(0)+'</td><td>'+m(base.tot)+'</td>';
- res.slice(1).forEach(x=>{const d=x.r.tot-base.tot;
-  h+='<td class="'+(d<0?'save':'cost')+'">'+(d<0?'':'+')+m(d)+'</td>';});
+ res.slice(1).forEach(x=>{const d=x.r.tot-base.tot,pc=['tu','m3','m4'].indexOf(x.md.id)>=0?' prop':'';
+  h+='<td class="'+(d<0?'save':'cost')+pc+'">'+(d<0?'':'+')+m(d)+'</td>';});
  h+='</tr><tr class="tot"><td>as a share of the bill</td><td></td><td>—</td>';
- res.slice(1).forEach(x=>{const d=(x.r.tot-base.tot)/base.tot*100;
-  h+='<td class="'+(d<0?'save':'cost')+'">'+(d<0?'':'+')+d.toFixed(1)+'&#37;</td>';});
+ res.slice(1).forEach(x=>{const d=(x.r.tot-base.tot)/base.tot*100,pc=['tu','m3','m4'].indexOf(x.md.id)>=0?' prop':'';
+  h+='<td class="'+(d<0?'save':'cost')+pc+'">'+(d<0?'':'+')+d.toFixed(1)+'&#37;</td>';});
  h+='</tr><tr class="tot"><td class="h" title="Each grade\u2019s saving divided by what one post at THAT grade costs under the model, then added up \u2014 the same method as the Modelling tab. Management is excluded, since an executive post is not an academic one. An equivalence for scale, NOT predicted job retention: a negative figure means the model costs the equivalent of that many posts.">'+
   '\u2248 posts it could fund</td><td></td><td>—</td>';
- res.slice(1).forEach(x=>{const v=postsOf(x.r);
-  h+='<td class="'+(v>0?'save':'cost')+'">'+pn(v)+'</td>';});
+ res.slice(1).forEach(x=>{const v=postsOf(x.r),pc=['tu','m3','m4'].indexOf(x.md.id)>=0?' prop':'';
+  h+='<td class="'+(v>0?'save':'cost')+pc+'">'+pn(v)+'</td>';});
  h+='</tr></table>';
+ // Annual professorial review cannot show up in the totals above: those re-price the OBSERVED
+ // distribution, so they are blind to how fast people progress. Estimate the gap separately, as the
+ // ratio of career-average expected salary under annual vs biennial merit on the same ladder.
+ (function(){const aw=awRate(), T=yrs()[3][1];
+  const upl=id=>{const L=listsFor(id,'PROF'), n=Math.max(0,L.lad.length-1);
+   const mean=c=>{const v=profSeries(L.lad,Array(n).fill(c),aw,T);return v.reduce((a,b)=>a+b,0)/v.length;};
+   const a=mean('m2'); return a?mean('m1')/a-1:0;};
+  const rows=[['m3',MODELS[2]],['m4',MODELS[3]]].map(([id,md])=>{
+   const r=res.find(x=>x.md.id===id).r, prof=r.by.P1+r.by.P2, u=upl(id);
+   return {n:md.n,u,extra:prof*u};});
+  $('cadnote').innerHTML='<b>One thing the table above cannot show.</b> Proposals 3 and 4 move professorial review from '+
+   '<b>biennial to annual</b>. The totals re-price Exeter&rsquo;s <b>observed</b> distribution of staff across the spine, so they '+
+   'are blind to a change in how fast people progress \u2014 the saving shown for those two models is therefore '+
+   '<b>overstated</b>. Pricing the cadence separately, as the ratio of career-average expected salary under annual versus '+
+   'biennial merit on the same ladder at a '+Math.round(aw*100)+'&#37; award rate, adds roughly '+
+   rows.map(x=>'<b>'+m(x.extra)+'/yr</b> to '+x.n.replace(/^\d+ · /,'').toLowerCase()).join(' and ')+
+   ' \u2014 offsetting about '+rows.map(x=>Math.round(100*x.extra/Math.abs(res.find(y=>y.md.n===x.n).r.tot-base.tot))+'&#37;').join(' and ')+
+   ' of their headline savings respectively. Treat that as an order of magnitude: it uses the professorial progression model '+
+   'this site has <a href="professorial_model.html" style="color:#b45309">retired for ranking</a>, though a ratio between two '+
+   'cadences on one ladder is firmer than any level it produces. The award rate is held at '+Math.round(aw*100)+'&#37;; in '+
+   'practice moving to annual review would probably change success rates too, which nobody can currently estimate.';})();
  $('tbl').innerHTML=h;
  // ---- bar chart, stacked by where the money comes from ----
  // Within any one model every grade pulls the same way, so a simple stack reads correctly;
@@ -387,7 +414,8 @@ function draw(){
  // ---- per-model detail ----
  let dh='<table><tr><th>Model</th><th class="l">What it changes</th><th>Grade F</th><th>Grade G</th><th>Grade H</th><th>Prof 1</th><th>Prof 2</th></tr>';
  MODELS.forEach(md=>{const bs=bandsOf(md.id);
-  dh+='<tr'+(md.id==='now'?' class="ex"':'')+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
+  const isProp=['tu','m3','m4'].indexOf(md.id)>=0;
+  dh+='<tr'+(md.id==='now'?' class="ex"':(isProp?' class="prop"':''))+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
   BK.forEach(b=>{const r=bs[b];
    if(!r||!r.n){dh+='<td>\u2014</td>';return;}
    const star=(md.id==='man'||md.id==='she')&&(b==='P1'||b==='P2')?'*':'';
