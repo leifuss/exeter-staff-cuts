@@ -174,17 +174,20 @@ const DASH={she:'7 4',man:'2 3'};   // comparators drawn broken, so proposals st
 const nearestSP=v=>{let best=27,bd=1e9;for(let p=27;p<=71;p++){const d=Math.abs(sal(p)-v);if(d<bd){bd=d;best=p;}}return best;};
 // per-band spine-point ranges implied by each model (comparator professorial mapped to the nearest point)
 function bandsOf(id){
- if(id==='now')return ranges(D.cur);
- if(id==='m3')return ranges(shifted(2));
- if(id==='m4')return ranges(shifted(3));
+ const rng=a=>a.length?[a[0],a[a.length-1]]:null;
+ if(id==='man'||id==='she'){const C=D.cmp[id==='man'?'Manchester':'Sheffield'],t={F:'1',G:'2',H:'3'},o={};
+  ['F','G','H'].forEach(b=>{const g=C.g[t[b]];o[b]={n:rng(g.n),c:rng(g.c)};});
+  const L=C.lad;                                     // professorial published as a money ladder
+  o.P1={n:[nearestSP(L[0]),nearestSP(L[Math.min(6,L.length-1)])],c:null};
+  o.P2={n:[nearestSP(L[Math.min(4,L.length-1)]),nearestSP(L[L.length-1])],c:null};
+  return o;}
  if(id==='tu'){const o={};BK.forEach(b=>{const mp=D.tu[b];if(!mp)return;
-   const v=Object.values(mp);o[b]=[Math.min(...v),Math.max(...v)];});return o;}
- const u=id==='man'?'Manchester':'Sheffield',C=D.cmp[u],t={F:'1',G:'2',H:'3'},o={};
- ['F','G','H'].forEach(b=>{const g=C.g[t[b]],a=[...g.n,...g.c];o[b]=[a[0],a[a.length-1]];});
- const L=C.lad; o.P1=[nearestSP(L[0]),nearestSP(L[Math.min(6,L.length-1)])];
- o.P2=[nearestSP(L[Math.min(4,L.length-1)]),nearestSP(L[L.length-1])];
+   const v=[...new Set(Object.values(mp))].sort((a,b)=>a-b);
+   const L=ptsOf(D.cur,b).n.length;                  // the claim re-points; the normal/contribution split holds by position
+   o[b]={n:rng(v.slice(0,L)),c:rng(v.slice(L))};});return o;}
+ const bands=id==='m3'?shifted(2):(id==='m4'?shifted(3):D.cur), o={};
+ BK.forEach(b=>{const q=ptsOf(bands,b);o[b]={n:rng(q.n),c:rng(q.c)};});
  return o;}
-function ranges(bands){const o={};BK.forEach(b=>{const q=ptsOf(bands,b),a=[...q.n,...q.c];o[b]=[a[0],a[a.length-1]];});return o;}
 function drawStruct(){
  const P0=27,P1x=71,W=1180,Lm=210,Rm=20,Tm=42,rowH=26,gap=14;
  const plotW=W-Lm-Rm,cw=plotW/(P1x-P0+1),x=p=>Lm+(p-P0)*cw;
@@ -196,20 +199,27 @@ function drawStruct(){
  const base=bandsOf('now');
  MODELS.forEach((md,i)=>{const y=Tm+i*(rowH+gap),bs=bandsOf(md.id);
   s+='<text x="'+(Lm-10)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-size="12" font-weight="'+(i===0?700:600)+'" fill="#1d1d1b">'+md.n+'</text>';
-  if(i)BK.forEach(b=>{const r=base[b];
-   s+='<rect x="'+x(r[0])+'" y="'+(y-2)+'" width="'+((r[1]-r[0]+1)*cw)+'" height="'+(rowH+4)+'" rx="3" fill="none" stroke="#c9c9c4" stroke-width="1" stroke-dasharray="3 3"/>';});
-  // one cell per spine point, coloured by the HIGHEST band that claims it, so overlapping
-  // grades never blend into a third colour; runs of the same band are merged into one block
-  const own={};BK.forEach(b=>{const r=bs[b];if(!r)return;for(let q=r[0];q<=r[1];q++)own[q]=b;});
+  if(i)BK.forEach(b=>{const r=base[b]&&(base[b].c||base[b].n);const r0=base[b]&&base[b].n;if(!r0)return;
+   const lo=r0[0],hi=(base[b].c?base[b].c[1]:r0[1]);
+   s+='<rect x="'+x(lo)+'" y="'+(y-2)+'" width="'+((hi-lo+1)*cw)+'" height="'+(rowH+4)+'" rx="3" fill="none" stroke="#c9c9c4" stroke-width="1" stroke-dasharray="3 3"/>';});
+  // one cell per spine point, tagged with the band that claims it AND whether the point is a
+  // normal increment (climbed by right) or a discretionary contribution point. The two are drawn
+  // differently, because conflating them was making the grades unreadable.
+  const own={};
+  BK.forEach(b=>{const r=bs[b];if(!r)return;
+   if(r.n)for(let q=r.n[0];q<=r.n[1];q++)own[q]={b,k:'n'};
+   if(r.c)for(let q=r.c[0];q<=r.c[1];q++)own[q]={b,k:'c'};});
   let run=null;
-  const flush=()=>{if(!run)return;const w=(run.b1-run.b0+1)*cw;
-   s+='<rect x="'+(x(run.b0)+0.5)+'" y="'+y+'" width="'+Math.max(2,w-1)+'" height="'+rowH+'" rx="2" fill="'+BCOL[run.b]+'">'+
-      '<title>'+md.n+' \u2014 '+LABEL[run.b]+': SP'+run.b0+'\u2013'+run.b1+' ('+gbp(sal(run.b0))+'\u2013'+gbp(sal(run.b1))+')</title></rect>';
-   if(w>24)s+='<text x="'+(x(run.b0)+w/2)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="#fff">'+run.b+'</text>';
+  const flush=()=>{if(!run)return;const w=(run.b1-run.b0+1)*cw, isN=run.k==='n';
+   s+='<rect x="'+(x(run.b0)+0.5)+'" y="'+y+'" width="'+Math.max(2,w-1)+'" height="'+rowH+'" rx="2" fill="'+BCOL[run.b]+'"'+
+      (isN?'':' fill-opacity="0.30" stroke="'+BCOL[run.b]+'" stroke-width="1" stroke-dasharray="2 2"')+'>'+
+      '<title>'+md.n+' \u2014 '+LABEL[run.b]+', '+(isN?'normal increments':'contribution points')+': SP'+run.b0+'\u2013'+run.b1+
+      ' ('+gbp(sal(run.b0))+'\u2013'+gbp(sal(run.b1))+')</title></rect>';
+   if(w>24)s+='<text x="'+(x(run.b0)+w/2)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="'+(isN?'#fff':BCOL[run.b])+'">'+run.b+'</text>';
    run=null;};
-  for(let q=P0;q<=P1x;q++){const b=own[q];
-   if(!b){flush();continue;}
-   if(run&&run.b===b)run.b1=q; else {flush();run={b,b0:q,b1:q};}}
+  for(let q=P0;q<=P1x;q++){const o=own[q];
+   if(!o){flush();continue;}
+   if(run&&run.b===o.b&&run.k===o.k)run.b1=q; else {flush();run={b:o.b,k:o.k,b0:q,b1:q};}}
   flush();});
  // where the staff actually are: FTE at each spine point, on the same scale
  const dmax=Math.max(...Object.values(D.dist)), by=bottom+hist;
@@ -221,6 +231,8 @@ function drawStruct(){
  s+='</svg>';
  $('structchart').innerHTML=s;
  $('structlgnd').innerHTML=BK.map(b=>'<span class="lg"><span class="sw" style="background:'+BCOL[b]+'"></span>'+LABEL[b]+'</span>').join('')+
+  '<span class="lg"><span class="sw" style="background:#155e75"></span>normal increment &mdash; by right, one a year</span>'+
+  '<span class="lg"><span class="sw" style="background:#155e75;opacity:.30;border:1px dashed #155e75"></span>contribution point &mdash; discretionary</span>'+
   '<span class="lg"><span class="sw" style="background:none;border:1.5px dashed #9ca3af"></span>Exeter today</span>'+
   '<span class="lg"><span class="sw" style="background:#c9c9c4"></span>staff at each point (2023 FTE)</span>'+
   '<span class="lg" style="color:#9ca3af">Manchester and Sheffield publish professorial pay as a money ladder, not spine points \u2014 shown at the nearest equivalent point</span>';
@@ -377,12 +389,14 @@ function draw(){
  MODELS.forEach(md=>{const bs=bandsOf(md.id);
   dh+='<tr'+(md.id==='now'?' class="ex"':'')+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
   BK.forEach(b=>{const r=bs[b];
-   dh+='<td>'+(r?('SP'+r[0]+'\u2013'+r[1]+(md.id==='man'||md.id==='she'?((b==='P1'||b==='P2')?'*':''):'')):'\u2014')+'</td>';});
+   if(!r||!r.n){dh+='<td>\u2014</td>';return;}
+   const star=(md.id==='man'||md.id==='she')&&(b==='P1'||b==='P2')?'*':'';
+   dh+='<td>SP'+r.n[0]+'\u2013'+r.n[1]+star+(r.c?'<span style="color:#9ca3af"> +'+r.c[0]+'\u2013'+r.c[1]+'</span>':'')+'</td>';});
   dh+='</tr>';});
  dh+='</table><p class="small" style="margin:5px 0 0">* Sheffield and Manchester publish professorial pay as a money ladder rather than spine points '+
   '(Sheffield '+gbp(D.cmp.Sheffield.lad[0])+'\u2013'+gbp(D.cmp.Sheffield.lad[D.cmp.Sheffield.lad.length-1])+', '+
   'Manchester '+gbp(D.cmp.Manchester.lad[0])+'\u2013'+gbp(D.cmp.Manchester.lad[D.cmp.Manchester.lad.length-1])+'); '+
-  'shown here at the nearest equivalent spine point.</p>';
+  'shown here at the nearest equivalent spine point. Grey figures after each range are the <b>contribution points</b> above that grade\u2019s ceiling \u2014 discretionary, not increments by right.</p>';
  $('detail').innerHTML=dh;
  drawStruct(); drawCareer();
  // ---- warnings / framing ----
