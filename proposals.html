@@ -113,9 +113,14 @@ disaggregated by grade and by management.</p>
 <details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
 </div>
 <script>
-const D={"nat":{"27":35608,"28":36636,"29":37694,"30":38784,"31":39906,"32":41064,"33":42254,"34":43482,"35":44746,"36":46049,"37":47389,"38":48822,"39":50253,"40":51753,"41":53301,"42":54893,"43":56535,"44":58225,"45":59966,"46":61759,"47":63606,"48":65509,"49":67468,"50":69488,"51":71566,"52":73710,"53":75917,"54":78179,"55":80529,"56":82935,"57":85424,"58":87986},"ext":{"48":65827,"52":73710,"53":75917,"54":78189,"55":80529,"56":82935,"59":90628,"60":93346,"61":96146,"62":99031,"63":102000,"64":105062,"65":108214,"66":111459,"67":114801,"68":118248,"69":121795,"70":125448,"71":129211},"dist":{"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]}},"lad":[75914,78186,80524,82933,85417,87972,90606,93320,96114,98991,101955,105011]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]}},"lad":[71566,73708,75915,78186,80524,82932,85414,87970,90603,93320,96114,98989,101954,105009,108153,111391]}},"tu":{"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":58,"55":59,"56":60,"57":61,"58":62,"59":63,"60":63},"P2":{"58":59,"59":60,"60":61,"61":62,"62":63,"63":64,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]]};
+const D={"nat":{"27":35608,"28":36636,"29":37694,"30":38784,"31":39906,"32":41064,"33":42254,"34":43482,"35":44746,"36":46049,"37":47389,"38":48822,"39":50253,"40":51753,"41":53301,"42":54893,"43":56535,"44":58225,"45":59966,"46":61759,"47":63606,"48":65509,"49":67468,"50":69488,"51":71566,"52":73710,"53":75917,"54":78179,"55":80529,"56":82935,"57":85424,"58":87986},"ext":{"48":65827,"52":73710,"53":75917,"54":78189,"55":80529,"56":82935,"59":90628,"60":93346,"61":96146,"62":99031,"63":102000,"64":105062,"65":108214,"66":111459,"67":114801,"68":118248,"69":121795,"70":125448,"71":129211},"dist":{"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]}},"lad":[75914,78186,80524,82933,85417,87972,90606,93320,96114,98991,101955,105011]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]}},"lad":[71566,73708,75915,78186,80524,82932,85414,87970,90603,93320,96114,98989,101954,105009,108153,111391]}},"tu":{"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":57,"55":58,"56":59,"57":60,"58":61,"59":62,"60":62},"P2":{"58":62,"59":62,"60":62,"61":62,"62":62,"63":63,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]]};
 const $=id=>document.getElementById(id);
 const gbp=n=>'\u00a3'+Math.round(n).toLocaleString();
+// the claim’s own band structure, as published in the workbook’s per-grade tabs — distinct from the
+// assimilation maps in D.tu above, which say where today’s staff land inside these bands
+const TUS={F:{n:[39,40,41,42,43],c:[44,45,46,47]},G:{n:[44,45,46,47,48],c:[49,50,51,52,53]},
+           H:{n:[53,54,55,56,57],c:[58,59,60,61]},P1:{n:[57,58,59,60,61,62],c:[]},
+           P2:{n:[62,63,64,65,66,67,68,69,70],c:[]}};
 const m=n=>{const a=Math.abs(n);const sg=n<0?'\u2212':'';return sg+'\u00a3'+(a>=1e6?(a/1e6).toFixed(2)+'m':a>=1000?Math.round(a/1000)+'k':Math.round(a));};
 const BK=['F','G','H','P1','P2'];
 const LABEL={F:'Grade F \u2014 Lecturer',G:'Grade G \u2014 Senior Lecturer',H:'Grade H \u2014 Associate Professor',
@@ -191,10 +196,7 @@ function bandsOf(id){
   o.P1={n:[nearestSP(L[0]),nearestSP(L[Math.min(6,L.length-1)])],c:null};
   o.P2={n:[nearestSP(L[Math.min(4,L.length-1)]),nearestSP(L[L.length-1])],c:null};
   return o;}
- if(id==='tu'){const o={};BK.forEach(b=>{const mp=D.tu[b];if(!mp)return;
-   const v=[...new Set(Object.values(mp))].sort((a,b)=>a-b);
-   const L=ptsOf(D.cur,b).n.length;                  // the claim re-points; the normal/contribution split holds by position
-   o[b]={n:rng(v.slice(0,L)),c:rng(v.slice(L))};});return o;}
+ if(id==='tu'){const o={};BK.forEach(b=>{const t=TUS[b];if(!t)return;o[b]={n:rng(t.n),c:rng(t.c)};});return o;}
  const bands=id==='m3'?shifted(2):(id==='m4'?shifted(3):D.cur), o={};
  BK.forEach(b=>{const q=ptsOf(bands,b);o[b]={n:rng(q.n),c:rng(q.c)};});
  return o;}
@@ -269,17 +271,14 @@ function listsFor(id,b){
  const bands=id==='m3'?shifted(2):(id==='m4'?shifted(3):D.cur);
  if(b==='PROF'){
   let pts;
-  if(id==='tu')pts=[...new Set([...Object.values(D.tu.P1||{}),...Object.values(D.tu.P2||{})])].sort((a,b)=>a-b);
+  if(id==='tu')pts=[...new Set([...TUS.P1.n,...TUS.P2.n])].sort((a,b)=>a-b);
   else{const q1=ptsOf(bands,'P1'),q2=ptsOf(bands,'P2');
        pts=[...new Set([...q1.n,...q1.c,...q2.n,...q2.c])].sort((a,b)=>a-b);}
   const lad=pts.map(sal);
   // Exeter reviews biennially; proposals 3 and 4 move professorial review to ANNUAL merit
   const cad=(id==='m3'||id==='m4')?'m1':'m2';
   return {lad,prog:Array(Math.max(0,lad.length-1)).fill(cad)};}
- if(id==='tu'){const mp=D.tu[b],v=[...new Set(Object.values(mp))].sort((a,b)=>a-b);
-  // the claim assimilates points; the grade keeps its own normal/contribution split by position
-  const L=ptsOf(D.cur,b).n.length;
-  return {n:v.slice(0,L).map(sal),c:v.slice(L).map(sal)};}
+ if(id==='tu')return {n:TUS[b].n.map(sal),c:TUS[b].c.map(sal)};
  const q=ptsOf(bands,b);return {n:q.n.map(sal),c:q.c.map(sal)};}
 // expected professorial salary year by year: probability vector over rungs, top rung absorbing
 function profSeries(lad,prog,aw,T){const L=lad.length,out=[];let p=new Array(L).fill(0);p[0]=1;
@@ -460,14 +459,21 @@ $('cav').innerHTML=
  '<i>career</i> effect and is invisible in this total. Judge them on the <b>Career model</b> tab as well as here.<br>'+
  '&bull; <b>The 2022 claim is an increase, by design.</b> Taken from the joint trade union claim of 3 April 2023 '+
  '(<code>sources/Joint Claim_3.7.23.xlsx</code>), which assimilates each current spine point to a higher one &mdash; grade F '+
- '34\u219239, grade H 48\u219253, Band 1 54\u219258, and so on. It leaves the salary attached to each spine point unchanged, '+
- 'so applying its point map to current pay scales is valid even though the claim is 2023 vintage. Grades F, G and H come from '+
- 'that workbook’s per-grade tabs (<i>Current Point → Assimilated Point</i>). <b>Professorial Band 1</b> comes from its '+
- '<code>TU Version</code> tab, the only place the claim tabulates the professoriate, converted back from the claim’s '+
- 'renumbered spine (it inserts a new point below SP39) to the current numbering: 54→58 rising to 60→63. <b>Band 2</b> '+
- 'is not tabulated anywhere in the workbook and is carried here as a nominal one-point lift, so treat that row as the weakest '+
- 'part of model 2. The workbook is not internally consistent — its tabs disagree by a point in places — so the '+
- 'per-grade tabs are preferred throughout.<br>'+
+ '34\u219239, grade H 48\u219253, and so on. It leaves the salary attached to each spine point unchanged, '+
+ 'so applying its point map to current pay scales is valid even though the claim is 2023 vintage. Two different things are '+
+ 'read off it: the <b>structure</b> it proposes (the bands drawn in the chart above) and the <b>assimilation</b> it proposes '+
+ '(where today&rsquo;s staff land inside those bands, which is what drives the cost). The structure is F <b>39&ndash;43</b> '+
+ 'plus contribution points 44&ndash;47, G <b>44&ndash;48</b> plus 49&ndash;53, H <b>53&ndash;57</b> plus 58&ndash;61, '+
+ 'Band&nbsp;1 <b>57&ndash;62</b> and Band&nbsp;2 <b>62&ndash;70</b>, both merit-based and reviewed biennially. Note that the '+
+ 'claim gives grades F, G and H <b>five</b> normal points each, where Exeter today gives F and H only three \u2014 so it '+
+ 'lengthens the incremental part of those grades as well as raising it.<br>'+
+ '&bull; <b>Where the professorial numbers are weaker.</b> The workbook tabulates assimilation grade by grade for F, G and H, '+
+ 'but for the professoriate only in its <code>TU Version</code> tab, and in the claim\u2019s own renumbered spine (it inserts '+
+ 'a new point below SP39). Band&nbsp;1 is converted back to current numbering as 54\u219257 rising to 60\u219262. Band&nbsp;2 '+
+ 'is not tabulated anywhere and is carried here as a lift of the floor to SP62 with the points above it unchanged. The '+
+ 'workbook is also not internally consistent \u2014 its <code>Simplified</code>, <code>Professors</code> and '+
+ '<code>TU Version</code> tabs disagree by a point on some band floors \u2014 so the per-grade tabs are preferred throughout. '+
+ 'Treat the two professorial rows of model 2 as the least firm part of it.<br>'+
  '&bull; <b>Manchester and Sheffield</b> are re-mapped by career stage: someone at the <i>i</i>th point of an Exeter grade is '+
  'placed at the <i>i</i>th point of theirs. Their professorial pay is published as a <b>money ladder</b> rather than spine '+
  'points, so professors are mapped rung for rung from the bottom of the professoriate.<br>'+
