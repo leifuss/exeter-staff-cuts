@@ -194,7 +194,7 @@ function drawDist(yi){curYi=yi;const d=YEARS[yi],M=MET[metric],ymax=GMAX[metric]
  // part of why some bins bulge — e.g. £105–110k holds two rungs while £100–105k holds one.
  // Exeter professorial spine points SP63–71 (£102,000 … £129,211), scaled to that year's rates. Above SP71 the £100k+
  // staff are non-professorial spot salaries (deans, directors, clinical), not on this scale.
- const EXR=[102000,105062,108214,111459,114801,118248,121795,125448,129211].map(r=>r*d.idx/YEARS[5].idx);
+ const EXR=[104040,107163,110378,113688,117097,120613,124231,127957,131795].map(r=>r*d.idx/YEARS[5].idx);
  EXR.forEach(r=>{if(r<255000){const rx=x(r/1000);s+=`<path d="M ${rx} ${H-B+1.5} l -4.5 7 l 9 0 z" fill="#7c3aed"/>`;}});
  s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="#6b7280">salary band (£000s) — equal-width columns at their true income · <tspan fill="#7c3aed">▲ = Exeter professorial rung</tspan> · ${d.y} · ${M.fmt(M.tot(d))} £100k+ (${M.lab})</text>`;
  s+=`</svg>`;$('dist').outerHTML=s.replace('<svg','<svg id="dist"');

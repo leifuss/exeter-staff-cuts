@@ -1,8 +1,18 @@
-pay_year,award_pct,award_note,cpih_aug_pct,cpih_source_url
-2020-21,0.0,"No national uplift",0.5,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2020
-2021-22,1.5,"+1.5% from 1 Aug 2021",3.0,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2021
-2022-23,5.06,"+3% from 1 Aug 2022 and +2% interim from 1 Feb 2023; compounded 1.03*1.02",8.6,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2022
-2023-24,3.0,"Remainder of the 5% 2023 award as applied at 100k-level spine points",6.3,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2023
-2024-25,2.5,"2.5% total: 900 pounds flat from 1 Aug 2024, remainder from 1 Mar 2025, at SP38+",3.1,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2024
-2025-26,1.4,"+1.4% on all spine points from 1 Aug 2025 (2.0% at SP7 and below, which is beneath the academic range)",2.8,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2025
-2026-27,2.0,"+2.0% on all spine points from 1 Aug 2026; CPIH to Aug 2026 not published until Sept 2026, so this year is excluded from the average",,
+pay_year,award_pct,award_note,cpih_aug_pct,award_provenance,cpih_source_url
+2010-11,0.4,"Tracked at SP28",,unverified,
+2011-12,0.5,"Tracked at SP28",,unverified,
+2012-13,1.0,"Tracked at SP28",,unverified,
+2013-14,1.0,"Tracked at SP28",,unverified,
+2014-15,1.0,"Tracked at SP28",,unverified,
+2015-16,2.0,"Tracked at SP28",0.3,unverified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/2015-09-15
+2016-17,1.1,"Tracked at SP28",0.9,unverified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/aug2016
+2017-18,1.7,"Tracked at SP28",2.7,unverified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/aug2017
+2018-19,2.0,"+2% on all spine points, except SP2-15 which rose by 425 pounds each",2.4,unverified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2018
+2019-20,1.8,"+1.8% on all spine points, higher at SP2-16",1.7,unverified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2019
+2020-21,0.0,"No national uplift",0.5,verified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2020
+2021-22,1.5,"+1.5% from 1 Aug 2021 on all points, up to 3.6% at SP3-21",3.0,verified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2021
+2022-23,5.06,"+3% from 1 Aug 2022 and +2% interim from 1 Feb 2023; compounded 1.03*1.02",8.6,verified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2022
+2023-24,3.0,"Remainder of the 5% 2023 award as applied at 100k-level spine points",6.3,verified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2023
+2024-25,2.5,"2.5% total: 900 pounds flat from 1 Aug 2024, remainder from 1 Mar 2025, at SP38+",3.1,verified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2024
+2025-26,1.4,"+1.4% on all spine points from 1 Aug 2025 (2.0% at SP7 and below, beneath the academic range)",2.8,verified,https://www.ons.gov.uk/economy/inflationandpriceindices/bulletins/consumerpriceinflation/august2025
+2026-27,2.0,"+2.0% on all spine points from 1 Aug 2026; CPIH to Aug 2026 not published until Sept 2026, so excluded from the averages",,verified,
