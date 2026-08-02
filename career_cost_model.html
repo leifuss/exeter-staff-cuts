@@ -82,7 +82,9 @@ reaches Professor at 48, matching the sector average. Professorial pay itself is
    <option value="set">Real terms &mdash; set a rate</option></select>
   <span id="rtslide" style="display:none">
    <input id="rtr" type="range" min="0" max="2" step="0.1" value="1.1"><span id="rtv" class="rtv">&minus;1.1&#37;/yr</span></span>
-  <span class="rthint">Restates every year in <b>&pound; of the year the career starts</b>. Governs <b>both charts below</b>; the <b>Workforce cost</b> tab stays in cash terms. See assumptions for how the 5-year average is derived.</span>
+  <span class="rtlab" style="margin-left:6px">Basis</span>
+  <select id="net" title="Gross is contractual salary. Take-home deducts the USS member contribution (6.1%), income tax and employee National Insurance at England/Wales 2025-26 rates. Applied to the cash figure before any real-terms adjustment. Excludes student loan repayments and any salary sacrifice."><option value="0" selected>Gross pay</option><option value="1">Take-home pay</option></select>
+  <span class="rthint">Restates every year in <b>&pound; of the year the career starts</b>, and optionally nets off tax. Both govern <b>the two charts below</b>; the <b>Workforce cost</b> tab stays gross and in cash terms. See assumptions for how the 5-year average is derived.</span>
  </div>
  <div class="card"><h2>One representative academic's salary, age 28 → Professor</h2>
   <p class="lead"><b>This shows why different structures cost different amounts over time.</b> It tracks one
@@ -164,6 +166,18 @@ function perHead(inst,pace,cp,yr,oc){const T=TEN[pace],w=curWF(),N=w[1]+w[2]+w[3
 // Real-terms deflator. The negotiated award has trailed CPIH, so a spine point buys less each year.
 // Measured gap (see sources/pay_awards.csv): 2021-22..2025-26 geometric mean -1.9585%/yr, -9.42% over the
 // five years. `rtF()` returns the per-year factor; year 0 is the anchor, so the first year is unchanged.
+// ---- Take-home pay. England/Wales 2025-26; every institution charted here is in England or Wales,
+// so rUK rates apply throughout. USS member contribution comes off first (net-pay arrangement: full
+// income-tax relief, no NI relief), then income tax with the personal-allowance taper, then employee
+// NI on gross. Applied to the CASH figure, before any real-terms deflator.
+const USS_MEM=0.061;
+function incTax(t){let pa=12570;if(t>100000)pa=Math.max(0,12570-(t-100000)/2);
+ const tx=Math.max(0,t-pa);let x=0;x+=Math.min(tx,37700)*0.20;
+ x+=Math.max(0,Math.min(tx-37700,(125140-pa)-37700))*0.40;x+=Math.max(0,tx-(125140-pa))*0.45;return x;}
+function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max(S-50270,0)*0.02;}
+function takeHome(S){const p=S*USS_MEM;return S-p-incTax(S-p)-empNI(S);}
+function netOn(){return ((($('net')||{}).value)||'0')==='1';}
+function netF(v){return netOn()?takeHome(v):v;}
 function rtD(){const m=($('rt')||{}).value||'cash';
  if(m==='avg')return 1.9585;                                 // 2021-22..2025-26 geometric mean
  if(m==='avg10')return 1.1400;                               // 2016-17..2025-26 geometric mean
@@ -176,7 +190,7 @@ function traj(inst,pace,cp,yr){const T=TEN[pace];const pts=[];let yr0=0;const rf
    for(let k=1;k<=T[t];k++){let v;
      if(k<=L)v=salx(inst,R[k-1],yr);
      else{const ceil=salx(inst,R[L-1],yr);v=cp1!=null?(1-cp)*ceil+cp*cp1:ceil;}
-     pts.push({year:yr0,age:28+yr0,sal:v*Math.pow(rf,yr0),grade:t});yr0++;}});
+     pts.push({year:yr0,age:28+yr0,sal:netF(v)*Math.pow(rf,yr0),grade:t});yr0++;}});
  return pts;}
 function cumEarn(inst,pace,cp,yr){return traj(inst,pace,cp,yr).reduce((a,p)=>a+p.sal,0);}
 // tabs
@@ -202,6 +216,7 @@ function drawTraj(){const pace=$('pace').value,cp=+$('cp').value,yr=+$('yr').val
  // x ticks (age)
  for(let yy=0;yy<tot;yy+=2){s+=`<text x="${x(yy)}" y="${H-B+13}" text-anchor="middle" fill="#9ca3af" font-size="11">${28+yy}</text>`;}
  s+=`<text x="${(L+W-R)/2}" y="${H-4}" text-anchor="middle" fill="#6b7280" font-size="11">age</text>`;
+ if(netOn())s+=`<text x="${W-R}" y="${Tm-4}" text-anchor="end" fill="#0f766e" font-size="11" font-weight="600">take-home &mdash; after USS, income tax and employee NI</text>`;
  if(rtF()!==1)s+=`<text x="${L}" y="${Tm-4}" fill="#b45309" font-size="11" font-weight="600">real terms &mdash; \u00a3 of the starting year, awards trailing CPIH by ${(100*(1-rtF())).toFixed(2)}%/yr</text>`;
  series.forEach(se=>{const c=col(se.i),ex=se.i==='Exeter';
    let dpath=se.pts.map((p,k)=>(k?'L':'M')+x(p.year)+' '+Y(p.sal)).join(' ');
@@ -267,7 +282,7 @@ function rtSync(){const set=($('rt')||{}).value==='set';
  if($('rtslide'))$('rtslide').style.display=set?'':'none';
  const v=+(($('rtr')||{}).value||0)||0;
  if($('rtv'))$('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(1)+'\u0025/yr';}
-['rt','rtr'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(ev=>e.addEventListener(ev,()=>{rtSync();redraw();}));});
+['rt','rtr','net'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(ev=>e.addEventListener(ev,()=>{rtSync();redraw();}));});
 rtSync();
 redraw();
 </script></body></html>
