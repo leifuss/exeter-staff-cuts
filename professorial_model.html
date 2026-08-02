@@ -99,7 +99,9 @@ is retained for exploration.</div>
    <option value="set">Real terms &mdash; set a rate</option></select>
   <span id="rtslide" style="display:none">
    <input id="rtr" type="range" min="0" max="2" step="0.1" value="1.1"><span id="rtv" class="rtv">&minus;1.1&#37;/yr</span></span>
-  <span class="rthint">Restates this chart in <b>&pound; of the year the professorship starts</b>. Affects <b>this chart only</b> &mdash; per-head costs, the bar chart and the band chart stay in cash terms. The &pound;100,000 rule is a cash threshold, so it is hidden in real terms.</span>
+  <span class="rtlab" style="margin-left:6px">Basis</span>
+  <select id="net" title="Gross is contractual salary. Take-home deducts the USS member contribution (6.1%), income tax and employee National Insurance at England/Wales 2025-26 rates. Applied to the cash figure before any real-terms adjustment. Excludes student loan repayments and any salary sacrifice."><option value="0" selected>Gross pay</option><option value="1">Take-home pay</option></select>
+  <span class="rthint">Restates this chart in <b>&pound; of the year the professorship starts</b>, and optionally nets off tax. Affect <b>this chart only</b> &mdash; per-head costs, the bar chart and the band chart stay in cash terms. The &pound;100,000 rule is a cash threshold, so it is hidden in real terms.</span>
  </div>
  <svg id="traj" viewBox="0 0 920 300" width="920" height="300"></svg>
  <div class="lgnd" id="trajlegend"></div></div>
@@ -178,6 +180,18 @@ function trajRungs(inst,p){const L=LAD[inst].length,tr=mode()==='doc'?PROG[inst]
 // Real-terms deflator: the negotiated award has trailed CPIH, so a rung buys less each year. Measured gap
 // 2021-22..2025-26 (sources/pay_awards.csv): geometric mean -1.9585%/yr; the 10-year window
 // 2016-17..2025-26 gives -1.1400%/yr. Year 0 is the anchor.
+// ---- Take-home pay. England/Wales 2025-26; every institution charted here is in England or Wales,
+// so rUK rates apply throughout. USS member contribution comes off first (net-pay arrangement: full
+// income-tax relief, no NI relief), then income tax with the personal-allowance taper, then employee
+// NI on gross. Applied to the CASH figure, before any real-terms deflator.
+const USS_MEM=0.061;
+function incTax(t){let pa=12570;if(t>100000)pa=Math.max(0,12570-(t-100000)/2);
+ const tx=Math.max(0,t-pa);let x=0;x+=Math.min(tx,37700)*0.20;
+ x+=Math.max(0,Math.min(tx-37700,(125140-pa)-37700))*0.40;x+=Math.max(0,tx-(125140-pa))*0.45;return x;}
+function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max(S-50270,0)*0.02;}
+function takeHome(S){const p=S*USS_MEM;return S-p-incTax(S-p)-empNI(S);}
+function netOn(){return ((($('net')||{}).value)||'0')==='1';}
+function netF(v){return netOn()?takeHome(v):v;}
 function rtD(){const m=($('rt')||{}).value||'cash';
  if(m==='avg')return 1.9585;                                 // 2021-22..2025-26 geometric mean
  if(m==='avg10')return 1.1400;                               // 2016-17..2025-26 geometric mean
@@ -185,7 +199,7 @@ function rtD(){const m=($('rt')||{}).value||'cash';
  return 0;}
 function rtF(){return 1-rtD()/100;}
 function trajSalary(inst,yr,p){const f=1,lad=LAD[inst],rf=rtF();
- return trajRungs(inst,p).map((r,t)=>lad[r]*f*Math.pow(rf,t));}
+ return trajRungs(inst,p).map((r,t)=>netF(lad[r]*f)*Math.pow(rf,t));}
 // deliberately NOT deflated: the £100k threshold is a cash figure from the accounts
 function crossAge100k(inst,yr,p){const f=1,lad=LAD[inst],pts=trajRungs(inst,p).map(r=>lad[r]*f);for(let t=0;t<pts.length;t++)if(pts[t]>=100000)return 48+t;return null;}
 function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
@@ -213,7 +227,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  // trajectory — deterministic on-schedule staircase, so annual vs biennial cadence is visible
  const W2=920,H2=300,L2=64,R2=20,T2=12,B2=38;const ages=[...Array(20).keys()];
  const series=ALL.map(i=>({i,pts:trajSalary(i,yr,p)})).sort((a,b)=>b.pts[19]-a.pts[19]);
- const real=rtF()!==1;
+ const real=rtF()!==1||netOn();   // the £100k accounts line is a gross cash figure: hide it in real terms AND in take-home
  const allv=[].concat(...series.map(s=>s.pts)),ymin=Math.min(...allv)*0.98,
    ymax=(real?Math.max(...allv):Math.max(...allv,100000))*1.02;
  const xx=t=>L2+t/19*(W2-L2-R2),YY=v=>T2+(ymax-v)/(ymax-ymin)*(H2-T2-B2);
@@ -221,6 +235,7 @@ function draw(){const p=+$('p').value,oc=$('oc').value==='1',yr=+$('yr').value;
  let s2=`<svg viewBox="0 0 ${W2} ${H2}" xmlns="http://www.w3.org/2000/svg">`;
  for(let g=0;g<=4;g++){const v=ymin+(ymax-ymin)*g/4;s2+=`<line x1="${L2}" y1="${YY(v)}" x2="${W2-R2}" y2="${YY(v)}" stroke="#eee"/><text x="${L2-8}" y="${YY(v)+4}" text-anchor="end" fill="#9ca3af" font-size="11">${gbp(v)}</text>`;}
  if(!real&&100000>=ymin&&100000<=ymax){s2+=`<line x1="${L2}" y1="${YY(100000)}" x2="${W2-R2}" y2="${YY(100000)}" stroke="#b91c1c" stroke-width="1.3" stroke-dasharray="6 4"/><text x="${W2-R2}" y="${YY(100000)-4}" text-anchor="end" font-size="10.5" fill="#b91c1c">£100,000 — accounts high-pay threshold</text>`;}
+ if(netOn())s2+=`<text x="${W2-R2}" y="${T2+10}" text-anchor="end" font-size="11" font-weight="600" fill="#0f766e">take-home &mdash; after USS, income tax and employee NI</text>`;
  if(real)s2+=`<text x="${L2}" y="${T2+10}" font-size="11" font-weight="600" fill="#b45309">real terms — £ of the starting year, awards trailing CPIH by ${(100*(1-rtF())).toFixed(2)}%/yr · the £100,000 line is a cash threshold, so it is hidden here</text>`;
  for(let t=0;t<20;t+=2)s2+=`<text x="${xx(t)}" y="${H2-B2+14}" text-anchor="middle" fill="#9ca3af" font-size="11">${48+t}</text>`;
  s2+=`<text x="${(L2+W2-R2)/2}" y="${H2-6}" text-anchor="middle" fill="#6b7280" font-size="11">age</text>`;
@@ -269,7 +284,7 @@ function rtSync(){const set=($('rt')||{}).value==='set';
  if($('rtslide'))$('rtslide').style.display=set?'':'none';
  const v=+(($('rtr')||{}).value||0)||0;
  if($('rtv'))$('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(1)+'\u0025/yr';}
-['rt','rtr'].forEach(id=>{const el=$(id);if(el)['change','input'].forEach(ev=>el.addEventListener(ev,()=>{rtSync();draw();}));});
+['rt','rtr','net'].forEach(id=>{const el=$(id);if(el)['change','input'].forEach(ev=>el.addEventListener(ev,()=>{rtSync();draw();}));});
 rtSync();draw();
 
 // ---------- published professorial bands on a money axis ----------

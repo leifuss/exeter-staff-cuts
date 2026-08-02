@@ -103,6 +103,8 @@ disaggregated by grade and by management.</p>
  <div class="rtbar">
   <span class="rtlab">Real terms</span>
   <input id="rtr" type="range" min="0" max="3" step="0.01" value="1.14"><span id="rtv" class="rtv">&minus;1.14&#37;/yr</span>
+  <span class="rtlab" style="margin-left:6px">Basis</span>
+  <select id="net" title="Gross is contractual salary. Take-home deducts the USS member contribution (6.1%), income tax and employee National Insurance at England/Wales 2025-26 rates. Applied to the cash figure before any real-terms adjustment. Excludes student loan repayments and any salary sacrifice."><option value="0" selected>Gross pay</option><option value="1">Take-home pay</option></select>
   <span class="rthint">Pay restated in <b>&pound; of the year the career starts</b>, because the negotiated award has trailed
   inflation. The default <b>1.14&#37;/yr</b> is the <b>measured ten-year average</b> gap between the JNCHES award and CPIH
   over 2016-17&ndash;2025-26 &mdash; the right window for a whole-career chart. The five-year average is steeper at
@@ -299,9 +301,21 @@ function careerOf(id){const out=[],aw=awRate();
   const NL=L.n.length, ceil=L.n[NL-1], c1=L.c.length?L.c[0]:null;
   for(let k=1;k<=T;k++) out.push(k<=NL ? L.n[k-1] : (c1!=null?(1-CP)*ceil+CP*c1:ceil));});
  return out;}
+// ---- Take-home pay. England/Wales 2025-26; every institution charted here is in England or Wales,
+// so rUK rates apply throughout. USS member contribution comes off first (net-pay arrangement: full
+// income-tax relief, no NI relief), then income tax with the personal-allowance taper, then employee
+// NI on gross. Applied to the CASH figure, before any real-terms deflator.
+const USS_MEM=0.061;
+function incTax(t){let pa=12570;if(t>100000)pa=Math.max(0,12570-(t-100000)/2);
+ const tx=Math.max(0,t-pa);let x=0;x+=Math.min(tx,37700)*0.20;
+ x+=Math.max(0,Math.min(tx-37700,(125140-pa)-37700))*0.40;x+=Math.max(0,tx-(125140-pa))*0.45;return x;}
+function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max(S-50270,0)*0.02;}
+function takeHome(S){const p=S*USS_MEM;return S-p-incTax(S-p)-empNI(S);}
+function netOn(){return ((($('net')||{}).value)||'0')==='1';}
+function netF(v){return netOn()?takeHome(v):v;}
 function drawCareer(){
  const d=(+$('rtr').value||0)/100, rf=1-d, SP=yrs();
- const series=MODELS.map(md=>({md,pts:careerOf(md.id).map((v,t)=>v*Math.pow(rf,t))}));
+ const series=MODELS.map(md=>({md,pts:careerOf(md.id).map((v,t)=>netF(v)*Math.pow(rf,t))}));
  const W=1180,L=76,R=150,T=14,B=42,H=340;
  const tot=SP.reduce((a,x)=>a+x[1],0);
  const all=[].concat(...series.map(s=>s.pts));
@@ -328,6 +342,7 @@ function drawCareer(){
  s+='</svg>';
  $('careerchart').innerHTML=s;
  $('careerlgnd').innerHTML=MODELS.map(md=>'<span class="lg"><span class="sw" style="'+(DASH[md.id]?'background:none;border-top:3px dashed '+MCOL[md.id]:'background:'+MCOL[md.id])+';height:'+(md.id==='now'?6:4)+'px"></span>'+(md.id==='now'?'<b>'+md.n+'</b>':md.n)+'</span>').join('')+
+  (netOn()?'<span class="lg" style="color:#0f766e">take-home — after USS, income tax and employee NI</span>':'')+
   (d>0?'<span class="lg" style="color:#b45309">real terms — £ of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'%/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
 }
 function draw(){
@@ -497,7 +512,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['rtr','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+['rtr','net','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
 rtSync();
 draw();
 </script>
