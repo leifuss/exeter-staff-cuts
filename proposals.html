@@ -83,16 +83,21 @@ disaggregated by grade and by management.</p>
 <div class="card"><h2>Change in the annual pay bill, against Exeter&rsquo;s current structure</h2><div id="bars"></div>
  <div class="lgnd" id="barlgnd"></div></div>
 
-<div class="card"><h2>One representative career, age 28 to 68, under each model</h2>
- <p class="small" style="margin:0 0 6px">A single academic climbing one point a year: <b>5 years</b> in grade F, <b>7</b> in G,
- <b>8</b> in H, then <b>20</b> as a professor. Dashed verticals mark promotions. This is the same person under six different
- structures &mdash; it shows what each proposal does to a career, which the annual totals below cannot.</p>
+<div class="card"><h2>One representative career, age 28 to 67, under each model</h2>
+ <p class="small" style="margin:0 0 6px">A single academic under six different structures &mdash; it shows what each proposal
+ does to a career, which the annual totals below cannot. Dashed verticals mark promotions.
+ <b>Two routes are shown separately rather than averaged</b>, because only a minority of academics become professors and a
+ blended &lsquo;average&rsquo; career describes nobody: the <b>default</b> is the majority route (grades F, G and H, then the
+ remaining years at the Associate Professor ceiling), and the toggle switches to the professorial route. The familiar figure
+ that professors are appointed at about 48 is an average <i>of those who get there</i> &mdash; it says nothing about how many do.</p>
  <div class="rtbar" style="background:#f7f7f5;border-color:var(--line)">
   <span class="rtlab" style="color:#374151">Years in each grade</span>
   <span>F <input id="yF" type="number" value="5" min="1" max="25" step="1" style="width:52px"></span>
   <span>G <input id="yG" type="number" value="7" min="1" max="25" step="1" style="width:52px"></span>
   <span>H <input id="yH" type="number" value="8" min="1" max="25" step="1" style="width:52px"></span>
-  <span style="color:#6b7280">Professor <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
+  <span style="color:#6b7280"><b id="yPlab">Remaining years at the AP ceiling</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
+  <span class="rtlab" style="color:#374151;margin-left:8px">Route</span>
+  <select id="route" title="Only a minority of academics become professors, so an ‘average’ career that ends in a chair describes nobody. Does not become a professor: F, G, H, then the remaining years at the Associate Professor ceiling — the majority experience. Becomes a professor: promoted after the years in H, then merit progression to 67."><option value="np" selected>Does not become a professor</option><option value="prof">Becomes a professor</option></select>
   <span class="rtlab" style="color:#374151;margin-left:8px">Merit award rate</span>
   <select id="aw"><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option></select>
   <span class="rthint">Professorial progression is <b>merit-based</b>. Exeter reviews <b>biennially</b>, so at a 40&#37; award
@@ -263,10 +268,16 @@ const CP=0.30;
 const PROG={she:[...Array(3).fill('a'),...Array(12).fill('m1')],
             man:[...Array(3).fill('a'),...Array(8).fill('m1')]};
 const AGE0=28, AGE1=67, TOTY=AGE1-AGE0+1;          // the career always runs 28 -> 67
+function routeProf(){return ((($('route')||{}).value)||'np')==='prof';}
+// professorial years implied by the grade tenures, independent of which career route is displayed
+function profYears(){const g=id=>Math.max(1,+($(id)||{}).value||1);return Math.max(1,TOTY-g('yF')-g('yG')-g('yH'));}
+// Only a minority reach a chair, so the two routes are shown separately rather than averaged:
+// an expected-value line across both would describe a career nobody actually has.
 function yrs(){const g=id=>Math.max(1,+($(id)||{}).value||1);
  const f=g('yF'),gg=g('yG'),h=g('yH'), pr=Math.max(1,TOTY-f-gg-h);
  if($('yPout'))$('yPout').textContent=pr;
- return [['F',f],['G',gg],['H',h],['PROF',pr]];}
+ if($('yPlab'))$('yPlab').textContent=routeProf()?'Professor':'Remaining years at the AP ceiling';
+ return routeProf()?[['F',f],['G',gg],['H',h],['PROF',pr]]:[['F',f],['G',gg],['H',h+pr]];}
 function awRate(){return +(($('aw')||{}).value||0.4)||0.4;}
 // each model's lists: normal points, contribution points (as £), and the professorial ladder
 function listsFor(id,b){
@@ -378,7 +389,7 @@ function draw(){
  // Annual professorial review cannot show up in the totals above: those re-price the OBSERVED
  // distribution, so they are blind to how fast people progress. Estimate the gap separately, as the
  // ratio of career-average expected salary under annual vs biennial merit on the same ladder.
- (function(){const aw=awRate(), T=yrs()[3][1];
+ (function(){const aw=awRate(), T=profYears();
   const upl=id=>{const L=listsFor(id,'PROF'), n=Math.max(0,L.lad.length-1);
    const mean=c=>{const v=profSeries(L.lad,Array(n).fill(c),aw,T);return v.reduce((a,b)=>a+b,0)/v.length;};
    const a=mean('m2'); return a?mean('m1')/a-1:0;};
@@ -512,7 +523,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['rtr','net','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+['rtr','net','route','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
 rtSync();
 draw();
 </script>

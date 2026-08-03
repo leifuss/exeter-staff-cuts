@@ -47,8 +47,12 @@ summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
 <p class="sub">Unlike the first model (which assumes where staff sit), this one <b>derives</b> it: staff are
 appointed at the bottom of each grade, gain one increment a year, and are promoted after a set number of
 years. Crucially, that interacts with each university's grade length — short grades make staff hit their
-ceiling sooner. A representative permanent career starts at age 28 (Lecturer) and, on the middle pace,
-reaches Professor at 48, matching the sector average. Professorial pay itself is excluded.</p>
+ceiling sooner. A representative permanent career starts at age 28 (Lecturer). <b>Two routes are shown separately
+rather than averaged.</b> Only a minority of academics become professors, so a blended &lsquo;average&rsquo; career
+describes nobody &mdash; and the familiar figure that professors are appointed at about 48 is an average <i>of those
+who get there</i>, which says nothing about how many do. The <b>default</b> is the majority route: F, G and H, then the
+remaining years at the Associate Professor ceiling to 67. The toggle stops the chart at promotion instead; professorial
+pay itself is modelled on the <b>Professorial</b> tab.</p>
 <div class="tabs"><button class="tab active" data-v="path">1 · A career over time</button>
  <button class="tab" data-v="cost">2 · Workforce cost</button></div>
 
@@ -82,11 +86,13 @@ reaches Professor at 48, matching the sector average. Professorial pay itself is
    <option value="set">Real terms &mdash; set a rate</option></select>
   <span id="rtslide" style="display:none">
    <input id="rtr" type="range" min="0" max="2" step="0.1" value="1.1"><span id="rtv" class="rtv">&minus;1.1&#37;/yr</span></span>
+  <span class="rtlab" style="margin-left:6px">Route</span>
+  <select id="route" title="Only a minority of academics become professors, so the routes are shown separately rather than averaged. Does not become a professor: promoted through F, G and H, then the remaining years at the Associate Professor ceiling to 67 — the majority experience. Becomes a professor: the chart stops at promotion, since professorial pay is modelled on the Professorial tab."><option value="np" selected>Does not become a professor</option><option value="prof">Becomes a professor</option></select>
   <span class="rtlab" style="margin-left:6px">Basis</span>
   <select id="net" title="Gross is contractual salary. Take-home deducts the USS member contribution (6.1%), income tax and employee National Insurance at England/Wales 2025-26 rates. Applied to the cash figure before any real-terms adjustment. Excludes student loan repayments and any salary sacrifice."><option value="0" selected>Gross pay</option><option value="1">Take-home pay</option></select>
   <span class="rthint">Restates every year in <b>&pound; of the year the career starts</b>, and optionally nets off tax. Both govern <b>the two charts below</b>; the <b>Workforce cost</b> tab stays gross and in cash terms. See assumptions for how the 5-year average is derived.</span>
  </div>
- <div class="card"><h2>One representative academic's salary, age 28 → Professor</h2>
+ <div class="card"><h2>One representative academic's salary, age 28 to 67</h2>
   <p class="lead"><b>This shows why different structures cost different amounts over time.</b> It tracks one
   representative academic's expected salary across a whole career, so the effect of grade design is visible year by
   year: Exeter starts high, but its short grades mean it tops out and waits, while peers on longer grades keep
@@ -185,7 +191,13 @@ function rtD(){const m=($('rt')||{}).value||'cash';
  return 0;}
 function rtF(){return 1-rtD()/100;}
 // representative (expected) trajectory: array of {age,year,sal,grade}; ceiling years blend in the CP share
-function traj(inst,pace,cp,yr){const T=TEN[pace];const pts=[];let yr0=0;const rf=rtF();
+function routeProf(){return ((($('route')||{}).value)||'np')==='prof';}
+// Only a minority of academics reach a chair, so the two routes are separate rather than averaged.
+// Majority route: the years that would have been professorial are spent at the grade H ceiling, to 67.
+function tenure(){const T=TEN[$('pace').value];
+ if(routeProf())return {1:T[1],2:T[2],3:T[3]};
+ return {1:T[1],2:T[2],3:T[3]+Math.max(0,40-(T[1]+T[2]+T[3]))};}
+function traj(inst,pace,cp,yr){const T=tenure();const pts=[];let yr0=0;const rf=rtF();
  [1,2,3].forEach(t=>{const info=struct[inst][t],R=info.n,L=R.length,cp1=info.c.length?salx(inst,info.c[0],yr):null;
    for(let k=1;k<=T[t];k++){let v;
      if(k<=L)v=salx(inst,R[k-1],yr);
@@ -202,7 +214,7 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
 function drawTraj(){const pace=$('pace').value,cp=+$('cp').value,yr=+$('yr').value;
  const series=ALL.filter(i=>i!=='Exeter').map(i=>({i,pts:traj(i,pace,cp,yr)}));
  series.push({i:'Exeter',pts:traj('Exeter',pace,cp,yr)});  // Exeter last → drawn on top
- const T=TEN[pace],proms=[T[1],T[1]+T[2]],tot=T[1]+T[2]+T[3];
+ const T=tenure(),proms=[T[1],T[1]+T[2]],tot=T[1]+T[2]+T[3];
  const W=1040,H=340,L=70,R=20,Tm=18,B=44, x=y=>L+y/(tot-1)*(W-L-R);
  const all=[].concat(...series.map(s=>s.pts.map(p=>p.sal)));
  const ymin=Math.min(...all)*0.97,ymax=Math.max(...all)*1.03, Y=v=>Tm+(ymax-v)/(ymax-ymin)*(H-Tm-B);
@@ -282,7 +294,7 @@ function rtSync(){const set=($('rt')||{}).value==='set';
  if($('rtslide'))$('rtslide').style.display=set?'':'none';
  const v=+(($('rtr')||{}).value||0)||0;
  if($('rtv'))$('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(1)+'\u0025/yr';}
-['rt','rtr','net'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(ev=>e.addEventListener(ev,()=>{rtSync();redraw();}));});
+['rt','rtr','net','route'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(ev=>e.addEventListener(ev,()=>{rtSync();redraw();}));});
 rtSync();
 redraw();
 </script></body></html>
