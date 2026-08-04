@@ -49,22 +49,25 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  been removed.
  <div style="margin-top:6px">The proposal <b>lengthens every grade from a lower floor</b>: grade F runs SP31&ndash;36
  instead of SP34&ndash;36, H runs SP45&ndash;50 instead of SP48&ndash;50, and Professorial Band&nbsp;1 becomes
- <b>automatic increments</b> with Band&nbsp;2 on <b>annual</b> review. In plain terms that is <b>lower entry pay in
+ <b>automatic increments</b> with Band&nbsp;2 on <b>annual</b> review. Band&nbsp;3 gains <b>three increments at the bottom</b>
+ (SP65&ndash;71), in line with comparator practice. In plain terms that is <b>lower entry pay in
  exchange for a longer guaranteed climb</b>, and it is a pay cut for anyone near the bottom of a grade today.</div></div>
 
 <div class="warn" id="reconcile" style="margin:0 0 12px"></div>
 <div class="warn" style="border-left-color:#b45309;background:#fffbf4;border-color:#ecd9b8">
- <b style="color:#b45309">Two things to fix in the workbook before this circulates.</b>
+ <b style="color:#b45309">Two things still to fix in the workbook.</b>
  <b>1.</b> The proposed scale is <b>not monotonic</b>: SP31 (&pound;40,603) pays <b>&pound;101 less</b> than SP30
  (&pound;40,704), so pay falls as you go up a point. The three new points at SP31&ndash;33 look interpolated backwards
  from SP34 in ~2.99&#37; steps, and the lowest undershoots the existing SP30.
- <b>2.</b> Cell <code>V55</code> is <code>=SUM(V9:V54)</code> and omits SP71&rsquo;s 6.2 FTE while the wage bill sums from
- row&nbsp;8, so mean staff salary should read <b>&pound;50,351</b> rather than &pound;50,425 and equivalent posts
- <b>156.8</b> rather than 156.5.
- <div style="margin-top:6px">Also note that below SP34 the workbook uses its <b>own renumbering</b> &mdash; its SP26 is
- the published SP27 &mdash; plus three inserted points, so &ldquo;SP31&rdquo; here is not the published SP31. This page
- uses the workbook&rsquo;s own <i>Salary from 1 Aug 2026</i> column throughout so that the figures reconcile with it;
- at SP34 and above that column is identical to the rest of this site.</div></div>
+ <b>2.</b> Cell <code>U56</code> is <code>=SUM(U9:U55)</code> and omits SP71&rsquo;s 6.2&nbsp;FTE, while the wage bill
+ <code>V57</code> sums from row&nbsp;8. It should read <code>=SUM(U8:U55)</code>. On the corrected figures mean staff
+ salary is <b>&pound;50,319</b> and the proposal is worth <b>159.5</b> equivalent posts.
+ <div style="margin-top:6px"><b>Now resolved:</b> grade&nbsp;G&rsquo;s current floor reads SP40 on the current side,
+ matching Exeter&rsquo;s published structure; and with SP51 restored to 5.0&nbsp;FTE the redistribution conserves
+ headcount to 0.04&nbsp;FTE. Note that below SP34 the workbook uses its <b>own renumbering</b> &mdash; its SP26 is the
+ published SP27 &mdash; plus three inserted points, so &ldquo;SP31&rdquo; here is not the published SP31. This page uses
+ the workbook&rsquo;s own <i>Salary from 1 Aug 2026</i> column throughout so the figures reconcile with it; at SP34 and
+ above that column is identical to the rest of this site.</div></div>
 
 <div class="answer">
  <b>How this is priced.</b> Each model is applied to Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine,
@@ -140,7 +143,7 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
 <details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
 </div>
 <script>
-const D={"nat":{"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41885,"33":43099,"34":44352,"35":45641,"36":46970,"37":48337,"38":49798,"39":51258,"40":52788,"41":54367,"42":55991,"43":57666,"44":59390,"45":61165,"46":62994,"47":64878,"48":66819,"49":68817,"50":70878,"51":72997,"52":75184,"53":77435,"54":79743,"55":82140,"56":84594,"57":87132,"58":89746},"ext":{"48":67144,"52":75184,"53":77435,"54":79753,"55":82140,"56":84594,"59":92441,"60":95213,"61":98069,"62":101012,"63":104040,"64":107163,"65":110378,"66":113688,"67":117097,"68":120613,"69":124231,"70":127957,"71":131795},"dist":{"25":370.6655,"26":132.7528,"27":130.7597,"28":328.8331,"29":39.0768,"30":23.88,"31":46.6625,"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5},"E":{"floor":25,"nN":7,"nC":0,"lab":"E \u2014 Associate Lecturer / PDRA","t":0}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]}},"lad":[77432,79750,82134,84592,87125,89731,92418,95186,98036,100971,103994,107111]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]}},"lad":[72997,75182,77433,79750,82134,84591,87122,89729,92415,95186,98036,100969,103993,107109,110316,113619]}},"tu":{"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":57,"55":58,"56":59,"57":60,"58":61,"59":62,"60":62},"P2":{"58":62,"59":62,"60":62,"61":62,"62":62,"63":63,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]],"spine":{"25":35302.2,"26":36320.16,"27":37368.72,"28":38447.88,"29":39559.68,"30":40704.12,"31":40603.24,"32":41816.93,"33":43064.62,"34":44351.64,"35":45640.92,"36":46969.98,"37":48336.78,"38":49798.44,"39":51258.06,"40":52788.06,"41":54367.02,"42":55990.86,"43":57665.7,"44":59389.5,"45":61165.32,"46":62994.18,"47":64878.12,"48":67143.54,"49":68817.36,"50":70877.76,"51":72997.32,"52":75184.2,"53":77435.34,"54":79752.78,"55":82139.58,"56":84593.7,"57":87132.48,"58":89745.72,"59":92440.56,"60":95212.92,"61":98068.92,"62":101011.62,"63":104040,"64":107163.24,"65":110378.28,"66":113688.18,"67":117097.02,"68":120612.96,"69":124230.9,"70":127956.96,"71":131795.22},"prop":{"E":{"floor":25,"nN":4,"nC":3},"F":{"floor":31,"nN":6,"nC":3},"G":{"floor":39,"nN":6,"nC":2},"H":{"floor":45,"nN":6,"nC":3},"P1":{"floor":52,"nN":6,"nC":0},"P2":{"floor":58,"nN":10,"nC":0}}};
+const D={"nat":{"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41885,"33":43099,"34":44352,"35":45641,"36":46970,"37":48337,"38":49798,"39":51258,"40":52788,"41":54367,"42":55991,"43":57666,"44":59390,"45":61165,"46":62994,"47":64878,"48":66819,"49":68817,"50":70878,"51":72997,"52":75184,"53":77435,"54":79743,"55":82140,"56":84594,"57":87132,"58":89746},"ext":{"48":67144,"52":75184,"53":77435,"54":79753,"55":82140,"56":84594,"59":92441,"60":95213,"61":98069,"62":101012,"63":104040,"64":107163,"65":110378,"66":113688,"67":117097,"68":120613,"69":124231,"70":127957,"71":131795},"dist":{"25":370.6655,"26":132.7528,"27":130.7597,"28":328.8331,"29":39.0768,"30":23.88,"31":46.6625,"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5},"E":{"floor":25,"nN":7,"nC":0,"lab":"E \u2014 Associate Lecturer / PDRA","t":0}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]},"0":{"n":[24,25,26,27,28],"c":[]}},"lad":[77432,79750,82134,84592,87125,89731,92418,95186,98036,100971,103994,107111]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]}},"lad":[72997,75182,77433,79750,82134,84591,87122,89729,92415,95186,98036,100969,103993,107109,110316,113619]}},"tu":{"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":57,"55":58,"56":59,"57":60,"58":61,"59":62,"60":62},"P2":{"58":62,"59":62,"60":62,"61":62,"62":62,"63":63,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]],"spine":{"25":35302.2,"26":36320.16,"27":37368.72,"28":38447.88,"29":39559.68,"30":40704.12,"31":40603.24,"32":41816.93,"33":43064.62,"34":44351.64,"35":45640.92,"36":46969.98,"37":48336.78,"38":49798.44,"39":51258.06,"40":52788.06,"41":54367.02,"42":55990.86,"43":57665.7,"44":59389.5,"45":61165.32,"46":62994.18,"47":64878.12,"48":67143.54,"49":68817.36,"50":70877.76,"51":72997.32,"52":75184.2,"53":77435.34,"54":79752.78,"55":82139.58,"56":84593.7,"57":87132.48,"58":89745.72,"59":92440.56,"60":95212.92,"61":98068.92,"62":101011.62,"63":104040,"64":107163.24,"65":110378.28,"66":113688.18,"67":117097.02,"68":120612.96,"69":124230.9,"70":127956.96,"71":131795.22,"24":32968},"prop":{"E":{"floor":25,"nN":4,"nC":3},"F":{"floor":31,"nN":6,"nC":3},"G":{"floor":39,"nN":6,"nC":2},"H":{"floor":45,"nN":6,"nC":3},"P1":{"floor":52,"nN":6,"nC":0},"P2":{"floor":58,"nN":10,"nC":0},"P3":{"floor":65,"nN":7,"nC":0}}};
 const $=id=>document.getElementById(id);
 const gbp=n=>'\u00a3'+Math.round(n).toLocaleString();
 // the claim’s own band structure, as published in the workbook’s per-grade tabs — distinct from the
@@ -157,7 +160,10 @@ const LABEL={E:'Grade E \u2014 Associate Lecturer / PDRA',F:'Grade F \u2014 Lect
 const RO0={E:26,F:26,G:13,H:8,P1:2,P2:2};
 // The 1 Aug 2026 column from the proposal workbook, SP25-71. Identical to the site's own uplifted
 // figures at SP34 and above; below that the workbook uses its own renumbering plus three inserted points.
-function sal(p){const v=D.spine[p];return v!=null?v:(D.ext[p]!=null?D.ext[p]:D.nat[p]);}
+function sal(p){const v=D.spine[p];if(v!=null)return v;
+ const e=D.ext[p];if(e!=null)return e;
+ const n=D.nat[p];if(n!=null)return n;
+ return D.spine[Math.min(71,Math.max(24,p))]||0;}   // never return undefined: a NaN here poisons every chart
 function ocOn(){return $('oc').value==='1';}
 function oc(v){return ocOn()? v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v : v;}
 function dcFor(b){return $('dc').value==='1' ? Math.max(0,1-(RO0[b]||0)/100) : 1;}
@@ -191,7 +197,9 @@ function viaCmp(u){const C=D.cmp[u],tier={F:'1',G:'2',H:'3'};
  return (b,e)=>{
   // No comparator grade-E structure is on file, so their grade E staff are held at Exeter rates.
   // That understates any difference in the lowest grade; flagged on the page.
-  if(b==='E')return sal(e.p);
+  if(b==='E'){const g0=C.g['0'];
+   if(!g0)return sal(e.p);                       // Sheffield has no grade-E equivalent on file
+   const all=[...g0.n,...g0.c];return sal(all[Math.min(e.idx,all.length-1)]);}
   if(b==='P1'||b==='P2'){const L=C.lad, i=Math.min(e.p-54,L.length-1); return L[Math.max(0,i)];}
   const g=C.g[tier[b]],all=[...g.n,...g.c]; return sal(all[Math.min(e.idx,all.length-1)]);};}
 // ---- the proposal ----
@@ -201,7 +209,9 @@ function viaCmp(u){const C=D.cmp[u],tier={F:'1',G:'2',H:'3'};
 // ground that it is the least churning population and a structural change would take longest to bite.
 function b3cut(){return (+($('c3b')||{}).value||0)/100;}
 function viaProp(){const inner=viaBands(D.prop);
- return (b,e)=>e.p>=68 ? sal(e.p)*(1-b3cut()) : inner(b,e);}
+ // Band 3 now runs SP65-71 (three increments added at the bottom). It is spot-salaried, so it takes a
+ // flat cut rather than a re-map; the boundary moves with the band.
+ return (b,e)=>e.p>=65 ? sal(e.p)*(1-b3cut()) : inner(b,e);}
 const MODELS=[
  {id:'now',  n:'1 · Exeter, as it is', s:'baseline', f:()=>((b,e)=>sal(e.p)), cut:()=>0},
  {id:'tu',   n:'2 · 2022 union claim', s:'lifts staff up the spine', cut:()=>0,
@@ -440,7 +450,7 @@ function draw(){
  // ---- reconciliation against the workbook's own figure -------------------------------------
  // The workbook's column V is a hand-built redistribution; this page applies the proposal's band
  // definitions mechanically. They do not agree, and the difference is the interesting part.
- (function(){const SS=7758472, SSFTE=4232.43;
+ (function(){const SS=7892353, SSFTE=4232.39;
   const gross=(()=>{const keep=[$('oc').value,$('dc').value];
    // price on the workbook's own basis: salary only, all staff
    $('oc').value='0';$('dc').value='0';
@@ -448,18 +458,19 @@ function draw(){
    $('oc').value=keep[0];$('dc').value=keep[1];
    return {struct:(b.tot-b.by.MGMT)-(r.tot-r.by.MGMT), byb:BK.map(k=>[k,b.by[k]-r.by[k]])};})();
   const d=gross.struct-SS;
-  $('reconcile').innerHTML='<b>This page and the workbook do not agree, and the gap matters.</b> On the workbook&rsquo;s '+
-   'own basis \u2014 salary only, all staff counted \u2014 the workbook makes the proposal worth <b>'+m(SS)+'/yr</b> before '+
-   'the executive cut. Applying the same band definitions <i>mechanically</i> to the same distribution, this page makes it '+
-   '<b>'+m(gross.struct)+'/yr</b>, about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b>. '+
-   'The workbook moves staff by hand, point by point; this page moves everyone by their <b>position in the grade</b>, so a '+
-   'floor that drops three points moves the whole grade three points. The largest single divergence is <b>grade&nbsp;G</b>: '+
-   'the workbook leaves it untouched (&pound;0), because its current-side sheet already puts G&rsquo;s floor at SP39, whereas '+
-   'Exeter&rsquo;s published structure puts it at SP40. On the published structure the proposal moves grade&nbsp;G down a '+
-   'point and it contributes <b>'+m(gross.byb.find(x=>x[0]==='G')[1])+'</b>. Grade&nbsp;H diverges for the same reason in '+
-   'reverse: the workbook moves only part of it. <b>Neither figure is obviously the right one</b> \u2014 the workbook is the '+
-   'more conservative claim and the safer number to quote; this page shows what the stated structure does if applied '+
-   'consistently. Settle which grade floors are actually intended and the two will converge.';})();
+  $('reconcile').innerHTML='<b>This page and the workbook do not agree, and the gap is worth understanding.</b> '+
+   'On the workbook&rsquo;s own basis \u2014 salary only, all staff counted \u2014 it makes the proposal worth '+
+   '<b>'+m(SS)+'/yr</b> before the executive cut. Applying the same band definitions <i>mechanically</i> to the same '+
+   'distribution, this page makes it <b>'+m(gross.struct)+'/yr</b>, about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b>. '+
+   'The difference is method, not data: the workbook moves staff <b>by hand, point by point</b>, while this page moves '+
+   'everyone by their <b>position in the grade</b>, so a floor that drops three points moves the whole grade with it. '+
+   'The clearest illustration is <b>grade&nbsp;G</b>. The proposal drops its floor from SP40 to SP39 and shortens it from '+
+   'ten points to eight, but the workbook leaves <b>SP41&ndash;44 completely untouched</b> and moves only the bottom '+
+   'cohort down one point &mdash; worth about &pound;135k, where moving the grade as a whole is worth roughly ten times '+
+   'that. The same is true of grade&nbsp;H. <b>Neither figure is wrong</b>: the workbook is a deliberately cautious '+
+   'assimilation and is the safer number to put in front of the University; this page shows what the stated structure '+
+   'does if every grade is applied consistently. The gap is the room between the two, and it is worth being explicit '+
+   'about which one is being claimed.';})();
  $('tbl').innerHTML=h;
  // ---- bar chart, stacked by where the money comes from ----
  // Within any one model every grade pulls the same way, so a simple stack reads correctly;
