@@ -39,6 +39,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
   <button class="tab active" data-f="overview">Overview</button>
   <button class="tab" data-f="grade_saving_model.html">Where the saving comes from</button>
   <button class="tab" data-f="spine_model.html">Modelling</button>
+  <button class="tab" data-f="single_proposal.html">Single proposal</button>
   <button class="tab" data-f="proposals.html">Straw proposals</button>
   <button class="tab" data-f="payscale_dashboard.html">Grade structure &amp; cost</button>
   <button class="tab" data-f="career_cost_model.html">Career model</button>
@@ -167,6 +168,7 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
 const cards=[
  ['grade_saving_model.html','1 · Where the saving comes from','The simplest version: one grade at a time, an Exeter appointee beside a comparator\u2019s, year by year \u2014 and what the difference is worth. Every assumption editable. Start here.'],
  ['spine_model.html','2 · Modelling','Redesign Exeter\u2019s own spine \u2014 move any of the six bands and re-price Exeter\u2019s real staff distribution on it. The baseline is Exeter\u2019s real distribution on 2026-27 scales.'],
+ ['single_proposal.html','3 \u00b7 Single proposal','The 2026 pay scale proposal costed against Exeter\u2019s current structure, with the 2022 union claim and Sheffield\u2019s and Manchester\u2019s scales as reference points. Longer grades from a lower floor, automatic Band 1 increments and annual Band 2 review \u2014 disaggregated by grade and by management, and reconciled against the proposal workbook\u2019s own figure.'],
  ['proposals.html','3 · Straw proposals','Six pay models costed side by side against Exeter\u2019s current structure \u2014 the 2022 union claim, two constructed restructuring options with executive pay cuts, and Sheffield\u2019s and Manchester\u2019s scales. Not formal proposals: a way of seeing the trade-offs, disaggregated by grade and management.'],
  ['payscale_dashboard.html','4 · Grade structure &amp; cost','The three non-professorial grades laid out on the shared national spine, and a per-head cost comparison — where the structural differences start.'],
  ['career_cost_model.html','5 · Career model','One representative academic\u2019s salary from age 28 to professor (fast/middle/slow promotion), for every structure — how short vs long grades play out over a career.'],
@@ -179,7 +181,7 @@ const cards=[
  ['monte_carlo.html','12 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university\u2019s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-07d'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-07-08a'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
 function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));

@@ -1,0 +1,583 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A single proposal — what the 2026 pay scale proposal would cost</title>
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1b;--mut:#6b7280;--line:#e3e3df;--exeter:#b45309;--save:#15803d;--cost:#b91c1c;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 18px 70px}
+h1{font-size:21px;margin:0 0 4px;font-weight:650}.sub{color:var(--mut);margin:0 0 12px;max-width:960px;font-size:14px}
+.answer{background:#fff;border:1px solid var(--line);border-left:5px solid var(--exeter);border-radius:9px;padding:12px 15px;margin:0 0 12px;font-size:14px}
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 15px;margin-bottom:12px;align-items:flex-start}
+.ctl{display:flex;flex-direction:column;gap:3px}.ctl label{font-size:11.5px;color:var(--mut);font-weight:600}
+.ctl select,.ctl input{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
+.ctl input{width:96px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:12px;overflow-x:auto}
+.card h2{font-size:15px;margin:0 0 6px}
+svg{display:block;max-width:100%;height:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+td,th{border-top:1px solid var(--line);padding:5px 7px;text-align:right;white-space:nowrap}
+th{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.02em;border-top:0;font-weight:600;vertical-align:bottom}
+td:first-child,th:first-child{text-align:left}
+tr.tot td{font-weight:700;border-top:2px solid #c9c9c4;font-size:13px}
+tr.mgmt td{background:#faf9f6}
+.save{color:var(--save)}.cost{color:var(--cost)}
+.warn{background:#fff4ed;border:1px solid #f0b98a;border-left:5px solid #c2410c;border-radius:9px;padding:10px 14px;margin:0 0 12px;font-size:13px}
+.warn b{color:#c2410c}
+details{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600}.small{font-size:12.5px;color:var(--mut)}
+.lgnd{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--mut);margin-top:5px}
+.lg{display:inline-flex;align-items:center;gap:5px}.sw{width:16px;height:10px;border-radius:2px;display:inline-block}
+td.h{border-bottom:1px dotted #c9c9c4;cursor:help}
+.rtbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fffbf4;border:1px solid #ecd9b8;border-radius:9px;padding:8px 12px;margin:0 0 10px;font-size:12.5px}
+.rtbar .rtlab{font-weight:600;color:#b45309}
+.rtbar input[type=range]{width:170px;vertical-align:middle;accent-color:#b45309}
+.rtbar .rtv{font-weight:700;color:#b45309;min-width:76px;display:inline-block}
+.rtbar .rthint{font-size:11px;color:#9ca3af;flex:1;min-width:260px}
+tr.prop td{background:#f6f2fb}
+td.prop,th.prop{background:#f6f2fb}
+td.h::after,.ctl label[title]::after,summary[title]::after{content:"\00a0\24D8";color:#9ca3af;font-weight:400;font-size:11.5px}
+.ctl label[title],summary[title]{cursor:help}
+</style></head><body><div class="wrap">
+<h1>A single proposal &mdash; what the 2026 pay scale proposal would cost</h1>
+<p class="sub">One proposal, priced against Exeter&rsquo;s current structure and against what Sheffield and
+Manchester already do &mdash; disaggregated by grade and by management.</p>
+<div class="warn" style="border-left-color:#15803d;background:#f4fbf6;border-color:#bfe0cb">
+ <b style="color:#15803d">A single proposal, for discussion.</b> This tab prices the <b>2026 pay scale proposal</b>
+ (model&nbsp;3) worked up in the joint-claim workbook. It keeps two reference points either side of it: the
+ <b>2022 joint trade union claim</b>, which is the only other real position anyone has taken, and the structures
+ <b>Sheffield</b> and <b>Manchester</b> already operate. The two constructed straw models that used to sit here have
+ been removed.
+ <div style="margin-top:6px">The proposal <b>lengthens every grade from a lower floor</b>: grade F runs SP31&ndash;36
+ instead of SP34&ndash;36, H runs SP45&ndash;50 instead of SP48&ndash;50, and Professorial Band&nbsp;1 becomes
+ <b>automatic increments</b> with Band&nbsp;2 on <b>annual</b> review. In plain terms that is <b>lower entry pay in
+ exchange for a longer guaranteed climb</b>, and it is a pay cut for anyone near the bottom of a grade today.</div></div>
+
+<div class="warn" id="reconcile" style="margin:0 0 12px"></div>
+<div class="warn" style="border-left-color:#b45309;background:#fffbf4;border-color:#ecd9b8">
+ <b style="color:#b45309">Two things to fix in the workbook before this circulates.</b>
+ <b>1.</b> The proposed scale is <b>not monotonic</b>: SP31 (&pound;40,603) pays <b>&pound;101 less</b> than SP30
+ (&pound;40,704), so pay falls as you go up a point. The three new points at SP31&ndash;33 look interpolated backwards
+ from SP34 in ~2.99&#37; steps, and the lowest undershoots the existing SP30.
+ <b>2.</b> Cell <code>V55</code> is <code>=SUM(V9:V54)</code> and omits SP71&rsquo;s 6.2 FTE while the wage bill sums from
+ row&nbsp;8, so mean staff salary should read <b>&pound;50,351</b> rather than &pound;50,425 and equivalent posts
+ <b>156.8</b> rather than 156.5.
+ <div style="margin-top:6px">Also note that below SP34 the workbook uses its <b>own renumbering</b> &mdash; its SP26 is
+ the published SP27 &mdash; plus three inserted points, so &ldquo;SP31&rdquo; here is not the published SP31. This page
+ uses the workbook&rsquo;s own <i>Salary from 1 Aug 2026</i> column throughout so that the figures reconcile with it;
+ at SP34 and above that column is identical to the rest of this site.</div></div>
+
+<div class="answer">
+ <b>How this is priced.</b> Each model is applied to Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine,
+ and every model is expressed as a <b>map from each current spine point to a new one</b> &mdash; which is exactly how the
+ 2022 union claim itself is written. Switch to <i>salary only</i> and <i>count all staff</i> and the baseline is
+ <b>&pound;181,014,710 across 3,159.8 FTE</b>: Exeter&rsquo;s real 2023 distribution priced on the <b>2026-27</b> scales that
+ take effect on 1 August 2026. On the 2025-26 scales that same calculation reproduces Exeter&rsquo;s published pay bill
+ <b>to the pound</b>, so the baseline carries no modelling assumptions &mdash; only the pay award; the defaults above add employer
+ on-costs and remove grant-funded research staff, so the figures read as a cost to the University. Because
+ nothing here depends on modelling how fast people are promoted, the <b>professorial figures carry none of the
+ progression uncertainty</b> that led us to retire the professorial cost ranking elsewhere on this site.
+ <div style="margin-top:8px"><b>What it is not.</b> A <b>steady state</b>: what today&rsquo;s workforce would cost had it
+ always been on each structure. Nobody&rsquo;s pay can lawfully be cut, so a real change would bite on new entrants and
+ promotions and phase in over a career. Read the assumptions at the foot before quoting anything.</div>
+</div>
+
+<div class="controls">
+ <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
+ <div class="ctl"><label id="ldc">Research-only (grant-funded) staff</label><select id="dc"><option value="0">Count all staff (gross)</option><option value="1" selected>Exclude (F &minus;26&#37;, G &minus;13&#37;, H &minus;8&#37;)</option></select></div>
+ <div class="ctl"><label id="lkmp">Management pay bill</label><input id="kmp" type="number" value="3848000" min="0" step="10000"></div>
+ <div class="ctl"><label title="Applied to the key management personnel pay bill, matching the proposal's stated intent that executive pay takes a cut equivalent to the staff average.">Executive cut</label><input id="cex" type="number" value="3.5" min="0" max="100" step="0.5"></div>
+ <div class="ctl"><label title="Professorial Band 3 is spot-salaried, so it is not re-mapped onto spine points. It takes a flat cut instead.">Band 3 cut</label><input id="c3b" type="number" value="3.5" min="0" max="100" step="0.5"></div>
+</div>
+
+<div id="warnbox"></div>
+<div class="card"><h2>What each model does to the structure</h2>
+ <p class="small" style="margin:0 0 6px">Each model&rsquo;s grades laid out on the national spine, so the shapes can be compared directly.
+ Exeter&rsquo;s current structure is the dashed outline on every row.</p>
+ <div id="structchart"></div>
+ <div class="lgnd" id="structlgnd"></div>
+ <div id="detail" style="margin-top:10px"></div></div>
+
+<div class="card"><h2>Change in the annual pay bill, against Exeter&rsquo;s current structure</h2><div id="bars"></div>
+ <div class="lgnd" id="barlgnd"></div></div>
+
+<div class="card"><h2>One representative career, age 28 to 67, under each model</h2>
+ <p class="small" style="margin:0 0 6px">A single academic under six different structures &mdash; it shows what each proposal
+ does to a career, which the annual totals below cannot. Dashed verticals mark promotions.
+ <b>Two routes are shown separately rather than averaged</b>, because only a minority of academics become professors and a
+ blended &lsquo;average&rsquo; career describes nobody: the <b>default</b> is the majority route (grades F, G and H, then the
+ remaining years at the Associate Professor ceiling), and the toggle switches to the professorial route. The familiar figure
+ that professors are appointed at about 48 is an average <i>of those who get there</i> &mdash; it says nothing about how many do.</p>
+ <div class="rtbar" style="background:#f7f7f5;border-color:var(--line)">
+  <span class="rtlab" style="color:#374151">Years in each grade</span>
+  <span>F <input id="yF" type="number" value="5" min="1" max="25" step="1" style="width:52px"></span>
+  <span>G <input id="yG" type="number" value="7" min="1" max="25" step="1" style="width:52px"></span>
+  <span>H <input id="yH" type="number" value="8" min="1" max="25" step="1" style="width:52px"></span>
+  <span style="color:#6b7280"><b id="yPlab">Remaining years at the AP ceiling</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
+  <span class="rtlab" style="color:#374151;margin-left:8px">Route</span>
+  <select id="route" title="Only a minority of academics become professors, so an ‘average’ career that ends in a chair describes nobody. Does not become a professor: F, G, H, then the remaining years at the Associate Professor ceiling — the majority experience. Becomes a professor: promoted after the years in H, then merit progression to 67."><option value="np" selected>Does not become a professor</option><option value="prof">Becomes a professor</option></select>
+  <span class="rtlab" style="color:#374151;margin-left:8px">Merit award rate</span>
+  <select id="aw"><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option></select>
+  <span class="rthint">Professorial progression is <b>merit-based</b>. Exeter reviews <b>biennially</b>, so at a 40&#37; award
+  rate a step takes about five years; <b>proposals 3 and 4 move to annual review</b>, halving that. Sheffield and Manchester
+  give three automatic steps then annual merit.
+  Above each grade&rsquo;s normal points, pay is the expected value of holding a contribution point (30&#37;).</span>
+ </div>
+ <div class="rtbar">
+  <span class="rtlab">Real terms</span>
+  <input id="rtr" type="range" min="0" max="3" step="0.01" value="1.14"><span id="rtv" class="rtv">&minus;1.14&#37;/yr</span>
+  <span class="rtlab" style="margin-left:6px">Basis</span>
+  <select id="net" title="Gross is contractual salary. Take-home deducts the USS member contribution (6.1%), income tax and employee National Insurance at England/Wales 2025-26 rates. Applied to the cash figure before any real-terms adjustment. Excludes student loan repayments and any salary sacrifice."><option value="0" selected>Gross pay</option><option value="1">Take-home pay</option></select>
+  <span class="rthint">Pay restated in <b>&pound; of the year the career starts</b>, because the negotiated award has trailed
+  inflation. The default <b>1.14&#37;/yr</b> is the <b>measured ten-year average</b> gap between the JNCHES award and CPIH
+  over 2016-17&ndash;2025-26 &mdash; the right window for a whole-career chart. The five-year average is steeper at
+  <b>1.96&#37;/yr</b>, because 9.4 of the decade&rsquo;s 10.8 points of loss fell in the last five years. Set it to 0 for cash terms.</span>
+ </div>
+ <div id="careerchart"></div>
+ <div class="lgnd" id="careerlgnd"></div></div>
+
+<div class="card"><h2>Disaggregated by grade and management</h2><div id="tbl"></div>
+ <div class="warn" id="cadnote" style="margin:12px 0 0"></div></div>
+<details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
+</div>
+<script>
+const D={"nat":{"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41885,"33":43099,"34":44352,"35":45641,"36":46970,"37":48337,"38":49798,"39":51258,"40":52788,"41":54367,"42":55991,"43":57666,"44":59390,"45":61165,"46":62994,"47":64878,"48":66819,"49":68817,"50":70878,"51":72997,"52":75184,"53":77435,"54":79743,"55":82140,"56":84594,"57":87132,"58":89746},"ext":{"48":67144,"52":75184,"53":77435,"54":79753,"55":82140,"56":84594,"59":92441,"60":95213,"61":98069,"62":101012,"63":104040,"64":107163,"65":110378,"66":113688,"67":117097,"68":120613,"69":124231,"70":127957,"71":131795},"dist":{"25":370.6655,"26":132.7528,"27":130.7597,"28":328.8331,"29":39.0768,"30":23.88,"31":46.6625,"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5},"E":{"floor":25,"nN":7,"nC":0,"lab":"E \u2014 Associate Lecturer / PDRA","t":0}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]}},"lad":[77432,79750,82134,84592,87125,89731,92418,95186,98036,100971,103994,107111]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]}},"lad":[72997,75182,77433,79750,82134,84591,87122,89729,92415,95186,98036,100969,103993,107109,110316,113619]}},"tu":{"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":57,"55":58,"56":59,"57":60,"58":61,"59":62,"60":62},"P2":{"58":62,"59":62,"60":62,"61":62,"62":62,"63":63,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]],"spine":{"25":35302.2,"26":36320.16,"27":37368.72,"28":38447.88,"29":39559.68,"30":40704.12,"31":40603.24,"32":41816.93,"33":43064.62,"34":44351.64,"35":45640.92,"36":46969.98,"37":48336.78,"38":49798.44,"39":51258.06,"40":52788.06,"41":54367.02,"42":55990.86,"43":57665.7,"44":59389.5,"45":61165.32,"46":62994.18,"47":64878.12,"48":67143.54,"49":68817.36,"50":70877.76,"51":72997.32,"52":75184.2,"53":77435.34,"54":79752.78,"55":82139.58,"56":84593.7,"57":87132.48,"58":89745.72,"59":92440.56,"60":95212.92,"61":98068.92,"62":101011.62,"63":104040,"64":107163.24,"65":110378.28,"66":113688.18,"67":117097.02,"68":120612.96,"69":124230.9,"70":127956.96,"71":131795.22},"prop":{"E":{"floor":25,"nN":4,"nC":3},"F":{"floor":31,"nN":6,"nC":3},"G":{"floor":39,"nN":6,"nC":2},"H":{"floor":45,"nN":6,"nC":3},"P1":{"floor":52,"nN":6,"nC":0},"P2":{"floor":58,"nN":10,"nC":0}}};
+const $=id=>document.getElementById(id);
+const gbp=n=>'\u00a3'+Math.round(n).toLocaleString();
+// the claim’s own band structure, as published in the workbook’s per-grade tabs — distinct from the
+// assimilation maps in D.tu above, which say where today’s staff land inside these bands
+const TUS={F:{n:[39,40,41,42,43],c:[44,45,46,47]},G:{n:[44,45,46,47,48],c:[49,50,51,52,53]},
+           H:{n:[53,54,55,56,57],c:[58,59,60,61]},P1:{n:[57,58,59,60,61,62],c:[]},
+           P2:{n:[62,63,64,65,66,67,68,69,70],c:[]}};
+const m=n=>{const a=Math.abs(n);const sg=n<0?'\u2212':'';return sg+'\u00a3'+(a>=1e6?(a/1e6).toFixed(2)+'m':a>=1000?Math.round(a/1000)+'k':Math.round(a));};
+const BK=['E','F','G','H','P1','P2'];
+const LABEL={E:'Grade E \u2014 Associate Lecturer / PDRA',F:'Grade F \u2014 Lecturer',G:'Grade G \u2014 Senior Lecturer',H:'Grade H \u2014 Associate Professor',
+ P1:'Professorial Band 1',P2:'Professorial Band 2'};
+// Grade E's research-only share is NOT in our HESA extract. It carries PDRAs, who are largely
+// grant-funded, so 26% is a placeholder and probably far too low. Flagged on the page.
+const RO0={E:26,F:26,G:13,H:8,P1:2,P2:2};
+// The 1 Aug 2026 column from the proposal workbook, SP25-71. Identical to the site's own uplifted
+// figures at SP34 and above; below that the workbook uses its own renumbering plus three inserted points.
+function sal(p){const v=D.spine[p];return v!=null?v:(D.ext[p]!=null?D.ext[p]:D.nat[p]);}
+function ocOn(){return $('oc').value==='1';}
+function oc(v){return ocOn()? v+0.15*Math.max(0,v-5000)+0.145*v+0.005*v : v;}
+function dcFor(b){return $('dc').value==='1' ? Math.max(0,1-(RO0[b]||0)/100) : 1;}
+// ---- band point lists and the roster of who stands where (from the Modelling tab) ----
+function ptsOf(bands,b){const x=bands[b],n=[],c=[];
+ for(let i=0;i<x.nN;i++)n.push(x.floor+i);
+ for(let i=0;i<x.nC;i++)c.push(x.floor+x.nN+i);
+ return {n:n.filter(p=>p<=71),c:c.filter(p=>p<=71)};}
+function shares(){const claim={};
+ BK.forEach(b=>{const q=ptsOf(D.cur,b);q.n.forEach(p=>{(claim[p]=claim[p]||[]).push({b,k:'n'});});
+                              q.c.forEach(p=>{(claim[p]=claim[p]||[]).push({b,k:'c'});});});
+ const out={};
+ for(const p in claim){const cs=claim[p];let pick=cs;
+  if(cs.length>1){const nm=cs.filter(c=>c.k==='n'); pick=nm.length?[nm[0]]:[cs[0]];}   // "normal point wins", then lower band
+  out[p]={};pick.forEach(c=>out[p][c.b]=1);}
+ return out;}
+function roster(){const sh=shares(),out={};
+ BK.forEach(b=>{out[b]=[];const q=ptsOf(D.cur,b);
+  [...q.n.map(p=>[p,'n']),...q.c.map(p=>[p,'c'])].forEach(([p,k],i)=>{
+   const w=(sh[p]&&sh[p][b])||0; out[b].push({p,k,idx:i,fte:(D.dist[p]||0)*w});});});
+ return out;}
+const ROST=roster();
+// ---- the six models: each returns the destination SALARY for a roster entry ----
+function shifted(k){const o={};BK.forEach(b=>{const x=D.cur[b];
+ o[b]=(b==='P1'||b==='P2')?{floor:x.floor-k,nN:x.nN,nC:x.nC}          // professorial: every point down k
+                          :{floor:x.floor-k,nN:x.nN+k,nC:x.nC};});     // F/G/H: normal range extends DOWN by k
+ return o;}
+function viaBands(bands){return (b,e)=>{const q=ptsOf(bands,b),all=[...q.n,...q.c];
+ return sal(all[Math.min(e.idx,all.length-1)]);};}
+function viaCmp(u){const C=D.cmp[u],tier={F:'1',G:'2',H:'3'};
+ return (b,e)=>{
+  // No comparator grade-E structure is on file, so their grade E staff are held at Exeter rates.
+  // That understates any difference in the lowest grade; flagged on the page.
+  if(b==='E')return sal(e.p);
+  if(b==='P1'||b==='P2'){const L=C.lad, i=Math.min(e.p-54,L.length-1); return L[Math.max(0,i)];}
+  const g=C.g[tier[b]],all=[...g.n,...g.c]; return sal(all[Math.min(e.idx,all.length-1)]);};}
+// ---- the proposal ----
+// Bands as specified: E 25-28 +CP29-31, F 31-36 +CP37-39, G 39-44 +CP45-46, H 45-50 +CP51-53,
+// Prof Band 1 52-57 all automatic, Prof Band 2 58-67 annual review.
+// Prof Band 3 (SP68+) is spot-salaried and not re-mapped: it takes a flat cut instead, on the
+// ground that it is the least churning population and a structural change would take longest to bite.
+function b3cut(){return (+($('c3b')||{}).value||0)/100;}
+function viaProp(){const inner=viaBands(D.prop);
+ return (b,e)=>e.p>=68 ? sal(e.p)*(1-b3cut()) : inner(b,e);}
+const MODELS=[
+ {id:'now',  n:'1 · Exeter, as it is', s:'baseline', f:()=>((b,e)=>sal(e.p)), cut:()=>0},
+ {id:'tu',   n:'2 · 2022 union claim', s:'lifts staff up the spine', cut:()=>0,
+  f:()=>((b,e)=>sal((D.tu[b]&&D.tu[b][e.p])||e.p))},
+ {id:'prop', n:'3 · The 2026 proposal', s:'longer grades from a lower floor; Band 1 automatic, Band 2 annual review',
+  f:()=>viaProp(), cut:()=>(+$('cex').value||0)/100},
+ {id:'she',  n:'4 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0},
+ {id:'man',  n:'5 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0}];
+function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
+ const fteBy={};
+ BK.forEach(b=>{const dc=dcFor(b);let c=0,f=0;
+  ROST[b].forEach(e=>{const w=e.fte*dc; f+=w; c+=w*oc(fn(b,e));});
+  by[b]=c; fteBy[b]=f; tot+=c; fte+=f;});
+ const mg=(+$('kmp').value||0)*(1-model.cut());
+ by.MGMT=mg; tot+=mg;
+ return {by,tot,fte,fteBy};}
+// ---------------------------------------------------------------------------
+// Structure and career charts. Every model resolves to a per-band point list
+// (spine points for Exeter-derived models, a money ladder for the comparators),
+// so both charts can be driven off one description of each model.
+// ---------------------------------------------------------------------------
+const BCOL={E:'#67e8f9',F:'#0891b2',G:'#0e7490',H:'#155e75',P1:'#b45309',P2:'#92400e'};
+const MCOL={now:'#b45309',tu:'#7c3aed',prop:'#15803d',she:'#0891b2',man:'#1e40af'};
+const DASH={she:'7 4',man:'2 3'};   // comparators drawn broken, so proposals stand out
+const nearestSP=v=>{let best=27,bd=1e9;for(let p=27;p<=71;p++){const d=Math.abs(sal(p)-v);if(d<bd){bd=d;best=p;}}return best;};
+// per-band spine-point ranges implied by each model (comparator professorial mapped to the nearest point)
+function bandsOf(id){
+ const rng=a=>a.length?[a[0],a[a.length-1]]:null;
+ if(id==='man'||id==='she'){const C=D.cmp[id==='man'?'Manchester':'Sheffield'],t={F:'1',G:'2',H:'3'},o={};
+  ['F','G','H'].forEach(b=>{const g=C.g[t[b]];o[b]={n:rng(g.n),c:rng(g.c)};});
+  const L=C.lad;                                     // professorial published as a money ladder
+  o.P1={n:[nearestSP(L[0]),nearestSP(L[Math.min(6,L.length-1)])],c:null};
+  o.P2={n:[nearestSP(L[Math.min(4,L.length-1)]),nearestSP(L[L.length-1])],c:null};
+  return o;}
+ if(id==='tu'){const o={};BK.forEach(b=>{const t=TUS[b];if(!t)return;o[b]={n:rng(t.n),c:rng(t.c)};});return o;}
+ const bands=id==='prop'?D.prop:D.cur, o={};
+ BK.forEach(b=>{const q=ptsOf(bands,b);o[b]={n:rng(q.n),c:rng(q.c)};});
+ return o;}
+function drawStruct(){
+ const P0=27,P1x=71,W=1180,Lm=210,Rm=20,Tm=42,rowH=26,gap=14;
+ const plotW=W-Lm-Rm,cw=plotW/(P1x-P0+1),x=p=>Lm+(p-P0)*cw;
+ const hist=34, bottom=Tm+MODELS.length*(rowH+gap)-gap+10, H=bottom+hist+22;
+ let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
+ for(let p=P0;p<=P1x;p++){if(p%2===1){s+='<line x1="'+x(p)+'" y1="'+(Tm-12)+'" x2="'+x(p)+'" y2="'+(Tm+MODELS.length*(rowH+gap)-gap)+'" stroke="#f0efe9"/>';
+  s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-16)+'" text-anchor="middle" font-size="9" fill="#b6b6b0">'+p+'</text>';}}
+ [30,36,42,48,54,60,66,71].forEach(p=>s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-4)+'" text-anchor="middle" font-size="9" fill="#9ca3af">\u00a3'+Math.round(sal(p)/1000)+'k</text>');
+ const base=bandsOf('now');
+ MODELS.forEach((md,i)=>{const y=Tm+i*(rowH+gap),bs=bandsOf(md.id);
+  s+='<text x="'+(Lm-10)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-size="12" font-weight="'+(i===0?700:600)+'" fill="#1d1d1b">'+md.n+'</text>';
+  if(i)BK.forEach(b=>{const r=base[b]&&(base[b].c||base[b].n);const r0=base[b]&&base[b].n;if(!r0)return;
+   const lo=r0[0],hi=(base[b].c?base[b].c[1]:r0[1]);
+   s+='<rect x="'+x(lo)+'" y="'+(y-2)+'" width="'+((hi-lo+1)*cw)+'" height="'+(rowH+4)+'" rx="3" fill="none" stroke="#c9c9c4" stroke-width="1" stroke-dasharray="3 3"/>';});
+  // one cell per spine point, tagged with the band that claims it AND whether the point is a
+  // normal increment (climbed by right) or a discretionary contribution point. The two are drawn
+  // differently, because conflating them was making the grades unreadable.
+  const own={};
+  BK.forEach(b=>{const r=bs[b];if(!r)return;
+   if(r.n)for(let q=r.n[0];q<=r.n[1];q++)own[q]={b,k:'n'};
+   if(r.c)for(let q=r.c[0];q<=r.c[1];q++)own[q]={b,k:'c'};});
+  let run=null;
+  const flush=()=>{if(!run)return;const w=(run.b1-run.b0+1)*cw, isN=run.k==='n';
+   s+='<rect x="'+(x(run.b0)+0.5)+'" y="'+y+'" width="'+Math.max(2,w-1)+'" height="'+rowH+'" rx="2" fill="'+BCOL[run.b]+'"'+
+      (isN?'':' fill-opacity="0.30" stroke="'+BCOL[run.b]+'" stroke-width="1" stroke-dasharray="2 2"')+'>'+
+      '<title>'+md.n+' \u2014 '+LABEL[run.b]+', '+(isN?'normal increments':'contribution points')+': SP'+run.b0+'\u2013'+run.b1+
+      ' ('+gbp(sal(run.b0))+'\u2013'+gbp(sal(run.b1))+')</title></rect>';
+   if(w>24)s+='<text x="'+(x(run.b0)+w/2)+'" y="'+(y+rowH/2+4)+'" text-anchor="middle" font-size="10.5" font-weight="600" fill="'+(isN?'#fff':BCOL[run.b])+'">'+run.b+'</text>';
+   run=null;};
+  for(let q=P0;q<=P1x;q++){const o=own[q];
+   if(!o){flush();continue;}
+   if(run&&run.b===o.b&&run.k===o.k)run.b1=q; else {flush();run={b:o.b,k:o.k,b0:q,b1:q};}}
+  flush();});
+ // where the staff actually are: FTE at each spine point, on the same scale
+ const dmax=Math.max(...Object.values(D.dist)), by=bottom+hist;
+ for(let p=P0;p<=P1x;p++){const f=D.dist[p]||0; if(!f)continue;
+  const hh=Math.max(1,f/dmax*hist);
+  s+='<rect x="'+(x(p)+1)+'" y="'+(by-hh)+'" width="'+Math.max(1,cw-2)+'" height="'+hh+'" fill="#c9c9c4"><title>SP'+p+' \u2014 '+f+' FTE at '+gbp(sal(p))+'</title></rect>';}
+ s+='<text x="'+(Lm-10)+'" y="'+(by-2)+'" text-anchor="end" font-size="10.5" fill="#9ca3af">staff (FTE)</text>';
+ s+='<text x="'+(x(34)+cw/2)+'" y="'+(by-hist-3)+'" text-anchor="middle" font-size="9" fill="#6b7280">622</text>';
+ s+='</svg>';
+ $('structchart').innerHTML=s;
+ $('structlgnd').innerHTML=BK.map(b=>'<span class="lg"><span class="sw" style="background:'+BCOL[b]+'"></span>'+LABEL[b]+'</span>').join('')+
+  '<span class="lg"><span class="sw" style="background:#155e75"></span>normal increment &mdash; by right, one a year</span>'+
+  '<span class="lg"><span class="sw" style="background:#155e75;opacity:.30;border:1px dashed #155e75"></span>contribution point &mdash; discretionary</span>'+
+  '<span class="lg"><span class="sw" style="background:none;border:1.5px dashed #9ca3af"></span>Exeter today</span>'+
+  '<span class="lg"><span class="sw" style="background:#c9c9c4"></span>staff at each point (2023 FTE)</span>'+
+  '<span class="lg" style="color:#9ca3af">Manchester and Sheffield publish professorial pay as a money ladder, not spine points \u2014 shown at the nearest equivalent point</span>';
+}
+// ---- representative career ----
+// Two engines, matching the rest of the site. Non-professorial: the site's EgNP — climb the normal
+// points one a year, then sit at the ceiling holding a contribution point with probability CP.
+// Professorial: the Markov forward simulation from the Professorial tab — merit progression is NOT
+// annual. Exeter reviews BIENNIALLY, so at a 40% award rate a step takes about five years.
+const CP=0.30;
+const PROG={she:[...Array(3).fill('a'),...Array(12).fill('m1')],
+            man:[...Array(3).fill('a'),...Array(8).fill('m1')]};
+const AGE0=28, AGE1=67, TOTY=AGE1-AGE0+1;          // the career always runs 28 -> 67
+function routeProf(){return ((($('route')||{}).value)||'np')==='prof';}
+// professorial years implied by the grade tenures, independent of which career route is displayed
+function profYears(){const g=id=>Math.max(1,+($(id)||{}).value||1);return Math.max(1,TOTY-g('yF')-g('yG')-g('yH'));}
+// Only a minority reach a chair, so the two routes are shown separately rather than averaged:
+// an expected-value line across both would describe a career nobody actually has.
+function yrs(){const g=id=>Math.max(1,+($(id)||{}).value||1);
+ const f=g('yF'),gg=g('yG'),h=g('yH'), pr=Math.max(1,TOTY-f-gg-h);
+ if($('yPout'))$('yPout').textContent=pr;
+ if($('yPlab'))$('yPlab').textContent=routeProf()?'Professor':'Remaining years at the AP ceiling';
+ return routeProf()?[['F',f],['G',gg],['H',h],['PROF',pr]]:[['F',f],['G',gg],['H',h+pr]];}
+function awRate(){return +(($('aw')||{}).value||0.4)||0.4;}
+// each model's lists: normal points, contribution points (as £), and the professorial ladder
+function listsFor(id,b){
+ if(id==='man'||id==='she'){const C=D.cmp[id==='man'?'Manchester':'Sheffield'],t={F:'1',G:'2',H:'3'};
+  if(b==='PROF')return {lad:C.lad.slice(),prog:PROG[id]};
+  const g=C.g[t[b]];return {n:g.n.map(sal),c:g.c.map(sal)};}
+ const bands=id==='prop'?D.prop:D.cur;
+ if(b==='PROF'){
+  let pts;
+  if(id==='tu')pts=[...new Set([...TUS.P1.n,...TUS.P2.n])].sort((a,b)=>a-b);
+  else{const q1=ptsOf(bands,'P1'),q2=ptsOf(bands,'P2');
+       pts=[...new Set([...q1.n,...q1.c,...q2.n,...q2.c])].sort((a,b)=>a-b);}
+  const lad=pts.map(sal);
+  // Exeter reviews biennially throughout. The proposal splits the ladder: Band 1 (SP52-57) becomes
+  // AUTOMATIC increments, Band 2 (SP58-67) an ANNUAL merit review.
+  if(id==='prop')return {lad,prog:pts.slice(0,-1).map(p=>p<58?'a':'m1')};
+  return {lad,prog:Array(Math.max(0,lad.length-1)).fill('m2')};}
+ if(id==='tu')return {n:TUS[b].n.map(sal),c:TUS[b].c.map(sal)};
+ const q=ptsOf(bands,b);return {n:q.n.map(sal),c:q.c.map(sal)};}
+// expected professorial salary year by year: probability vector over rungs, top rung absorbing
+function profSeries(lad,prog,aw,T){const L=lad.length,out=[];let p=new Array(L).fill(0);p[0]=1;
+ for(let t=0;t<T;t++){out.push(p.reduce((a,pr,i)=>a+pr*lad[i],0));
+  const q=new Array(L).fill(0);
+  for(let k=0;k<L;k++){if(!p[k])continue;
+   if(k===L-1){q[k]+=p[k];continue;}
+   const mch=prog[k]||'m1', pr=mch==='a'?1:(mch==='m1'?aw:(t%2===1?aw:0));
+   q[k+1]+=p[k]*pr;q[k]+=p[k]*(1-pr);}
+  p=q;}
+ return out;}
+function careerOf(id){const out=[],aw=awRate();
+ yrs().forEach(([b,T])=>{const L=listsFor(id,b);
+  if(b==='PROF'){profSeries(L.lad,L.prog,aw,T).forEach(v=>out.push(v));return;}
+  const NL=L.n.length, ceil=L.n[NL-1], c1=L.c.length?L.c[0]:null;
+  for(let k=1;k<=T;k++) out.push(k<=NL ? L.n[k-1] : (c1!=null?(1-CP)*ceil+CP*c1:ceil));});
+ return out;}
+// ---- Take-home pay. England/Wales 2025-26; every institution charted here is in England or Wales,
+// so rUK rates apply throughout. USS member contribution comes off first (net-pay arrangement: full
+// income-tax relief, no NI relief), then income tax with the personal-allowance taper, then employee
+// NI on gross. Applied to the CASH figure, before any real-terms deflator.
+const USS_MEM=0.061;
+function incTax(t){let pa=12570;if(t>100000)pa=Math.max(0,12570-(t-100000)/2);
+ const tx=Math.max(0,t-pa);let x=0;x+=Math.min(tx,37700)*0.20;
+ x+=Math.max(0,Math.min(tx-37700,(125140-pa)-37700))*0.40;x+=Math.max(0,tx-(125140-pa))*0.45;return x;}
+function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max(S-50270,0)*0.02;}
+function takeHome(S){const p=S*USS_MEM;return S-p-incTax(S-p)-empNI(S);}
+function netOn(){return ((($('net')||{}).value)||'0')==='1';}
+function netF(v){return netOn()?takeHome(v):v;}
+function drawCareer(){
+ const d=(+$('rtr').value||0)/100, rf=1-d, SP=yrs();
+ const series=MODELS.map(md=>({md,pts:careerOf(md.id).map((v,t)=>netF(v)*Math.pow(rf,t))}));
+ const W=1180,L=76,R=150,T=14,B=42,H=340;
+ const tot=SP.reduce((a,x)=>a+x[1],0);
+ const all=[].concat(...series.map(s=>s.pts));
+ const ymin=Math.min(...all)*0.96,ymax=Math.max(...all)*1.04;
+ const x=t=>L+t/Math.max(1,tot-1)*(W-L-R), Y=v=>T+(ymax-v)/(ymax-ymin)*(H-T-B);
+ let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
+ for(let g=0;g<=4;g++){const v=ymin+(ymax-ymin)*g/4;
+  s+='<line x1="'+L+'" y1="'+Y(v)+'" x2="'+(W-R)+'" y2="'+Y(v)+'" stroke="#eee"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="11" fill="#9ca3af">'+gbp(v)+'</text>';}
+ let acc=0;SP.slice(0,3).forEach(([b,T2],k)=>{acc+=T2; if(acc>=tot)return;
+  s+='<line x1="'+x(acc)+'" y1="'+T+'" x2="'+x(acc)+'" y2="'+(H-B)+'" stroke="#e0c060" stroke-dasharray="4 3"/>'+
+     '<text x="'+x(acc)+'" y="'+(H-B+26)+'" text-anchor="middle" font-size="10.5" fill="#b08900">→ '+(k===2?'Professor':SP[k+1][0])+'</text>';});
+ const step=tot>28?4:2;
+ for(let t=0;t<tot;t+=step)s+='<text x="'+x(t)+'" y="'+(H-B+13)+'" text-anchor="middle" font-size="11" fill="#9ca3af">'+(AGE0+t)+'</text>';
+ s+='<text x="'+((L+W-R)/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="11" fill="#6b7280">age</text>';
+ series.forEach(se=>{const ex=se.md.id==='now';
+  let dp='M'+x(0)+' '+Y(se.pts[0]);
+  for(let t=1;t<se.pts.length;t++)dp+=' L'+x(t)+' '+Y(se.pts[t-1])+' L'+x(t)+' '+Y(se.pts[t]);
+  s+='<path d="'+dp+'" fill="none" stroke="'+MCOL[se.md.id]+'" stroke-width="'+(ex?3.2:1.9)+'" opacity="'+(ex?1:.9)+'"'+(DASH[se.md.id]?' stroke-dasharray="'+DASH[se.md.id]+'"':'')+'/>';});
+ // end labels, nudged apart so close finishes stay legible
+ const ends=series.map(se=>({se,v:se.pts[se.pts.length-1],y:Y(se.pts[se.pts.length-1])})).sort((a,b)=>a.y-b.y);
+ for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<13) ends[i].y=ends[i-1].y+13;
+ ends.forEach(o=>{const ex=o.se.md.id==='now';
+  s+='<text x="'+(W-R+6)+'" y="'+(o.y+4)+'" font-size="11" font-weight="'+(ex?700:500)+'" fill="'+MCOL[o.se.md.id]+'">'+gbp(o.v)+'</text>';});
+ s+='</svg>';
+ $('careerchart').innerHTML=s;
+ $('careerlgnd').innerHTML=MODELS.map(md=>'<span class="lg"><span class="sw" style="'+(DASH[md.id]?'background:none;border-top:3px dashed '+MCOL[md.id]:'background:'+MCOL[md.id])+';height:'+(md.id==='now'?6:4)+'px"></span>'+(md.id==='now'?'<b>'+md.n+'</b>':md.n)+'</span>').join('')+
+  (netOn()?'<span class="lg" style="color:#0f766e">take-home — after USS, income tax and employee NI</span>':'')+
+  (d>0?'<span class="lg" style="color:#b45309">real terms — £ of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'%/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
+}
+function draw(){
+ const base=cost(MODELS[0]), res=MODELS.map(md=>({md,r:cost(md)}));
+ const rows=[...BK,'MGMT'];
+ // posts each model could fund: per band, its saving divided by what one post at THAT band costs
+ // under the model, then added up — the same method as the Modelling tab.
+ const postsOf=r=>BK.reduce((a,b)=>{const mean=r.fteBy[b]?r.by[b]/r.fteBy[b]:0;
+  return a+(mean?(base.by[b]-r.by[b])/mean:0);},0);
+ const pn=v=>{const a=Math.abs(v);return (v<0?'\u2212':'')+(a>=10?Math.round(a).toLocaleString():a.toFixed(1));};
+ // ---- table ----
+ let h='<table><tr><th>Grade</th><th>Staff (FTE)</th><th>Exeter now</th>';
+ res.slice(1).forEach(x=>h+='<th'+(x.md.id==='prop'?' class="prop"':'')+'>'+x.md.n.replace(/^\d+ · /,'')+'</th>');
+ h+='</tr>';
+ rows.forEach(b=>{const isM=b==='MGMT';
+  h+='<tr'+(isM?' class="mgmt"':'')+'><td>'+(isM?'Management (key management personnel)':LABEL[b])+'</td>'+
+   '<td>'+(isM?D.kmp[D.kmp.length-1][2]+' posts':ROST[b].reduce((a,e)=>a+e.fte*dcFor(b),0).toFixed(1))+'</td>'+
+   '<td>'+m(base.by[b])+'</td>';
+  res.slice(1).forEach(x=>{const d=x.r.by[b]-base.by[b],pc=x.md.id==='prop'?' prop':'';
+   h+='<td class="'+(d<0?'save':(d>0?'cost':''))+pc+'">'+(Math.abs(d)<1?'—':(d<0?'':'+')+m(d))+'</td>';});
+  h+='</tr>';});
+ h+='<tr class="tot"><td>Total annual pay bill</td><td>'+base.fte.toFixed(0)+'</td><td>'+m(base.tot)+'</td>';
+ res.slice(1).forEach(x=>{const d=x.r.tot-base.tot,pc=x.md.id==='prop'?' prop':'';
+  h+='<td class="'+(d<0?'save':'cost')+pc+'">'+(d<0?'':'+')+m(d)+'</td>';});
+ h+='</tr><tr class="tot"><td>as a share of the bill</td><td></td><td>—</td>';
+ res.slice(1).forEach(x=>{const d=(x.r.tot-base.tot)/base.tot*100,pc=x.md.id==='prop'?' prop':'';
+  h+='<td class="'+(d<0?'save':'cost')+pc+'">'+(d<0?'':'+')+d.toFixed(1)+'&#37;</td>';});
+ h+='</tr><tr class="tot"><td class="h" title="Each grade\u2019s saving divided by what one post at THAT grade costs under the model, then added up \u2014 the same method as the Modelling tab. Management is excluded, since an executive post is not an academic one. An equivalence for scale, NOT predicted job retention: a negative figure means the model costs the equivalent of that many posts.">'+
+  '\u2248 posts it could fund</td><td></td><td>—</td>';
+ res.slice(1).forEach(x=>{const v=postsOf(x.r),pc=x.md.id==='prop'?' prop':'';
+  h+='<td class="'+(v>0?'save':'cost')+pc+'">'+pn(v)+'</td>';});
+ h+='</tr></table>';
+ // Annual professorial review cannot show up in the totals above: those re-price the OBSERVED
+ // distribution, so they are blind to how fast people progress. Estimate the gap separately, as the
+ // ratio of career-average expected salary under annual vs biennial merit on the same ladder.
+ (function(){const aw=awRate(), T=profYears();
+  const upl=id=>{const L=listsFor(id,'PROF'), n=Math.max(0,L.lad.length-1);
+   const mean=c=>{const v=profSeries(L.lad,Array(n).fill(c),aw,T);return v.reduce((a,b)=>a+b,0)/v.length;};
+   const a=mean('m2'); return a?mean('m1')/a-1:0;};
+  const md=MODELS[2], r=res.find(x=>x.md.id==='prop').r, prof=r.by.P1+r.by.P2, u=upl('prop');
+  const extra=prof*u, head=Math.abs(r.tot-base.tot);
+  $('cadnote').innerHTML='<b>One thing the table above cannot show.</b> The proposal makes Band&nbsp;1 '+
+   '<b>automatic</b> and Band&nbsp;2 an <b>annual</b> review, in place of biennial merit throughout. The totals re-price '+
+   'Exeter&rsquo;s <b>observed</b> distribution of staff across the spine, so they are blind to a change in how fast people '+
+   'progress \u2014 the saving shown is therefore <b>overstated</b>. Pricing the cadence separately, as the ratio of '+
+   'career-average expected salary under the proposed progression versus biennial merit on the same ladder at a '+
+   Math.round(aw*100)+'&#37; award rate, adds roughly <b>'+m(extra)+'/yr</b> \u2014 offsetting about '+
+   Math.round(100*extra/head)+'&#37; of the headline. Treat that as an order of magnitude: it uses the professorial '+
+   'progression model this site has <a href="professorial_model.html" style="color:#b45309">retired for ranking</a>, though '+
+   'a ratio between two cadences on one ladder is firmer than any level it produces. Making Band&nbsp;1 automatic is the '+
+   'larger part of it, and it is a <b>real benefit to professors</b> that the annual totals do not price.';})();
+ 
+ // ---- reconciliation against the workbook's own figure -------------------------------------
+ // The workbook's column V is a hand-built redistribution; this page applies the proposal's band
+ // definitions mechanically. They do not agree, and the difference is the interesting part.
+ (function(){const SS=7758472, SSFTE=4232.43;
+  const gross=(()=>{const keep=[$('oc').value,$('dc').value];
+   // price on the workbook's own basis: salary only, all staff
+   $('oc').value='0';$('dc').value='0';
+   const b=cost(MODELS[0]), r=cost(MODELS[2]);
+   $('oc').value=keep[0];$('dc').value=keep[1];
+   return {struct:(b.tot-b.by.MGMT)-(r.tot-r.by.MGMT), byb:BK.map(k=>[k,b.by[k]-r.by[k]])};})();
+  const d=gross.struct-SS;
+  $('reconcile').innerHTML='<b>This page and the workbook do not agree, and the gap matters.</b> On the workbook&rsquo;s '+
+   'own basis \u2014 salary only, all staff counted \u2014 the workbook makes the proposal worth <b>'+m(SS)+'/yr</b> before '+
+   'the executive cut. Applying the same band definitions <i>mechanically</i> to the same distribution, this page makes it '+
+   '<b>'+m(gross.struct)+'/yr</b>, about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b>. '+
+   'The workbook moves staff by hand, point by point; this page moves everyone by their <b>position in the grade</b>, so a '+
+   'floor that drops three points moves the whole grade three points. The largest single divergence is <b>grade&nbsp;G</b>: '+
+   'the workbook leaves it untouched (&pound;0), because its current-side sheet already puts G&rsquo;s floor at SP39, whereas '+
+   'Exeter&rsquo;s published structure puts it at SP40. On the published structure the proposal moves grade&nbsp;G down a '+
+   'point and it contributes <b>'+m(gross.byb.find(x=>x[0]==='G')[1])+'</b>. Grade&nbsp;H diverges for the same reason in '+
+   'reverse: the workbook moves only part of it. <b>Neither figure is obviously the right one</b> \u2014 the workbook is the '+
+   'more conservative claim and the safer number to quote; this page shows what the stated structure does if applied '+
+   'consistently. Settle which grade floors are actually intended and the two will converge.';})();
+ $('tbl').innerHTML=h;
+ // ---- bar chart, stacked by where the money comes from ----
+ // Within any one model every grade pulls the same way, so a simple stack reads correctly;
+ // positives and negatives are still accumulated separately in case a setting makes them differ.
+ const SEG=[...BK,'MGMT'];
+ const SCOL=Object.assign({},BCOL,{MGMT:'#6b7280'});
+ const W=1180,L=250,R=130,T=26,rowH=36,H=T+res.length*rowH+22;
+ const vals=res.map(x=>x.r.tot-base.tot), mx=Math.max(1,...vals.map(Math.abs))*1.18;
+ const x0=L+(W-L-R)/2, half=(W-L-R)/2, sc=v=>v/mx*half;
+ let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
+ // axis ticks either side of zero
+ for(let k=1;k<=3;k++){const v=mx*k/3;[-1,1].forEach(sg=>{const gx=x0+sc(v*sg);
+  s+='<line x1="'+gx+'" y1="'+(T-6)+'" x2="'+gx+'" y2="'+(T+res.length*rowH-8)+'" stroke="#f0efe9"/>'+
+     '<text x="'+gx+'" y="'+(T-10)+'" text-anchor="middle" font-size="9.5" fill="#b6b6b0">'+(sg<0?'\u2212':'+')+m(v).replace('\u2212','')+'</text>';});}
+ s+='<line x1="'+x0+'" y1="'+(T-6)+'" x2="'+x0+'" y2="'+(T+res.length*rowH-8)+'" stroke="#b45309" stroke-width="1.4"/>';
+ // group the rows: the baseline, the three proposals, then the two comparator structures
+ [[1,'proposals'],[4,'comparator structures']].forEach(([r,cap])=>{const gy=T+r*rowH-5;
+  s+='<line x1="'+(L-96)+'" y1="'+gy+'" x2="'+(W-R+40)+'" y2="'+gy+'" stroke="#d9d9d4" stroke-width="1"/>'+
+     '<text x="'+(L-96)+'" y="'+(gy+11)+'" font-size="9.5" font-weight="600" fill="#b6b6b0" letter-spacing="0.04em">'+cap.toUpperCase()+'</text>';});
+ s+='<text x="'+(L-96)+'" y="'+(T+11)+'" font-size="9.5" font-weight="600" fill="#b6b6b0" letter-spacing="0.04em">BASELINE</text>';
+ res.forEach((x,i)=>{const y=T+i*rowH+4,d=x.r.tot-base.tot;
+  s+='<text x="'+(L-10)+'" y="'+(y+15)+'" text-anchor="end" font-size="12.5" font-weight="'+(i?400:700)+'" fill="#1d1d1b">'+x.md.n+'</text>';
+  if(!i){s+='<text x="'+(x0+6)+'" y="'+(y+15)+'" font-size="12" fill="#9ca3af">baseline \u2014 '+m(base.tot)+'/yr</text>';return;}
+  let posX=x0,negX=x0;
+  SEG.forEach(b=>{const v=x.r.by[b]-base.by[b]; if(Math.abs(v)<1)return;
+   const w=Math.abs(sc(v)); let bx;
+   if(v<0){negX-=w;bx=negX;} else {bx=posX;posX+=w;}
+   s+='<rect x="'+bx+'" y="'+y+'" width="'+Math.max(0.6,w)+'" height="22" fill="'+SCOL[b]+'" opacity=".9">'+
+      '<title>'+x.md.n+' \u2014 '+(b==='MGMT'?'Management':LABEL[b])+': '+(v<0?'saves ':'costs ')+m(Math.abs(v))+'/yr</title></rect>';});
+  const endX=d<0?negX:posX, lab=(d<0?'':'+')+m(d)+'/yr', tw=lab.length*7.4;
+  // a long saving bar would push its label into the row name, so put it inside the bar instead
+  const inside = d<0 && (endX-7-tw) < L && (x0-endX) > tw+14;
+  s+='<text x="'+(d<0?(inside?endX+7:endX-7):endX+7)+'" y="'+(y+16)+'" text-anchor="'+(d<0&&!inside?'end':'start')+
+     '" font-size="12.5" font-weight="700" fill="'+(inside?'#fff':(d<0?'#15803d':'#b91c1c'))+'">'+lab+'</text>';});
+ s+='</svg>';
+ $('bars').innerHTML=s;
+ $('barlgnd').innerHTML=SEG.map(b=>'<span class="lg"><span class="sw" style="background:'+SCOL[b]+'"></span>'+(b==='MGMT'?'Management':LABEL[b])+'</span>').join('')+
+  '<span class="lg" style="color:#9ca3af">bar length = total change; segments = where it comes from. Left of the line is cheaper than today, right is dearer.</span>';
+ // ---- per-model detail ----
+ let dh='<table><tr><th>Model</th><th class="l">What it changes</th><th>Grade F</th><th>Grade G</th><th>Grade H</th><th>Prof 1</th><th>Prof 2</th></tr>';
+ MODELS.forEach(md=>{const bs=bandsOf(md.id);
+  const isProp=md.id==='prop';
+  dh+='<tr'+(md.id==='now'?' class="ex"':(isProp?' class="prop"':''))+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
+  BK.forEach(b=>{const r=bs[b];
+   if(!r||!r.n){dh+='<td>\u2014</td>';return;}
+   const star=(md.id==='man'||md.id==='she')&&(b==='P1'||b==='P2')?'*':'';
+   dh+='<td>SP'+r.n[0]+'\u2013'+r.n[1]+star+(r.c?'<span style="color:#9ca3af"> +'+r.c[0]+'\u2013'+r.c[1]+'</span>':'')+'</td>';});
+  dh+='</tr>';});
+ dh+='</table><p class="small" style="margin:5px 0 0">* Sheffield and Manchester publish professorial pay as a money ladder rather than spine points '+
+  '(Sheffield '+gbp(D.cmp.Sheffield.lad[0])+'\u2013'+gbp(D.cmp.Sheffield.lad[D.cmp.Sheffield.lad.length-1])+', '+
+  'Manchester '+gbp(D.cmp.Manchester.lad[0])+'\u2013'+gbp(D.cmp.Manchester.lad[D.cmp.Manchester.lad.length-1])+'); '+
+  'shown here at the nearest equivalent spine point. Grey figures after each range are the <b>contribution points</b> above that grade\u2019s ceiling \u2014 discretionary, not increments by right.</p>';
+ $('detail').innerHTML=dh;
+ drawStruct(); drawCareer();
+ // ---- warnings / framing ----
+ const d3=res[2].r.tot-base.tot, d4=res[3].r.tot-base.tot, dtu=res[1].r.tot-base.tot;
+ $('warnbox').innerHTML='<div class="warn"><b>Read the sign, not just the size.</b> '+
+  'Models <b>3 and 4 are pay cuts</b>: extending each grade downward means every member of staff sits two (or three) '+
+  'points lower than today, so the '+m(Math.abs(d3))+' and '+m(Math.abs(d4))+' they save is money taken out of salaries. '+
+  'The case for them is that a <b>lower floor with a longer climb</b> lets staff progress further over a career instead of '+
+  'topping out early &mdash; a benefit that only shows up on the <b>Career model</b> tab, not in this steady-state total. '+
+  'The <b>2022 union claim costs '+m(Math.abs(dtu))+' more</b>, which is what it was designed to do. '+
+  'And the <b>management line is small</b>: at the percentages set above it moves the total by '+
+  m(Math.abs(base.by.MGMT-res[2].r.by.MGMT))+' and '+m(Math.abs(base.by.MGMT-res[3].r.by.MGMT))+
+  ' &mdash; significant to the argument, marginal to the arithmetic.</div>';
+ $('loc').title=ocOn()?'Total cost to the University \u2014 salary plus employer NI, pension and levy (about +28%). Note the management figure ALREADY includes employer pension, so it is not scaled again.'
+  :'Salary only. The management figure is on a different basis \u2014 it includes employer pension \u2014 so the two are not strictly comparable; see the caveats.';
+ $('ldc').title='The spine distribution counts everyone on these grades, including research-only staff whose pay is met by grant funders. Excluding them uses the same HESA-derived percentages as the Overview and the other tabs.';
+ $('lkmp').title='Key management personnel remuneration from Exeter\u2019s annual accounts, including employer pension: '+
+   D.kmp.map(k=>k[0]+' \u00a3'+k[1]+'k / '+k[2]+' posts').join(' \u00b7 ')+'. The default is the latest year.';
+}
+$('cav').innerHTML=
+ '&bull; <b>What the number means.</b> A <b>steady state</b>: what today\u2019s workforce would cost if it had always been on '+
+ 'each structure, holding each person\u2019s years in grade fixed and re-counting their increments under the new one. It is a '+
+ 'long-run ceiling, not cash in any year, and it implicitly re-prices real people, which a real change could not do &mdash; '+
+ 'nobody\u2019s pay can lawfully be cut, so an actual reform bites only on new entrants and on staff promoted into a grade.<br>'+
+ '&bull; <b>Models 3 and 4 are pay cuts.</b> Extending a grade downward lowers the salary at every career stage. In steady '+
+ 'state that is simply less pay for the same people; the intended benefit is a longer climb from a lower floor, which is a '+
+ '<i>career</i> effect and is invisible in this total. Judge them on the <b>Career model</b> tab as well as here.<br>'+
+ '&bull; <b>The 2022 claim is an increase, by design.</b> Taken from the joint trade union claim of 3 April 2023 '+
+ '(<code>sources/Joint Claim_3.7.23.xlsx</code>), which assimilates each current spine point to a higher one &mdash; grade F '+
+ '34\u219239, grade H 48\u219253, and so on. It leaves the salary attached to each spine point unchanged, '+
+ 'so applying its point map to current pay scales is valid even though the claim is 2023 vintage. Two different things are '+
+ 'read off it: the <b>structure</b> it proposes (the bands drawn in the chart above) and the <b>assimilation</b> it proposes '+
+ '(where today&rsquo;s staff land inside those bands, which is what drives the cost). The structure is F <b>39&ndash;43</b> '+
+ 'plus contribution points 44&ndash;47, G <b>44&ndash;48</b> plus 49&ndash;53, H <b>53&ndash;57</b> plus 58&ndash;61, '+
+ 'Band&nbsp;1 <b>57&ndash;62</b> and Band&nbsp;2 <b>62&ndash;70</b>, both merit-based and reviewed biennially. Note that the '+
+ 'claim gives grades F, G and H <b>five</b> normal points each, where Exeter today gives F and H only three \u2014 so it '+
+ 'lengthens the incremental part of those grades as well as raising it.<br>'+
+ '&bull; <b>Where the professorial numbers are weaker.</b> The workbook tabulates assimilation grade by grade for F, G and H, '+
+ 'but for the professoriate only in its <code>TU Version</code> tab, and in the claim\u2019s own renumbered spine (it inserts '+
+ 'a new point below SP39). Band&nbsp;1 is converted back to current numbering as 54\u219257 rising to 60\u219262. Band&nbsp;2 '+
+ 'is not tabulated anywhere and is carried here as a lift of the floor to SP62 with the points above it unchanged. The '+
+ 'workbook is also not internally consistent \u2014 its <code>Simplified</code>, <code>Professors</code> and '+
+ '<code>TU Version</code> tabs disagree by a point on some band floors \u2014 so the per-grade tabs are preferred throughout. '+
+ 'Treat the two professorial rows of model 2 as the least firm part of it.<br>'+
+ '&bull; <b>Manchester and Sheffield</b> are re-mapped by career stage: someone at the <i>i</i>th point of an Exeter grade is '+
+ 'placed at the <i>i</i>th point of theirs. Their professorial pay is published as a <b>money ladder</b> rather than spine '+
+ 'points, so professors are mapped rung for rung from the bottom of the professoriate.<br>'+
+ '&bull; <b>The professorial figures here are firmer than elsewhere on this site.</b> Because every model is a map between '+
+ 'points, and the population is observed rather than modelled, none of this depends on how fast professors are promoted '+
+ '\u2014 the assumption that led us to retire the professorial cost ranking on the Professorial tab. What it does still '+
+ 'assume is that position within a band stands in for years served.<br>'+
+ '&bull; <b>Management.</b> Key management personnel remuneration from the annual accounts \u2014 the Executive Board, '+
+ '<b>\u00a33.848m across 16 posts</b> in 2024/25, <b>including employer pension</b>. The Vice-Chancellor\u2019s own salary is '+
+ 'reported separately and is not held here. Because KMP includes pension while the grade figures are salary-only unless '+
+ 'on-costs are switched on, the two rows are not on the same basis; the total is indicative. A percentage cut is applied to '+
+ 'the whole bill, which is arithmetically the same as cutting each post by that percentage. Note the board has been 16 to 19 '+
+ 'posts across the series, so year-on-year movement partly reflects its size, not pay.<br>'+
+ '&bull; <b>Prof Band 3</b> (spot salaries, open-ended above \u00a3131,795) is not modelled: it has no published increments, '+
+ 'so there is no point map to apply. Roughly 57.5 FTE sit above the top of the spine and are outside every column here.<br>'+
+ '&bull; <b>Not modelled at all:</b> recruitment and retention effects, equal-pay and grade-compression consequences, '+
+ 'pension impacts, redundancy or protection costs, and whether any of this is contractually or industrially feasible.';
+['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
+function rtSync(){const v=+($('rtr').value||0)||0;
+ $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
+['rtr','net','route','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+rtSync();
+draw();
+</script>
+</body></html>
