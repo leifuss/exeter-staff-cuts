@@ -115,11 +115,15 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
   <span style="color:#6b7280"><b id="yPlab">Remaining years at the AP ceiling</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
   <span class="rtlab" style="color:#374151;margin-left:8px">Route</span>
   <select id="route" title="Only a minority of academics become professors, so an ‘average’ career that ends in a chair describes nobody. Does not become a professor: F, G, H, then the remaining years at the Associate Professor ceiling — the majority experience. Becomes a professor: promoted after the years in H, then merit progression to 67."><option value="np" selected>Does not become a professor</option><option value="prof">Becomes a professor</option></select>
-  <span class="rtlab" style="color:#374151;margin-left:8px">Merit award rate</span>
-  <select id="aw"><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option></select>
-  <span class="rthint">Professorial progression is <b>merit-based</b>. Exeter reviews <b>biennially</b>, so at a 40&#37; award
-  rate a step takes about five years; <b>proposals 3 and 4 move to annual review</b>, halving that. Sheffield and Manchester
-  give three automatic steps then annual merit.
+  <span class="rtlab" style="color:#374151;margin-left:8px">Merit rate &mdash; biennial</span>
+  <select id="aw" title="Success rate per review round where review is every two years: Exeter as it is, and the 2022 claim."><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option><option value="0.2">20&#37;</option></select>
+  <span class="rtlab" style="color:#374151;margin-left:8px">&mdash; annual</span>
+  <select id="awA" title="Success rate per review round where review is every year: the proposal's Band 2, and Sheffield's and Manchester's professorial ladders. A yearly round is a lower bar to clear each time than a two-yearly one, so this is set lower by default."><option value="0.4">40&#37;</option><option value="0.35">35&#37;</option><option value="0.3" selected>30&#37;</option><option value="0.25">25&#37;</option><option value="0.2">20&#37;</option><option value="0.15">15&#37;</option></select>
+  <span class="rthint">Professorial progression is <b>merit-based</b>, and the two rates are set separately because
+  the rounds are not comparable: a <b>biennial</b> round (Exeter today, and the 2022 claim) is a bigger step to clear than
+  an <b>annual</b> one (the proposal&rsquo;s Band&nbsp;2; Sheffield and Manchester, after their automatic steps). Holding one
+  rate across both would hand every annual-review structure twice the progression for free, so the annual rate defaults
+  <b>lower</b>. At 40&#37; biennial and 30&#37; annual, a step takes about five years either way.
   Above each grade&rsquo;s normal points, pay is the expected value of holding a contribution point (30&#37;).</span>
  </div>
  <div class="rtbar">
@@ -324,7 +328,8 @@ function yrs(){const g=id=>Math.max(1,+($(id)||{}).value||1);
  if($('yPout'))$('yPout').textContent=pr;
  if($('yPlab'))$('yPlab').textContent=routeProf()?'Professor':'Remaining years at the AP ceiling';
  return routeProf()?[['F',f],['G',gg],['H',h],['PROF',pr]]:[['F',f],['G',gg],['H',h+pr]];}
-function awRate(){return +(($('aw')||{}).value||0.4)||0.4;}
+function awRate(){return +(($('aw')||{}).value||0.4)||0.4;}         // per biennial round
+function awRateA(){return +(($('awA')||{}).value||0.3)||0.3;}        // per annual round
 // each model's lists: normal points, contribution points (as £), and the professorial ladder
 function listsFor(id,b){
  if(CMPN[id]){const C=D.cmp[CMPN[id]],t={F:'1',G:'2',H:'3'};
@@ -344,23 +349,23 @@ function listsFor(id,b){
   const lad=pts.map(sal);
   // Exeter reviews biennially throughout. The proposal splits the ladder: Band 1 (SP53-56) becomes
   // AUTOMATIC increments, Band 2 (SP57-66) an ANNUAL merit review.
-  if(id==='prop')return {lad,prog:pts.slice(0,-1).map(p=>p<58?'a':'m1')};
+  if(id==='prop')return {lad,prog:pts.slice(0,-1).map(p=>p<57?'a':'m1')};
   return {lad,prog:Array(Math.max(0,lad.length-1)).fill('m2')};}
  if(id==='tu')return {n:TUS[b].n.map(sal),c:TUS[b].c.map(sal)};
  const q=ptsOf(bands,b);return {n:q.n.map(sal),c:q.c.map(sal)};}
 // expected professorial salary year by year: probability vector over rungs, top rung absorbing
-function profSeries(lad,prog,aw,T){const L=lad.length,out=[];let p=new Array(L).fill(0);p[0]=1;
+function profSeries(lad,prog,aw,T,awA){const a1=(awA==null?aw:awA);const L=lad.length,out=[];let p=new Array(L).fill(0);p[0]=1;
  for(let t=0;t<T;t++){out.push(p.reduce((a,pr,i)=>a+pr*lad[i],0));
   const q=new Array(L).fill(0);
   for(let k=0;k<L;k++){if(!p[k])continue;
    if(k===L-1){q[k]+=p[k];continue;}
-   const mch=prog[k]||'m1', pr=mch==='a'?1:(mch==='m1'?aw:(t%2===1?aw:0));
+   const mch=prog[k]||'m1', pr=mch==='a'?1:(mch==='m1'?a1:(t%2===1?aw:0));
    q[k+1]+=p[k]*pr;q[k]+=p[k]*(1-pr);}
   p=q;}
  return out;}
-function careerOf(id){const out=[],aw=awRate();
+function careerOf(id){const out=[],aw=awRate(),awA=awRateA();
  yrs().forEach(([b,T])=>{const L=listsFor(id,b);
-  if(b==='PROF'){profSeries(L.lad,L.prog,aw,T).forEach(v=>out.push(v));return;}
+  if(b==='PROF'){profSeries(L.lad,L.prog,aw,T,awA).forEach(v=>out.push(v));return;}
   const NL=L.n.length, ceil=L.n[NL-1], c1=L.c.length?L.c[0]:null;
   for(let k=1;k<=T;k++) out.push(k<=NL ? L.n[k-1] : (c1!=null?(1-CP)*ceil+CP*c1:ceil));});
  return out;}
@@ -465,9 +470,11 @@ function draw(){
  // Annual professorial review cannot show up in the totals above: those re-price the OBSERVED
  // distribution, so they are blind to how fast people progress. Estimate the gap separately, as the
  // ratio of career-average expected salary under annual vs biennial merit on the same ladder.
- (function(){const aw=awRate(), T=profYears();
+ (function(){const aw=awRate(), awA=awRateA(), T=profYears();
   const upl=id=>{const L=listsFor(id,'PROF'), n=Math.max(0,L.lad.length-1);
-   const mean=c=>{const v=profSeries(L.lad,Array(n).fill(c),aw,T);return v.reduce((a,b)=>a+b,0)/v.length;};
+   // 'm1' is priced at the annual rate, 'm2' at the biennial one, so the comparison is now
+   // annual-at-its-own-rate vs biennial-at-its-own-rate rather than a pure frequency doubling
+   const mean=c=>{const v=profSeries(L.lad,Array(n).fill(c),aw,T,awA);return v.reduce((a,b)=>a+b,0)/v.length;};
    const a=mean('m2'); return a?mean('m1')/a-1:0;};
   const md=MODELS[2], r=res.find(x=>x.md.id==='prop').r, prof=r.by.P1+r.by.P2, u=upl('prop');
   const extra=prof*u, head=Math.abs(r.tot-base.tot);
@@ -632,7 +639,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['rtr','net','route','yF','yG','yH','aw'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+['rtr','net','route','yF','yG','yH','aw','awA'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
 rtSync();
 draw();
 </script>
