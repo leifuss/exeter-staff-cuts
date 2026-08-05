@@ -115,6 +115,7 @@ disaggregated by grade and by management.</p>
   over 2016-17&ndash;2025-26 &mdash; the right window for a whole-career chart. The five-year average is steeper at
   <b>1.96&#37;/yr</b>, because 9.4 of the decade&rsquo;s 10.8 points of loss fell in the last five years. Set it to 0 for cash terms.</span>
  </div>
+ <div class="lgnd" id="carepick" style="margin:0 0 6px"></div>
  <div id="careerchart"></div>
  <div class="lgnd" id="careerlgnd"></div></div>
 
@@ -324,9 +325,18 @@ function empNI(S){return Math.min(Math.max(S-12570,0),50270-12570)*0.08+Math.max
 function takeHome(S){const p=S*USS_MEM;return S-p-incTax(S-p)-empNI(S);}
 function netOn(){return ((($('net')||{}).value)||'0')==='1';}
 function netF(v){return netOn()?takeHome(v):v;}
+// which career lines are drawn; all on by default, click a swatch to toggle one off
+const CAREON={};MODELS.forEach(md=>CAREON[md.id]=true);
+function drawPick(){const el=$('carepick');if(!el)return;
+ el.innerHTML=MODELS.map(md=>'<span class="lg carepk" data-id="'+md.id+'" style="cursor:pointer;opacity:'+(CAREON[md.id]?1:0.35)+'">'+
+  '<span class="sw" style="background:'+MCOL[md.id]+'"></span>'+md.n.replace(/^\d+ \u00b7 /,'')+'</span>').join('');
+ el.querySelectorAll('.carepk').forEach(n=>n.addEventListener('click',()=>{
+  const id=n.dataset.id, on=MODELS.filter(m=>CAREON[m.id]);
+  if(CAREON[id]&&on.length<2)return;            // never leave the chart empty
+  CAREON[id]=!CAREON[id];drawPick();drawCareer();}));}
 function drawCareer(){
  const d=(+$('rtr').value||0)/100, rf=1-d, SP=yrs();
- const series=MODELS.map(md=>({md,pts:careerOf(md.id).map((v,t)=>netF(v)*Math.pow(rf,t))}));
+ const series=MODELS.filter(md=>CAREON[md.id]).map(md=>({md,pts:careerOf(md.id).map((v,t)=>netF(v)*Math.pow(rf,t))}));
  const W=1180,L=76,R=150,T=14,B=42,H=340;
  const tot=SP.reduce((a,x)=>a+x[1],0);
  const all=[].concat(...series.map(s=>s.pts));
@@ -460,7 +470,7 @@ function draw(){
   'Manchester '+gbp(D.cmp.Manchester.lad[0])+'\u2013'+gbp(D.cmp.Manchester.lad[D.cmp.Manchester.lad.length-1])+'); '+
   'shown here at the nearest equivalent spine point. Grey figures after each range are the <b>contribution points</b> above that grade\u2019s ceiling \u2014 discretionary, not increments by right.</p>';
  $('detail').innerHTML=dh;
- drawStruct(); drawCareer();
+ drawStruct(); drawPick(); drawCareer();
  // ---- warnings / framing ----
  const d3=res[2].r.tot-base.tot, d4=res[3].r.tot-base.tot, dtu=res[1].r.tot-base.tot;
  $('warnbox').innerHTML='<div class="warn"><b>Read the sign, not just the size.</b> '+
