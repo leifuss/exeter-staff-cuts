@@ -106,17 +106,24 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <p class="small" style="margin:0 0 6px">A single academic under five different structures &mdash; it shows what each proposal
  does to a career, which the annual totals below cannot. Dashed verticals mark promotions.
  <b>Two routes are shown separately rather than averaged</b>, because only a minority of academics become professors and a
- blended &lsquo;average&rsquo; career describes nobody: the <b>default</b> is the majority route (grades F, G and H, then the
- remaining years at the Associate Professor ceiling), and the toggle switches to the professorial route. The familiar figure
+ blended &lsquo;average&rsquo; career describes nobody. The chart opens on the <b>professorial</b> route, where the proposal
+ changes a career most; the <b>Career route</b> switch below moves to the majority route (grades F, G and H, then the
+ remaining years at the Associate Professor ceiling), where the lifetime effect is close to nil. The familiar figure
  that professors are appointed at about 48 is an average <i>of those who get there</i> &mdash; it says nothing about how many do.</p>
+ <div class="rtbar" style="background:#fffaf0;border-color:#e0c060;border-width:1px 1px 1px 5px;border-left-color:#b08900">
+  <span class="rtlab" style="color:#1d1d1b;font-weight:700;font-size:12.5px;letter-spacing:0">Career route</span>
+  <select id="route" style="font-weight:600;border-color:#b08900" title="The two routes are shown separately rather than averaged, because a blended ‘average’ career describes nobody. Becomes a professor: grades F, G and H, promotion after the years in H, then merit progression to 67. Does not become a professor: F, G and H, then the remaining years at the Associate Professor ceiling — the majority experience."><option value="prof" selected>Becomes a professor</option><option value="np">Does not become a professor</option></select>
+  <span class="rthint" style="color:#7a5c00"><b>This switch changes the answer more than any other control on the page.</b>
+  The professoriate is where the proposal reshapes a career most, so it is shown first &mdash; but <b>only a minority of
+  academics get there</b>, and on the other route the proposal is close to a lifetime wash. Look at both before quoting
+  either; the panel below the chart reports whichever is selected.</span>
+ </div>
  <div class="rtbar" style="background:#f7f7f5;border-color:var(--line)">
   <span class="rtlab" style="color:#374151">Years in each grade</span>
   <span>F <input id="yF" type="number" value="5" min="1" max="25" step="1" style="width:52px"></span>
   <span>G <input id="yG" type="number" value="7" min="1" max="25" step="1" style="width:52px"></span>
   <span>H <input id="yH" type="number" value="8" min="1" max="25" step="1" style="width:52px"></span>
-  <span style="color:#6b7280"><b id="yPlab">Remaining years at the AP ceiling</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
-  <span class="rtlab" style="color:#374151;margin-left:8px">Route</span>
-  <select id="route" title="Only a minority of academics become professors, so an ‘average’ career that ends in a chair describes nobody. Does not become a professor: F, G, H, then the remaining years at the Associate Professor ceiling — the majority experience. Becomes a professor: promoted after the years in H, then merit progression to 67."><option value="np" selected>Does not become a professor</option><option value="prof">Becomes a professor</option></select>
+  <span style="color:#6b7280"><b id="yPlab">Professor</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
   <span class="rtlab" style="color:#374151;margin-left:8px">Merit rate &mdash; biennial</span>
   <select id="aw" title="Success rate per review round where review is every two years: Exeter as it is, and the 2022 claim."><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option><option value="0.2">20&#37;</option></select>
   <span class="rtlab" style="color:#374151;margin-left:8px">&mdash; annual</span>
@@ -465,12 +472,15 @@ function drawTwo(){const el=$('twomodels');if(!el)return;
  // the first year the running total starts climbing back is where the deal turns
  let payback=null; for(let t=troughT;t<cums.length;t++) if(cums[t]>=0){payback=t;break;}
  const rt=routeProf()?'becomes a professor':'does not become a professor';
- const cell=(h,sub,rows)=>'<td style="vertical-align:top;padding:10px 14px;width:50%">'+
-   '<div style="font-weight:700;font-size:13.5px;margin-bottom:2px">'+h+'</div>'+
-   '<div class="small" style="color:#6b7280;margin-bottom:8px">'+sub+'</div>'+rows+'</td>';
- const row=(k,v)=>'<div style="margin-bottom:6px"><span style="color:#6b7280">'+k+'</span><br><b>'+v+'</b></div>';
+ const cell=(h,sub,rows)=>'<div style="flex:1 1 300px;min-width:0;padding:12px 14px;background:#faf9f6;'+
+   'border:1px solid var(--line);border-radius:9px">'+
+   '<div style="font-weight:700;font-size:13.5px;margin-bottom:3px;white-space:normal">'+h+'</div>'+
+   '<div style="font-size:12px;color:#6b7280;margin-bottom:10px;white-space:normal;line-height:1.45">'+sub+'</div>'+rows+'</div>';
+ const row=(k,v)=>'<div style="margin-bottom:8px;white-space:normal;line-height:1.45">'+
+   '<div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.03em">'+k+'</div>'+
+   '<div style="font-size:13px">'+v+'</div></div>';
  el.innerHTML=
-  '<table style="width:100%;border-collapse:collapse;table-layout:fixed"><tr>'+
+  '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:stretch">'+
   cell('The annual pay bill','Holds each person\u2019s <b>position in grade</b> fixed \u2014 the 4th point of a grade '+
        'becomes the 4th point of the new one.',
    row('Change per year, at the settings above', (annual<0?'':'+')+m(annual))+
@@ -485,13 +495,12 @@ function drawTwo(){const el=$('twomodels');if(!el)return;
    row('What it assumes','A <b>full career to 67</b> at one institution, and that the longer normal range is actually '+
        'delivered.')+
    row('So it is','a <b>best case</b> for the individual.'))+
-  '</tr></table>'+
+  '</div>'+
   '<div class="warn" style="margin:10px 0 0"><b>Where the money comes from.</b> If every individual broke even over a '+
   'career and the workforce were a steady mix of career stages, the annual bill could not fall at all. It falls because '+
   'those two conditions do not both hold. Three sources, and only one of them is a saving in the ordinary sense: '+
   '<b>(1) Turnover.</b> Anyone leaving before about age '+(payback!==null?AGE0+payback:AGE0+troughT)+' keeps the loss and '+
-  'never reaches the payback \u2014 so the saving is funded substantially by early-career departures, the group least able '+
-  'to absorb it. <b>(2) Timing.</b> Someone who stays to 67 roughly breaks even, so the University\u2019s gain from them is '+
+  'never reaches the payback, so the saving is funded substantially by early-career departures. <b>(2) Timing.</b> Someone who stays to 67 roughly breaks even, so the University\u2019s gain from them is '+
   'a deferral, not a reduction \u2014 an interest-free loan from staff, repaid at the end of the career. '+
   '<b>(3) The modelling asymmetry above</b>, which is not a real source of money at all: the annual total simply never '+
   'lets anyone reach the extra points. '+
