@@ -37,9 +37,9 @@ code{background:#f0efe9;padding:1px 5px;border-radius:4px;font-size:12px}
  <h1>Academic pay structures — Russell Group &amp; comparator universities</h1>
  <div class="tabs" id="tabs">
   <button class="tab active" data-f="overview">Overview</button>
+  <button class="tab" data-f="single_proposal.html">Single proposal</button>
   <button class="tab" data-f="grade_saving_model.html">Where the saving comes from</button>
   <button class="tab" data-f="spine_model.html">Modelling</button>
-  <button class="tab" data-f="single_proposal.html">Single proposal</button>
   <button class="tab" data-f="proposals.html">Straw proposals</button>
   <button class="tab" data-f="payscale_dashboard.html">Grade structure &amp; cost</button>
   <button class="tab" data-f="career_cost_model.html">Career model</button>
@@ -181,13 +181,21 @@ const cards=[
  ['monte_carlo.html','12 · How sure can we be?','The uncertain assumptions varied 5,000 times, so the headline becomes a range instead of a single number — the honest spread.'],
  ['all_in_model.html#sources','Data &amp; sources','Every pay scale used (linked to the university\u2019s live page), plus the machine-readable data files and the GitHub repo.'],
 ];
-const V='2026-07-08c'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
+const V='2026-08-05b'; // site version — bump on every update so browsers fetch fresh sub-pages instead of cached iframes
 const frame=document.getElementById('frame'),ov=document.getElementById('overview');
 function vurl(f){const h=f.indexOf('#');return h<0?f+'?v='+V:f.slice(0,h)+'?v='+V+f.slice(h);}
-function show(f){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
+// Stable slugs, so a tab can be linked to directly: combined_dashboard.html#proposal
+const SLUG={"overview": "overview", "single_proposal.html": "proposal", "grade_saving_model.html": "saving", "spine_model.html": "modelling", "proposals.html": "straw", "payscale_dashboard.html": "structure", "career_cost_model.html": "career", "professorial_model.html": "professorial", "highpay.html": "high-pay", "flex_fte_model.html": "fte", "all_in_model.html": "all-in", "all_in_model.html#mix": "mix", "transition_model.html": "transition", "monte_carlo.html": "how-sure", "all_in_model.html#sources": "sources"};
+const UNSLUG=Object.fromEntries(Object.entries(SLUG).map(([k,v])=>[v,k]));
+function show(f,push){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.f===f));
  if(f==='overview'){ov.classList.add('active');frame.classList.remove('active');}
- else{ov.classList.remove('active');const u=vurl(f);if(frame.getAttribute('src')!==u)frame.setAttribute('src',u);frame.classList.add('active');}}
+ else{ov.classList.remove('active');const u=vurl(f);if(frame.getAttribute('src')!==u)frame.setAttribute('src',u);frame.classList.add('active');}
+ const sl=SLUG[f];
+ if(sl&&push!==false){const h='#'+sl;if(location.hash!==h)history.replaceState(null,'',h);}}
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.f)));
+function fromHash(){const sl=(location.hash||'').replace(/^#/,'');const f=UNSLUG[sl];show(f||'overview',false);}
+window.addEventListener('hashchange',fromHash);
+fromHash();
 document.getElementById('cards').innerHTML=cards.map(c=>`<div class="cardlink" data-f="${c[0]}"><b>${c[1]}</b><p>${c[2]}</p></div>`).join('');
 document.querySelectorAll('.cardlink').forEach(c=>c.addEventListener('click',()=>show(c.dataset.f)));
 </script>
