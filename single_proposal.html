@@ -48,8 +48,9 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <b>Sheffield</b> and <b>Manchester</b> already operate. The two constructed straw models that used to sit here have
  been removed.
  <div style="margin-top:6px">The proposal <b>lengthens every grade from a lower floor</b>: grade F runs SP31&ndash;36
- instead of SP34&ndash;36, H runs SP46&ndash;51 instead of SP48&ndash;50, and Professorial Band&nbsp;1 becomes
- <b>automatic increments</b> with Band&nbsp;2 on <b>annual</b> review. Band&nbsp;3&rsquo;s floor drops from above the spine to <b>SP65</b>,
+ instead of SP34&ndash;36, H runs SP46&ndash;51 instead of SP48&ndash;50, and the professoriate splits in two:
+ Band&nbsp;1 becomes <b>entirely automatic increments</b>, Band&nbsp;2 <b>entirely contribution points</b> on
+ <b>annual</b> review. Band&nbsp;3&rsquo;s floor drops from above the spine to <b>SP65</b>,
  turning SP65&ndash;71 from Band&nbsp;2 spine points into spot salaries. In plain terms that is <b>lower entry pay in
  exchange for a longer guaranteed climb</b>, and it is a pay cut for anyone near the bottom of a grade today.</div></div>
 
@@ -102,7 +103,7 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <div class="lgnd" id="barlgnd"></div></div>
 
 <div class="card"><h2>One representative career, age 28 to 67, under each model</h2>
- <p class="small" style="margin:0 0 6px">A single academic under six different structures &mdash; it shows what each proposal
+ <p class="small" style="margin:0 0 6px">A single academic under five different structures &mdash; it shows what each proposal
  does to a career, which the annual totals below cannot. Dashed verticals mark promotions.
  <b>Two routes are shown separately rather than averaged</b>, because only a minority of academics become professors and a
  blended &lsquo;average&rsquo; career describes nobody: the <b>default</b> is the majority route (grades F, G and H, then the
@@ -141,12 +142,18 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <div id="careerchart"></div>
  <div class="lgnd" id="careerlgnd"></div></div>
 
+<div class="card"><h2>Why the two numbers disagree, and where the saving actually comes from</h2>
+ <p class="small" style="margin:0 0 8px">The pay bill above falls by millions a year. The career line just above it is close to
+ a wash. Both are computed from the same band definitions, so the difference is not arithmetic &mdash; it is a difference in
+ <b>what each model holds fixed</b>. Everything here follows the controls on this page.</p>
+ <div id="twomodels"></div></div>
+
 <div class="card"><h2>Disaggregated by grade and management</h2><div id="tbl"></div>
  <div class="warn" id="cadnote" style="margin:12px 0 0"></div></div>
 <details><summary>What this assumes, and what it does not claim</summary><div class="small" style="margin-top:8px" id="cav"></div></details>
 </div>
 <script>
-const D={"nat":{"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41885,"33":43099,"34":44352,"35":45641,"36":46970,"37":48337,"38":49798,"39":51258,"40":52788,"41":54367,"42":55991,"43":57666,"44":59390,"45":61165,"46":62994,"47":64878,"48":66819,"49":68817,"50":70878,"51":72997,"52":75184,"53":77435,"54":79743,"55":82140,"56":84594,"57":87132,"58":89746},"ext":{"48":67144,"52":75184,"53":77435,"54":79753,"55":82140,"56":84594,"59":92441,"60":95213,"61":98069,"62":101012,"63":104040,"64":107163,"65":110378,"66":113688,"67":117097,"68":120613,"69":124231,"70":127957,"71":131795},"dist":{"25":370.6655,"26":132.75279999999998,"27":130.7597,"28":328.8331,"29":39.0768,"30":23.88,"31":46.662499999999994,"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5},"E":{"floor":25,"nN":3,"nC":4,"lab":"E \u2014 Associate Lecturer / PDRA","t":0}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]},"0":{"n":[24,25,26,27,28],"c":[29,30,31]}},"lad":[77432,79750,82134,84592,87125,89731,92418,95186,98036,100971,103994,107111]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]},"0":{"n":[23,24,25,26,27,28],"c":[29,30,31]}},"lad":[72997,75182,77433,79750,82134,84591,87122,89729,92415,95186,98036,100969,103993,107109,110316,113619]},"Durham":{"g":{"1":{"n":[30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43],"c":[44,45,46]},"3":{"n":[45,46,47,48,49],"c":[50,51,52]},"0":{"n":[22,23,24,25,26,27,28,29],"c":[30,31,32]}},"lad":null}},"tu":{"E":{"25":29,"26":29,"27":29,"28":29,"29":30,"30":31,"31":32},"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":57,"55":58,"56":59,"57":60,"58":61,"59":62,"60":62},"P2":{"58":62,"59":62,"60":62,"61":62,"62":62,"63":63,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]],"spine":{"25":34630,"26":35302,"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41881.17,"33":43098.71,"34":44351.64,"35":45640.92,"36":46969.98,"37":48336.78,"38":49798.44,"39":51258.06,"40":52788.06,"41":54367.02,"42":55990.86,"43":57665.7,"44":59389.5,"45":61165.32,"46":62994.18,"47":64878.12,"48":67143.54,"49":68817.36,"50":70877.76,"51":73018,"52":75184.2,"53":77435.34,"54":79752.78,"55":82139.58,"56":84593.7,"57":87132.48,"58":89745.72,"59":92440.56,"60":95212.92,"61":98068.92,"62":101011.62,"63":104040,"64":107163.24,"65":110378.28,"66":113688.18,"67":117097.02,"68":120612.96,"69":124230.9,"70":127956.96,"71":131795.22,"24":32968,"23":32043,"22":31144},"prop":{"E":{"floor":25,"nN":4,"nC":3},"F":{"floor":31,"nN":6,"nC":3},"G":{"floor":38,"nN":7,"nC":2},"H":{"floor":46,"nN":6,"nC":3},"P1":{"floor":53,"nN":4,"nC":0},"P2":{"floor":57,"nN":10,"nC":0},"P3":{"floor":65,"nN":7,"nC":0}}};
+const D={"nat":{"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41885,"33":43099,"34":44352,"35":45641,"36":46970,"37":48337,"38":49798,"39":51258,"40":52788,"41":54367,"42":55991,"43":57666,"44":59390,"45":61165,"46":62994,"47":64878,"48":66819,"49":68817,"50":70878,"51":72997,"52":75184,"53":77435,"54":79743,"55":82140,"56":84594,"57":87132,"58":89746},"ext":{"48":67144,"52":75184,"53":77435,"54":79753,"55":82140,"56":84594,"59":92441,"60":95213,"61":98069,"62":101012,"63":104040,"64":107163,"65":110378,"66":113688,"67":117097,"68":120613,"69":124231,"70":127957,"71":131795},"dist":{"25":370.6655,"26":132.75279999999998,"27":130.7597,"28":328.8331,"29":39.0768,"30":23.88,"31":46.662499999999994,"34":622,"35":156.9,"36":175.4,"37":479.5,"38":83.7,"39":88.6,"40":176.9,"41":149,"42":99.6,"43":90.8,"44":236.4,"45":66.8,"46":40.8,"47":15.3,"48":64.3,"49":91.7,"50":121.3,"51":29.9,"52":20.1,"53":5,"54":54.4,"55":25.7,"56":58.8,"57":22.1,"58":21.6,"59":14,"60":20.2,"61":11.7,"62":15.6,"63":19.2,"64":13.4,"65":16.7,"66":13.4,"67":8.9,"68":5.2,"69":10,"70":2.5,"71":12.4},"cur":{"F":{"floor":34,"nN":3,"nC":5,"lab":"F \u2014 Lecturer","t":1},"G":{"floor":40,"nN":5,"nC":5,"lab":"G \u2014 Senior Lecturer","t":2},"H":{"floor":48,"nN":3,"nC":6,"lab":"H \u2014 Associate Professor","t":3},"P1":{"floor":54,"nN":7,"nC":0,"lab":"Professorial Band 1","t":4},"P2":{"floor":58,"nN":14,"nC":0,"lab":"Professorial Band 2","t":5},"E":{"floor":25,"nN":3,"nC":4,"lab":"E \u2014 Associate Lecturer / PDRA","t":0}},"cmp":{"Manchester":{"g":{"1":{"n":[29,30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43,44],"c":[45,46,47]},"3":{"n":[45,46,47,48,49,50,51],"c":[52,53,54]},"0":{"n":[24,25,26,27,28],"c":[29,30,31]}},"lad":[77432,79750,82134,84592,87125,89731,92418,95186,98036,100971,103994,107111]},"Sheffield":{"g":{"1":{"n":[30,31,32,33,34,35,36,37],"c":[38,39,40]},"2":{"n":[38,39,40,41,42,43,44],"c":[45,46,47,48]},"3":{"n":[46,47,48,49,50],"c":[51,52,53,54,55]},"0":{"n":[23,24,25,26,27,28],"c":[29,30,31]}},"lad":[72997,75182,77433,79750,82134,84591,87122,89729,92415,95186,98036,100969,103993,107109,110316,113619]},"Durham":{"g":{"1":{"n":[30,31,32,33,34,35,36],"c":[37,38,39]},"2":{"n":[37,38,39,40,41,42,43],"c":[44,45,46]},"3":{"n":[45,46,47,48,49],"c":[50,51,52]},"0":{"n":[22,23,24,25,26,27,28,29],"c":[30,31,32]}},"lad":null}},"tu":{"E":{"25":29,"26":29,"27":29,"28":29,"29":30,"30":31,"31":32},"F":{"34":39,"35":39,"36":39,"37":39,"38":40,"39":41,"40":42,"41":43},"G":{"39":44,"40":44,"41":44,"42":44,"43":45,"44":46,"45":47,"46":48,"47":49,"48":50,"49":51},"H":{"48":53,"49":53,"50":53,"51":53,"52":54,"53":55,"54":56,"55":57,"56":58},"P1":{"54":57,"55":58,"56":59,"57":60,"58":61,"59":62,"60":62},"P2":{"58":62,"59":62,"60":62,"61":62,"62":62,"63":63,"64":64,"65":65,"66":66,"67":67,"68":68,"69":69,"70":70,"71":71}},"kmp":[["2020/21",3904,18],["2021/22",3642,19],["2022/23",3664,19],["2023/24",3502,16],["2024/25",3848,16]],"spine":{"25":34630,"26":35302,"27":36320,"28":37369,"29":38448,"30":39560,"31":40704,"32":41881.17,"33":43098.71,"34":44351.64,"35":45640.92,"36":46969.98,"37":48336.78,"38":49798.44,"39":51258.06,"40":52788.06,"41":54367.02,"42":55990.86,"43":57665.7,"44":59389.5,"45":61165.32,"46":62994.18,"47":64878.12,"48":67143.54,"49":68817.36,"50":70877.76,"51":73018,"52":75184.2,"53":77435.34,"54":79752.78,"55":82139.58,"56":84593.7,"57":87132.48,"58":89745.72,"59":92440.56,"60":95212.92,"61":98068.92,"62":101011.62,"63":104040,"64":107163.24,"65":110378.28,"66":113688.18,"67":117097.02,"68":120612.96,"69":124230.9,"70":127956.96,"71":131795.22,"24":32968,"23":32043,"22":31144},"prop":{"E":{"floor":25,"nN":4,"nC":3},"F":{"floor":31,"nN":6,"nC":3},"G":{"floor":38,"nN":7,"nC":2},"H":{"floor":46,"nN":6,"nC":3},"P1":{"floor":53,"nN":4,"nC":0},"P2":{"floor":57,"nN":0,"nC":10},"P3":{"floor":65,"nN":7,"nC":0}}};
 const $=id=>document.getElementById(id);
 const gbp=n=>'\u00a3'+Math.round(n).toLocaleString();
 // the claim’s own band structure, as published in the workbook’s per-grade tabs — distinct from the
@@ -441,6 +448,56 @@ function drawCareer(){
   (netOn()?'<span class="lg" style="color:#0f766e">take-home — after USS, income tax and employee NI</span>':'')+
   (d>0?'<span class="lg" style="color:#b45309">real terms — £ of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'%/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
 }
+// ---------------------------------------------------------------------------
+// Reconciling the steady-state total with the career line. They answer different
+// questions and can be made to disagree sharply, so the panel states the assumption
+// that separates them rather than quietly preferring one.
+// ---------------------------------------------------------------------------
+function drawTwo(){const el=$('twomodels');if(!el)return;
+ const steady=cost(MODELS[2])
+      , baseC=cost(MODELS[0])
+      , annual=steady.tot-baseC.tot;
+ // the same career the chart above draws, cash terms, so the two panels agree with what is on screen
+ const a=careerOf('prop'), b=careerOf('now');
+ let cum=0, trough=0, troughT=0;
+ const cums=a.map((v,t)=>{cum+=v-b[t]; if(cum<trough){trough=cum;troughT=t;} return cum;});
+ const lifetime=cums[cums.length-1];
+ // the first year the running total starts climbing back is where the deal turns
+ let payback=null; for(let t=troughT;t<cums.length;t++) if(cums[t]>=0){payback=t;break;}
+ const rt=routeProf()?'becomes a professor':'does not become a professor';
+ const cell=(h,sub,rows)=>'<td style="vertical-align:top;padding:10px 14px;width:50%">'+
+   '<div style="font-weight:700;font-size:13.5px;margin-bottom:2px">'+h+'</div>'+
+   '<div class="small" style="color:#6b7280;margin-bottom:8px">'+sub+'</div>'+rows+'</td>';
+ const row=(k,v)=>'<div style="margin-bottom:6px"><span style="color:#6b7280">'+k+'</span><br><b>'+v+'</b></div>';
+ el.innerHTML=
+  '<table style="width:100%;border-collapse:collapse;table-layout:fixed"><tr>'+
+  cell('The annual pay bill','Holds each person\u2019s <b>position in grade</b> fixed \u2014 the 4th point of a grade '+
+       'becomes the 4th point of the new one.',
+   row('Change per year, at the settings above', (annual<0?'':'+')+m(annual))+
+   row('What it assumes','That <b>nobody</b> ever benefits from the longer ladder. Everyone is moved down before they '+
+       'are allowed to climb, so the extra automatic points never reach anyone in this calculation.')+
+   row('So it is','an <b>upper bound</b> on the saving.'))+
+  cell('One career, 28 to 67','Holds each person\u2019s <b>years in grade</b> fixed and lets them climb the new, longer '+
+       'ladder. Route: '+rt+'.',
+   row('Lifetime difference, cash', (lifetime<0?'':'+')+m(lifetime))+
+   row('Worst point', m(trough)+' behind, at age <b>'+(AGE0+troughT)+'</b>'+
+       (payback!==null?', back to level at age <b>'+(AGE0+payback)+'</b>':', never fully recovered'))+
+   row('What it assumes','A <b>full career to 67</b> at one institution, and that the longer normal range is actually '+
+       'delivered.')+
+   row('So it is','a <b>best case</b> for the individual.'))+
+  '</tr></table>'+
+  '<div class="warn" style="margin:10px 0 0"><b>Where the money comes from.</b> If every individual broke even over a '+
+  'career and the workforce were a steady mix of career stages, the annual bill could not fall at all. It falls because '+
+  'those two conditions do not both hold. Three sources, and only one of them is a saving in the ordinary sense: '+
+  '<b>(1) Turnover.</b> Anyone leaving before about age '+(payback!==null?AGE0+payback:AGE0+troughT)+' keeps the loss and '+
+  'never reaches the payback \u2014 so the saving is funded substantially by early-career departures, the group least able '+
+  'to absorb it. <b>(2) Timing.</b> Someone who stays to 67 roughly breaks even, so the University\u2019s gain from them is '+
+  'a deferral, not a reduction \u2014 an interest-free loan from staff, repaid at the end of the career. '+
+  '<b>(3) The modelling asymmetry above</b>, which is not a real source of money at all: the annual total simply never '+
+  'lets anyone reach the extra points. '+
+  '<div style="margin-top:6px">The practical consequence is that <b>these two figures cannot both be leaned on at once</b>. '+
+  'Banking the annual saving assumes staff keep leaving before payback; claiming career neutrality assumes they stay. '+
+  'Which one you get depends on turnover, which is not modelled anywhere on this site.</div></div>';}
 function draw(){
  const base=cost(MODELS[0]), res=MODELS.map(md=>({md,r:cost(md)}));
  const rows=[...BK,'MGMT'];
@@ -565,16 +622,20 @@ function draw(){
   const isProp=md.id==='prop';
   dh+='<tr'+(md.id==='now'?' class="ex"':(isProp?' class="prop"':''))+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
   BK.forEach(b=>{const r=bs[b];
-   if(!r||!r.n){dh+='<td>\u2014</td>';return;}
+   if(!r||(!r.n&&!r.c)){dh+='<td>\u2014</td>';return;}
    const star=(md.id==='man'||md.id==='she')&&(b==='P1'||b==='P2')?'*':'';
-   dh+='<td>SP'+r.n[0]+'\u2013'+r.n[1]+star+(r.c?'<span style="color:#9ca3af"> +'+r.c[0]+'\u2013'+r.c[1]+'</span>':'')+'</td>';});
+   // a band with no normal points at all (the proposal's Band 2) is all discretionary, so the
+   // whole range prints grey rather than showing an empty automatic range
+   const norm=r.n?'SP'+r.n[0]+'\u2013'+r.n[1]+star:'',
+         contrib=r.c?'<span style="color:#9ca3af">'+(r.n?' +':'SP')+r.c[0]+'\u2013'+r.c[1]+(r.n?'':star)+'</span>':'';
+   dh+='<td>'+norm+contrib+'</td>';});
   dh+='</tr>';});
  dh+='</table><p class="small" style="margin:5px 0 0">* Sheffield and Manchester publish professorial pay as a money ladder rather than spine points '+
   '(Sheffield '+gbp(D.cmp.Sheffield.lad[0])+'\u2013'+gbp(D.cmp.Sheffield.lad[D.cmp.Sheffield.lad.length-1])+', '+
   'Manchester '+gbp(D.cmp.Manchester.lad[0])+'\u2013'+gbp(D.cmp.Manchester.lad[D.cmp.Manchester.lad.length-1])+'); '+
   'shown here at the nearest equivalent spine point. Grey figures after each range are the <b>contribution points</b> above that grade\u2019s ceiling \u2014 discretionary, not increments by right.</p>';
  $('detail').innerHTML=dh;
- drawStruct(); drawPick(); drawCareer();
+ drawStruct(); drawPick(); drawCareer(); drawTwo();
  // ---- warnings / framing ----
  const d3=res[2].r.tot-base.tot, dtu=res[1].r.tot-base.tot;
  $('warnbox').innerHTML='<div class="warn"><b>Read the sign, not just the size.</b> '+
@@ -637,6 +698,12 @@ $('cav').innerHTML=
  'on-costs are switched on, the two rows are not on the same basis; the total is indicative. A percentage cut is applied to '+
  'the whole bill, which is arithmetically the same as cutting each post by that percentage. Note the board has been 16 to 19 '+
  'posts across the series, so year-on-year movement partly reflects its size, not pay.<br>'+
+ '&bull; <b>Professorial Band 2 is entirely discretionary.</b> Band&nbsp;1 (SP53\u201356) is automatic; '+
+ 'Band&nbsp;2 (SP57\u201366) is <b>all contribution points</b>, reviewed annually \u2014 no part of it is an '+
+ 'increment by right. This does not change the pay-bill totals by a penny: those re-price where people '+
+ 'actually stand, and a point costs what it costs however it is earned. It changes what the structure '+
+ '<i>promises</i>, which is why the chart draws the whole band dashed. Whether contribution points, once '+
+ 'awarded, can be withdrawn is not modelled anywhere here.<br>'+
  '&bull; <b>Prof Band 3.</b> Today it is spot-salaried above the top of the spine; the proposal drops its floor to '+
  '<b>SP65</b>, so SP65\u201371 stop being Band&nbsp;2 spine points and become spot salaries. Spot salaries have no '+
  'increments, so there is no point map to apply and the band takes the <b>flat cut set in the controls</b> instead '+
@@ -647,7 +714,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['rtr','net','route','yF','yG','yH','aw','awA'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+['rtr','net','route','yF','yG','yH','aw','awA'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();drawTwo();}));});
 rtSync();
 draw();
 </script>
