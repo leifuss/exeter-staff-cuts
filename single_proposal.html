@@ -49,8 +49,8 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  been removed.
  <div style="margin-top:6px">The proposal <b>lengthens every grade from a lower floor</b>: grade F runs SP31&ndash;36
  instead of SP34&ndash;36, H runs SP46&ndash;51 instead of SP48&ndash;50, and Professorial Band&nbsp;1 becomes
- <b>automatic increments</b> with Band&nbsp;2 on <b>annual</b> review. Band&nbsp;3 gains <b>three increments at the bottom</b>
- (SP65&ndash;71), in line with comparator practice. In plain terms that is <b>lower entry pay in
+ <b>automatic increments</b> with Band&nbsp;2 on <b>annual</b> review. Band&nbsp;3&rsquo;s floor drops from above the spine to <b>SP65</b>,
+ turning SP65&ndash;71 from Band&nbsp;2 spine points into spot salaries. In plain terms that is <b>lower entry pay in
  exchange for a longer guaranteed climb</b>, and it is a pay cut for anyone near the bottom of a grade today.</div></div>
 
 <div class="warn" id="reconcile" style="margin:0 0 12px"></div>
@@ -68,8 +68,9 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <b>How this is priced.</b> Each model is applied to Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine,
  and every model is expressed as a <b>map from each current spine point to a new one</b> &mdash; which is exactly how the
  2022 union claim itself is written. Switch to <i>salary only</i> and <i>count all staff</i> and the baseline is
- <b>&pound;181,014,710 across 3,159.8 FTE</b>: Exeter&rsquo;s real 2023 distribution priced on the <b>2026-27</b> scales that
- take effect on 1 August 2026. On the 2025-26 scales that same calculation reproduces Exeter&rsquo;s published pay bill
+ <b>&pound;219,921,271 across 4,232.4 FTE</b>: Exeter&rsquo;s real 2023 distribution priced on the <b>2026-27</b> scales that
+ take effect on 1 August 2026 &mdash; which reproduces the workbook&rsquo;s own <code>TOTAL</code> of
+ &pound;219,921,270.74 <b>to the pound</b>. On the 2025-26 scales that same calculation reproduces Exeter&rsquo;s published pay bill
  <b>to the pound</b>, so the baseline carries no modelling assumptions &mdash; only the pay award; the defaults above add employer
  on-costs and remove grant-funded research staff, so the figures read as a cost to the University. Because
  nothing here depends on modelling how fast people are promoted, the <b>professorial figures carry none of the
@@ -81,7 +82,7 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
 
 <div class="controls">
  <div class="ctl"><label id="loc">Cost basis</label><select id="oc"><option value="0">Salary only</option><option value="1" selected>+ employer on-costs</option></select></div>
- <div class="ctl"><label id="ldc">Research-only (grant-funded) staff</label><select id="dc"><option value="0">Count all staff (gross)</option><option value="1" selected>Exclude (F &minus;26&#37;, G &minus;13&#37;, H &minus;8&#37;)</option></select></div>
+ <div class="ctl"><label id="ldc">Research-only (grant-funded) staff</label><select id="dc"><option value="0">Count all staff (gross)</option><option value="1" selected>Exclude (E &minus;26&#37;, F &minus;26&#37;, G &minus;13&#37;, H &minus;8&#37;, Prof &minus;2&#37;)</option></select></div>
  <div class="ctl"><label id="lkmp">Management pay bill</label><input id="kmp" type="number" value="3848000" min="0" step="10000"></div>
  <div class="ctl"><label title="Applied to the key management personnel pay bill, matching the proposal's stated intent that executive pay takes a cut equivalent to the staff average.">Executive cut</label><input id="cex" type="number" value="3.5" min="0" max="100" step="0.5"></div>
  <div class="ctl"><label title="Professorial Band 3 is spot-salaried, so it is not re-mapped onto spine points. It takes a flat cut instead.">Band 3 cut</label><input id="c3b" type="number" value="3.5" min="0" max="100" step="0.5"></div>
@@ -224,9 +225,12 @@ const MODELS=[
   f:()=>((b,e)=>sal((D.tu[b]&&D.tu[b][e.p])||e.p))},
  {id:'prop', n:'3 · The 2026 proposal', s:'longer grades from a lower floor; Band 1 automatic, Band 2 annual review',
   f:()=>viaProp(), cut:()=>(+$('cex').value||0)/100},
- {id:'dur',  n:'4 · Durham’s structure', s:'re-mapped by career stage; professoriate is spot-salaried', f:()=>viaCmp('Durham'), cut:()=>0},
- {id:'she',  n:'5 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0},
- {id:'man',  n:'6 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0}];
+ // Durham is deliberately absent: it publishes professorial pay as spot salaries, so there is no
+ // ladder to map onto and no professorial saving can be calculated. Rather than draw its professoriate
+ // at Exeter's own rates and hope the caveat is read, it is dropped. Its grade data stays in D.cmp,
+ // and the spreadsheet carries it.
+ {id:'man',  n:'4 · Manchester’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Manchester'), cut:()=>0},
+ {id:'she',  n:'5 · Sheffield’s structure', s:'re-mapped by career stage', f:()=>viaCmp('Sheffield'), cut:()=>0}];
 function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
  const fteBy={};
  BK.forEach(b=>{const dc=dcFor(b);let c=0,f=0;
@@ -241,7 +245,7 @@ function cost(model){const fn=model.f(),by={};let tot=0,fte=0;
 // so both charts can be driven off one description of each model.
 // ---------------------------------------------------------------------------
 const BCOL={E:'#67e8f9',F:'#0891b2',G:'#0e7490',H:'#155e75',P1:'#b45309',P2:'#92400e'};
-const CMPN={man:'Manchester',she:'Sheffield',dur:'Durham'};   // comparator model id -> data key
+const CMPN={man:'Manchester',she:'Sheffield'};   // comparator model id -> data key
 const MCOL={now:'#b45309',tu:'#7c3aed',prop:'#15803d',dur:'#7e22ce',she:'#0891b2',man:'#1e40af'};
 const DASH={dur:'5 2',she:'7 4',man:'2 3'};   // comparators drawn broken, so proposals stand out
 const nearestSP=v=>{let best=27,bd=1e9;for(let p=27;p<=71;p++){const d=Math.abs(sal(p)-v);if(d<bd){bd=d;best=p;}}return best;};
@@ -254,7 +258,7 @@ function bandsOf(id){
   const L=C.lad;                                     // professorial published as a money ladder
   if(L){o.P1={n:[nearestSP(L[0]),nearestSP(L[Math.min(6,L.length-1)])],c:null};
         o.P2={n:[nearestSP(L[Math.min(4,L.length-1)]),nearestSP(L[L.length-1])],c:null};}
-  else {o.P1=null;o.P2=null;}                        // Durham: spot salaries, nothing to draw
+  else {o.P1=null;o.P2=null;}                        // spot salaries: nothing to draw
   return o;}
  if(id==='tu'){const o={};BK.forEach(b=>{const t=TUS[b];if(!t)return;o[b]={n:rng(t.n),c:rng(t.c)};});return o;}
  const bands=id==='prop'?D.prop:D.cur, o={};
@@ -333,8 +337,8 @@ function awRateA(){return +(($('awA')||{}).value||0.3)||0.3;}        // per annu
 // each model's lists: normal points, contribution points (as £), and the professorial ladder
 function listsFor(id,b){
  if(CMPN[id]){const C=D.cmp[CMPN[id]],t={F:'1',G:'2',H:'3'};
-  // Durham has no professorial ladder (spot salaries): fall back to Exeter's, so the line is drawn
-  // but is explicitly not Durham's own professorial pay.
+  // Guard for a comparator with no published professorial ladder (spot salaries). Durham was the
+  // one such case and has been dropped from MODELS for exactly this reason; nothing reaches here now.
   if(b==='PROF'){if(!C.lad){const q1=ptsOf(D.cur,'P1'),q2=ptsOf(D.cur,'P2');
     const pts=[...new Set([...q1.n,...q1.c,...q2.n,...q2.c])].sort((a,b)=>a-b),lad=pts.map(sal);
     return {lad,prog:Array(Math.max(0,lad.length-1)).fill('m2')};}
@@ -504,10 +508,11 @@ function draw(){
    $('oc').value=keep[0];$('dc').value=keep[1];
    return {struct, netRO, byb:BK.map(k=>[k,b.by[k]-r.by[k]])};})();
   const d=gross.struct-SS;
-  $('reconcile').innerHTML='<b>This page and the workbook now agree closely.</b> On the workbook&rsquo;s own basis '+
+  const pc=100*Math.abs(d)/SS;
+  $('reconcile').innerHTML='<b>'+(pc<5?'This page and the workbook agree closely.':'This page and the workbook are close, but not identical.')+'</b> On the workbook&rsquo;s own basis '+
    '\u2014 salary only, all staff counted \u2014 it makes the proposal worth <b>'+m(SS)+'/yr</b> before the executive cut. '+
    'Applying the same band definitions mechanically to the same distribution, this page makes it <b>'+m(gross.struct)+'/yr</b>, '+
-   'about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b> \u2014 within '+Math.round(100*Math.abs(d)/SS)+'&#37;. The earlier '+
+   'about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b> \u2014 a gap of '+pc.toFixed(1)+'&#37;. The earlier '+
    'gap closed once every grade was moved as a block rather than point by point. What is left is the residue of a hand-built '+
    'redistribution against a rule: this page moves each person to the same <b>position in the grade</b> they hold today, which '+
    'the workbook approximates. <b>Quote the workbook figure</b> \u2014 it is the one that has been checked line by line.'+
@@ -532,7 +537,7 @@ function draw(){
      '<text x="'+gx+'" y="'+(T-10)+'" text-anchor="middle" font-size="9.5" fill="#b6b6b0">'+(sg<0?'\u2212':'+')+m(v).replace('\u2212','')+'</text>';});}
  s+='<line x1="'+x0+'" y1="'+(T-6)+'" x2="'+x0+'" y2="'+(T+res.length*rowH-8)+'" stroke="#b45309" stroke-width="1.4"/>';
  // group the rows: the baseline, the three proposals, then the two comparator structures
- [[1,'proposals'],[4,'comparator structures']].forEach(([r,cap])=>{const gy=T+r*rowH-5;
+ [[1,'proposals'],[3,'comparator structures']].forEach(([r,cap])=>{const gy=T+r*rowH-5;
   s+='<line x1="'+(L-96)+'" y1="'+gy+'" x2="'+(W-R+40)+'" y2="'+gy+'" stroke="#d9d9d4" stroke-width="1"/>'+
      '<text x="'+(L-96)+'" y="'+(gy+11)+'" font-size="9.5" font-weight="600" fill="#b6b6b0" letter-spacing="0.04em">'+cap.toUpperCase()+'</text>';});
  s+='<text x="'+(L-96)+'" y="'+(T+11)+'" font-size="9.5" font-weight="600" fill="#b6b6b0" letter-spacing="0.04em">BASELINE</text>';
@@ -571,15 +576,15 @@ function draw(){
  $('detail').innerHTML=dh;
  drawStruct(); drawPick(); drawCareer();
  // ---- warnings / framing ----
- const d3=res[2].r.tot-base.tot, d4=res[3].r.tot-base.tot, dtu=res[1].r.tot-base.tot;
+ const d3=res[2].r.tot-base.tot, dtu=res[1].r.tot-base.tot;
  $('warnbox').innerHTML='<div class="warn"><b>Read the sign, not just the size.</b> '+
-  'Models <b>3 and 4 are pay cuts</b>: extending each grade downward means every member of staff sits two (or three) '+
-  'points lower than today, so the '+m(Math.abs(d3))+' and '+m(Math.abs(d4))+' they save is money taken out of salaries. '+
+  'The <b>proposal is a pay cut</b>: extending each grade downward means a member of staff sits one to three '+
+  'points lower than today, so the '+m(Math.abs(d3))+' it saves is money taken out of salaries. '+
   'The case for them is that a <b>lower floor with a longer climb</b> lets staff progress further over a career instead of '+
   'topping out early &mdash; a benefit that only shows up on the <b>Career model</b> tab, not in this steady-state total. '+
   'The <b>2022 union claim costs '+m(Math.abs(dtu))+' more</b>, which is what it was designed to do. '+
   'And the <b>management line is small</b>: at the percentages set above it moves the total by '+
-  m(Math.abs(base.by.MGMT-res[2].r.by.MGMT))+' and '+m(Math.abs(base.by.MGMT-res[3].r.by.MGMT))+
+  m(Math.abs(base.by.MGMT-res[2].r.by.MGMT))+
   ' &mdash; significant to the argument, marginal to the arithmetic.</div>';
  $('loc').title=ocOn()?'Total cost to the University \u2014 salary plus employer NI, pension and levy (about +28%). Note the management figure ALREADY includes employer pension, so it is not scaled again.'
   :'Salary only. The management figure is on a different basis \u2014 it includes employer pension \u2014 so the two are not strictly comparable; see the caveats.';
@@ -592,7 +597,7 @@ $('cav').innerHTML=
  'each structure, holding each person\u2019s years in grade fixed and re-counting their increments under the new one. It is a '+
  'long-run ceiling, not cash in any year, and it implicitly re-prices real people, which a real change could not do &mdash; '+
  'nobody\u2019s pay can lawfully be cut, so an actual reform bites only on new entrants and on staff promoted into a grade.<br>'+
- '&bull; <b>Models 3 and 4 are pay cuts.</b> Extending a grade downward lowers the salary at every career stage. In steady '+
+ '&bull; <b>The proposal is a pay cut.</b> Extending a grade downward lowers the salary at every career stage. In steady '+
  'state that is simply less pay for the same people; the intended benefit is a longer climb from a lower floor, which is a '+
  '<i>career</i> effect and is invisible in this total. Judge them on the <b>Career model</b> tab as well as here.<br>'+
  '&bull; <b>The 2022 claim is an increase, by design.</b> Taken from the joint trade union claim of 3 April 2023 '+
@@ -612,10 +617,10 @@ $('cav').innerHTML=
  'workbook is also not internally consistent \u2014 its <code>Simplified</code>, <code>Professors</code> and '+
  '<code>TU Version</code> tabs disagree by a point on some band floors \u2014 so the per-grade tabs are preferred throughout. '+
  'Treat the two professorial rows of model 2 as the least firm part of it.<br>'+
- '&bull; <b>Grade E rests partly on extrapolated spine points.</b> All three comparators start their research-assistant '+
- 'grade <b>below</b> Exeter\u2019s SP25 \u2014 Manchester at SP24, Sheffield SP23, Durham SP22 \u2014 but the workbook '+
+ '&bull; <b>Grade E rests partly on an extrapolated spine point.</b> Both comparators start their research-assistant '+
+ 'grade <b>below</b> Exeter\u2019s SP25 \u2014 Manchester at SP24, Sheffield at SP23 \u2014 but the workbook '+
  'stops at SP25 and marks everything under it <code>NO CHANGES PROPOSED</code>, so Exeter publishes no 2026 rate for '+
- 'SP22\u201323. Those two points are carried here as \u00a331,144 and \u00a332,043, extrapolated at the 2.89% step that '+
+ 'SP23. It is carried here as \u00a332,043, extrapolated at the 2.89% step that '+
  'holds from SP26 upwards. This matters more than the small numbers suggest: 371 FTE sit at Exeter\u2019s grade-E floor, '+
  'and under a career-stage mapping every one of them lands on the comparator\u2019s floor. <b>Treat the grade-E comparator '+
  'rows as indicative of shape rather than exact.</b><br>'+
@@ -632,8 +637,11 @@ $('cav').innerHTML=
  'on-costs are switched on, the two rows are not on the same basis; the total is indicative. A percentage cut is applied to '+
  'the whole bill, which is arithmetically the same as cutting each post by that percentage. Note the board has been 16 to 19 '+
  'posts across the series, so year-on-year movement partly reflects its size, not pay.<br>'+
- '&bull; <b>Prof Band 3</b> (spot salaries, open-ended above \u00a3131,795) is not modelled: it has no published increments, '+
- 'so there is no point map to apply. Roughly 57.5 FTE sit above the top of the spine and are outside every column here.<br>'+
+ '&bull; <b>Prof Band 3.</b> Today it is spot-salaried above the top of the spine; the proposal drops its floor to '+
+ '<b>SP65</b>, so SP65\u201371 stop being Band&nbsp;2 spine points and become spot salaries. Spot salaries have no '+
+ 'increments, so there is no point map to apply and the band takes the <b>flat cut set in the controls</b> instead '+
+ '(3.5% by default), on the ground that it is the least churning population. That is an assumption, not a reading of '+
+ 'the workbook. Roughly 57.5 FTE also sit <i>above</i> SP71 and are outside every column here.<br>'+
  '&bull; <b>Not modelled at all:</b> recruitment and retention effects, equal-pay and grade-compression consequences, '+
  'pension impacts, redundancy or protection costs, and whether any of this is contractually or industrially feasible.';
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
