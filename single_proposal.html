@@ -106,17 +106,24 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <p class="small" style="margin:0 0 6px">A single academic under five different structures &mdash; it shows what each proposal
  does to a career, which the annual totals below cannot. Dashed verticals mark promotions.
  <b>Two routes are shown separately rather than averaged</b>, because only a minority of academics become professors and a
- blended &lsquo;average&rsquo; career describes nobody: the <b>default</b> is the majority route (grades F, G and H, then the
- remaining years at the Associate Professor ceiling), and the toggle switches to the professorial route. The familiar figure
+ blended &lsquo;average&rsquo; career describes nobody. The chart opens on the <b>professorial</b> route, where the proposal
+ changes a career most; the <b>Career route</b> switch below moves to the majority route (grades F, G and H, then the
+ remaining years at the Associate Professor ceiling), where the lifetime effect is close to nil. The familiar figure
  that professors are appointed at about 48 is an average <i>of those who get there</i> &mdash; it says nothing about how many do.</p>
+ <div class="rtbar" style="background:#fffaf0;border-color:#e0c060;border-width:1px 1px 1px 5px;border-left-color:#b08900">
+  <span class="rtlab" style="color:#1d1d1b;font-weight:700;font-size:12.5px;letter-spacing:0">Career route</span>
+  <select id="route" style="font-weight:600;border-color:#b08900" title="The two routes are shown separately rather than averaged, because a blended ‘average’ career describes nobody. Becomes a professor: grades F, G and H, promotion after the years in H, then merit progression to 67. Does not become a professor: F, G and H, then the remaining years at the Associate Professor ceiling — the majority experience."><option value="prof" selected>Becomes a professor</option><option value="np">Does not become a professor</option></select>
+  <span class="rthint" style="color:#7a5c00"><b>This switch changes the answer more than any other control on the page.</b>
+  The professoriate is where the proposal reshapes a career most, so it is shown first &mdash; but <b>only a minority of
+  academics get there</b>, and on the other route the proposal is close to a lifetime wash. Look at both before quoting
+  either; the panel below the chart reports whichever is selected.</span>
+ </div>
  <div class="rtbar" style="background:#f7f7f5;border-color:var(--line)">
   <span class="rtlab" style="color:#374151">Years in each grade</span>
   <span>F <input id="yF" type="number" value="5" min="1" max="25" step="1" style="width:52px"></span>
   <span>G <input id="yG" type="number" value="7" min="1" max="25" step="1" style="width:52px"></span>
   <span>H <input id="yH" type="number" value="8" min="1" max="25" step="1" style="width:52px"></span>
-  <span style="color:#6b7280"><b id="yPlab">Remaining years at the AP ceiling</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
-  <span class="rtlab" style="color:#374151;margin-left:8px">Route</span>
-  <select id="route" title="Only a minority of academics become professors, so an ‘average’ career that ends in a chair describes nobody. Does not become a professor: F, G, H, then the remaining years at the Associate Professor ceiling — the majority experience. Becomes a professor: promoted after the years in H, then merit progression to 67."><option value="np" selected>Does not become a professor</option><option value="prof">Becomes a professor</option></select>
+  <span style="color:#6b7280"><b id="yPlab">Professor</b> <b id="yPout">20</b> &mdash; the career always ends at <b>67</b></span>
   <span class="rtlab" style="color:#374151;margin-left:8px">Merit rate &mdash; biennial</span>
   <select id="aw" title="Success rate per review round where review is every two years: Exeter as it is, and the 2022 claim."><option value="0.5">50&#37;</option><option value="0.4" selected>40&#37;</option><option value="0.3">30&#37;</option><option value="0.2">20&#37;</option></select>
   <span class="rtlab" style="color:#374151;margin-left:8px">&mdash; annual</span>
