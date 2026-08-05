@@ -103,7 +103,7 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <div class="lgnd" id="barlgnd"></div></div>
 
 <div class="card"><h2>One representative career, age 28 to 67, under each model</h2>
- <p class="small" style="margin:0 0 6px">A single academic under six different structures &mdash; it shows what each proposal
+ <p class="small" style="margin:0 0 6px">A single academic under five different structures &mdash; it shows what each proposal
  does to a career, which the annual totals below cannot. Dashed verticals mark promotions.
  <b>Two routes are shown separately rather than averaged</b>, because only a minority of academics become professors and a
  blended &lsquo;average&rsquo; career describes nobody: the <b>default</b> is the majority route (grades F, G and H, then the
@@ -141,6 +141,12 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
  <div class="lgnd" id="carepick" style="margin:0 0 6px"></div>
  <div id="careerchart"></div>
  <div class="lgnd" id="careerlgnd"></div></div>
+
+<div class="card"><h2>Why the two numbers disagree, and where the saving actually comes from</h2>
+ <p class="small" style="margin:0 0 8px">The pay bill above falls by millions a year. The career line just above it is close to
+ a wash. Both are computed from the same band definitions, so the difference is not arithmetic &mdash; it is a difference in
+ <b>what each model holds fixed</b>. Everything here follows the controls on this page.</p>
+ <div id="twomodels"></div></div>
 
 <div class="card"><h2>Disaggregated by grade and management</h2><div id="tbl"></div>
  <div class="warn" id="cadnote" style="margin:12px 0 0"></div></div>
@@ -442,6 +448,56 @@ function drawCareer(){
   (netOn()?'<span class="lg" style="color:#0f766e">take-home — after USS, income tax and employee NI</span>':'')+
   (d>0?'<span class="lg" style="color:#b45309">real terms — £ of the starting year, awards trailing CPIH by '+(d*100).toFixed(2)+'%/yr</span>':'<span class="lg" style="color:#9ca3af">cash terms</span>');
 }
+// ---------------------------------------------------------------------------
+// Reconciling the steady-state total with the career line. They answer different
+// questions and can be made to disagree sharply, so the panel states the assumption
+// that separates them rather than quietly preferring one.
+// ---------------------------------------------------------------------------
+function drawTwo(){const el=$('twomodels');if(!el)return;
+ const steady=cost(MODELS[2])
+      , baseC=cost(MODELS[0])
+      , annual=steady.tot-baseC.tot;
+ // the same career the chart above draws, cash terms, so the two panels agree with what is on screen
+ const a=careerOf('prop'), b=careerOf('now');
+ let cum=0, trough=0, troughT=0;
+ const cums=a.map((v,t)=>{cum+=v-b[t]; if(cum<trough){trough=cum;troughT=t;} return cum;});
+ const lifetime=cums[cums.length-1];
+ // the first year the running total starts climbing back is where the deal turns
+ let payback=null; for(let t=troughT;t<cums.length;t++) if(cums[t]>=0){payback=t;break;}
+ const rt=routeProf()?'becomes a professor':'does not become a professor';
+ const cell=(h,sub,rows)=>'<td style="vertical-align:top;padding:10px 14px;width:50%">'+
+   '<div style="font-weight:700;font-size:13.5px;margin-bottom:2px">'+h+'</div>'+
+   '<div class="small" style="color:#6b7280;margin-bottom:8px">'+sub+'</div>'+rows+'</td>';
+ const row=(k,v)=>'<div style="margin-bottom:6px"><span style="color:#6b7280">'+k+'</span><br><b>'+v+'</b></div>';
+ el.innerHTML=
+  '<table style="width:100%;border-collapse:collapse;table-layout:fixed"><tr>'+
+  cell('The annual pay bill','Holds each person\u2019s <b>position in grade</b> fixed \u2014 the 4th point of a grade '+
+       'becomes the 4th point of the new one.',
+   row('Change per year, at the settings above', (annual<0?'':'+')+m(annual))+
+   row('What it assumes','That <b>nobody</b> ever benefits from the longer ladder. Everyone is moved down before they '+
+       'are allowed to climb, so the extra automatic points never reach anyone in this calculation.')+
+   row('So it is','an <b>upper bound</b> on the saving.'))+
+  cell('One career, 28 to 67','Holds each person\u2019s <b>years in grade</b> fixed and lets them climb the new, longer '+
+       'ladder. Route: '+rt+'.',
+   row('Lifetime difference, cash', (lifetime<0?'':'+')+m(lifetime))+
+   row('Worst point', m(trough)+' behind, at age <b>'+(AGE0+troughT)+'</b>'+
+       (payback!==null?', back to level at age <b>'+(AGE0+payback)+'</b>':', never fully recovered'))+
+   row('What it assumes','A <b>full career to 67</b> at one institution, and that the longer normal range is actually '+
+       'delivered.')+
+   row('So it is','a <b>best case</b> for the individual.'))+
+  '</tr></table>'+
+  '<div class="warn" style="margin:10px 0 0"><b>Where the money comes from.</b> If every individual broke even over a '+
+  'career and the workforce were a steady mix of career stages, the annual bill could not fall at all. It falls because '+
+  'those two conditions do not both hold. Three sources, and only one of them is a saving in the ordinary sense: '+
+  '<b>(1) Turnover.</b> Anyone leaving before about age '+(payback!==null?AGE0+payback:AGE0+troughT)+' keeps the loss and '+
+  'never reaches the payback \u2014 so the saving is funded substantially by early-career departures, the group least able '+
+  'to absorb it. <b>(2) Timing.</b> Someone who stays to 67 roughly breaks even, so the University\u2019s gain from them is '+
+  'a deferral, not a reduction \u2014 an interest-free loan from staff, repaid at the end of the career. '+
+  '<b>(3) The modelling asymmetry above</b>, which is not a real source of money at all: the annual total simply never '+
+  'lets anyone reach the extra points. '+
+  '<div style="margin-top:6px">The practical consequence is that <b>these two figures cannot both be leaned on at once</b>. '+
+  'Banking the annual saving assumes staff keep leaving before payback; claiming career neutrality assumes they stay. '+
+  'Which one you get depends on turnover, which is not modelled anywhere on this site.</div></div>';}
 function draw(){
  const base=cost(MODELS[0]), res=MODELS.map(md=>({md,r:cost(md)}));
  const rows=[...BK,'MGMT'];
@@ -579,7 +635,7 @@ function draw(){
   'Manchester '+gbp(D.cmp.Manchester.lad[0])+'\u2013'+gbp(D.cmp.Manchester.lad[D.cmp.Manchester.lad.length-1])+'); '+
   'shown here at the nearest equivalent spine point. Grey figures after each range are the <b>contribution points</b> above that grade\u2019s ceiling \u2014 discretionary, not increments by right.</p>';
  $('detail').innerHTML=dh;
- drawStruct(); drawPick(); drawCareer();
+ drawStruct(); drawPick(); drawCareer(); drawTwo();
  // ---- warnings / framing ----
  const d3=res[2].r.tot-base.tot, dtu=res[1].r.tot-base.tot;
  $('warnbox').innerHTML='<div class="warn"><b>Read the sign, not just the size.</b> '+
@@ -658,7 +714,7 @@ $('cav').innerHTML=
 ['oc','dc','kmp','c3','c4'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,draw));});
 function rtSync(){const v=+($('rtr').value||0)||0;
  $('rtv').innerHTML=(v>0?'\u2212':'')+v.toFixed(2)+'\u0025/yr';}
-['rtr','net','route','yF','yG','yH','aw','awA'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();}));});
+['rtr','net','route','yF','yG','yH','aw','awA'].forEach(id=>{const e=$(id);if(e)['change','input'].forEach(v=>e.addEventListener(v,()=>{rtSync();drawCareer();drawTwo();}));});
 rtSync();
 draw();
 </script>
