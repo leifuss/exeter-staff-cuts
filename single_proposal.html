@@ -55,19 +55,22 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
 
 <div class="warn" id="reconcile" style="margin:0 0 12px"></div>
 <div class="warn" style="border-left-color:#b45309;background:#fffbf4;border-color:#ecd9b8">
- <b style="color:#b45309">Two things still to fix in the workbook.</b>
+ <b style="color:#b45309">Three things still to look at in the workbook.</b>
  <b>1.</b> The proposed scale is <b>not monotonic</b>: SP31 (&pound;40,603) pays <b>&pound;101 less</b> than SP30
  (&pound;40,704), so pay falls as you go up a point. The three new points at SP31&ndash;33 look interpolated backwards
  from SP34 in ~2.99&#37; steps, and the lowest undershoots the existing SP30.
- <b>2.</b> Cell <code>U56</code> is <code>=SUM(U9:U55)</code> and omits SP71&rsquo;s 6.2&nbsp;FTE, while the wage bill
- <code>V57</code> sums from row&nbsp;8. It should read <code>=SUM(U8:U55)</code>. On the corrected figures mean staff
- salary is <b>&pound;50,319</b> and the proposal is worth <b>159.5</b> equivalent posts.
- <div style="margin-top:6px"><b>Now resolved:</b> grade&nbsp;G&rsquo;s current floor reads SP40 on the current side,
- matching Exeter&rsquo;s published structure; and with SP51 restored to 5.0&nbsp;FTE the redistribution conserves
- headcount to 0.04&nbsp;FTE. Note that below SP34 the workbook uses its <b>own renumbering</b> &mdash; its SP26 is the
- published SP27 &mdash; plus three inserted points, so &ldquo;SP31&rdquo; here is not the published SP31. This page uses
- the workbook&rsquo;s own <i>Salary from 1 Aug 2026</i> column throughout so the figures reconcile with it; at SP34 and
- above that column is identical to the rest of this site.</div></div>
+ <b>2.</b> The executive line is labelled <i>&ldquo;executive pay @ same&nbsp;&#37;&rdquo;</i> but still holds
+ <b>&pound;134,680</b>, which is 3.5&#37;. At the redistribution&rsquo;s own rate of <b>4.66&#37;</b> it would be
+ <b>&pound;179,373</b>.
+ <b>3.</b> The Band&nbsp;3 notional cut of <b>&pound;149,002</b> (cell&nbsp;X69) is calculated but <b>not added</b> to the
+ savings total. With both included the proposal comes to about <b>&pound;10.62m</b> rather than &pound;10.43m.
+ <div style="margin-top:6px"><b>Now resolved:</b> <code>U56</code> sums from row&nbsp;8, so the FTE denominator is right;
+ headcount conserves to 0.02&nbsp;FTE; and every grade now keeps its own headcount and moves down the spine as a block,
+ which is what lifted the saving from &pound;7.89m to &pound;10.30m. Note that below SP34 the workbook uses its
+ <b>own renumbering</b> &mdash; its SP26 is the published SP27 &mdash; plus three inserted points, so
+ &ldquo;SP31&rdquo; is not the published SP31. This page uses the workbook&rsquo;s own
+ <i>Salary from 1 Aug 2026</i> column throughout so the figures reconcile; at SP34 and above it is identical to the
+ rest of this site.</div></div>
 
 <div class="answer">
  <b>How this is priced.</b> Each model is applied to Exeter&rsquo;s <b>real 2023 staff distribution</b> across the pay spine,
@@ -450,27 +453,30 @@ function draw(){
  // ---- reconciliation against the workbook's own figure -------------------------------------
  // The workbook's column V is a hand-built redistribution; this page applies the proposal's band
  // definitions mechanically. They do not agree, and the difference is the interesting part.
- (function(){const SS=7892353, SSFTE=4232.39;
+ (function(){const SS=10295423, SSFTE=4232.41;
   const gross=(()=>{const keep=[$('oc').value,$('dc').value];
    // price on the workbook's own basis: salary only, all staff
    $('oc').value='0';$('dc').value='0';
    const b=cost(MODELS[0]), r=cost(MODELS[2]);
+   const struct=(b.tot-b.by.MGMT)-(r.tot-r.by.MGMT);
+   $('dc').value='1';                                   // same again, with grant-funded staff excluded
+   const b2=cost(MODELS[0]), r2=cost(MODELS[2]);
+   const netRO=(b2.tot-b2.by.MGMT)-(r2.tot-r2.by.MGMT);
    $('oc').value=keep[0];$('dc').value=keep[1];
-   return {struct:(b.tot-b.by.MGMT)-(r.tot-r.by.MGMT), byb:BK.map(k=>[k,b.by[k]-r.by[k]])};})();
+   return {struct, netRO, byb:BK.map(k=>[k,b.by[k]-r.by[k]])};})();
   const d=gross.struct-SS;
-  $('reconcile').innerHTML='<b>This page and the workbook do not agree, and the gap is worth understanding.</b> '+
-   'On the workbook&rsquo;s own basis \u2014 salary only, all staff counted \u2014 it makes the proposal worth '+
-   '<b>'+m(SS)+'/yr</b> before the executive cut. Applying the same band definitions <i>mechanically</i> to the same '+
-   'distribution, this page makes it <b>'+m(gross.struct)+'/yr</b>, about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b>. '+
-   'The difference is method, not data: the workbook moves staff <b>by hand, point by point</b>, while this page moves '+
-   'everyone by their <b>position in the grade</b>, so a floor that drops three points moves the whole grade with it. '+
-   'The clearest illustration is <b>grade&nbsp;G</b>. The proposal drops its floor from SP40 to SP39 and shortens it from '+
-   'ten points to eight, but the workbook leaves <b>SP41&ndash;44 completely untouched</b> and moves only the bottom '+
-   'cohort down one point &mdash; worth about &pound;135k, where moving the grade as a whole is worth roughly ten times '+
-   'that. The same is true of grade&nbsp;H. <b>Neither figure is wrong</b>: the workbook is a deliberately cautious '+
-   'assimilation and is the safer number to put in front of the University; this page shows what the stated structure '+
-   'does if every grade is applied consistently. The gap is the room between the two, and it is worth being explicit '+
-   'about which one is being claimed.';})();
+  $('reconcile').innerHTML='<b>This page and the workbook now agree closely.</b> On the workbook&rsquo;s own basis '+
+   '\u2014 salary only, all staff counted \u2014 it makes the proposal worth <b>'+m(SS)+'/yr</b> before the executive cut. '+
+   'Applying the same band definitions mechanically to the same distribution, this page makes it <b>'+m(gross.struct)+'/yr</b>, '+
+   'about <b>'+m(Math.abs(d))+' '+(d>0?'more':'less')+'</b> \u2014 within '+Math.round(100*Math.abs(d)/SS)+'&#37;. The earlier '+
+   'gap closed once every grade was moved as a block rather than point by point. What is left is the residue of a hand-built '+
+   'redistribution against a rule: this page moves each person to the same <b>position in the grade</b> they hold today, which '+
+   'the workbook approximates. <b>Quote the workbook figure</b> \u2014 it is the one that has been checked line by line.'+
+   '<div style="margin-top:6px"><b>Research-only staff matter here.</b> The workbook counts all '+
+   '4,232&nbsp;FTE. Grant-funded research staff are in that population, and a cheaper structure reduces the '+
+   '<i>funder&rsquo;s</i> bill rather than Exeter&rsquo;s. Excluding them on this page\u2019s HESA-derived shares takes the '+
+   'saving from <b>'+m(gross.struct)+'</b> to about <b>'+m(gross.netRO)+'</b> salary-only \u2014 roughly a fifth off. That is '+
+   'the number to use if the question is what Exeter itself saves.</div>';})();
  $('tbl').innerHTML=h;
  // ---- bar chart, stacked by where the money comes from ----
  // Within any one model every grade pulls the same way, so a simple stack reads correctly;
