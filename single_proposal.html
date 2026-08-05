@@ -90,7 +90,9 @@ Manchester already do &mdash; disaggregated by grade and by management.</p>
 <div id="warnbox"></div>
 <div class="card"><h2>What each model does to the structure</h2>
  <p class="small" style="margin:0 0 6px">Each model&rsquo;s grades laid out on the national spine, so the shapes can be compared directly.
- Exeter&rsquo;s current structure is the dashed outline on every row.</p>
+ Exeter&rsquo;s current structure is the dashed outline on every row. Grade&nbsp;E is included from SP22, where the
+ comparators&rsquo; research-assistant grades floor; Exeter publishes no 2026 rate below SP25, so SP22&ndash;23 are
+ extrapolated (see the notes). The career trajectory chart below still begins at grade&nbsp;F.</p>
  <div id="structchart"></div>
  <div class="lgnd" id="structlgnd"></div>
  <div id="detail" style="margin-top:10px"></div></div>
@@ -243,7 +245,8 @@ const nearestSP=v=>{let best=27,bd=1e9;for(let p=27;p<=71;p++){const d=Math.abs(
 function bandsOf(id){
  const rng=a=>a.length?[a[0],a[a.length-1]]:null;
  if(CMPN[id]){const C=D.cmp[CMPN[id]],t={F:'1',G:'2',H:'3'},o={};
-  ['F','G','H'].forEach(b=>{const g=C.g[t[b]];o[b]={n:rng(g.n),c:rng(g.c)};});
+  const t0=Object.assign({E:'0'},t);
+  ['E','F','G','H'].forEach(b=>{const g=C.g[t0[b]];if(!g)return;o[b]={n:rng(g.n),c:rng(g.c)};});
   const L=C.lad;                                     // professorial published as a money ladder
   if(L){o.P1={n:[nearestSP(L[0]),nearestSP(L[Math.min(6,L.length-1)])],c:null};
         o.P2={n:[nearestSP(L[Math.min(4,L.length-1)]),nearestSP(L[L.length-1])],c:null};}
@@ -254,13 +257,13 @@ function bandsOf(id){
  BK.forEach(b=>{const q=ptsOf(bands,b);o[b]={n:rng(q.n),c:rng(q.c)};});
  return o;}
 function drawStruct(){
- const P0=27,P1x=71,W=1180,Lm=210,Rm=20,Tm=42,rowH=26,gap=14;
+ const P0=22,P1x=71,W=1180,Lm=210,Rm=20,Tm=42,rowH=26,gap=14;
  const plotW=W-Lm-Rm,cw=plotW/(P1x-P0+1),x=p=>Lm+(p-P0)*cw;
  const hist=34, bottom=Tm+MODELS.length*(rowH+gap)-gap+10, H=bottom+hist+22;
  let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">';
  for(let p=P0;p<=P1x;p++){if(p%2===1){s+='<line x1="'+x(p)+'" y1="'+(Tm-12)+'" x2="'+x(p)+'" y2="'+(Tm+MODELS.length*(rowH+gap)-gap)+'" stroke="#f0efe9"/>';
   s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-16)+'" text-anchor="middle" font-size="9" fill="#b6b6b0">'+p+'</text>';}}
- [30,36,42,48,54,60,66,71].forEach(p=>s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-4)+'" text-anchor="middle" font-size="9" fill="#9ca3af">\u00a3'+Math.round(sal(p)/1000)+'k</text>');
+ [24,30,36,42,48,54,60,66,71].forEach(p=>s+='<text x="'+(x(p)+cw/2)+'" y="'+(Tm-4)+'" text-anchor="middle" font-size="9" fill="#9ca3af">\u00a3'+Math.round(sal(p)/1000)+'k</text>');
  const base=bandsOf('now');
  MODELS.forEach((md,i)=>{const y=Tm+i*(rowH+gap),bs=bandsOf(md.id);
   s+='<text x="'+(Lm-10)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" font-size="12" font-weight="'+(i===0?700:600)+'" fill="#1d1d1b">'+md.n+'</text>';
@@ -530,7 +533,7 @@ function draw(){
  $('barlgnd').innerHTML=SEG.map(b=>'<span class="lg"><span class="sw" style="background:'+SCOL[b]+'"></span>'+(b==='MGMT'?'Management':LABEL[b])+'</span>').join('')+
   '<span class="lg" style="color:#9ca3af">bar length = total change; segments = where it comes from. Left of the line is cheaper than today, right is dearer.</span>';
  // ---- per-model detail ----
- let dh='<table><tr><th>Model</th><th class="l">What it changes</th><th>Grade F</th><th>Grade G</th><th>Grade H</th><th>Prof 1</th><th>Prof 2</th></tr>';
+ let dh='<table><tr><th>Model</th><th class="l">What it changes</th><th>Grade E</th><th>Grade F</th><th>Grade G</th><th>Grade H</th><th>Prof 1</th><th>Prof 2</th></tr>';
  MODELS.forEach(md=>{const bs=bandsOf(md.id);
   const isProp=md.id==='prop';
   dh+='<tr'+(md.id==='now'?' class="ex"':(isProp?' class="prop"':''))+'><td>'+md.n+'</td><td style="text-align:left;color:#6b7280">'+md.s+'</td>';
